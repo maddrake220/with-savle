@@ -1,11 +1,19 @@
-import '../../styles/main.scss';
-import Layout from '../components/layout';
+import "styles/main.scss";
+import Layout from "@/components/layout";
+import { BreakpointProvider } from "@/hooks/useBreakpoint";
+
+const queries = {
+  sm: "(max-width: 576px)",
+  md: "(max-width: 1200px)",
+};
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <BreakpointProvider queries={queries}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </BreakpointProvider>
   );
 }
 
