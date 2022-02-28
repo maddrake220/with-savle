@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+}
+
+model Goal {
+  id         Int       @id @default(autoincrement())
+  createAt   DateTime  @default(now())
+  text       String
+  age        Int
+  likes      Int       @default(0)
+  comments   Comment[]
+  categories String[]
+}
+
+model Comment {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  text     String
+  goal     Goal     @relation(fields: [goalId], references: [id])
+  goalId   Int
+}
+
+model Category {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  age      Int
+  keyword  String
+  count    Int      @default(0)
+  
+  @@unique([age, keyword])
+}
+
+model Vote {
+  id           Int           @id @default(autoincrement())
+  createAt     DateTime      @default(now())
+  title        String
+  text         String
+  likes        Int           @default(0)
+  voteSelect   VoteSelect[]
+  voteComments VoteComment[]
+}
+
+model VoteSelect {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  item     String
+  count    Int      @default(0)
+  vote     Vote     @relation(fields: [voteId], references: [id])
+  voteId   Int
+}
+
+model VoteComment {
+  id       Int      @id @default(autoincrement())
+  createAt DateTime @default(now())
+  text     String
+  vote     Vote     @relation(fields: [voteId], references: [id])
+  voteId   Int
+}
