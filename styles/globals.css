@@ -387,3 +387,19 @@ template {
 .like {
   color: #ff0000;
 }
+.container {
+  width: 320px;
+  margin: 0 auto;
+}
+@media (min-width: 576px) {
+  .container {
+    width: 576px;
+    margin: 0 auto;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1200px;
+    margin: 0 auto;
+  }
+}
