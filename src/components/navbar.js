@@ -88,7 +88,6 @@ const style = css`
       font-size: 13px;
       line-height: 20px;
     }
-<<<<<<< HEAD
     .goal,
     .vote {
       background-color: #ffffff;
@@ -96,8 +95,6 @@ const style = css`
     .saving-calc {
       background-color: #f7f8fa;
     }
-=======
->>>>>>> fccbbd1 (Styling Navi bar)
   }
   @media (min-width: 577px) {
     nav {
@@ -125,16 +122,11 @@ const routes = [
 
 function Navbar() {
   const { sm: isMobile } = useBreakpoint();
-<<<<<<< HEAD
   const { pathname, back } = useRouter();
-=======
-  const { pathname } = useRouter();
->>>>>>> fccbbd1 (Styling Navi bar)
   const [toggled, setToggled] = useState(false);
   const handleToggle = useCallback(() => setToggled((prev) => !prev), []);
 
   return (
-<<<<<<< HEAD
     <nav className={`${!toggled && pathname.split("/")[1]}`}>
       <div className="logoBox">
         <div className="mobile">
@@ -143,15 +135,6 @@ function Navbar() {
           <Link href="/" passHref>
             <h1 className="logo">
               <MobileLogo className="mobileLogo" fill={toggled ? "#FFFFFF" : "#3178ff"} onClick={() => setToggled(false)} />
-=======
-    <nav>
-      <div className="logoBox">
-        <div className="mobile">
-          {toggled && <Back onClick={handleToggle} />}
-          <Link href="/" passHref>
-            <h1 className="logo">
-              <MobileLogo className="mobileLogo" fill={toggled ? "#FFFFFF" : "#3178ff"} />
->>>>>>> fccbbd1 (Styling Navi bar)
             </h1>
           </Link>
           <Bar stroke={toggled ? "#FFFFFF" : "#3178ff"} onClick={handleToggle} />
@@ -182,11 +165,7 @@ function Navbar() {
       <style jsx>{`
         nav {
           height: ${isMobile && toggled ? "100vh" : "52px"};
-<<<<<<< HEAD
           background-color: ${isMobile && toggled && "#3178ff"};
-=======
-          background-color: ${isMobile && !toggled ? "#F0F6FB" : "#3178ff"};
->>>>>>> fccbbd1 (Styling Navi bar)
         }
         path {
           stroke: ${isMobile && !toggled ? "#3178ff" : "#FFFFFF"};
