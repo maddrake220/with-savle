@@ -6,7 +6,9 @@ import Head from "next/head";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { useCallback, useEffect, useState } from "react";
 import CategoryButton from "@/components/goal/CategoryButton";
-
+import GoalDropdown from "@/components/goal/GoalDropdown";
+import GoalCard from "@/components/goal/GoalCard";
+import goalAPI from "./goalAPI.json";
 const categories = [
   { id: 0, text: "전체", backgroundColor: "#3178FF" },
   { id: 1, text: "10대", backgroundColor: " #FDD18F" },
@@ -15,10 +17,16 @@ const categories = [
   { id: 4, text: "40대 이상", backgroundColor: "#3178FF" },
 ];
 function Goal({ data }) {
+  // console.log(data);
+  // console.log(goalAPI.results);
+  // data = [...goalAPI.results];
   const queryMatch = useBreakpoint();
   const [clickedCategory, setClickedCategory] = useState(0);
   const [filtered, setFiltered] = useState({ start: 0, end: 1000 });
-
+  const [selectedDropdown, setSelectedDropdown] = useState("newest");
+  const handleMenuChange = (event) => {
+    setSelectedDropdown(event.target.value);
+  };
   const onClick = useCallback((id) => {
     setClickedCategory(id);
   }, []);
@@ -81,20 +89,49 @@ function Goal({ data }) {
           </ul>
         </div>
         <div className="goal-list-wrapper container">
-          <div className="goal-drop-down"></div>
+          <GoalDropdown
+            label=""
+            options={[
+              { label: "최신순", value: "newest" },
+              { label: "오래된순", value: "oldest" },
+            ]}
+            value={selectedDropdown}
+            onChange={handleMenuChange}
+            style={{
+              backgroundColor: "transparent",
+              border: "none",
+              position: "absolute",
+              right: "0",
+              fontSize: "0.813rem",
+              lineHeight: "1.25rem",
+              color: "#111",
+            }}
+          />
+
           <ul className="goal-list">
             {data
               .filter((value) => {
                 return value.age >= filtered.start && value.age <= filtered.end;
               })
-              .map((value) => (
-                <li key={value.id}>
-                  <div>나이: {value.age}</div>
-                  <div>카테고리: {value.categories}</div>
-                  <div>날짜: {value.createAt}</div>
-                  <div>좋아요: {value.likes}</div>
-                  <div>내용: {value.text}</div>
-                </li>
+              .sort((a, b) => {
+                const d1 = Date.parse(a.createAt);
+                const d2 = Date.parse(b.createAt);
+                if (selectedDropdown === "oldest") {
+                  return d2 - d1;
+                } else {
+                  return d1 - d2;
+                }
+              })
+              .map((value, index) => (
+                <GoalCard
+                  key={index}
+                  id={value.id}
+                  age={value.age}
+                  categories={value.categories}
+                  comments={value.comments}
+                  likes={value.likes}
+                  text={value.text}
+                />
               ))}
           </ul>
         </div>
@@ -155,7 +192,19 @@ function Goal({ data }) {
         main .goal-categories::-webkit-scrollbar {
           display: none;
         }
+        main .goal-dropdown {
+          font-size: 0.813rem;
+          line-height: 1.25rem;
+          height: 1.25rem;
+        }
         main .goal-list-wrapper {
+          position: relative;
+        }
+        main .goal-list {
+          padding-top: 1rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
         @media (max-width: 295px) {
           .goal-header-image {

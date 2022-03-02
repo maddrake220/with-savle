@@ -28,6 +28,13 @@ export default function CategoryButton({ id, text, backgroundColor = "#fff", onC
             height: 2.25rem;
             white-space: pre;
           }
+          @media (max-width: 575px) {
+            button {
+              height: 1.875rem;
+              font-size: 0.813rem;
+              line-height: 1.25rem;
+            }
+          }
         `}
       </style>
     </>
