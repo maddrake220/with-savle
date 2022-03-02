@@ -1,7 +1,8 @@
-import client from 'libs/prisma';
+import client from "libs/prisma";
 
 async function handler(req, res) {
-  if (req.method === 'PUT') {
+  if (req.method === "PUT") {
+    console.log(req);
     const {
       params: { id, like },
     } = req.body;
