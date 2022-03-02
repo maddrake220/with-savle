@@ -48,10 +48,7 @@ const style = css`
   }
   @media (max-width: 576px) {
     nav {
-<<<<<<< HEAD
       background-color: #f0f6fb;
-=======
->>>>>>> fccbbd1 (Styling Navi bar)
       width: 100vw;
       height: 100vh;
       flex-direction: column;
