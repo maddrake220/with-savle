@@ -38,7 +38,7 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
         <div className="card-text">{text}</div>
         <div className="card-side">
           <div className="card-likes">
-            <svg onClick={onClick} width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg style={{ cursor: "pointer" }} onClick={onClick} width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M2.45067 9.90821L9.40329 16.4395C9.64278 16.6644 9.76253 16.7769 9.90372 16.8046C9.9673 16.8171 10.0327 16.8171 10.0963 16.8046C10.2375 16.7769 10.3572 16.6644 10.5967 16.4395L17.5493 9.90821C19.5055 8.07059 19.743 5.0466 18.0978 2.92607L17.7885 2.52734C15.8203 -0.00941896 11.8696 0.416015 10.4867 3.31365C10.2913 3.72296 9.70868 3.72296 9.51333 3.31365C8.13037 0.416015 4.17972 -0.00941539 2.21154 2.52735L1.90219 2.92607C0.256947 5.0466 0.494498 8.07059 2.45067 9.90821Z"
                 stroke="#FF2222"
@@ -61,6 +61,9 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
 
             <span>{comments.length}</span>
           </div>
+          <div className="card-more">
+            <span>더보기 &gt;</span>
+          </div>
         </div>
       </div>
       <style jsx>{`
@@ -79,7 +82,6 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
           flex: none;
           order: 0;
           flex-grow: 0;
-          margin: 1.188rem 0;
           position: relative;
         }
         .goal-card-wrapper {
@@ -107,6 +109,7 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
           line-height: 1.25rem;
           padding: 0.063rem 0.75rem;
           margin-bottom: 0.2rem;
+          font-weight: bold;
         }
         .goal-card .card-category:not(:first-child) {
           margin-left: 6px;
@@ -124,6 +127,7 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
         }
         .goal-card .card-side {
           position: absolute;
+          width: 82%;
           bottom: 1.25rem;
           display: flex;
           font-weight: bold;
@@ -146,6 +150,40 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
 
         .goal-card .card-side .card-comments span {
           margin-left: 0.313rem;
+        }
+        .card-more {
+          display: none;
+        }
+        @media (min-width: 1200px) {
+          .goal-card {
+            width: 23.625rem;
+            height: 21.688rem;
+          }
+          .goal-card-wrapper {
+            margin: 1.875rem 2.5rem;
+          }
+          .goal-card .card-user-info {
+            font-weight: bold;
+            font-size: 1rem;
+            line-height: 1.5rem;
+          }
+          .goal-card .card-categories {
+            margin-top: 0.5rem;
+          }
+          .goal-card .card-text {
+            margin-top: 1rem;
+            height: 11.125rem;
+          }
+          .card-more {
+            cursor: pointer;
+            position: absolute;
+            right: 0;
+            font-weight: bold;
+            font-size: 0.813rem;
+            line-height: 1.25rem;
+            color: #888;
+            display: block;
+          }
         }
       `}</style>
     </li>

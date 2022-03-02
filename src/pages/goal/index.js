@@ -1,7 +1,5 @@
 import server from "@/config/server";
 import axios from "axios";
-import goalHeaderSvg from "../../../public/goal-header-savle-char.svg";
-import Image from "next/image";
 import Head from "next/head";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { useCallback, useEffect, useState } from "react";
@@ -9,6 +7,8 @@ import CategoryButton from "@/components/goal/CategoryButton";
 import GoalDropdown from "@/components/goal/GoalDropdown";
 import GoalCard from "@/components/goal/GoalCard";
 import goalAPI from "./goalAPI.json";
+import GoalCharSvg from "@/components/goal/svg/GoalCharSvg";
+import NewGoalSvg from "@/components/goal/svg/NewGoalSvg";
 const categories = [
   { id: 0, text: "전체", backgroundColor: "#3178FF" },
   { id: 1, text: "10대", backgroundColor: " #FDD18F" },
@@ -16,10 +16,37 @@ const categories = [
   { id: 3, text: "30대", backgroundColor: "#CADCFF" },
   { id: 4, text: "40대 이상", backgroundColor: "#3178FF" },
 ];
+const checkCategoryRange = (category) => {
+  let start;
+  let end;
+  switch (category) {
+    case 1:
+      start = 10;
+      end = 19;
+      break;
+    case 2:
+      start = 20;
+      end = 29;
+      break;
+    case 3:
+      start = 30;
+      end = 39;
+      break;
+    case 4:
+      start = 40;
+      end = 1000;
+      break;
+    default:
+      start = 0;
+      end = 1000;
+      break;
+  }
+  return { start, end };
+};
 function Goal({ data }) {
   // console.log(data);
   // console.log(goalAPI.results);
-  // data = [...goalAPI.results];
+  data = [...data, ...goalAPI.results];
   const queryMatch = useBreakpoint();
   const [clickedCategory, setClickedCategory] = useState(0);
   const [filtered, setFiltered] = useState({ start: 0, end: 1000 });
@@ -30,32 +57,11 @@ function Goal({ data }) {
   const onClick = useCallback((id) => {
     setClickedCategory(id);
   }, []);
+  const onClickNewGoal = useCallback(() => {
+    alert("미기능 구현!");
+  }, []);
   useEffect(() => {
-    let start;
-    let end;
-    switch (clickedCategory) {
-      case 1:
-        start = 10;
-        end = 19;
-        break;
-      case 2:
-        start = 20;
-        end = 29;
-        break;
-      case 3:
-        start = 30;
-        end = 39;
-        break;
-      case 4:
-        start = 40;
-        end = 1000;
-        break;
-      default:
-        start = 0;
-        end = 1000;
-        break;
-    }
-    setFiltered({ start, end });
+    setFiltered(checkCategoryRange(clickedCategory));
   }, [clickedCategory]);
   return (
     <section className="goal-container">
@@ -70,12 +76,7 @@ function Goal({ data }) {
           <p>다른 사람들과 목표를 공유해보아요.</p>
         </div>
         <div className="goal-header-image">
-          <Image
-            width={queryMatch?.sm ? 71 : queryMatch?.md ? 141 : 185}
-            height={queryMatch?.sm ? 70 : queryMatch?.md ? 138 : 181}
-            src={goalHeaderSvg}
-            alt="savle"
-          />
+          <GoalCharSvg width={queryMatch?.sm ? 71 : queryMatch?.md ? 141 : 185} height={queryMatch?.sm ? 70 : queryMatch?.md ? 138 : 181} />
         </div>
       </header>
       <main>
@@ -89,24 +90,26 @@ function Goal({ data }) {
           </ul>
         </div>
         <div className="goal-list-wrapper container">
-          <GoalDropdown
-            label=""
-            options={[
-              { label: "최신순", value: "newest" },
-              { label: "오래된순", value: "oldest" },
-            ]}
-            value={selectedDropdown}
-            onChange={handleMenuChange}
-            style={{
-              backgroundColor: "transparent",
-              border: "none",
-              position: "absolute",
-              right: "0",
-              fontSize: "0.813rem",
-              lineHeight: "1.25rem",
-              color: "#111",
-            }}
-          />
+          <div className="goal-dropdown">
+            <GoalDropdown
+              label=""
+              options={[
+                { label: "최신순", value: "newest" },
+                { label: "오래된순", value: "oldest" },
+              ]}
+              value={selectedDropdown}
+              onChange={handleMenuChange}
+              style={{
+                backgroundColor: "transparent",
+                border: "none",
+                position: "absolute",
+                right: "0",
+                fontSize: "0.813rem",
+                lineHeight: "1.25rem",
+                color: "#111",
+              }}
+            />
+          </div>
 
           <ul className="goal-list">
             {data
@@ -136,6 +139,13 @@ function Goal({ data }) {
           </ul>
         </div>
       </main>
+      <div className="new-goal">
+        <NewGoalSvg
+          onClick={onClickNewGoal}
+          width={queryMatch?.sm ? 59 : queryMatch?.md ? 110 : 110}
+          height={queryMatch?.sm ? 59 : queryMatch?.md ? 110 : 110}
+        />
+      </div>
       <style jsx>{`
         header {
           background-color: rgba(49, 120, 255, 0.8);
@@ -192,11 +202,6 @@ function Goal({ data }) {
         main .goal-categories::-webkit-scrollbar {
           display: none;
         }
-        main .goal-dropdown {
-          font-size: 0.813rem;
-          line-height: 1.25rem;
-          height: 1.25rem;
-        }
         main .goal-list-wrapper {
           position: relative;
         }
@@ -205,6 +210,13 @@ function Goal({ data }) {
           display: flex;
           flex-direction: column;
           align-items: center;
+          padding-top: 2rem;
+          gap: 0.625rem 1.25rem;
+        }
+        .new-goal {
+          position: fixed;
+          bottom: 1.688rem;
+          right: 1rem;
         }
         @media (max-width: 295px) {
           .goal-header-image {
@@ -231,6 +243,15 @@ function Goal({ data }) {
           header .goal-header-image {
             bottom: 2.188rem;
           }
+          main .goal-list {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+          }
+          .new-goal {
+            right: 5.813rem;
+            bottom: 2.375rem;
+          }
         }
         @media (min-width: 1200px) {
           header {
@@ -246,6 +267,19 @@ function Goal({ data }) {
             font-size: 1.75rem;
             line-height: 2.25rem;
           }
+          main .goal-categories {
+            padding-top: 1rem;
+          }
+          main .goal-list {
+            gap: 1.25rem 2rem;
+          }
+          main .goal-dropdown {
+            transform: translateY(-38px);
+          }
+          .new-goal {
+            right: 3.875rem;
+            bottom: 2.5rem;
+          }
         }
       `}</style>
     </section>
@@ -254,7 +288,7 @@ function Goal({ data }) {
 
 export default Goal;
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const res = await axios.get(`${server}/api/goal`);
   console.log(res.data.results);
   return {

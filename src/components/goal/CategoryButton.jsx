@@ -15,8 +15,8 @@ export default function CategoryButton({ id, text, backgroundColor = "#fff", onC
           button {
             cursor: pointer;
             border: 0.094rem solid #3178ff;
-            background-color: ${clicked === id ? backgroundColor : "#fff"};
-            color: ${clicked === id ? (backgroundColor === "#3178FF" ? "#fff" : "#3178ff") : "#3178ff"};
+            background-color: ${clicked === id ? backgroundColor : "transparent"};
+            color: ${clicked === id ? (backgroundColor === "#3178FF" ? "#EEF7FF" : "#3178ff") : "#3178ff"};
             border-radius: 6.25rem;
             display: flex;
             align-items: center;
