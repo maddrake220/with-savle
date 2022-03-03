@@ -11,18 +11,25 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
     likes !== null ? setLike(likes.includes(id)) : setLike(false);
   }, [id]);
 
-  const onClick = useCallback(() => {
-    const likes = localStorage.getItem("goal-like");
-    let arrlikes = [];
-    let newLikes = [];
-    arrlikes = likes !== null && likes.split(",");
-    !like ? (newLikes = [...arrlikes, id]) : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
-    localStorage.setItem("goal-like", newLikes);
-    setLike((like) => !like);
-  }, [id, like]);
+  const onClick = useCallback(
+    (e) => {
+      e.stopPropagation();
+      const likes = localStorage.getItem("goal-like");
+      let arrlikes = [];
+      let newLikes = [];
+      arrlikes = likes !== null && likes.split(",");
+      !like ? (newLikes = [...arrlikes, id]) : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
+      localStorage.setItem("goal-like", newLikes);
+      setLike((like) => !like);
+    },
+    [id, like],
+  );
 
+  const onClickCard = useCallback(() => {
+    alert("상세페이지로 이동 구현X");
+  }, []);
   return (
-    <li className="goal-card" key={id}>
+    <li className="goal-card" key={id} onClick={onClickCard}>
       <div className="goal-card-wrapper">
         <div className="card-user-info">
           <span>익명의 {id}님</span>
@@ -74,6 +81,7 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
           padding: 0px;
         }
         .goal-card {
+          cursor: pointer;
           width: 17.25rem;
           height: 16.938rem;
           background: #ffffff;

@@ -184,6 +184,7 @@ function Goal({ data }) {
         }
         main {
           background: rgba(143, 201, 255, 0.15);
+          padding-bottom: 5rem;
         }
         .goal-categories-small {
           margin-left: 1rem;
