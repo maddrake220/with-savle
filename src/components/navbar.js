@@ -15,6 +15,7 @@ const style = css`
     height: 53.87px;
     display: flex;
     /* padding: 0 7.083333vw; */
+    z-index: 999;
     position: fixed;
     top: 0;
   }
