@@ -1,11 +1,16 @@
+import server from "@/config/server";
+import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 
 const getAgeGeneration = (age) => {
   return age >= 10 && age < 20 ? "10대" : age >= 20 && age < 30 ? "20대" : age >= 30 && age < 40 ? "30대" : age >= 40 ? "40대 이상" : "어린이";
 };
+const putLike = async (id, like) => {
+  await axios.put(`${server}/api/goal/like`, { params: { id, like } });
+};
 export default function GoalCard({ id, age, categories, comments, likes, text }) {
   const [like, setLike] = useState(false);
-
+  const [likeNums, setLikeNums] = useState(likes);
   useEffect(() => {
     const likes = localStorage.getItem("goal-like");
     likes !== null ? setLike(likes.includes(id)) : setLike(false);
@@ -20,6 +25,8 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
       arrlikes = likes !== null && likes.split(",");
       !like ? (newLikes = [...arrlikes, id]) : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
       localStorage.setItem("goal-like", newLikes);
+      putLike(id, !like);
+      !like ? setLikeNums((like) => (like = like + 1)) : setLikeNums((like) => (like = like - 1));
       setLike((like) => !like);
     },
     [id, like],
@@ -53,7 +60,7 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
                 strokeWidth="1.5"
               />
             </svg>
-            <span>{likes}</span>
+            <span>{likeNums}</span>
           </div>
           <div className="card-comments">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

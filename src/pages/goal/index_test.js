@@ -9,6 +9,7 @@ import GoalCard from "@/components/goal/GoalCard";
 import goalAPI from "./goalAPI.json";
 import GoalCharSvg from "@/components/goal/svg/GoalCharSvg";
 import NewGoalSvg from "@/components/goal/svg/NewGoalSvg";
+import useSWR, { SWRConfig } from "swr";
 const categories = [
   { id: 0, text: "전체", backgroundColor: "#3178FF" },
   { id: 1, text: "10대", backgroundColor: " #FDD18F" },
@@ -43,10 +44,18 @@ const checkCategoryRange = (category) => {
   }
   return { start, end };
 };
-function Goal({ data }) {
+
+const fetcher = (server) => axios.get(server).then((r) => r.data);
+
+function Article() {
   // console.log(data);
   // console.log(goalAPI.results);
-  // data = [...data, ...goalAPI.results];
+
+  const {
+    data: { results: data },
+  } = useSWR("/api/goal", fetcher);
+  console.log(data);
+  //data = [...data, ...goalAPI.results];
   const queryMatch = useBreakpoint();
   const [clickedCategory, setClickedCategory] = useState(0);
   const [filtered, setFiltered] = useState({ start: 0, end: 1000 });
@@ -113,7 +122,7 @@ function Goal({ data }) {
 
           <ul className="goal-list">
             {data
-              .filter((value) => {
+              ?.filter((value) => {
                 return value.age >= filtered.start && value.age <= filtered.end;
               })
               .sort((a, b) => {
@@ -287,19 +296,27 @@ function Goal({ data }) {
   );
 }
 
-export default Goal;
+export default function Goal({ fallback }) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Article />
+    </SWRConfig>
+  );
+}
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const res = await axios.get(`${server}/api/goal`);
   console.log(res.data.results);
   if (!res) {
     return {
-      loading: true,
+      Notfound: true,
     };
   }
   return {
     props: {
-      data: res.data.results,
+      fallback: {
+        "/api/goal": res.data.results,
+      },
     },
   };
 };
