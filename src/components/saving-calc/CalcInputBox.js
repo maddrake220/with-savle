@@ -1,7 +1,11 @@
+import Link from "next/link";
 import Book from "public/layout/book.svg";
 import PiggyBank from "public/layout/piggy-bank.svg";
 import { useState } from "react";
 import css from "styled-jsx/css";
+import PlusButton from "./PlusButton";
+import Result from "./Result";
+import ResultFoldBox from "./ResultFoldBox";
 
 const style = css`
   .box {
@@ -37,22 +41,6 @@ const style = css`
     top: 17px;
     left: -2px;
   }
-  .title.result h2 {
-    width: 100%;
-  }
-  .title.result h2 span {
-    position: relative;
-  }
-  .title.result h2 span::before {
-    content: "";
-    position: absolute;
-    height: 8px;
-    background: rgba(143, 201, 255, 0.7);
-    opacity: 0.4;
-    top: 17px;
-    left: -2px;
-  }
-
   .goal {
     margin-bottom: 53px;
   }
@@ -108,6 +96,9 @@ const style = css`
     color: #fff;
     background: #3178ff;
   }
+  button.reset {
+    margin-top: 75px;
+  }
   .goal_input span {
     font-size: 10px;
     color: red;
@@ -116,13 +107,13 @@ const style = css`
     display: none;
   }
 `;
-function CalcInputBox() {
+const CalcInputBox = () => {
   const [inputs, setInputs] = useState({ goal: "", amount: "" });
   const [result, setResult] = useState(false);
   const { goal, amount } = inputs;
 
   const nextButtonFocus = goal.length > 0 && goal.length < 21 && amount.length > 0 && amount.length < 16;
-  console.log(goal, amount);
+
   const comma = (value) =>
     String(value)
       .replace(/[^0-9]/g, "")
@@ -174,8 +165,13 @@ function CalcInputBox() {
     e.preventDefault();
     setResult(true);
   };
+  const handleReset = (e) => {
+    e.preventDefault();
+    setResult(false);
+    setInputs({ goal: "", amount: "" });
+  };
   return (
-    <form className="box" onSubmit={handleSubmit}>
+    <div className="box">
       {!result ? (
         <>
           <div className="title">
@@ -196,74 +192,32 @@ function CalcInputBox() {
               <span className={amount.length > 15 ? "" : "hidden"}>*입력범위를 초과했습니다.</span>
             </p>
             <div className="amount-plus">
-              <Plus id="plus1" onClick={handleClick}>
+              <PlusButton id="plus1" onClick={handleClick}>
                 +1만
-              </Plus>
-              <Plus id="plus5" onClick={handleClick}>
+              </PlusButton>
+              <PlusButton id="plus5" onClick={handleClick}>
                 +5만
-              </Plus>
-              <Plus id="plus10" onClick={handleClick}>
+              </PlusButton>
+              <PlusButton id="plus10" onClick={handleClick}>
                 +10만
-              </Plus>
+              </PlusButton>
             </div>
           </div>
-          <button type="submit" className={nextButtonFocus && "next"}>
+          <button onClick={handleSubmit} className={nextButtonFocus && "next"}>
             결과보기
           </button>
         </>
       ) : (
         <>
-          <div className="title result">
-            <h2>
-              <span>{goal}</span>위해
-              {goal.length < 15 && <br />} <span className="result-amount">{amount}원</span>을 적금한다면?
-            </h2>
-          </div>
+          <Result goal={goal} amount={amount} setInputs={setInputs} />
+          <button onClick={handleReset} className="reset next">
+            다시하기
+          </button>
         </>
       )}
       <style jsx>{style}</style>
-      <style jsx>{`
-        .title h2::before {
-          display: ${result ? "none" : "block"};
-        }
-        .title.result h2 span::before {
-          width: calc(${goal.length} * 15px);
-        }
-        .title.result h2 span.result-amount::before {
-          width: calc(${amount.length} * 12px);
-        }
-      `}</style>
-    </form>
+    </div>
   );
-}
-
-function Plus({ id, onClick, children }) {
-  return (
-    <button id={id} onClick={onClick}>
-      {children}
-      <style jsx>{`
-        button {
-          width: 47px;
-          height: 20px;
-          background: #eceff2;
-          border-radius: 120px;
-          text-align: center;
-          margin-left: 10px;
-          border: none;
-          font-weight: 500;
-          font-size: 10px;
-          color: #a0a1a9;
-        }
-        p {
-          margin: 0;
-          /* margin: 3.5px 0 0; */
-          font-weight: 500;
-          font-size: 10px;
-          color: #a0a1a9;
-        }
-      `}</style>
-    </button>
-  );
-}
+};
 
 export default CalcInputBox;
