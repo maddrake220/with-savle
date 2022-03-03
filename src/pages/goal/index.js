@@ -6,9 +6,9 @@ import { useCallback, useEffect, useState } from "react";
 import CategoryButton from "@/components/goal/CategoryButton";
 import GoalDropdown from "@/components/goal/GoalDropdown";
 import GoalCard from "@/components/goal/GoalCard";
-import goalAPI from "./goalAPI.json";
 import GoalCharSvg from "@/components/goal/svg/GoalCharSvg";
 import NewGoalSvg from "@/components/goal/svg/NewGoalSvg";
+import NewGoalForm from "@/components/goal/NewGoalForm";
 const categories = [
   { id: 0, text: "전체", backgroundColor: "#3178FF" },
   { id: 1, text: "10대", backgroundColor: " #FDD18F" },
@@ -44,13 +44,17 @@ const checkCategoryRange = (category) => {
   return { start, end };
 };
 function Goal({ data }) {
-  // console.log(data);
-  // console.log(goalAPI.results);
-  // data = [...data, ...goalAPI.results];
   const queryMatch = useBreakpoint();
   const [clickedCategory, setClickedCategory] = useState(0);
   const [filtered, setFiltered] = useState({ start: 0, end: 1000 });
   const [selectedDropdown, setSelectedDropdown] = useState("newest");
+  const [toggleNewGoal, setToggleNewGoal] = useState(false);
+  const onClickModalBack = useCallback(() => {
+    setToggleNewGoal(false);
+  }, []);
+  const onClickCloseModal = useCallback(() => {
+    setToggleNewGoal(false);
+  }, []);
   const handleMenuChange = (event) => {
     setSelectedDropdown(event.target.value);
   };
@@ -58,7 +62,7 @@ function Goal({ data }) {
     setClickedCategory(id);
   }, []);
   const onClickNewGoal = useCallback(() => {
-    alert("미기능 구현!");
+    setToggleNewGoal(true);
   }, []);
   useEffect(() => {
     setFiltered(checkCategoryRange(clickedCategory));
@@ -146,6 +150,9 @@ function Goal({ data }) {
           height={queryMatch?.sm ? 59 : queryMatch?.md ? 110 : 110}
         />
       </div>
+      <div className={`new-goal-modal-back`} onClick={onClickModalBack}>
+        <NewGoalForm toggleNewGoal={toggleNewGoal} onClickCloseModal={onClickCloseModal} />
+      </div>
       <style jsx>{`
         header {
           background-color: rgba(49, 120, 255, 0.8);
@@ -215,9 +222,21 @@ function Goal({ data }) {
           gap: 0.625rem 1.25rem;
         }
         .new-goal {
+          display: ${toggleNewGoal ? "none" : "block"};
           position: fixed;
           bottom: 1.688rem;
           right: 1rem;
+        }
+
+        .new-goal-modal-back {
+          display: ${toggleNewGoal ? "block" : "none"};
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: #00000080;
+          z-index: 10000;
         }
         @media (max-width: 295px) {
           .goal-header-image {
