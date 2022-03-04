@@ -1,10 +1,10 @@
-import client from 'libs/prisma';
+import client from "libs/prisma";
 
 async function handler(req, res) {
-  if (req.method === 'GET') {
+  if (req.method === "GET") {
     const {
-      params: { id },
-    } = req.body;
+      query: { id },
+    } = req;
     const results = await client.vote.findUnique({
       where: {
         id: parseInt(id),
