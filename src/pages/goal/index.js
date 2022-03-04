@@ -124,9 +124,9 @@ function Goal({ data }) {
                 const d1 = Date.parse(a.createAt);
                 const d2 = Date.parse(b.createAt);
                 if (selectedDropdown === "oldest") {
-                  return d2 - d1;
-                } else {
                   return d1 - d2;
+                } else {
+                  return d2 - d1;
                 }
               })
               .map((value, index) => (

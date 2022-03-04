@@ -1,12 +1,12 @@
 import React from "react";
 
-export default function CategoryButton({ id, text, onClick, clicked }) {
+export default function CategoryButton({ id, text, value, onClick, clicked }) {
   return (
-    <>
+    <li key={id}>
       <button
         onClick={(e) => {
           e.preventDefault();
-          onClick(id);
+          onClick({ id, text, value });
         }}
       >
         <div>{text}</div>
@@ -15,8 +15,8 @@ export default function CategoryButton({ id, text, onClick, clicked }) {
         {`
           button {
             cursor: pointer;
-            background-color: ${clicked === id ? "#73bcff" : "transparent"};
-            color: ${clicked === id ? "white" : "#73bcff"};
+            background-color: ${clicked?.id === id ? "#73bcff" : "transparent"};
+            color: ${clicked?.id === id ? "white" : "#73bcff"};
             font-weight: bold;
             font-size: 0.813rem;
             line-height: 1.25rem;
@@ -34,6 +34,6 @@ export default function CategoryButton({ id, text, onClick, clicked }) {
           }
         `}
       </style>
-    </>
+    </li>
   );
 }

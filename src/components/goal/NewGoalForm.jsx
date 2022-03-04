@@ -1,20 +1,106 @@
+import server from "@/config/server";
+import axios from "axios";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import NewGoalCategoryButton from "./NewGoalCategoryButton";
+
+const MAX_GOAL_CATEGORY = 2;
 const categories = [
-  { id: 0, text: "10대" },
-  { id: 1, text: "20대" },
-  { id: 2, text: "30대" },
-  { id: 3, text: "40대 이상" },
+  { id: 0, text: "10대", value: 10 },
+  { id: 1, text: "20대", value: 20 },
+  { id: 2, text: "30대", value: 30 },
+  { id: 3, text: "40대 이상", value: 40 },
 ];
+const recommendGoalCategories = [
+  { id: 0, value: "내집마련" },
+  { id: 1, value: "냉장고" },
+  { id: 2, value: "차 구매" },
+  { id: 3, value: "결혼" },
+  { id: 4, value: "수입차구매" },
+];
+
+const postNewGoal = async (data) => {
+  return await axios.post(`${server}/api/goal`, { params: data });
+};
+
 export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
-  const [clicked, setClicked] = useState(null);
+  const [selectedAge, setSelectedAge] = useState(null);
+  const [isFocusedCategoryInput, setIsFocusedCategoryInput] = useState(false);
+  const [seletedGoalCategories, setSelectedGoalCategories] = useState([]);
+  const textareaRef = useRef(null);
   const inputRef = useRef(null);
-  const onClickSelectCategory = useCallback((id) => {
-    setClicked(id);
+  const selectedRef = useRef(null);
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const text = textareaRef.current.value;
+      if (selectedAge === null) {
+        alert("test) 연령대를 선택해 주세요!");
+        return;
+      }
+      if (text === "") {
+        alert("test) 내용을 입력해 주세요!");
+        return;
+      }
+      if (seletedGoalCategories.length === 0) {
+        alert("test) 목표 카테고리를 골라주세요!");
+        return;
+      }
+      const categories = seletedGoalCategories.map((v) => v.value);
+      const age = selectedAge.value;
+      const data = {
+        categories,
+        age,
+        text,
+      };
+      postNewGoal(data)
+        .then((resolve) => resolve.status === 200 && onClickCloseModal())
+        .catch((error) => console.log(error));
+    },
+    [seletedGoalCategories, textareaRef, selectedAge, onClickCloseModal],
+  );
+  const onClickselectedAge = useCallback((value) => {
+    setSelectedAge(value);
+  }, []);
+
+  const onKeyDown = useCallback((e) => {
+    if (e.key === "Enter") {
+      alert("asd");
+    }
+  }, []);
+  const onFocus = useCallback((e) => {
+    setIsFocusedCategoryInput(true);
+  }, []);
+  const onBlur = useCallback((e) => {
+    setIsFocusedCategoryInput(false);
+  }, []);
+  const onMouseDownGoalCategory = useCallback(
+    (e, value) => {
+      e.preventDefault();
+      setTimeout(() => {
+        inputRef.current.blur();
+        if (seletedGoalCategories.length === MAX_GOAL_CATEGORY) {
+          inputRef.current.disabled = true;
+        }
+      }, 100);
+      setSelectedGoalCategories((values) => [...values, value]);
+    },
+    [seletedGoalCategories],
+  );
+  const onMouseDownUndoGoalCategory = useCallback((e, value) => {
+    e.preventDefault();
+    inputRef.current.disabled = false;
+    setSelectedGoalCategories((values) => {
+      return values.filter((v) => v.id !== value.id);
+    });
   }, []);
   useEffect(() => {
-    inputRef.current.focus();
+    textareaRef.current.focus();
   }, [toggleNewGoal]);
+  useEffect(() => {
+    const width = selectedRef.current.offsetWidth;
+    inputRef.current.style.left = `${width}px`;
+    inputRef.current.style.maxWidth = 160 - width + "px";
+  }, [seletedGoalCategories]);
   return (
     <section onClick={(e) => e.stopPropagation()}>
       <h1>목표 작성하기</h1>
@@ -25,7 +111,7 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
         </svg>
       </div>
       <main>
-        <form>
+        <form onSubmit={onSubmit}>
           <div className="age-list-container">
             <label>
               <span>연령대</span>
@@ -36,20 +122,63 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
                   className="age-button"
                   key={category.id}
                   id={category.id}
-                  onClick={onClickSelectCategory}
-                  clicked={clicked}
+                  onClick={onClickselectedAge}
+                  clicked={selectedAge}
                   text={category.text}
+                  value={category.value}
                 />
               ))}
             </ul>
           </div>
-          <textarea ref={inputRef} className="text" type="text" placeholder="gogo" />
+          <textarea ref={textareaRef} className="text" type="text" placeholder="내용을 입력해주세요!" />
+          <div className="goal-category-wrapper">
+            <label>
+              <span>목표 카테고리</span>
+            </label>
+            <div className="goal-wrapper">
+              <div className="input-box">
+                <input ref={inputRef} onFocus={onFocus} onBlur={onBlur} className="goal-category-search-input" onKeyDown={onKeyDown} />
+              </div>
+              <ul className="selected-goal-categories" ref={selectedRef}>
+                {seletedGoalCategories?.map((seletedGoalCategory, index) => (
+                  <li onMouseDown={(e) => onMouseDownUndoGoalCategory(e, seletedGoalCategory)} key={index}>
+                    {seletedGoalCategory.value}
+                  </li>
+                ))}
+              </ul>
+              <ul className="goal-category-list">
+                {recommendGoalCategories.map((goalCategory, index) => (
+                  <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
+                    {goalCategory.value}
+                  </li>
+                ))}
+              </ul>
+              <button type="submit" className="submit-button">
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M16.9617 0.728633C17.0004 0.632095 17.0098 0.526338 16.9889 0.424475C16.968 0.322611 16.9177 0.22912 16.8442 0.155592C16.7706 0.0820638 16.6771 0.0317319 16.5753 0.0108363C16.4734 -0.0100594 16.3677 -0.000599851 16.2711 0.0380421L0.815694 6.22042H0.814631L0.334405 6.41166C0.243449 6.44794 0.164292 6.50866 0.105677 6.58711C0.0470617 6.66555 0.0112702 6.75867 0.00225581 6.85618C-0.00675857 6.95369 0.011355 7.05179 0.0545957 7.13965C0.0978364 7.22751 0.164521 7.30171 0.247284 7.35405L0.682888 7.63029L0.68395 7.63242L5.99088 11.0089L7.68017 13.6629C8.50038 14.8741 8.50038 13.8116 8.50038 13.2804C8.50025 12.6053 8.64309 11.9378 8.91951 11.3219C9.19592 10.706 9.59964 10.1556 10.1041 9.70697C10.6085 9.25833 11.2023 8.9216 11.8462 8.71896C12.4902 8.51631 13.1698 8.45234 13.8402 8.53125L16.9617 0.728633ZM15.0142 2.73666L7.05226 10.6986L6.82383 10.3395C6.78198 10.2736 6.72612 10.2178 6.66022 10.1759L6.30111 9.94749L14.2631 1.98551L15.5147 1.4851L15.0153 2.73666H15.0142Z"
+                    fill="#3178FF"
+                  />
+                  <path
+                    d="M16.9999 13.2803C16.9999 14.2666 16.6081 15.2124 15.9108 15.9098C15.2134 16.6071 14.2676 16.9989 13.2813 16.9989C12.2951 16.9989 11.3493 16.6071 10.6519 15.9098C9.95456 15.2124 9.56278 14.2666 9.56278 13.2803C9.56278 12.2941 9.95456 11.3483 10.6519 10.6509C11.3493 9.95354 12.2951 9.56177 13.2813 9.56177C14.2676 9.56177 15.2134 9.95354 15.9108 10.6509C16.6081 11.3483 16.9999 12.2941 16.9999 13.2803ZM14.8825 11.4965C14.8226 11.4606 14.7563 11.4369 14.6873 11.4267C14.6182 11.4164 14.5479 11.4199 14.4802 11.4369C14.4125 11.4538 14.3488 11.484 14.2928 11.5256C14.2368 11.5671 14.1895 11.6194 14.1536 11.6792L12.9106 13.751L12.3294 13.1698C12.2296 13.0701 12.0944 13.0141 11.9533 13.0141C11.8122 13.0141 11.6769 13.0701 11.5772 13.1698C11.4774 13.2696 11.4214 13.4049 11.4214 13.5459C11.4214 13.687 11.4774 13.8223 11.5772 13.9221L12.3995 14.7433C12.4851 14.8291 12.5891 14.8942 12.7037 14.9337C12.8182 14.9732 12.9403 14.9861 13.0605 14.9713C13.1808 14.9566 13.2961 14.9146 13.3977 14.8486C13.4993 14.7826 13.5845 14.6942 13.6468 14.5903L15.0652 12.2253C15.1011 12.1655 15.1248 12.0991 15.135 12.0301C15.1453 11.9611 15.1418 11.8907 15.1248 11.823C15.1078 11.7554 15.0777 11.6917 15.0361 11.6357C14.9945 11.5796 14.9423 11.5323 14.8825 11.4965Z"
+                    fill="#3178FF"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </form>
       </main>
       <style jsx>
         {`
+          ol,
+          ul {
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+          }
           section {
-            position: fixed;
+            position: absolute;
             top: 0;
             bottom: 0;
             left: calc(50% - 8.625rem);
@@ -59,7 +188,6 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
             border-radius: 0.5rem;
             background: #fff;
             display: ${toggleNewGoal ? "block" : "none"};
-            overflow: hidden;
           }
           section h1 {
             font-size: 0;
@@ -67,6 +195,7 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
           section .modal-top {
             background: #73bcff;
             height: 1.375rem;
+            border-radius: 0.5rem 0.5rem 0 0;
           }
 
           section .modal-top svg {
@@ -80,6 +209,7 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
             display: flex;
             justify-content: center;
             white-space: pre;
+            gap: 43px;
           }
           .age-list-container label {
             margin-top: 0.875rem;
@@ -89,11 +219,13 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
             color: #2d2d2d;
           }
           .age-list {
+            margin-top: 10px;
             display: flex;
             flex-wrap: wrap;
             gap: 0.25rem 0.5rem;
           }
           .text {
+            margin-top: 10px;
             resize: none;
             background: #f7f8fa;
             border-radius: 4px;
@@ -101,6 +233,112 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
             width: 12.625rem;
             height: 4.813rem;
             padding: 0.5rem 1rem;
+          }
+          .text:focus {
+            outline: 0;
+          }
+          .goal-category-wrapper {
+            position: relative;
+          }
+          .goal-category-wrapper label span {
+            font-weight: bold;
+            font-size: 0.813rem;
+            line-height: 1.25rem;
+            color: #2d2d2d;
+          }
+          .input-box {
+            width: 10rem;
+            height: 1.5rem;
+            background: #f7f8fa;
+            border-radius: 0.25rem;
+            overflow: hidden;
+            position: relative;
+          }
+          .goal-category-search-input {
+            position: absolute;
+            left: 0;
+            background: #f7f8fa;
+            max-width: 10rem;
+            height: 1.5rem;
+            outline: none;
+            border: none;
+          }
+          .goal-category-search-input:focus {
+            outline: none;
+          }
+          .goal-category-list {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .goal-category-recommend-list {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .goal-category-list li {
+            display: ${isFocusedCategoryInput ? "flex" : "none"};
+            padding: 0px;
+            background: #ffffff;
+            width: 10.5rem;
+            height: 2.25rem;
+            font-size: 13px;
+            line-height: 20px;
+            color: #36332e;
+            align-items: center;
+            cursor: pointer;
+          }
+          .goal-category-list li:last-child {
+            border-radius: 0 0 8px 8px;
+          }
+          .goal-category-list li:not(:last-child) {
+            box-shadow: inset 0px -0.5px 0px rgba(0, 0, 0, 0.1);
+          }
+          .goal-category-list li::before {
+            content: " # ";
+            margin-left: 20px;
+          }
+          .selected-goal-categories {
+            position: absolute;
+            top: 22px;
+            display: flex;
+            gap: 0.25rem;
+          }
+          .selected-goal-categories li {
+            border: 0.5px solid #73bcff;
+            color: #73bcff;
+            height: 1rem;
+            padding: 0.12rem 0.12rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 13px;
+            line-height: 20px;
+          }
+          .selected-goal-categories li::before {
+            content: " # ";
+          }
+          .goal-wrapper {
+            display: flex;
+          }
+          .submit-button {
+            margin-left: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.875rem;
+            height: 1.813rem;
+            background: #e8f3ff;
+            border-radius: 4px;
+            border: none;
           }
         `}
       </style>
