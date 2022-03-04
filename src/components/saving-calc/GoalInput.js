@@ -7,7 +7,7 @@ const style = css`
     margin-bottom: 32px;
     height: 63px;
   }
-  .title h2 {
+  h2 {
     width: 143px;
     font-weight: bold;
     font-size: 18px;
@@ -15,7 +15,7 @@ const style = css`
     margin: 0;
     position: relative;
   }
-  .title h2::before {
+  h2::before {
     content: "";
     width: 127px;
     height: 8px;
@@ -25,6 +25,31 @@ const style = css`
     top: 17px;
     left: -2px;
   }
+  .goal {
+    margin-bottom: 53px;
+  }
+  .goal_input {
+    margin-top: 18px;
+  }
+  input {
+    width: 188px;
+    border: none;
+    border-bottom: 1px solid #e3e7ed;
+    margin-right: 4px;
+    font-size: 14px;
+    text-align: right;
+  }
+  span {
+    font-size: 10px;
+    color: red;
+  }
+  span.hidden {
+    display: none;
+  }
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
 `;
 const GoalInput = () => {
   return (
@@ -32,6 +57,13 @@ const GoalInput = () => {
       <div className="title">
         <h2>저축 목표을 알려주세요.</h2>
         <Book width="63px" height="68px " />
+      </div>
+      <div className="goal">
+        <p>저의 목표는</p>
+        <p className="goal_input">
+          <input name="goal" type="text" maxLength={20} placeholder="예) 결혼자금 모으기" onChange={handleChange} value={goal}></input> 입니다
+          <span className={goal.length > 20 ? "" : "hidden"}>*최대 글자수는 20자입니다.</span>
+        </p>
       </div>
     </>
   );
