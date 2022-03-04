@@ -15,6 +15,7 @@ const style = css`
     height: 53.87px;
     display: flex;
     /* padding: 0 7.083333vw; */
+    z-index: 999;
     position: fixed;
     top: 0;
   }
@@ -46,6 +47,7 @@ const style = css`
   }
   @media (max-width: 576px) {
     nav {
+      background-color: #f0f6fb;
       width: 100vw;
       height: 100vh;
       flex-direction: column;
@@ -82,6 +84,13 @@ const style = css`
       font-size: 13px;
       line-height: 20px;
     }
+    .goal,
+    .vote {
+      background-color: #ffffff;
+    }
+    .saving-calc {
+      background-color: #f7f8fa;
+    }
   }
   @media (min-width: 577px) {
     nav {
@@ -109,18 +118,19 @@ const routes = [
 
 function Navbar() {
   const { sm: isMobile } = useBreakpoint();
-  const { pathname } = useRouter();
+  const { pathname, back } = useRouter();
   const [toggled, setToggled] = useState(false);
   const handleToggle = useCallback(() => setToggled((prev) => !prev), []);
 
   return (
-    <nav>
+    <nav className={`${!toggled && pathname.split("/")[1]}`}>
       <div className="logoBox">
         <div className="mobile">
-          {toggled && <Back onClick={handleToggle} />}
+          {toggled && <Back fill="#FFFFFF" onClick={handleToggle} />}
+          {!toggled && pathname !== "/" && <Back fill="#3178ff" onClick={() => back()} />}
           <Link href="/" passHref>
             <h1 className="logo">
-              <MobileLogo className="mobileLogo" fill={toggled ? "#FFFFFF" : "#3178ff"} />
+              <MobileLogo className="mobileLogo" fill={toggled ? "#FFFFFF" : "#3178ff"} onClick={() => setToggled(false)} />
             </h1>
           </Link>
           <Bar stroke={toggled ? "#FFFFFF" : "#3178ff"} onClick={handleToggle} />
@@ -151,7 +161,7 @@ function Navbar() {
       <style jsx>{`
         nav {
           height: ${isMobile && toggled ? "100vh" : "52px"};
-          background-color: ${isMobile && !toggled ? "#F0F6FB" : "#3178ff"};
+          background-color: ${isMobile && toggled && "#3178ff"};
         }
         path {
           stroke: ${isMobile && !toggled ? "#3178ff" : "#FFFFFF"};
