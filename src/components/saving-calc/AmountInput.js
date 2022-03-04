@@ -47,12 +47,6 @@ const style = css`
   input::placeholder {
     color: #b2b2b2;
   }
-  .amount-plus {
-    margin-top: 10px;
-    display: flex;
-    justify-content: flex-end;
-    color: #a0a1a9;
-  }
   p {
     margin: 0;
     font-size: 14px;
@@ -66,7 +60,7 @@ const style = css`
   }
 `;
 
-const AmountInput = ({ amount, handleChange }) => {
+const AmountInput = ({ amount, handleChange, handleClick }) => {
   return (
     <>
       <div className="title">
@@ -80,17 +74,7 @@ const AmountInput = ({ amount, handleChange }) => {
             <input name="goal_amount" type="text" maxLength={16} placeholder="예) 70,000,000" onChange={handleChange} value={amount}></input>원 입니다
             <span className={amount.length > 15 ? "" : "hidden"}>*입력범위를 초과했습니다.</span>
           </p>
-          <div className="amount-plus">
-            <PlusButton id="plus1" onClick={handleClick}>
-              +1만
-            </PlusButton>
-            <PlusButton id="plus5" onClick={handleClick}>
-              +5만
-            </PlusButton>
-            <PlusButton id="plus10" onClick={handleClick}>
-              +10만
-            </PlusButton>
-          </div>
+          <PlusButton handleClick={handleClick} />
         </div>
         <div className="saving_amount">
           <p>저축 금액은</p>
@@ -98,17 +82,7 @@ const AmountInput = ({ amount, handleChange }) => {
             <input name="saving_amount" type="text" maxLength={16} placeholder="예) 70,000,000" onChange={handleChange} value={amount}></input>원 입니다
             <span className={amount.length > 15 ? "" : "hidden"}>*입력범위를 초과했습니다.</span>
           </p>
-          <div className="amount-plus">
-            <PlusButton id="plus1" onClick={handleClick}>
-              +1만
-            </PlusButton>
-            <PlusButton id="plus5" onClick={handleClick}>
-              +5만
-            </PlusButton>
-            <PlusButton id="plus10" onClick={handleClick}>
-              +10만
-            </PlusButton>
-          </div>
+          <PlusButton handleClick={handleClick} />
         </div>
       </div>
     </>
