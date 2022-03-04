@@ -6,7 +6,6 @@ import axios from "axios";
 import VoteBox from "@/components/voteBox";
 
 function Vote({ data }) {
-  console.log(data);
   return (
     <>
       <Head>

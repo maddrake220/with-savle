@@ -123,7 +123,7 @@ function Navbar() {
   const handleToggle = useCallback(() => setToggled((prev) => !prev), []);
 
   return (
-    <nav className={`${!toggled && pathname.slice(1)}`}>
+    <nav className={`${!toggled && pathname.split("/")[1]}`}>
       <div className="logoBox">
         <div className="mobile">
           {toggled && <Back onClick={handleToggle} />}
