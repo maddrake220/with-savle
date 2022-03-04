@@ -1,9 +1,6 @@
 import Link from "next/link";
-
-import PiggyBank from "public/layout/piggy-bank.svg";
 import { useState } from "react";
 import css from "styled-jsx/css";
-import PlusButton from "./PlusButton";
 import Result from "./Result";
 import ResultFoldBox from "./ResultFoldBox";
 
@@ -166,29 +163,6 @@ const CalcInputBox = () => {
     <div className="box">
       {!result ? (
         <>
-          <div className="title">
-            <h2>목표 금액과 저축 금액을 알려주세요.</h2>
-            <PiggyBank width="67px" height="52px" />
-          </div>
-
-          <div className="goal amount">
-            <p>목표 금액은</p>
-            <p className="goal_input">
-              <input name="amount" type="text" maxLength={16} placeholder="예) 70,000,000" onChange={handleChange} value={amount}></input>원 입니다
-              <span className={amount.length > 15 ? "" : "hidden"}>*입력범위를 초과했습니다.</span>
-            </p>
-            <div className="amount-plus">
-              <PlusButton id="plus1" onClick={handleClick}>
-                +1만
-              </PlusButton>
-              <PlusButton id="plus5" onClick={handleClick}>
-                +5만
-              </PlusButton>
-              <PlusButton id="plus10" onClick={handleClick}>
-                +10만
-              </PlusButton>
-            </div>
-          </div>
           <button onClick={handleSubmit} className={nextButtonFocus && "next"}>
             결과보기
           </button>

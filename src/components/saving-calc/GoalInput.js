@@ -39,6 +39,12 @@ const style = css`
     font-size: 14px;
     text-align: right;
   }
+  input:focus {
+    outline: none;
+  }
+  input::placeholder {
+    color: #b2b2b2;
+  }
   span {
     font-size: 10px;
     color: red;
@@ -51,7 +57,7 @@ const style = css`
     font-size: 14px;
   }
 `;
-const GoalInput = () => {
+const GoalInput = ({ goal, handleChange }) => {
   return (
     <>
       <div className="title">
