@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Book from "public/layout/book.svg";
+
 import PiggyBank from "public/layout/piggy-bank.svg";
 import { useState } from "react";
 import css from "styled-jsx/css";
@@ -176,7 +176,7 @@ const CalcInputBox = () => {
         <>
           <div className="title">
             <h2>저축 목표와 금액을 알려주세요.</h2>
-            {goal.length > 0 ? <PiggyBank width="67px" height="52px" /> : <Book width="63px" height="68px " />}
+            <PiggyBank width="67px" height="52px" />
           </div>
           <div className="goal text">
             <p>저의 목표는</p>
