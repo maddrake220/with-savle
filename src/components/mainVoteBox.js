@@ -29,7 +29,7 @@ export default function MainVoteBox({ voteBoxData }) {
           height: 322px;
           box-sizing: border-box;
           padding: 15px 10px 0px;
-          margin: 0 auto 32px;
+          margin: 0 auto;
           background-color: #fff;
           box-shadow: 0px 4px 9px 4px rgba(227, 231, 237, 0.8);
           border-radius: 8px;
@@ -95,7 +95,6 @@ export default function MainVoteBox({ voteBoxData }) {
             width: 248px;
             height: 304px;
             padding: 21px 17px 0px;
-            margin-bottom: 32px;
           }
           .subject_box {
             padding-bottom: 10px;
@@ -112,7 +111,6 @@ export default function MainVoteBox({ voteBoxData }) {
         /* Desktop ------------------------ */
         @media (min-width: 1200px) {
           .vote_box {
-            margin-bottom: 32px;
             width: 278px;
             height: 340px;
             padding: 24px 20px 0px;
