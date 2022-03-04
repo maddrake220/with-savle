@@ -1,9 +1,10 @@
 import ResultFoldBox from "./ResultFoldBox";
 import css from "styled-jsx/css";
+import periodCalc from "@/utils/periodCalc";
 
 const style = css`
   .title {
-    width: 199px;
+    width: 200px;
     display: flex;
     justify-content: space-between;
     margin-bottom: 32px;
@@ -27,34 +28,36 @@ const style = css`
     top: 17px;
     left: -2px;
   }
+  .result {
+    margin-bottom: 75px;
+  }
   p {
     margin: 0;
     font-size: 14px;
   }
+  button {
+    width: 220px;
+    height: 34px;
+    display: block;
+    margin: 0 auto;
+    font-weight: bold;
+    font-size: 12px;
+    color: #fff;
+    background: #3178ff;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
 `;
-const Result = ({ goal, amount }) => {
-  const calc = (value) => {
-    let numberValue = Number(amount.replaceAll(",", ""));
-    let count = numberValue / 20000;
-    let date = 0;
-    if (value === "month") {
-      while (count > 12) {
-        count = count - 12;
-        date++;
-      }
-      return `${date}년 ${count}개월`;
-    } else if (value === "week") {
-      while (count > 4) {
-        count = count - 4;
-        date++;
-      }
-      return `${date}개월 ${count}주`;
-    } else if (value === "day") {
-      return `${count}일`;
-    }
+const Result = ({ inputs, setInputs, setState }) => {
+  const { goal, goal_amount, saving_amount } = inputs;
+
+  const handleReset = (e) => {
+    e.preventDefault();
+    setState({ next: false, result: false });
+    setInputs({ goal: "", goal_amount: "", saving_amount: "" });
   };
 
-  const handleSubmit = () => {};
   return (
     <>
       <div className="title">
@@ -70,12 +73,15 @@ const Result = ({ goal, amount }) => {
           )}{" "}
           위해
           <br />
-          <span className="result-amount">{amount}원</span>을 적금한다면?
+          <span className="result-amount">{saving_amount}원</span>을 적금한다면?
         </h2>
       </div>
-      <ResultFoldBox period={"매월"} date={calc("month")} rule={"월급날 규칙"} />
-      <ResultFoldBox period={"매주"} date={calc("week")} rule={"52주 규칙"} />
-      <ResultFoldBox period={"매일"} date={calc("day")} />
+      <div className="result">
+        <ResultFoldBox period={"매월"} date={periodCalc("month", goal_amount, saving_amount)} rule={"월급날 규칙"} />
+        <ResultFoldBox period={"매주"} date={periodCalc("week", goal_amount, saving_amount)} rule={"52주 규칙"} />
+        <ResultFoldBox period={"매일"} date={periodCalc("day", goal_amount, saving_amount)} />
+      </div>
+      <button onClick={handleReset}>다시하기</button>
       <style jsx>{style}</style>
       <style jsx>{`
         .title h2 span::before {
@@ -85,7 +91,7 @@ const Result = ({ goal, amount }) => {
           width: calc((${goal.length} - 11) * 15px);
         }
         .title h2 span.result-amount::before {
-          width: calc(${amount.length} * 12px);
+          width: calc(${goal_amount.length} * 12px);
         }
       `}</style>
     </>
