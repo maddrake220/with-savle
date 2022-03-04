@@ -118,7 +118,7 @@ const routes = [
 
 function Navbar() {
   const { sm: isMobile } = useBreakpoint();
-  const { pathname } = useRouter();
+  const { pathname, back } = useRouter();
   const [toggled, setToggled] = useState(false);
   const handleToggle = useCallback(() => setToggled((prev) => !prev), []);
 
@@ -126,7 +126,8 @@ function Navbar() {
     <nav className={`${!toggled && pathname.split("/")[1]}`}>
       <div className="logoBox">
         <div className="mobile">
-          {toggled && <Back onClick={handleToggle} />}
+          {toggled && <Back fill="#FFFFFF" onClick={handleToggle} />}
+          {!toggled && pathname !== "/" && <Back fill="#3178ff" onClick={() => back()} />}
           <Link href="/" passHref>
             <h1 className="logo">
               <MobileLogo className="mobileLogo" fill={toggled ? "#FFFFFF" : "#3178ff"} onClick={() => setToggled(false)} />
