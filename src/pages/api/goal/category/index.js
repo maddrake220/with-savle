@@ -3,14 +3,11 @@ import client from "libs/prisma";
 async function handler(req, res) {
   if (req.method === "GET") {
     const {
-      query: { id },
+      query: { age },
     } = req;
-    const results = await client.goal.findUnique({
+    const results = await client.category.findMany({
       where: {
-        id: parseInt(id),
-      },
-      include: {
-        comments: true,
+        age: parseInt(age),
       },
     });
     if (results) {

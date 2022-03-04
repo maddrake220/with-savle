@@ -5,6 +5,11 @@ export default function Layout({ children }) {
     <>
       <Navbar />
       <main>{children}</main>
+      <style jsx>{`
+        main {
+          margin-top: 52px;
+        }
+      `}</style>
     </>
   );
 }
