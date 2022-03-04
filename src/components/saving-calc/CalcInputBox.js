@@ -47,14 +47,6 @@ const style = css`
   .goal_input {
     margin-top: 18px;
   }
-  .goal.text .goal_input input {
-    width: 188px;
-    border: none;
-    border-bottom: 1px solid #e3e7ed;
-    margin-right: 4px;
-    font-size: 14px;
-    text-align: right;
-  }
   .goal.amount .goal_input input {
     width: 175px;
     border: none;
@@ -175,16 +167,10 @@ const CalcInputBox = () => {
       {!result ? (
         <>
           <div className="title">
-            <h2>저축 목표와 금액을 알려주세요.</h2>
+            <h2>목표 금액과 저축 금액을 알려주세요.</h2>
             <PiggyBank width="67px" height="52px" />
           </div>
-          <div className="goal text">
-            <p>저의 목표는</p>
-            <p className="goal_input">
-              <input name="goal" type="text" maxLength={20} placeholder="예) 결혼자금 모으기" onChange={handleChange} value={goal}></input> 입니다
-              <span className={goal.length > 20 ? "" : "hidden"}>*최대 글자수는 20자입니다.</span>
-            </p>
-          </div>
+
           <div className="goal amount">
             <p>목표 금액은</p>
             <p className="goal_input">
