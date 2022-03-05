@@ -10,13 +10,22 @@ const style = css`
   button {
     width: 47px;
     height: 20px;
+    color: #a0a1a9;
     background: #eceff2;
     border-radius: 120px;
-    text-align: center;
-    margin-left: 10px;
-    border: none;
+    margin: 0 0 0 10px;
     font-size: 10px;
-    color: #a0a1a9;
+  }
+  @media (min-width: 1200px) {
+    div {
+      margin-top: 21px;
+    }
+    button {
+      width: 102px;
+      height: 43px;
+      border-radius: 268px;
+      font-size: 18px;
+    }
   }
 `;
 const PlusButton = ({ mode, handleClick }) => {

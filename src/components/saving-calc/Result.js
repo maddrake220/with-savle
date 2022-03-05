@@ -4,22 +4,15 @@ import periodCalc from "@/utils/periodCalc";
 
 const style = css`
   .title {
-    width: 200px;
-    display: flex;
-    justify-content: space-between;
+    width: 210px;
     margin-bottom: 32px;
   }
-  .title h2 {
-    font-weight: bold;
+  h2 span {
+    position: relative;
     font-size: 18px;
-    line-height: 1.5;
-    margin: 0;
-    position: relative;
+    color: #3178ff;
   }
-  .title h2 span {
-    position: relative;
-  }
-  .title h2 span::before {
+  h2 span::before {
     content: "";
     position: absolute;
     height: 8px;
@@ -31,27 +24,30 @@ const style = css`
   .result {
     margin-bottom: 75px;
   }
-  p {
-    margin: 0;
-    font-size: 14px;
-  }
   button {
-    width: 220px;
-    height: 34px;
-    display: block;
-    margin: 0 auto;
-    font-weight: bold;
-    font-size: 12px;
     color: #fff;
     background: #3178ff;
-    border: none;
-    border-radius: 8px;
-    margin-bottom: 15px;
+  }
+  @media (min-width: 1200px) {
+    .title {
+      width: 100%;
+      margin-bottom: 55px;
+    }
+    h2 span {
+      font-size: 40px;
+    }
+    h2 span::before {
+      height: 16px;
+      top: 35px;
+      left: -2px;
+    }
+    .result {
+      margin-bottom: 57px;
+    }
   }
 `;
 const Result = ({ inputs, setInputs, setState }) => {
   const { goal, goal_amount, saving_amount } = inputs;
-
   const handleReset = (e) => {
     e.preventDefault();
     setState({ next: false, result: false });
@@ -62,11 +58,11 @@ const Result = ({ inputs, setInputs, setState }) => {
     <>
       <div className="title">
         <h2>
-          {goal.length > 12 ? (
+          {goal.length >= 12 ? (
             <>
-              <span>{goal.slice(0, 12)}</span>
+              <span>{goal.slice(0, 10)}</span>
               <br />
-              <span className="slice">{goal.slice(12)}</span>
+              <span className="slice">{goal.slice(10)}</span>
             </>
           ) : (
             <span>{goal}</span>
@@ -85,13 +81,25 @@ const Result = ({ inputs, setInputs, setState }) => {
       <style jsx>{style}</style>
       <style jsx>{`
         .title h2 span::before {
-          width: ${goal.length > 12 ? `180px` : `calc(${goal.length} * 15px)`};
+          width: ${goal.length >= 12 ? `170px` : `calc(${goal.length} * 15px)`};
         }
         .title h2 span.slice::before {
-          width: calc((${goal.length} - 11) * 15px);
+          width: calc((${goal.length} - 9) * 15px);
         }
         .title h2 span.result-amount::before {
           width: calc(${goal_amount.length} * 12px);
+        }
+
+        @media (min-width: 1200px) {
+          .title h2 span::before {
+            width: ${goal.length >= 12 ? `380px` : `calc(${goal.length} * 30px)`};
+          }
+          .title h2 span.slice::before {
+            width: calc((${goal.length} - 9) * 30px);
+          }
+          .title h2 span.result-amount::before {
+            width: calc(${goal_amount.length} * 20px);
+          }
         }
       `}</style>
     </>
