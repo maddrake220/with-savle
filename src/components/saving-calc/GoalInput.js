@@ -1,68 +1,84 @@
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 import Book from "public/layout/book.svg";
+import { useCallback, useState } from "react";
 import css from "styled-jsx/css";
 const style = css`
   .title {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 32px;
-    height: 63px;
+    margin-bottom: 30px;
+    align-items: center;
   }
   h2 {
-    width: 143px;
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 1.5;
-    margin: 0;
-    position: relative;
+    width: 92px;
   }
   h2::before {
-    content: "";
-    width: 127px;
-    height: 8px;
-    background: rgba(143, 201, 255, 0.7);
-    opacity: 0.4;
-    position: absolute;
-    top: 17px;
-    left: -2px;
+    width: 92px;
   }
   .goal {
-    margin-bottom: 53px;
+    margin-bottom: 200px;
   }
   .goal_input {
-    margin-top: 18px;
+    position: relative;
   }
   input {
     width: 188px;
-    border: none;
-    border-bottom: 1px solid #e3e7ed;
-    margin-right: 4px;
-    font-size: 14px;
-    text-align: right;
-  }
-  input:focus {
-    outline: none;
-  }
-  input::placeholder {
-    color: #b2b2b2;
   }
   span {
-    font-size: 10px;
-    color: red;
+    position: absolute;
+    top: 25px;
+    left: 0;
   }
-  span.hidden {
-    display: none;
-  }
-  p {
-    margin: 0;
-    font-size: 14px;
+  @media (min-width: 1200px) {
+    .title {
+      margin-bottom: 33px;
+    }
+    h2 {
+      width: 206px;
+    }
+    h2::before {
+      width: 160px;
+    }
+    .goal {
+      margin-bottom: 297px;
+    }
+    input {
+      width: 516px;
+    }
+    span {
+      position: absolute;
+      top: 25px;
+      left: 0;
+    }
   }
 `;
-const GoalInput = ({ goal, handleChange }) => {
+
+const GoalInput = ({ inputs, setInputs, state, setState }) => {
+  const [goal, setGoal] = useState("");
+  const nextButtonFocus = goal.length > 0 && goal.length < 21;
+  const { sm: isMobile } = useBreakpoint();
+  const handleChange = useCallback((e) => {
+    setGoal(e.target.value);
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { id } = e.target;
+    setState({
+      ...state,
+      [id]: true,
+    });
+    setInputs({
+      ...inputs,
+      goal: goal,
+    });
+  };
+
   return (
     <>
       <div className="title">
-        <h2>저축 목표을 알려주세요.</h2>
-        <Book width="63px" height="68px " />
+        <h2>저축 목표를 알려주세요.</h2>
+        <Book width={isMobile ? "63px" : "137px"} style={{ marginRight: "7px" }} />
       </div>
       <div className="goal">
         <p>저의 목표는</p>
@@ -71,6 +87,10 @@ const GoalInput = ({ goal, handleChange }) => {
           <span className={goal.length > 20 ? "" : "hidden"}>*최대 글자수는 20자입니다.</span>
         </p>
       </div>
+      <button id="next" onClick={handleSubmit} className={nextButtonFocus && "next"} disabled={!nextButtonFocus && "disabled"}>
+        다음
+      </button>
+      <style jsx>{style}</style>
     </>
   );
 };
