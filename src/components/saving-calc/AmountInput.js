@@ -4,89 +4,60 @@ import css from "styled-jsx/css";
 import { useCallback, useState } from "react";
 import comma from "@/utils/comma";
 import addAmount from "@/utils/addAmount";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 const style = css`
   .title {
     display: flex;
     justify-content: space-between;
-    margin: 2px 0 34px;
+    margin-bottom: 34px;
   }
   h2 {
     width: 178px;
-    font-weight: bold;
-    font-size: 17.3px;
-    line-height: 1.5;
-    margin: 0;
-    position: relative;
   }
   h2::before {
-    content: "";
     width: 160px;
-    height: 8px;
-    background: rgba(143, 201, 255, 0.7);
-    opacity: 0.4;
-    position: absolute;
-    top: 17px;
-    left: -2px;
   }
   .amount {
     margin-bottom: 55px;
   }
-  .saving_amount {
-    margin-top: 28px;
+  .goal_amount {
+    margin-bottom: 28px;
   }
-
   input {
     width: 175px;
-    border: none;
-    border-bottom: 1px solid #e3e7ed;
-    margin: 22px 4px 0 0;
-    font-size: 14px;
-    text-align: right;
   }
-  input:focus {
-    outline: none;
-  }
-  input::placeholder {
-    color: #b2b2b2;
-  }
-
-  p {
-    margin: 0;
-    font-size: 14px;
-  }
-  span {
-    font-size: 10px;
-    color: red;
-  }
-  span.hidden {
-    display: none;
-  }
-  button {
-    width: 220px;
-    height: 34px;
-    display: block;
-    margin: 0 auto;
-    font-weight: bold;
-    font-size: 12px;
-    color: #b2b2b2;
-    border: none;
-    border-radius: 8px;
-    background: #d6d8dc;
-  }
-  button.next {
-    color: #fff;
-    background: #3178ff;
+  @media (min-width: 1200px) {
+    .title {
+      margin-bottom: 45px;
+    }
+    h2 {
+      width: 365px;
+    }
+    h2::before {
+      width: 365px;
+    }
+    .amount {
+      margin-bottom: 57px;
+    }
+    .goal_amount {
+      margin-bottom: 20px;
+    }
+    input {
+      width: 488px;
+      margin: 35px 15px 0 0;
+    }
   }
 `;
 
 const AmountInput = (props) => {
   const [amount, setAmount] = useState({ goal_amount: "", saving_amount: "" });
+  const { sm: isMobile } = useBreakpoint();
   const { goal_amount, saving_amount } = amount;
   const { inputs, setInputs, state, setState } = props;
   const campareValue = Number(saving_amount.replaceAll(",", "")) < Number(goal_amount.replaceAll(",", ""));
   const resultButtonFocus = goal_amount.length > 0 && goal_amount.length < 16 && saving_amount.length > 0 && campareValue;
-  console.log(saving_amount !== "" && !campareValue);
+
   const handleChange = useCallback(
     (e) => {
       let { value, name } = e.target;
@@ -136,7 +107,7 @@ const AmountInput = (props) => {
     <>
       <div className="title">
         <h2>목표 금액과 저축 금액을 알려주세요.</h2>
-        <PiggyBank width="67px" height="52px" />
+        <PiggyBank width={isMobile ? "67px" : "146px"} />
       </div>
       <div className="amount">
         <div className="goal_amount">
