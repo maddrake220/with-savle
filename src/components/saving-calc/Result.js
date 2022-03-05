@@ -50,7 +50,7 @@ const Result = ({ inputs, setInputs, setState }) => {
   const { goal, goal_amount, saving_amount } = inputs;
   const handleReset = (e) => {
     e.preventDefault();
-    setState({ next: false, result: false });
+    setState({ next: false, result: false, done: false });
     setInputs({ goal: "", goal_amount: "", saving_amount: "" });
   };
 
@@ -73,9 +73,9 @@ const Result = ({ inputs, setInputs, setState }) => {
         </h2>
       </div>
       <div className="result">
-        <ResultFoldBox period={"매월"} date={periodCalc("month", goal_amount, saving_amount)} rule={"월급날 규칙"} />
-        <ResultFoldBox period={"매주"} date={periodCalc("week", goal_amount, saving_amount)} rule={"52주 규칙"} />
-        <ResultFoldBox period={"매일"} date={periodCalc("day", goal_amount, saving_amount)} />
+        <ResultFoldBox setState={setState} period={"매월"} date={periodCalc("month", goal_amount, saving_amount)} rule={"월급날 규칙"} />
+        <ResultFoldBox setState={setState} period={"매주"} date={periodCalc("week", goal_amount, saving_amount)} rule={"52주 규칙"} />
+        <ResultFoldBox setState={setState} period={"매일"} date={periodCalc("day", goal_amount, saving_amount)} />
       </div>
       <button onClick={handleReset}>다시하기</button>
       <style jsx>{style}</style>

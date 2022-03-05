@@ -64,10 +64,11 @@ const style = css`
   }
 `;
 
-const ResultFoldBox = ({ period, date, rule }) => {
+const ResultFoldBox = ({ period, date, rule, setState }) => {
   const [hidden, setHidden] = useState(true);
   const { sm: isMobile } = useBreakpoint();
   const hadleClick = () => {
+    setState({ next: true, result: true, done: true });
     setHidden(!hidden);
   };
 
