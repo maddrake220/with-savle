@@ -1,11 +1,8 @@
-import addAmount from "@/utils/addAmount";
-import comma from "@/utils/comma";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import css from "styled-jsx/css";
 import AmountInput from "./AmountInput";
 import GoalInput from "./GoalInput";
 import Result from "./Result";
-import ResultFoldBox from "./ResultFoldBox";
 import React from "react";
 
 const style = css`
@@ -16,7 +13,7 @@ const style = css`
     background: #ffffff;
     box-shadow: 0px 5px 15px rgba(71, 72, 75, 0.1);
     border-radius: 12px;
-    margin: auto;
+    margin: 0 auto 32px;
   }
 
   @media (min-width: 1200px) {
@@ -24,37 +21,32 @@ const style = css`
       width: 789px;
       padding: 49px 72px 42px;
       border-radius: 30px;
+      margin: 0 auto 60px;
     }
   }
 `;
 
-const styleGlobal = css``;
-const CalcInputBox = () => {
-  const [inputs, setInputs] = useState({ goal: "", goal_amount: "", saving_amount: "" });
-  const [state, setState] = useState({ next: false, result: false });
+const CalcInputBox = ({ data }) => {
+  const { inputs, setInputs, state, setState } = data;
   const { next, result } = state;
-  const { goal, goal_amount, saving_amount } = inputs;
 
   return (
     <div className="box">
-      <>
-        {!next && <GoalInput inputs={inputs} setInputs={setInputs} state={state} setState={setState} />}
-        {next && !result && <AmountInput inputs={inputs} setInputs={setInputs} state={state} setState={setState} />}
-        {result && <Result inputs={inputs} setInputs={setInputs} setState={setState} />}
-      </>
+      {!next && <GoalInput inputs={inputs} setInputs={setInputs} state={state} setState={setState} />}
+      {next && !result && <AmountInput inputs={inputs} setInputs={setInputs} state={state} setState={setState} />}
+      {result && <Result inputs={inputs} setInputs={setInputs} setState={setState} />}
       <style jsx>{style}</style>
       <style jsx global>
         {`
-          h2 {
+          .title h2 {
             font-size: 18px;
             font-weight: bold;
             line-height: 1.5;
             margin: 0;
             position: relative;
           }
-          h2::before {
+          .title h2::before {
             content: "";
-            width: 160px;
             height: 8px;
             background: rgba(143, 201, 255, 0.7);
             opacity: 0.4;
@@ -103,10 +95,10 @@ const CalcInputBox = () => {
             color: #b2b2b2;
           }
           @media (min-width: 1200px) {
-            h2 {
+            .title h2 {
               font-size: 40px;
             }
-            h2::before {
+            .title h2::before {
               height: 16px;
               top: 35px;
               left: -2px;
