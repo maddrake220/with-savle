@@ -1,6 +1,8 @@
 import Arrow from "/public/layout/ic_arrow_expand.svg";
 import css from "styled-jsx/css";
 import { useState } from "react";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { getRouteMatcher } from "next/dist/shared/lib/router/utils";
 const style = css`
   .box {
     width: 240px;
@@ -16,7 +18,6 @@ const style = css`
   }
   .title h3 {
     font-size: 11px;
-    line-height: 1.5;
     font-weight: normal;
     margin: 0;
   }
@@ -37,15 +38,37 @@ const style = css`
   .text div:last-child {
     margin: 0;
   }
-  p {
-    margin: 0;
+  @media (min-width: 1200px) {
+    .box {
+      width: 645px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+    .title {
+      padding: 30px 48px;
+    }
+    .title h3 {
+      font-size: 22px;
+    }
+    .title h3 div:first-child {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    .text {
+      font-size: 16px;
+      padding: 30px 48px;
+    }
+    .text p {
+      font-size: 16px;
+    }
   }
 `;
 
-const ResultFoldBox = ({ period, date, rule }) => {
+const ResultFoldBox = ({ period, date, rule, setState }) => {
   const [hidden, setHidden] = useState(true);
-
+  const { sm: isMobile } = useBreakpoint();
   const hadleClick = () => {
+    setState({ next: true, result: true, done: true });
     setHidden(!hidden);
   };
 
@@ -53,11 +76,14 @@ const ResultFoldBox = ({ period, date, rule }) => {
     <div className="box">
       <div className="title primary">
         <h3>
-          <strong>{period}</strong> 적금하면
-          <br />
-          <strong>{date}</strong> 뒤에 달성할 수 있어요
+          <div>
+            <strong>{period}</strong> 적금하면
+          </div>
+          <div>
+            <strong>{date}</strong> 뒤에 달성할 수 있어요
+          </div>
         </h3>
-        <Arrow width="19px" onClick={hadleClick} />
+        <Arrow width={isMobile ? "19px" : "52px"} onClick={hadleClick} style={{ transform: !hidden && "rotate(180deg)" }} />
       </div>
       <div className={hidden ? "text primary hidden" : "text primary"}>
         <div>
@@ -84,6 +110,11 @@ const ResultFoldBox = ({ period, date, rule }) => {
       <style jsx>{`
         .title {
           border-bottom: ${!hidden && "1px solid #fff"};
+        }
+        @media (min-width: 1200px) {
+          .title {
+            border-bottom: ${!hidden && "2px solid #fff"};
+          }
         }
       `}</style>
     </div>
