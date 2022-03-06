@@ -1,29 +1,14 @@
 import server from "@/config/server";
 import axios from "axios";
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-import goalHeaderSvg from "../../../public/goal-header-savle-char.svg";
-import Image from "next/image";
->>>>>>> d7bf6df (feat: goal header)
-=======
->>>>>>> b652483 (feat: goal styling)
 import Head from "next/head";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { useCallback, useEffect, useState } from "react";
 import CategoryButton from "@/components/goal/CategoryButton";
-<<<<<<< HEAD
 import GoalDropdown from "@/components/goal/GoalDropdown";
 import GoalCard from "@/components/goal/GoalCard";
 import goalAPI from "./goalAPI.json";
 import GoalCharSvg from "@/components/goal/svg/GoalCharSvg";
 import NewGoalSvg from "@/components/goal/svg/NewGoalSvg";
-<<<<<<< HEAD
-=======
-
->>>>>>> d7bf6df (feat: goal header)
-=======
->>>>>>> b652483 (feat: goal styling)
 const categories = [
   { id: 0, text: "전체", backgroundColor: "#3178FF" },
   { id: 1, text: "10대", backgroundColor: " #FDD18F" },
@@ -31,10 +16,6 @@ const categories = [
   { id: 3, text: "30대", backgroundColor: "#CADCFF" },
   { id: 4, text: "40대 이상", backgroundColor: "#3178FF" },
 ];
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> b652483 (feat: goal styling)
 const checkCategoryRange = (category) => {
   let start;
   let end;
@@ -79,49 +60,8 @@ function Goal({ data }) {
   const onClickNewGoal = useCallback(() => {
     alert("미기능 구현!");
   }, []);
-<<<<<<< HEAD
   useEffect(() => {
     setFiltered(checkCategoryRange(clickedCategory));
-=======
-function Goal({ data }) {
-  const queryMatch = useBreakpoint();
-  const [clickedCategory, setClickedCategory] = useState(0);
-  const [filtered, setFiltered] = useState({ start: 0, end: 1000 });
-
-  const onClick = useCallback((id) => {
-    setClickedCategory(id);
-  }, []);
-  useEffect(() => {
-    let start;
-    let end;
-    switch (clickedCategory) {
-      case 1:
-        start = 10;
-        end = 19;
-        break;
-      case 2:
-        start = 20;
-        end = 29;
-        break;
-      case 3:
-        start = 30;
-        end = 39;
-        break;
-      case 4:
-        start = 40;
-        end = 1000;
-        break;
-      default:
-        start = 0;
-        end = 1000;
-        break;
-    }
-    setFiltered({ start, end });
->>>>>>> d7bf6df (feat: goal header)
-=======
-  useEffect(() => {
-    setFiltered(checkCategoryRange(clickedCategory));
->>>>>>> b652483 (feat: goal styling)
   }, [clickedCategory]);
   return (
     <section className="goal-container">
@@ -136,20 +76,7 @@ function Goal({ data }) {
           <p>다른 사람들과 목표를 공유해보아요.</p>
         </div>
         <div className="goal-header-image">
-<<<<<<< HEAD
-<<<<<<< HEAD
           <GoalCharSvg width={queryMatch?.sm ? 71 : queryMatch?.md ? 141 : 185} height={queryMatch?.sm ? 70 : queryMatch?.md ? 138 : 181} />
-=======
-          <Image
-            width={queryMatch?.sm ? 71 : queryMatch?.md ? 141 : 185}
-            height={queryMatch?.sm ? 70 : queryMatch?.md ? 138 : 181}
-            src={goalHeaderSvg}
-            alt="savle"
-          />
->>>>>>> d7bf6df (feat: goal header)
-=======
-          <GoalCharSvg width={queryMatch?.sm ? 71 : queryMatch?.md ? 141 : 185} height={queryMatch?.sm ? 70 : queryMatch?.md ? 138 : 181} />
->>>>>>> b652483 (feat: goal styling)
         </div>
       </header>
       <main>
@@ -163,10 +90,6 @@ function Goal({ data }) {
           </ul>
         </div>
         <div className="goal-list-wrapper container">
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> b652483 (feat: goal styling)
           <div className="goal-dropdown">
             <GoalDropdown
               label=""
@@ -187,16 +110,11 @@ function Goal({ data }) {
               }}
             />
           </div>
-
-=======
-          <div className="goal-drop-down"></div>
->>>>>>> d7bf6df (feat: goal header)
           <ul className="goal-list">
             {data
               .filter((value) => {
                 return value.age >= filtered.start && value.age <= filtered.end;
               })
-<<<<<<< HEAD
               .sort((a, b) => {
                 const d1 = Date.parse(a.createAt);
                 const d2 = Date.parse(b.createAt);
@@ -216,24 +134,10 @@ function Goal({ data }) {
                   likes={value.likes}
                   text={value.text}
                 />
-=======
-              .map((value) => (
-                <li key={value.id}>
-                  <div>나이: {value.age}</div>
-                  <div>카테고리: {value.categories}</div>
-                  <div>날짜: {value.createAt}</div>
-                  <div>좋아요: {value.likes}</div>
-                  <div>내용: {value.text}</div>
-                </li>
->>>>>>> d7bf6df (feat: goal header)
               ))}
           </ul>
         </div>
       </main>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> b652483 (feat: goal styling)
       <div className="new-goal">
         <NewGoalSvg
           onClick={onClickNewGoal}
@@ -241,11 +145,6 @@ function Goal({ data }) {
           height={queryMatch?.sm ? 59 : queryMatch?.md ? 110 : 110}
         />
       </div>
-<<<<<<< HEAD
-=======
->>>>>>> d7bf6df (feat: goal header)
-=======
->>>>>>> b652483 (feat: goal styling)
       <style jsx>{`
         header {
           background-color: rgba(49, 120, 255, 0.8);
@@ -303,7 +202,6 @@ function Goal({ data }) {
           display: none;
         }
         main .goal-list-wrapper {
-<<<<<<< HEAD
           position: relative;
         }
         main .goal-list {
@@ -318,11 +216,6 @@ function Goal({ data }) {
           position: fixed;
           bottom: 1.688rem;
           right: 1rem;
-<<<<<<< HEAD
-=======
->>>>>>> d7bf6df (feat: goal header)
-=======
->>>>>>> b652483 (feat: goal styling)
         }
         @media (max-width: 295px) {
           .goal-header-image {
@@ -349,10 +242,6 @@ function Goal({ data }) {
           header .goal-header-image {
             bottom: 2.188rem;
           }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> b652483 (feat: goal styling)
           main .goal-list {
             display: flex;
             flex-direction: row;
@@ -362,11 +251,6 @@ function Goal({ data }) {
             right: 5.813rem;
             bottom: 2.375rem;
           }
-<<<<<<< HEAD
-=======
->>>>>>> d7bf6df (feat: goal header)
-=======
->>>>>>> b652483 (feat: goal styling)
         }
         @media (min-width: 1200px) {
           header {
@@ -382,10 +266,6 @@ function Goal({ data }) {
             font-size: 1.75rem;
             line-height: 2.25rem;
           }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> b652483 (feat: goal styling)
           main .goal-categories {
             padding-top: 1rem;
           }
@@ -399,11 +279,6 @@ function Goal({ data }) {
             right: 3.875rem;
             bottom: 2.5rem;
           }
-<<<<<<< HEAD
-=======
->>>>>>> d7bf6df (feat: goal header)
-=======
->>>>>>> b652483 (feat: goal styling)
         }
       `}</style>
     </section>
@@ -412,15 +287,7 @@ function Goal({ data }) {
 
 export default Goal;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 export const getStaticProps = async () => {
-=======
-export const getServerSideProps = async () => {
->>>>>>> d7bf6df (feat: goal header)
-=======
-export const getStaticProps = async () => {
->>>>>>> b652483 (feat: goal styling)
   const res = await axios.get(`${server}/api/goal`);
   console.log(res.data.results);
   return {
