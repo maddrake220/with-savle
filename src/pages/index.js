@@ -1,4 +1,4 @@
-import MainVoteSection from "@/components/mainVoteSection";
+import MainVoteSection from "@/components/vote/MainVoteSection";
 
 export default function Home() {
   return (

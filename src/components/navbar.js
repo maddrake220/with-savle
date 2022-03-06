@@ -17,6 +17,7 @@ const style = css`
     /* padding: 0 7.083333vw; */
     position: fixed;
     top: 0;
+    z-index: 1;
   }
   .active {
     font-weight: bold;

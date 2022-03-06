@@ -1,4 +1,4 @@
-export const voteBoxDatas = {
+export const mockDatas = {
   success: true,
   results: [
     {
