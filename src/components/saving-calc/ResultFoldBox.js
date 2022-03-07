@@ -8,25 +8,36 @@ const style = css`
     width: 240px;
     background: #e8f3ff;
     border-radius: 7px;
-    margin-bottom: 8px;
+    margin: 0 auto 8px;
   }
   .title {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    padding: 12px 10px 14px;
     box-sizing: border-box;
   }
   .title h3 {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: normal;
     margin: 0;
   }
-  .text {
+  .title h3 div:first-child {
     font-size: 11px;
-    line-height: 1.5;
-    font-weight: normal;
+    margin-bottom: 6px;
+  }
+
+  .text {
     padding: 10px;
     box-sizing: border-box;
+  }
+  .text p {
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: normal;
+  }
+  .text strong {
+    font-size: 12px;
+    line-height: 1.5;
   }
   .text.hidden {
     display: none;
@@ -34,9 +45,23 @@ const style = css`
   .text div {
     margin-bottom: 24px;
   }
-
   .text div:last-child {
     margin: 0;
+  }
+  @media (min-width: 576px) {
+    .box {
+      width: 318px;
+      border-radius: 8px;
+    }
+    .title {
+      padding: 15px 24px;
+    }
+    .title h3 div:first-child {
+      margin-bottom: 4px;
+    }
+    .text {
+      padding: 15px 25px;
+    }
   }
   @media (min-width: 1200px) {
     .box {
@@ -61,12 +86,15 @@ const style = css`
     .text p {
       font-size: 16px;
     }
+    .text strong {
+      font-size: 16px;
+    }
   }
 `;
 
 const ResultFoldBox = ({ period, date, rule, setState }) => {
   const [hidden, setHidden] = useState(true);
-  const { sm: isMobile } = useBreakpoint();
+  const { sm: isMobile, md: isTablet } = useBreakpoint();
   const hadleClick = () => {
     setState({ next: true, result: true, done: true });
     setHidden(!hidden);
@@ -83,9 +111,9 @@ const ResultFoldBox = ({ period, date, rule, setState }) => {
             <strong>{date}</strong> 뒤에 달성할 수 있어요
           </div>
         </h3>
-        <Arrow width={isMobile ? "19px" : "52px"} onClick={hadleClick} style={{ transform: !hidden && "rotate(180deg)" }} />
+        <Arrow width={isMobile ? "19px" : isTablet ? "26px" : "52px"} onClick={hadleClick} style={{ transform: !hidden && "rotate(180deg)" }} />
       </div>
-      <div className={hidden ? "text primary hidden" : "text primary"}>
+      <div className={`text primary ${hidden && "hidden"}`}>
         <div>
           <p>세이블에서 슬금슬금 규칙, {rule}으로 저축할 수 있습니다.</p>
         </div>

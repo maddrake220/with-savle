@@ -5,7 +5,7 @@ import periodCalc from "@/utils/periodCalc";
 const style = css`
   .title {
     width: 210px;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
   h2 span {
     position: relative;
@@ -22,11 +22,28 @@ const style = css`
     left: -2px;
   }
   .result {
-    margin-bottom: 75px;
+    margin-bottom: 85px;
   }
   button {
     color: #fff;
     background: #3178ff;
+  }
+  @media (min-width: 576px) {
+    .title {
+      width: 100%;
+      margin-bottom: 27px;
+    }
+    h2 span {
+      font-size: 20px;
+    }
+    h2 span::before {
+      height: 8px;
+      top: 20px;
+      left: -2px;
+    }
+    .result {
+      margin-bottom: 23px;
+    }
   }
   @media (min-width: 1200px) {
     .title {
@@ -69,7 +86,7 @@ const Result = ({ inputs, setInputs, setState }) => {
           )}{" "}
           위해
           <br />
-          <span className="result-amount">{saving_amount}원</span>을 적금한다면?
+          <span className="result-amount">{saving_amount}원</span>을{saving_amount.length > 8 && <br />} 적금한다면?
         </h2>
       </div>
       <div className="result">
@@ -87,9 +104,19 @@ const Result = ({ inputs, setInputs, setState }) => {
           width: calc((${goal.length} - 9) * 15px);
         }
         .title h2 span.result-amount::before {
-          width: calc(${goal_amount.length} * 12px);
+          width: calc(${saving_amount.length} * 13px);
         }
-
+        @media (min-width: 576px) {
+          .title h2 span::before {
+            width: ${goal.length >= 12 ? `190px` : `calc(${goal.length} * 17px)`};
+          }
+          .title h2 span.slice::before {
+            width: calc((${goal.length} - 9) * 17px);
+          }
+          .title h2 span.result-amount::before {
+            width: calc(${saving_amount.length} * 15px);
+          }
+        }
         @media (min-width: 1200px) {
           .title h2 span::before {
             width: ${goal.length >= 12 ? `380px` : `calc(${goal.length} * 30px)`};
@@ -98,7 +125,7 @@ const Result = ({ inputs, setInputs, setState }) => {
             width: calc((${goal.length} - 9) * 30px);
           }
           .title h2 span.result-amount::before {
-            width: calc(${goal_amount.length} * 20px);
+            width: calc(${saving_amount.length} * 28px);
           }
         }
       `}</style>

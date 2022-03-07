@@ -2,7 +2,7 @@ import css from "styled-jsx/css";
 import React from "react";
 const style = css`
   div {
-    margin-top: 13px;
+    margin-top: 12px;
     display: flex;
     justify-content: flex-end;
     color: #a0a1a9;
@@ -16,9 +16,20 @@ const style = css`
     margin: 0 0 0 10px;
     font-size: 10px;
   }
+  @media (min-width: 576px) {
+    div {
+      margin-top: 10px;
+    }
+    button {
+      width: 53px;
+      height: 22px;
+      border-radius: 139px;
+      font-size: 11px;
+    }
+  }
   @media (min-width: 1200px) {
     div {
-      margin-top: 21px;
+      margin-top: 16px;
     }
     button {
       width: 102px;
