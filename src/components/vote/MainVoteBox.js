@@ -1,11 +1,10 @@
 import Image from "next/image";
 
-export default function VoteBox({ voteBoxData }) {
-  const likeToggle = () => {};
+export default function MainVoteBox({ mockData }) {
   return (
     <li className="vote_box">
-      <h1 className="subject_box">{voteBoxData.title}</h1>
-      {voteBoxData.voteSelect.map((selectItem) => (
+      <h1 className="subject_box">{mockData.title.length > 35 ? `${mockData.title.slice(0, 35)}...` : mockData.title}</h1>
+      {mockData.voteSelect.map((selectItem) => (
         <div key={selectItem.item} className="vote_select-items">
           <input type="radio" id={selectItem.item} name="vote" value={selectItem.item} disabled />
           <label htmlFor={selectItem.item}>{selectItem.item}</label>
@@ -13,65 +12,66 @@ export default function VoteBox({ voteBoxData }) {
       ))}
       <div className="favorite_comment">
         <div className="favorite">
-          <Image src="/img/favorite.png" alt="Favorite" width={21} height={21} />
-          <span onClick={likeToggle}>{voteBoxData.likes}</span>
+          <Image src="/img/favorite.png" alt="Favorite" width={18} height={18} />
+          <span>{mockData.likes}</span>
         </div>
         <div>
-          <Image src="/img/comment.svg" alt="Comment" width={21} height={21} />
-          <span>{voteBoxData.voteComments.length}</span>
+          <Image src="/img/comment.svg" alt="Comment" width={20} height={20} />
+          <span>{mockData.voteComments.length}</span>
         </div>
       </div>
-      <button>더보기 &gt;</button>
+
       <style jsx>{`
         /* Mobile */
         .vote_box {
           position: relative;
-          width: 278px;
-          height: 340px;
+          width: 233px;
+          height: 322px;
           box-sizing: border-box;
-          padding: 24px 19px 0px;
-          margin-bottom: 16px;
+          padding: 15px 10px 0px;
+          margin: 0 auto;
           background-color: #fff;
-          box-shadow: 0px 4px 10px 4px #e3e9f0;
+          box-shadow: 0px 4px 9px 4px rgba(227, 231, 237, 0.8);
           border-radius: 8px;
         }
         .subject_box {
-          padding-bottom: 12px;
-          margin: 0 0 18px;
+          padding-bottom: 11px;
+          margin: 0 0 17px;
           border-bottom: 1px solid #e3e7ed;
-          font-size: 16px;
+          font-size: 15px;
           font-weight: 700;
-          line-height: 24px;
-          height: 48px;
+          line-height: 23px;
+          height: 40px;
         }
         .vote_select-items {
           display: flex;
           align-items: center;
           background-color: #f6f6f6;
-          height: 41px;
+          height: 39px;
           border-radius: 8px;
-          margin-bottom: 8px;
-          padding-left: 12px;
+          margin-bottom: 7px;
+          padding-left: 9px;
         }
         .vote_select-items label {
-          font-size: 13px;
+          font-size: 12px;
           font-weight: 400;
-          margin-left: 7.46px;
+          margin-left: 4px;
         }
         input[type="radio"] {
           -webkit-appearance: none;
           -moz-appearance: none;
           border: 1px solid #b2b2b2;
-          height: 10px;
-          width: 10px;
+          height: 8px;
+          width: 8px;
           border-radius: 50%;
           background-color: #fff;
         }
         .favorite_comment {
           position: absolute;
           bottom: 15px;
-          height: 18px;
-          font-size: 13px;
+          left: 18px;
+          height: 19px;
+          font-size: 12px;
           font-weight: 700;
           display: flex;
           align-items: center;
@@ -86,57 +86,59 @@ export default function VoteBox({ voteBoxData }) {
           margin-left: 4px;
         }
         .favorite {
-          border: 1px solid red;
           margin-right: 11px;
         }
-        button {
-          position: absolute;
-          bottom: 15px;
-          right: 16px;
-          border: none;
-          background: transparent;
-          font-size: 13px;
-          font-weight: 700;
-          color: #888;
+
+        /* tablet ------------------------ */
+        @media (min-width: 576px) {
+          .vote_box {
+            width: 248px;
+            height: 304px;
+            padding: 21px 17px 0px;
+          }
+          .subject_box {
+            padding-bottom: 10px;
+            margin: 0 0 16px;
+            font-size: 16px;
+            line-height: 21px;
+            height: 42px;
+          }
+          .vote_select-items {
+            height: 36px;
+          }
         }
 
         /* Desktop ------------------------ */
         @media (min-width: 1200px) {
           .vote_box {
-            margin-bottom: 32px;
-            width: 378px;
-            height: 463px;
-            padding: 30px 27px 20px;
+            width: 278px;
+            height: 340px;
+            padding: 24px 20px 0px;
           }
           .subject_box {
-            padding-bottom: 19px;
-            margin-bottom: 24px;
-            font-size: 24px;
-            line-height: 32px;
-            height: 65px;
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+            font-size: 18px;
+            line-height: 24px;
+            height: 48px;
           }
           .vote_select-items {
-            height: 54px;
-            padding-left: 14px;
+            height: 41px;
+            padding-left: 10px;
           }
           .vote_select-items label {
-            font-size: 18px;
+            font-size: 13px;
           }
           input[type="radio"] {
-            height: 12px;
-            width: 12px;
+            height: 9px;
+            width: 9px;
           }
           .favorite_comment {
-            bottom: 16px;
-            height: 24px;
-            font-size: 16px;
+            bottom: 15px;
+            font-size: 13px;
           }
           .favorite {
             margin-right: 11px;
-          }
-          button {
-            bottom: 18px;
-            right: 27px;
           }
         }
       `}</style>

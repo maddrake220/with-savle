@@ -128,7 +128,6 @@ function ArticleList() {
               }}
             />
           </div>
-
           <ul className="goal-list">
             {!data
               ? [0, 1, 2, 3, 4, 5].map((v, index) => <GoalCard key={index} />)
