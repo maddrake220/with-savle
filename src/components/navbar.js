@@ -18,6 +18,7 @@ const style = css`
     z-index: 999;
     position: fixed;
     top: 0;
+    z-index: 1;
   }
   .active {
     font-weight: bold;
