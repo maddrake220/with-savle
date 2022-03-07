@@ -1,8 +1,11 @@
 import server from "@/config/server";
 import axios from "axios";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { mutate } from "swr";
 import NewGoalCategoryButton from "./NewGoalCategoryButton";
-
+import { goal_address } from "../../pages/goal";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
+import NewGoalCharSvg from "./svg/NewGoalCharSvg";
 const MAX_GOAL_CATEGORY = 2;
 const categories = [
   { id: 0, text: "10대", value: 10 },
@@ -19,16 +22,21 @@ const recommendGoalCategories = [
 ];
 
 const postNewGoal = async (data) => {
-  return await axios.post(`${server}/api/goal`, { params: data });
+  const res = await axios.post(`${server}/api/goal`, { params: data });
+  mutate(goal_address);
+  return res;
 };
 
-export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
+export default function NewGoalForm({ toggleNewGoal, onCloseModal }) {
+  const matchQuery = useBreakpoint();
   const [selectedAge, setSelectedAge] = useState(null);
   const [isFocusedCategoryInput, setIsFocusedCategoryInput] = useState(false);
   const [seletedGoalCategories, setSelectedGoalCategories] = useState([]);
   const textareaRef = useRef(null);
   const inputRef = useRef(null);
   const selectedRef = useRef(null);
+  const sectionRef = useRef(null);
+
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -51,12 +59,13 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
         categories,
         age,
         text,
+        likes: 0,
       };
       postNewGoal(data)
-        .then((resolve) => resolve.status === 200 && onClickCloseModal())
-        .catch((error) => console.log(error));
+        .then((resolve) => resolve.status === 200 && onCloseModal())
+        .catch((error) => alert(error, "fail to post"));
     },
-    [seletedGoalCategories, textareaRef, selectedAge, onClickCloseModal],
+    [seletedGoalCategories, textareaRef, selectedAge, onCloseModal],
   );
   const onClickselectedAge = useCallback((value) => {
     setSelectedAge(value);
@@ -102,13 +111,17 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
     inputRef.current.style.maxWidth = 160 - width + "px";
   }, [seletedGoalCategories]);
   return (
-    <section onClick={(e) => e.stopPropagation()}>
+    <section onClick={(e) => e.stopPropagation()} ref={sectionRef}>
       <h1>목표 작성하기</h1>
       <div className="modal-top">
-        <svg onClick={onClickCloseModal} width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14.25 4.75L4.75 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M4.75 4.75L14.25 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        {matchQuery.sm ? (
+          <svg onClick={onCloseModal} width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.25 4.75L4.75 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M4.75 4.75L14.25 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ) : (
+          <NewGoalCharSvg style={{ marginTop: "7px", position: "absolute", right: "11px" }} />
+        )}
       </div>
       <main>
         <form onSubmit={onSubmit}>
@@ -117,7 +130,7 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
               <span>연령대</span>
             </label>
             <ul className="age-list">
-              {categories.map((category) => (
+              {categories?.map((category) => (
                 <NewGoalCategoryButton
                   className="age-button"
                   key={category.id}
@@ -154,7 +167,13 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
                 ))}
               </ul>
               <button type="submit" className="submit-button">
-                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width={matchQuery.sm ? "17" : "28"}
+                  height={matchQuery.sm ? "17" : "28"}
+                  viewBox="0 0 17 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M16.9617 0.728633C17.0004 0.632095 17.0098 0.526338 16.9889 0.424475C16.968 0.322611 16.9177 0.22912 16.8442 0.155592C16.7706 0.0820638 16.6771 0.0317319 16.5753 0.0108363C16.4734 -0.0100594 16.3677 -0.000599851 16.2711 0.0380421L0.815694 6.22042H0.814631L0.334405 6.41166C0.243449 6.44794 0.164292 6.50866 0.105677 6.58711C0.0470617 6.66555 0.0112702 6.75867 0.00225581 6.85618C-0.00675857 6.95369 0.011355 7.05179 0.0545957 7.13965C0.0978364 7.22751 0.164521 7.30171 0.247284 7.35405L0.682888 7.63029L0.68395 7.63242L5.99088 11.0089L7.68017 13.6629C8.50038 14.8741 8.50038 13.8116 8.50038 13.2804C8.50025 12.6053 8.64309 11.9378 8.91951 11.3219C9.19592 10.706 9.59964 10.1556 10.1041 9.70697C10.6085 9.25833 11.2023 8.9216 11.8462 8.71896C12.4902 8.51631 13.1698 8.45234 13.8402 8.53125L16.9617 0.728633ZM15.0142 2.73666L7.05226 10.6986L6.82383 10.3395C6.78198 10.2736 6.72612 10.2178 6.66022 10.1759L6.30111 9.94749L14.2631 1.98551L15.5147 1.4851L15.0153 2.73666H15.0142Z"
                     fill="#3178FF"
@@ -181,9 +200,10 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
             position: absolute;
             top: 0;
             bottom: 0;
-            left: calc(50% - 8.625rem);
+            left: 7%;
             margin: auto 0;
-            width: 17.25rem;
+            max-width: 30.188rem;
+            width: 86%;
             height: 16.938rem;
             border-radius: 0.5rem;
             background: #fff;
@@ -204,22 +224,23 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
           }
           form {
             margin: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
           }
           .age-list-container {
+            margin-top: 0.875rem;
             display: flex;
-            justify-content: center;
             white-space: pre;
-            gap: 43px;
+            gap: 8px 50px;
           }
           .age-list-container label {
-            margin-top: 0.875rem;
             font-weight: bold;
             font-size: 0.813rem;
             line-height: 1.25rem;
             color: #2d2d2d;
           }
           .age-list {
-            margin-top: 10px;
             display: flex;
             flex-wrap: wrap;
             gap: 0.25rem 0.5rem;
@@ -230,7 +251,7 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
             background: #f7f8fa;
             border-radius: 4px;
             border: none;
-            width: 12.625rem;
+            width: 85%;
             height: 4.813rem;
             padding: 0.5rem 1rem;
           }
@@ -267,14 +288,6 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
             outline: none;
           }
           .goal-category-list {
-            position: absolute;
-            top: 50px;
-            left: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-          }
-          .goal-category-recommend-list {
             position: absolute;
             top: 50px;
             left: 0;
@@ -339,6 +352,85 @@ export default function NewGoalForm({ toggleNewGoal, onClickCloseModal }) {
             background: #e8f3ff;
             border-radius: 4px;
             border: none;
+          }
+          @media (min-width: 576px) {
+            section {
+              left: calc(50% - 15.94rem);
+              height: 32.563rem;
+              border-radius: 1rem;
+            }
+            section .modal-top {
+              height: 3.625rem;
+            }
+            .text {
+              width: 94%;
+              height: 14.625rem;
+            }
+            form {
+              margin: 0 2rem;
+            }
+            .age-list-container {
+              flex-direction: column;
+              transform: translateX(-3rem);
+            }
+            .goal-category-wrapper {
+              margin-top: 1rem;
+              transform: translateX(-0.5rem);
+            }
+            .input-box {
+              width: 19.375rem;
+              height: 3.375rem;
+            }
+            .goal-category-search-input {
+              max-width: 19.375rem;
+              height: 3.375rem;
+            }
+            .goal-category-list {
+              top: 80px;
+            }
+            .goal-category-list li {
+              display: ${isFocusedCategoryInput ? "flex" : "none"};
+              padding: 0px;
+              background: #ffffff;
+              width: 10.5rem;
+              height: 2.25rem;
+              font-size: 13px;
+              line-height: 20px;
+              color: #36332e;
+              align-items: center;
+              cursor: pointer;
+            }
+            .selected-goal-categories {
+              left: 3px;
+              top: 34px;
+              display: flex;
+              gap: 0.25rem;
+              font-weight: bold;
+            }
+            .selected-goal-categories li {
+              border: 1px solid #73bcff;
+              color: #73bcff;
+              height: 1rem;
+              padding: 0.2rem 0.6rem;
+              font-size: 1rem;
+              line-height: 26px;
+            }
+            .submit-button {
+              margin-left: 15px;
+              width: 5.125rem;
+              height: 3.375rem;
+              border-radius: 4px;
+            }
+          }
+
+          @media (min-width: 1200px) {
+            section {
+              top: auto;
+              left: auto;
+              right: 5.625rem;
+              bottom: 5rem;
+              max-height: 32.563rem;
+            }
           }
         `}
       </style>
