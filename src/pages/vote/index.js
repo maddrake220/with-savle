@@ -3,10 +3,29 @@ import Head from "next/head";
 import Link from "next/link";
 import server from "@/config/server";
 import axios from "axios";
-import VoteBox from "@/components/voteBox";
+import VoteBox from "@/components/vote/VoteBox";
+import { useRouter } from "next/router";
 
 function Vote({ data }) {
   console.log(data);
+  const router = useRouter();
+
+  const onClick = (id, likes, title, text, voteSelect, item) => {
+    router.push(
+      {
+        pathname: `/vote/${id}`,
+        query: {
+          id,
+          likes,
+          title,
+          text,
+          voteSelect,
+        },
+      },
+      `/vote/${id}`,
+    );
+  };
+
   return (
     <>
       <Head>
@@ -29,11 +48,13 @@ function Vote({ data }) {
         <section className="vote_box_list">
           <ul className="vote_box_list_container">
             {data.results.map((voteBoxData) => (
-              <Link href={`/vote/${voteBoxData.id}`} key={voteBoxData.id}>
-                <a>
-                  <VoteBox voteBoxData={voteBoxData} />
-                </a>
-              </Link>
+              <li key={voteBoxData.id}>
+                <Link href={`/vote/${voteBoxData.id}`}>
+                  <a>
+                    <VoteBox voteBoxData={voteBoxData} />
+                  </a>
+                </Link>
+              </li>
             ))}
           </ul>
         </section>

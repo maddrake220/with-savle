@@ -18,7 +18,6 @@ const style = css`
     position: absolute;
     color: #fff;
     font-weight: bold;
-
     text-align: center;
     left: 50%;
     transform: translate(-50%);
@@ -36,7 +35,11 @@ function ShortcutBar() {
   return (
     <>
       <div className="wrap">
-        {isMobile ? <MobileBackgroundBox width="100%" className="backgroundBox" /> : <BackgroundBox width="100%" className="backgroundBox" />}
+        {isMobile ? (
+          <MobileBackgroundBox width="100%" className="backgroundBox" style={{ display: "block" }} />
+        ) : (
+          <BackgroundBox width="100%" className="backgroundBox" style={{ display: "block" }} />
+        )}
         <h2 className={isMobile && "mobile"}>
           쉽고 FUN한 저축
           <br /> SAVLE

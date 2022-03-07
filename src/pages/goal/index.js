@@ -114,7 +114,6 @@ function Goal({ data }) {
               }}
             />
           </div>
-
           <ul className="goal-list">
             {data
               .filter((value) => {
