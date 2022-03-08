@@ -10,7 +10,7 @@ import Comment from "@/components/Comment";
 function VoteById({ data }) {
   console.log(data);
 
-  const { title, text, likes, voteSelect, voteComments } = data.results;
+  const { id, title, text, likes, voteSelect, voteComments } = data.results;
   // 좋아요 상태관리
   const [like, setLike] = useState(false);
   // 선택한 투표 항목 값 상태관리
@@ -94,7 +94,7 @@ function VoteById({ data }) {
           </div>
           <Image src="/img/share.svg" alt="Share" width={20} height={20} onClick={copy} />
         </div>
-        <Comment Comments={voteComments} value="vote" />
+        <Comment Comments={voteComments} id={id} value="vote" />
         <Link href={`/vote`}>
           <a className="back_btn">
             <button>목록보기</button>

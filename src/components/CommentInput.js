@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import server from "@/config/server";
 import css from "styled-jsx/css";
+import axios from "axios";
 
 const style = css`
   .input_box {
@@ -11,6 +12,7 @@ const style = css`
     padding: 7px 12px 34px;
     box-sizing: border-box;
     position: relative;
+    background: #fff;
   }
   textarea {
     width: 100%;
@@ -69,10 +71,10 @@ const style = css`
   }
 `;
 
-const CommentInput = ({ value }) => {
+const CommentInput = ({ value, id }) => {
   const [comment, setComment] = useState("");
   const textRef = useRef();
-
+  console.log(id);
   const handelResizeHieght = useCallback(() => {
     textRef.current.style.height = "20px";
     textRef.current.style.height = textRef.current.scrollHeight + "px";
@@ -83,7 +85,7 @@ const CommentInput = ({ value }) => {
     const res = await axios.post(`${server}/api/${value}/comment`, {
       params: {
         text: comment,
-        id: Date.now(),
+        id: id,
       },
     });
   };

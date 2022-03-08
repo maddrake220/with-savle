@@ -38,9 +38,8 @@ const style = css`
     }
   }
 `;
-const Comment = ({ Comments, value }) => {
+const Comment = ({ Comments, value, id }) => {
   const [hidden, setHidden] = useState(true);
-  console.log(localStorage);
   const handleHiddenComment = () => {
     setHidden(!hidden);
   };
@@ -50,7 +49,7 @@ const Comment = ({ Comments, value }) => {
         <p>댓글</p>
         <Toggle onClick={handleHiddenComment} hidden={hidden} />
       </div>
-      <CommentInput value={value} />
+      <CommentInput value={value} id={id} />
       {!hidden && Comments !== [] && Comments.map((data) => <CommentText data={data} key={data.id} />)}
       <style jsx>{style}</style>
     </div>
