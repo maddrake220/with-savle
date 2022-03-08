@@ -40,7 +40,6 @@ const style = css`
 `;
 const Comment = ({ Comments, value }) => {
   const [hidden, setHidden] = useState(true);
-  console.log(localStorage);
   const handleHiddenComment = () => {
     setHidden(!hidden);
   };
