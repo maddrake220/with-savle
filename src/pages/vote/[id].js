@@ -5,6 +5,7 @@ import Favorite from "public/img/Favorite.svg";
 import server from "@/config/server";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Comment from "@/components/Comment";
 
 function VoteById({ data }) {
   console.log(data);
@@ -93,12 +94,12 @@ function VoteById({ data }) {
           </div>
           <Image src="/img/share.svg" alt="Share" width={20} height={20} onClick={copy} />
         </div>
+        <Comment Comments={voteComments} value="vote" />
         <Link href={`/vote`}>
           <a className="back_btn">
             <button>목록보기</button>
           </a>
         </Link>
-
         <style jsx>{`
           .container {
             height: 100vh;
