@@ -1,4 +1,3 @@
-import axios from "axios";
 import Head from "next/head";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { useCallback, useEffect, useState } from "react";
@@ -8,44 +7,10 @@ import GoalCard from "@/components/goal/GoalCard";
 import NewGoalForm from "@/components/goal/NewGoalForm";
 import useSWR from "swr";
 import Image from "next/image";
-const fetcher = (server) => axios.get(server).then((r) => r.data);
+import { checkRangeAge } from "@/utils/goal/functions";
+import { ageList, ageRange } from "@/utils/goal/data";
+import { fetcher, goal_address } from "@/utils/swr";
 
-const categories = [
-  { id: 0, text: "전체", backgroundColor: "#3178FF" },
-  { id: 1, text: "10대", backgroundColor: " #FDD18F" },
-  { id: 2, text: "20대", backgroundColor: "#D9FBCD" },
-  { id: 3, text: "30대", backgroundColor: "#CADCFF" },
-  { id: 4, text: "40대 이상", backgroundColor: "#3178FF" },
-];
-const checkCategoryRange = (category) => {
-  let start;
-  let end;
-  switch (category) {
-    case 1:
-      start = 10;
-      end = 19;
-      break;
-    case 2:
-      start = 20;
-      end = 29;
-      break;
-    case 3:
-      start = 30;
-      end = 39;
-      break;
-    case 4:
-      start = 40;
-      end = 1000;
-      break;
-    default:
-      start = 0;
-      end = 1000;
-      break;
-  }
-  return { start, end };
-};
-
-export const goal_address = "/api/goal";
 export default function ArticleList() {
   const {
     data: { results: data },
@@ -54,13 +19,10 @@ export default function ArticleList() {
     revalidateOnFocus: false,
   });
   const queryMatch = useBreakpoint();
-  const [clickedCategory, setClickedCategory] = useState(0);
-  const [filtered, setFiltered] = useState({ start: 0, end: 1000 });
+  const [clickedAge, setClickedAge] = useState(0);
+  const [filtered, setFiltered] = useState(ageRange);
   const [selectedDropdown, setSelectedDropdown] = useState("newest");
   const [toggleNewGoal, setToggleNewGoal] = useState(false);
-  const onClickModalBack = useCallback(() => {
-    setToggleNewGoal(false);
-  }, []);
   const onCloseModal = useCallback(() => {
     setToggleNewGoal(false);
   }, []);
@@ -68,14 +30,14 @@ export default function ArticleList() {
     setSelectedDropdown(event.target.value);
   };
   const onClick = useCallback((id) => {
-    setClickedCategory(id);
+    setClickedAge(id);
   }, []);
   const onClickNewGoal = useCallback(() => {
     setToggleNewGoal(true);
   }, []);
   useEffect(() => {
-    setFiltered(checkCategoryRange(clickedCategory));
-  }, [clickedCategory]);
+    setFiltered(checkRangeAge(clickedAge));
+  }, [clickedAge]);
   if (error) {
     return null;
   }
@@ -101,11 +63,11 @@ export default function ArticleList() {
         </div>
       </header>
       <main>
-        <div className={`${queryMatch?.sm ? "goal-categories-small" : "container"}`}>
-          <ul className={`goal-categories`}>
-            {categories.map((category) => (
-              <li key={category.id}>
-                <CategoryButton id={category.id} text={category.text} backgroundColor={category.backgroundColor} onClick={onClick} clicked={clickedCategory} />
+        <div className={`${queryMatch?.sm ? "age-list-small" : "container"}`}>
+          <ul className={`age-list`}>
+            {ageList.map((age) => (
+              <li key={age.id}>
+                <CategoryButton id={age.id} text={age.text} backgroundColor={age.backgroundColor} onClick={onClick} clicked={clickedAge} />
               </li>
             ))}
           </ul>
@@ -169,7 +131,7 @@ export default function ArticleList() {
           height={queryMatch?.sm ? 59 : queryMatch?.md ? 110 : 110}
         />
       </div>
-      <div className={`new-goal-modal-back`} onClick={onClickModalBack}>
+      <div className={`new-goal-modal-back`} onClick={onCloseModal}>
         <NewGoalForm toggleNewGoal={toggleNewGoal} onCloseModal={onCloseModal} />
       </div>
       <style jsx>{`
@@ -212,10 +174,10 @@ export default function ArticleList() {
           background: rgba(143, 201, 255, 0.15);
           padding-bottom: 5rem;
         }
-        .goal-categories-small {
+        .age-list-small {
           margin-left: 1rem;
         }
-        main .goal-categories {
+        main .age-list {
           height: 3.875rem;
           display: flex;
           align-items: center;
@@ -223,10 +185,10 @@ export default function ArticleList() {
           -ms-overflow-style: none; /* IE and Edge */
           scrollbar-width: none; /* Firefox */
         }
-        main .goal-categories li:not(:first-child) {
+        main .age-list li:not(:first-child) {
           margin-left: 0.75rem;
         }
-        main .goal-categories::-webkit-scrollbar {
+        main .age-list::-webkit-scrollbar {
           display: none;
         }
         main .goal-list-wrapper {
@@ -307,7 +269,7 @@ export default function ArticleList() {
             font-size: 1.75rem;
             line-height: 2.25rem;
           }
-          main .goal-categories {
+          main .age-list {
             padding-top: 1rem;
           }
           main .goal-list {

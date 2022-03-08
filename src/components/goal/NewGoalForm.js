@@ -1,18 +1,13 @@
-import server from "@/config/server";
-import axios from "axios";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { mutate } from "swr";
 import NewGoalCategoryButton from "./NewGoalCategoryButton";
-import { goal_address } from "../../pages/goal";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import Image from "next/image";
+import { fetcher, goal_category_address } from "@/utils/swr";
+import { postNewGoal } from "@/utils/goal/api";
+import { newGoalAgeList } from "@/utils/goal/data";
+
 const MAX_GOAL_CATEGORY = 2;
-const categories = [
-  { id: 0, text: "10대", value: 10 },
-  { id: 1, text: "20대", value: 20 },
-  { id: 2, text: "30대", value: 30 },
-  { id: 3, text: "40대 이상", value: 40 },
-];
+
 const recommendGoalCategories = [
   { id: 0, value: "내집마련" },
   { id: 1, value: "냉장고" },
@@ -20,12 +15,6 @@ const recommendGoalCategories = [
   { id: 3, value: "결혼" },
   { id: 4, value: "수입차구매" },
 ];
-
-const postNewGoal = async (data) => {
-  const res = await axios.post(`${server}/api/goal`, { params: data });
-  mutate(goal_address);
-  return res;
-};
 
 export default function NewGoalForm({ toggleNewGoal, onCloseModal }) {
   const matchQuery = useBreakpoint();
@@ -36,7 +25,9 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal }) {
   const inputRef = useRef(null);
   const selectedRef = useRef(null);
   const sectionRef = useRef(null);
-
+  // const { data, error } = useSWR(goal_category_address, fetcher, {
+  //   revalidateOnFocus: false,
+  // });
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -132,15 +123,15 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal }) {
               <span>연령대</span>
             </label>
             <ul className="age-list">
-              {categories?.map((category) => (
+              {newGoalAgeList?.map((age) => (
                 <NewGoalCategoryButton
                   className="age-button"
-                  key={category.id}
-                  id={category.id}
+                  key={age.id}
+                  id={age.id}
                   onClick={onClickselectedAge}
                   clicked={selectedAge}
-                  text={category.text}
-                  value={category.value}
+                  text={age.text}
+                  value={age.value}
                 />
               ))}
             </ul>

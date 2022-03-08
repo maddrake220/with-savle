@@ -1,17 +1,12 @@
-import server from "@/config/server";
-import axios from "axios";
+import { localstorageLike } from "@/utils/goal/constants";
+import { putLike } from "@/utils/goal/api";
+import { getAgeGeneration } from "@/utils/goal/functions";
 import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import GoalLike from "./GoalLike";
 
-const getAgeGeneration = (age) => {
-  return age >= 10 && age < 20 ? "10대" : age >= 20 && age < 30 ? "20대" : age >= 30 && age < 40 ? "30대" : age >= 40 ? "40대 이상" : "어린이";
-};
-const putLike = async (id, like) => {
-  await axios.put(`${server}/api/goal/like`, { params: { id, like } });
-};
 export default function GoalCard({ id, age, categories, comments, likes, text }) {
   const [like, setLike] = useState(false);
   const [likeNums, setLikeNums] = useState();
@@ -19,20 +14,19 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
     setLikeNums(likes);
   }, [likes]);
   useEffect(() => {
-    const likes = localStorage.getItem("goal-like");
+    const likes = localStorage.getItem(localstorageLike);
     likes !== null ? setLike(likes.includes(id)) : setLike(false);
   }, [id]);
 
   const onClickLike = useCallback(
     (e) => {
       e.stopPropagation();
-      const likes = localStorage.getItem("goal-like");
-      console.log(likes);
+      const likes = localStorage.getItem(localstorageLike);
       let arrlikes = [];
       let newLikes = [];
       arrlikes = likes !== null ? likes.split(",") : [""];
       !like ? (newLikes = [...arrlikes, id]) : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
-      localStorage.setItem("goal-like", newLikes);
+      localStorage.setItem(localstorageLike, newLikes);
       putLike(id, !like);
       !like ? setLikeNums((like) => (like = like + 1)) : setLikeNums((like) => (like = like - 1));
       setLike((like) => !like);
