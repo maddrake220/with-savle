@@ -4,7 +4,7 @@ export default function CategoryButton({ id, text, backgroundColor = "#fff", onC
   return (
     <>
       <button
-        onClick={() => {
+        onClick={(e) => {
           onClick(id);
         }}
       >

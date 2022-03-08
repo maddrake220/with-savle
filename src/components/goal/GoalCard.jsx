@@ -1,41 +1,66 @@
+import server from "@/config/server";
+import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const getAgeGeneration = (age) => {
   return age >= 10 && age < 20 ? "10대" : age >= 20 && age < 30 ? "20대" : age >= 30 && age < 40 ? "30대" : age >= 40 ? "40대 이상" : "어린이";
 };
+const putLike = async (id, like) => {
+  await axios.put(`${server}/api/goal/like`, { params: { id, like } });
+};
 export default function GoalCard({ id, age, categories, comments, likes, text }) {
   const [like, setLike] = useState(false);
-
+  const [likeNums, setLikeNums] = useState(likes);
   useEffect(() => {
     const likes = localStorage.getItem("goal-like");
     likes !== null ? setLike(likes.includes(id)) : setLike(false);
   }, [id]);
 
-  const onClick = useCallback(() => {
-    const likes = localStorage.getItem("goal-like");
-    let arrlikes = [];
-    let newLikes = [];
-    arrlikes = likes !== null && likes.split(",");
-    !like ? (newLikes = [...arrlikes, id]) : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
-    localStorage.setItem("goal-like", newLikes);
-    setLike((like) => !like);
-  }, [id, like]);
+  const onClick = useCallback(
+    (e) => {
+      e.stopPropagation();
+      const likes = localStorage.getItem("goal-like");
+      console.log(likes);
+      let arrlikes = [];
+      let newLikes = [];
+      arrlikes = likes !== null ? likes.split(",") : [""];
+      !like ? (newLikes = [...arrlikes, id]) : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
+      localStorage.setItem("goal-like", newLikes);
+      putLike(id, !like);
+      !like ? setLikeNums((like) => (like = like + 1)) : setLikeNums((like) => (like = like - 1));
+      setLike((like) => !like);
+    },
+    [id, like],
+  );
 
+  const onClickCard = useCallback(() => {
+    alert("상세페이지로 이동 구현X");
+  }, []);
   return (
-    <li className="goal-card" key={id}>
+    <li className="goal-card" key={id} onClick={onClickCard}>
       <div className="goal-card-wrapper">
         <div className="card-user-info">
-          <span>익명의 {id}님</span>
-          <span className="card-info-user-age">{getAgeGeneration(age)}</span>
+          <span>{id ? `익명의 ${id}님` : <Skeleton width={120} height={20} count={1} inline={true} />}</span>
+          <span className="card-info-user-age">{age ? getAgeGeneration(age) : <Skeleton width={60} height={20} count={1} inline={true} />}</span>
         </div>
         <ul className="card-categories">
-          {categories.map((category, index) => (
-            <li key={index} className="card-category">
-              <span>{category}</span>
-            </li>
-          ))}
+          {categories
+            ? categories.map((category, index) => (
+                <li key={index} className="card-category">
+                  <span>{category}</span>
+                </li>
+              ))
+            : [1, 2, 3].map((v, i) => (
+                <li key={i}>
+                  <span>
+                    <Skeleton style={{ marginRight: "10px" }} width={40} height={25} count={1} />
+                  </span>
+                </li>
+              ))}
         </ul>
-        <div className="card-text">{text}</div>
+        <div className="card-text">{text || <Skeleton height={20} count={4} />}</div>
         <div className="card-side">
           <div className="card-likes">
             <svg style={{ cursor: "pointer" }} onClick={onClick} width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -46,7 +71,7 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
                 strokeWidth="1.5"
               />
             </svg>
-            <span>{likes}</span>
+            <span>{likeNums}</span>
           </div>
           <div className="card-comments">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +84,7 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
               <circle cx="8" cy="11" r="1" fill="#2D2D2D" />
             </svg>
 
-            <span>{comments.length}</span>
+            <span>{comments ? comments.length : <Skeleton width={20} count={1} />}</span>
           </div>
           <div className="card-more">
             <span>더보기 &gt;</span>
@@ -74,6 +99,7 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
           padding: 0px;
         }
         .goal-card {
+          cursor: pointer;
           width: 17.25rem;
           height: 16.938rem;
           background: #ffffff;
