@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import MainVoteBox from "@/components/vote/MainVoteBox";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
-import { mockDatas } from "@/pages/vote/voteMockData";
+import { mockDatas } from "@/utils/voteMockData";
 
 function SampleNextArrow(props) {
   const { className, onClick } = props;
@@ -16,7 +16,6 @@ function SampleNextArrow(props) {
         .slick-arrow {
           display: flex;
           justify-content: end;
-          /* background: red; */
           position: absolute;
           top: 44%;
         }
@@ -50,8 +49,6 @@ function SamplePrevArrow(props) {
 
 export default function MainVoteSection() {
   const breakpoints = useBreakpoint();
-  console.log(breakpoints);
-
   const settings = {
     dots: false,
     infinite: true,
@@ -93,7 +90,7 @@ export default function MainVoteSection() {
       <ul className="votebox_container">
         <Slider {...settings}>
           {mockDatas.results.map((mockData) => (
-            <MainVoteBox mockData={mockData} key={mockData.title} /> // 현재 Mock데이터에는 고유한 id 번호가 없기 때문에 title로 키를 넣었음.
+            <MainVoteBox mockData={mockData} key={mockData.title} />
           ))}
         </Slider>
       </ul>
@@ -108,7 +105,7 @@ export default function MainVoteSection() {
         </div>
       ) : (
         <div className="vote_woman_group">
-          <Image layout="responsive" src="/img/woman_group.svg" alt="woman_group" width={116} height={154} />
+          <Image layout="responsive" src="/img/woman_group.svg" alt="woman_group" width={116} height={154} priority={true} />
         </div>
       )}
       {breakpoints.sm === true ? (
@@ -117,11 +114,10 @@ export default function MainVoteSection() {
         </div>
       ) : (
         <div className="vote_man_group">
-          <Image layout="responsive" src="/img/man_group.svg" alt="man_group" width={139} height={190} />
+          <Image layout="responsive" src="/img/man_group.svg" alt="man_group" width={139} height={190} priority={true} />
         </div>
       )}
       <style jsx>{`
-        // 고민해결소 스타일
         .vote_section {
           background-color: #f7f8fa;
           margin: 0 auto;

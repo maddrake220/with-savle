@@ -8,21 +8,15 @@ import { useRouter } from "next/router";
 import Comment from "@/components/Comment";
 
 function VoteById({ data }) {
-  console.log(data);
-
-  const { id, title, text, likes, voteSelect, voteComments } = data.results;
-  // 좋아요 상태관리
+  const breakpoint = useBreakpoint();
+  const { title, text, likes, voteSelect, voteComments } = data.results;
   const [like, setLike] = useState(false);
-  // 선택한 투표 항목 값 상태관리
-  const [selItemValue, setSelItemValue] = useState();
-  // 투표하기 버튼 활성화 상태관리
   const [btnColor, setBtnColor] = useState({
     voteBtnBg: "#d5d8dc",
     voteBtntextColor: "#B2B2B2",
   });
-  const [copySuccess, setCopySuccess] = useState("");
-  const textAreaRef = useRef(null);
-  // 투표 항목 클릭시 상태변화
+  const [copySuccess, setCopySuccess] = useState(null);
+  const [modalActive, setModalActive] = useState(false);
   const [clickedItem, setClickedItem] = useState(Array(voteSelect.length).fill(false));
   // 전체 투표수 관리
   const [totalVotes, setTotalVotes] = useState(0);
@@ -94,7 +88,7 @@ function VoteById({ data }) {
           </div>
           <Image src="/img/share.svg" alt="Share" width={20} height={20} onClick={copy} />
         </div>
-        <Comment Comments={voteComments} id={id} value="vote" />
+        <Comment Comments={voteComments} value="vote" />
         <Link href={`/vote`}>
           <a className="back_btn">
             <button>목록보기</button>

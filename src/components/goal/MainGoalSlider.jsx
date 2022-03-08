@@ -57,48 +57,25 @@ export default function MainGoalSlider() {
   };
 
   const goalItems = Data.results;
-  const arr = ["임시배열1", "임시배열2"];
 
   return (
     <div>
       {/* slice 넣는 곳 */}
       <ul className="goal-slider">
-        {goalItems.map((item) => {
-          <h1>{item.text}</h1>;
-          console.log(item.text);
-        })}
-
-        {arr.map((item) => {
-          <h2>{item}</h2>;
-          console.log(item);
-        })}
-
         <Slider {...settings}>
-          {/* {goalItems.map((item) => {
-            <MainGoalItem id={item.id} age={item.age} text={item.text} likes={item.likes} comments={item.comments.length} />;
-            console.log(item.id + "번째 아이템 호출됨");
-          })} */}
-          <MainGoalItem
-            id="301"
-            age="25"
-            text="세상이 빠르게 변할수록 '혁신'이라는 말도 자주 등장합니다. 하지만 진정한 혁신의 순간이란 그리 자주 찾아오지 않죠.세상이 빠르게 변할수록 '혁신'이라는 말도 자주 등장합니다. 하지만 진정한 혁신의 순간이란 그리 자주 찾아오지 않죠."
-            likes="213"
-            comments="4"
-          />
-          <MainGoalItem
-            id="301"
-            age="25"
-            text="세상이 빠르게 변할수록 '혁신'이라는 말도 자주 등장합니다. 하지만 진정한 혁신의 순간이란 그리 자주 찾아오지 않죠.세상이 빠르게 변할수록 '혁신'이라는 말도 자주 등장합니다. 하지만 진정한 혁신의 순간이란 그리 자주 찾아오지 않죠."
-            likes="213"
-            comments="4"
-          />
-          <MainGoalItem
-            id="301"
-            age="25"
-            text="세상이 빠르게 변할수록 '혁신'이라는 말도 자주 등장합니다. 하지만 진정한 혁신의 순간이란 그리 자주 찾아오지 않죠.세상이 빠르게 변할수록 '혁신'이라는 말도 자주 등장합니다. 하지만 진정한 혁신의 순간이란 그리 자주 찾아오지 않죠."
-            likes="213"
-            comments="4"
-          />
+          {goalItems.map((item) => {
+            return (
+              <MainGoalItem
+                id={item.id}
+                age={item.age}
+                categories={item.categories.slice(0, 2)}
+                text={item.text}
+                likes={item.likes}
+                comments={item.comments.length}
+                key={item.id}
+              />
+            );
+          })}
         </Slider>
       </ul>
       <style jsx>{`
