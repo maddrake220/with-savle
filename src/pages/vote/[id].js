@@ -312,25 +312,25 @@ function VoteById({ data }) {
 }
 
 export async function getStaticProps(context) {
-  const { id } = context.params;
-  const { data } = await axios.get(`${server}/api/vote/${id}`);
+  // const { id } = context.params;
+  // const { data } = await axios.get(`${server}/api/vote/${id}`);
   return {
     props: {
-      data,
+      data: {},
     },
   };
 }
 
 export const getStaticPaths = async () => {
-  const { data } = await axios.get(`${server}/api/vote`);
-  const ids = data.results.map((data) => data.id);
-  const paths = ids.map((id) => {
-    return {
-      params: { id: id.toString() },
-    };
-  });
+  // const { data } = await axios.get(`${server}/api/vote`);
+  // const ids = data.results.map((data) => data.id);
+  // const paths = ids.map((id) => {
+  //   return {
+  //     params: { id: id.toString() },
+  //   };
+  // });
   return {
-    paths,
+    paths: [],
     fallback: false,
   };
 };
