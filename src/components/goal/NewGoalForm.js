@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import NewGoalCategoryButton from "./NewGoalCategoryButton";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import Image from "next/image";
-import { fetcher, goal_category_address } from "@/utils/swr";
 import { postNewGoal } from "@/utils/goal/api";
 import { newGoalAgeList } from "@/utils/goal/data";
-
+import axios from "axios";
+import server from "@/config/server";
 const MAX_GOAL_CATEGORY = 2;
 
 const recommendGoalCategories = [
@@ -16,18 +16,21 @@ const recommendGoalCategories = [
   { id: 4, value: "수입차구매" },
 ];
 
+const getGoalCategoryByAge = async (age) => {
+  return await axios.get(`${server}/api/goal/category`, { params: { age } });
+};
 export default function NewGoalForm({ toggleNewGoal, onCloseModal }) {
   const matchQuery = useBreakpoint();
   const [selectedAge, setSelectedAge] = useState(null);
   const [isFocusedCategoryInput, setIsFocusedCategoryInput] = useState(false);
   const [seletedGoalCategories, setSelectedGoalCategories] = useState([]);
+  const [categoryByAge, setCategoryByAge] = useState([]);
+  const [searchingCategoryByAge, setSearchingCategoryByAge] = useState([]);
+  const [searchCategory, setSearchCategory] = useState("");
   const textareaRef = useRef(null);
   const inputRef = useRef(null);
   const selectedRef = useRef(null);
   const sectionRef = useRef(null);
-  // const { data, error } = useSWR(goal_category_address, fetcher, {
-  //   revalidateOnFocus: false,
-  // });
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -44,7 +47,7 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal }) {
         alert("test) 목표 카테고리를 골라주세요!");
         return;
       }
-      const categories = seletedGoalCategories.map((v) => v.value);
+      const categories = seletedGoalCategories.map((v) => v.keyword);
       const age = selectedAge.value;
       const data = {
         categories,
@@ -60,13 +63,10 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal }) {
   );
   const onClickselectedAge = useCallback((value) => {
     setSelectedAge(value);
+    setSelectedGoalCategories([]);
+    setSearchCategory("");
   }, []);
 
-  const onKeyDown = useCallback((e) => {
-    if (e.key === "Enter") {
-      alert("asd");
-    }
-  }, []);
   const onFocus = useCallback((e) => {
     setIsFocusedCategoryInput(true);
   }, []);
@@ -93,6 +93,14 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal }) {
       return values.filter((v) => v.id !== value.id);
     });
   }, []);
+  const onChangeSearchCategory = useCallback((e) => {
+    setSearchCategory(e.target.value);
+  }, []);
+  useEffect(() => {
+    if (searchCategory !== "") {
+      setSearchingCategoryByAge(categoryByAge.filter((v) => v.keyword.includes(searchCategory)));
+    }
+  }, [searchCategory, categoryByAge]);
   useEffect(() => {
     textareaRef.current.focus();
   }, [toggleNewGoal]);
@@ -101,6 +109,13 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal }) {
     inputRef.current.style.left = `${width}px`;
     inputRef.current.style.maxWidth = 160 - width + "px";
   }, [seletedGoalCategories]);
+  useEffect(() => {
+    if (selectedAge !== null) {
+      getGoalCategoryByAge(selectedAge.value)
+        .then((resolve) => setCategoryByAge(resolve.data.results))
+        .catch((error) => console.log(error, "fail to get category"));
+    }
+  }, [selectedAge]);
   return (
     <section onClick={(e) => e.stopPropagation()} ref={sectionRef}>
       <h1>목표 작성하기</h1>
@@ -143,21 +158,38 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal }) {
             </label>
             <div className="goal-wrapper">
               <div className="input-box">
-                <input ref={inputRef} onFocus={onFocus} onBlur={onBlur} className="goal-category-search-input" onKeyDown={onKeyDown} />
+                <input
+                  ref={inputRef}
+                  onFocus={onFocus}
+                  onBlur={onBlur}
+                  className="goal-category-search-input"
+                  value={searchCategory}
+                  onChange={onChangeSearchCategory}
+                />
               </div>
               <ul className="selected-goal-categories" ref={selectedRef}>
                 {seletedGoalCategories?.map((seletedGoalCategory, index) => (
                   <li onMouseDown={(e) => onMouseDownUndoGoalCategory(e, seletedGoalCategory)} key={index}>
-                    {seletedGoalCategory.value}
+                    {seletedGoalCategory.keyword}
                   </li>
                 ))}
               </ul>
               <ul className="goal-category-list">
-                {recommendGoalCategories.map((goalCategory, index) => (
-                  <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
-                    {goalCategory.value}
-                  </li>
-                ))}
+                {categoryByAge.length === 0 ? (
+                  <li style={{ color: "red" }}>연령대를 선택해 주세요!</li>
+                ) : searchCategory === "" ? (
+                  categoryByAge.map((goalCategory, index) => (
+                    <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
+                      {goalCategory.keyword}
+                    </li>
+                  ))
+                ) : (
+                  searchingCategoryByAge.map((goalCategory, index) => (
+                    <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
+                      {goalCategory.keyword}
+                    </li>
+                  ))
+                )}
               </ul>
               <button type="submit" className="submit-button">
                 <svg
