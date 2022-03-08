@@ -193,11 +193,4 @@ function Vote() {
   );
 }
 
-// export async function getStaticProps() {
-//   const { data } = await axios.get(`${server}/api/vote`);
-//   return {
-//     props: { data },
-//   };
-// }
-
 export default Vote;
