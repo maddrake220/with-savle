@@ -9,14 +9,14 @@ function SavingCalc() {
   const [inputs, setInputs] = useState({ goal: "", goal_amount: "", saving_amount: "" });
   const [state, setState] = useState({ next: false, result: false, done: false });
   const data = { inputs, setInputs, state, setState };
-  const { sm: isMobile } = useBreakpoint();
+  const { sm: isMobile, md: isTablet } = useBreakpoint();
 
   return (
     <div style={{ background: "#f7f8fa" }}>
       <div className="container">
         <SavingCalcStep state={state} />
         <CalcInputBox data={data} />
-        <Character width={isMobile ? "141px " : "311px"} style={{ display: "block", margin: "0 auto" }} />
+        <Character width={isMobile ? "141px " : isTablet ? "214px" : "311px"} style={{ display: "block", margin: "0 auto" }} />
       </div>
       <ShortCutBar />
     </div>

@@ -6,7 +6,7 @@ const style = css`
   .title {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 30px;
+    margin-bottom: 27px;
     align-items: center;
   }
   h2 {
@@ -26,12 +26,34 @@ const style = css`
   }
   span {
     position: absolute;
-    top: 25px;
+    top: 45px;
     left: 0;
+  }
+  @media (min-width: 576px) {
+    .title {
+      margin-bottom: 17px;
+    }
+    h2 {
+      width: 113px;
+    }
+    h2::before {
+      width: 105px;
+    }
+    .goal {
+      margin-bottom: 151px;
+    }
+    input {
+      width: 267px;
+    }
+    span {
+      position: absolute;
+      top: 42px;
+      left: 0;
+    }
   }
   @media (min-width: 1200px) {
     .title {
-      margin-bottom: 33px;
+      margin-bottom: 31px;
     }
     h2 {
       width: 206px;
@@ -56,7 +78,7 @@ const style = css`
 const GoalInput = ({ inputs, setInputs, state, setState }) => {
   const [goal, setGoal] = useState("");
   const nextButtonFocus = goal.length > 0 && goal.length < 21;
-  const { sm: isMobile } = useBreakpoint();
+  const { sm: isMobile, md: isTablet } = useBreakpoint();
   const handleChange = useCallback((e) => {
     setGoal(e.target.value);
   }, []);
@@ -78,7 +100,7 @@ const GoalInput = ({ inputs, setInputs, state, setState }) => {
     <>
       <div className="title">
         <h2>저축 목표를 알려주세요.</h2>
-        <Book width={isMobile ? "63px" : "137px"} style={{ marginRight: "7px" }} />
+        <Book width={isMobile ? "63px" : isTablet ? "71px" : "137px"} style={{ marginRight: "7px" }} />
       </div>
       <div className="goal">
         <p>저의 목표는</p>

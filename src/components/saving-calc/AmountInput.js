@@ -10,7 +10,7 @@ const style = css`
   .title {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 34px;
+    margin-bottom: 35px;
   }
   h2 {
     width: 178px;
@@ -19,13 +19,34 @@ const style = css`
     width: 160px;
   }
   .amount {
-    margin-bottom: 55px;
+    margin-bottom: 59px;
   }
   .goal_amount {
-    margin-bottom: 28px;
+    margin-bottom: 29px;
   }
   input {
     width: 175px;
+  }
+  @media (min-width: 576px) {
+    .title {
+      margin-bottom: 21px;
+    }
+    h2 {
+      width: 192px;
+    }
+    h2::before {
+      width: 192px;
+    }
+    .amount {
+      margin-bottom: 30px;
+    }
+    .goal_amount {
+      margin-bottom: 20px;
+    }
+    input {
+      width: 248px;
+      margin: 10px 10px 2px 0;
+    }
   }
   @media (min-width: 1200px) {
     .title {
@@ -38,21 +59,21 @@ const style = css`
       width: 365px;
     }
     .amount {
-      margin-bottom: 57px;
+      margin-bottom: 58px;
     }
     .goal_amount {
       margin-bottom: 20px;
     }
     input {
       width: 488px;
-      margin: 35px 15px 0 0;
+      margin: 35px 15px 5px 0;
     }
   }
 `;
 
 const AmountInput = (props) => {
   const [amount, setAmount] = useState({ goal_amount: "", saving_amount: "" });
-  const { sm: isMobile } = useBreakpoint();
+  const { sm: isMobile, md: isTablet } = useBreakpoint();
   const { goal_amount, saving_amount } = amount;
   const { inputs, setInputs, state, setState } = props;
   const campareValue = Number(saving_amount.replaceAll(",", "")) < Number(goal_amount.replaceAll(",", ""));
@@ -107,15 +128,15 @@ const AmountInput = (props) => {
     <>
       <div className="title">
         <h2>목표 금액과 저축 금액을 알려주세요.</h2>
-        <PiggyBank width={isMobile ? "67px" : "146px"} />
+        <PiggyBank width={isMobile ? "67px" : isTablet ? "80px" : "146px"} />
       </div>
       <div className="amount">
         <div className="goal_amount">
           <p>목표 금액은</p>
           <p className="goal_amount_input">
             <input name="goal_amount" type="text" maxLength={16} placeholder="예) 70,000,000" onChange={handleChange} value={goal_amount}></input>원 입니다
-            <span className={goal_amount.length > 15 ? "" : "hidden"}>*입력범위를 초과했습니다.</span>
           </p>
+          <span className={goal_amount.length > 15 ? "" : "hidden"}>*입력범위를 초과했습니다.</span>
           <PlusButton mode="goal" handleClick={handleClick} />
         </div>
         <div className="saving_amount">
@@ -124,14 +145,14 @@ const AmountInput = (props) => {
             <input
               name="saving_amount"
               type="text"
-              maxLength={goal_amount.length}
+              maxLength={goal_amount.length + 1}
               placeholder="예) 500,000"
               onChange={handleChange}
               value={saving_amount}
             ></input>
             원 입니다
-            <span className={saving_amount !== "" && !campareValue ? "" : "hidden"}>*저축금액은 목표금액을 같거나 클 수 없습니다</span>
           </p>
+          <span className={saving_amount !== "" && !campareValue ? "" : "hidden"}>*저축금액은 목표금액을 같거나 클 수 없습니다</span>
           <PlusButton mode="saving" handleClick={handleClick} />
         </div>
       </div>
