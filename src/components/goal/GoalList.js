@@ -246,7 +246,6 @@ export default function ArticleList() {
           position: fixed;
           bottom: 1.688rem;
           right: 1rem;
-          z-index: 999;
         }
 
         .new-goal-modal-back {
