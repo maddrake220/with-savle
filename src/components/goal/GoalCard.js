@@ -12,7 +12,10 @@ const putLike = async (id, like) => {
 };
 export default function GoalCard({ id, age, categories, comments, likes, text }) {
   const [like, setLike] = useState(false);
-  const [likeNums, setLikeNums] = useState(likes);
+  const [likeNums, setLikeNums] = useState();
+  useEffect(() => {
+    setLikeNums(likes);
+  }, [likes]);
   useEffect(() => {
     const likes = localStorage.getItem("goal-like");
     likes !== null ? setLike(likes.includes(id)) : setLike(false);
@@ -71,7 +74,7 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
                 strokeWidth="1.5"
               />
             </svg>
-            <span>{likeNums}</span>
+            <span>{likes || likes === 0 ? likeNums : <Skeleton width={20} count={1} />}</span>
           </div>
           <div className="card-comments">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
