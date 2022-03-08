@@ -5,7 +5,7 @@ import { mutate } from "swr";
 import NewGoalCategoryButton from "./NewGoalCategoryButton";
 import { goal_address } from "../../pages/goal";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
-import NewGoalCharSvg from "./svg/NewGoalCharSvg";
+import Image from "next/image";
 const MAX_GOAL_CATEGORY = 2;
 const categories = [
   { id: 0, text: "10대", value: 10 },
@@ -120,7 +120,9 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal }) {
             <path d="M4.75 4.75L14.25 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         ) : (
-          <NewGoalCharSvg style={{ marginTop: "7px", position: "absolute", right: "11px" }} />
+          <div style={{ marginTop: "7px", position: "absolute", right: "11px" }}>
+            <Image width="101px" height="51px" src="/img/newgoalchar.svg" alt="" />
+          </div>
         )}
       </div>
       <main>
