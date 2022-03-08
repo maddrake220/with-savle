@@ -1,10 +1,10 @@
 import "styles/globals.css";
-import Layout from "@/components/layout";
+import Layout from "@/components/Layout";
 import { BreakpointProvider } from "@/hooks/useBreakpoint";
 
 const queries = {
-  sm: "(max-width: 576px)",
-  md: "(max-width: 1200px)",
+  sm: "(max-width: 575px)",
+  md: "(max-width: 1199px)",
 };
 
 function MyApp({ Component, pageProps }) {
