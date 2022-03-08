@@ -6,9 +6,12 @@ import { useCallback, useEffect, useState } from "react";
 import CategoryButton from "@/components/goal/CategoryButton";
 import GoalDropdown from "@/components/goal/GoalDropdown";
 import GoalCard from "@/components/goal/GoalCard";
-import goalAPI from "./goalAPI.json";
 import GoalCharSvg from "@/components/goal/svg/GoalCharSvg";
 import NewGoalSvg from "@/components/goal/svg/NewGoalSvg";
+import NewGoalForm from "@/components/goal/NewGoalForm";
+import useSWR, { SWRConfig } from "swr";
+const fetcher = (server) => axios.get(server).then((r) => r.data);
+
 const categories = [
   { id: 0, text: "전체", backgroundColor: "#3178FF" },
   { id: 1, text: "10대", backgroundColor: " #FDD18F" },
@@ -43,14 +46,26 @@ const checkCategoryRange = (category) => {
   }
   return { start, end };
 };
-function Goal({ data }) {
-  // console.log(data);
-  // console.log(goalAPI.results);
-  data = [...data, ...goalAPI.results];
+
+export const goal_address = "/api/goal";
+function ArticleList() {
+  const {
+    data: { results: data },
+    error,
+  } = useSWR(goal_address, fetcher, {
+    revalidateOnFocus: false,
+  });
   const queryMatch = useBreakpoint();
   const [clickedCategory, setClickedCategory] = useState(0);
   const [filtered, setFiltered] = useState({ start: 0, end: 1000 });
   const [selectedDropdown, setSelectedDropdown] = useState("newest");
+  const [toggleNewGoal, setToggleNewGoal] = useState(false);
+  const onClickModalBack = useCallback(() => {
+    setToggleNewGoal(false);
+  }, []);
+  const onCloseModal = useCallback(() => {
+    setToggleNewGoal(false);
+  }, []);
   const handleMenuChange = (event) => {
     setSelectedDropdown(event.target.value);
   };
@@ -58,11 +73,14 @@ function Goal({ data }) {
     setClickedCategory(id);
   }, []);
   const onClickNewGoal = useCallback(() => {
-    alert("미기능 구현!");
+    setToggleNewGoal(true);
   }, []);
   useEffect(() => {
     setFiltered(checkCategoryRange(clickedCategory));
   }, [clickedCategory]);
+  if (error) {
+    return null;
+  }
   return (
     <section className="goal-container">
       <Head>
@@ -111,30 +129,32 @@ function Goal({ data }) {
             />
           </div>
           <ul className="goal-list">
-            {data
-              .filter((value) => {
-                return value.age >= filtered.start && value.age <= filtered.end;
-              })
-              .sort((a, b) => {
-                const d1 = Date.parse(a.createAt);
-                const d2 = Date.parse(b.createAt);
-                if (selectedDropdown === "oldest") {
-                  return d2 - d1;
-                } else {
-                  return d1 - d2;
-                }
-              })
-              .map((value, index) => (
-                <GoalCard
-                  key={index}
-                  id={value.id}
-                  age={value.age}
-                  categories={value.categories}
-                  comments={value.comments}
-                  likes={value.likes}
-                  text={value.text}
-                />
-              ))}
+            {!data
+              ? [0, 1, 2, 3, 4, 5].map((v, index) => <GoalCard key={index} />)
+              : data
+                  ?.filter((value) => {
+                    return value.age >= filtered.start && value.age <= filtered.end;
+                  })
+                  .sort((a, b) => {
+                    const d1 = Date.parse(a.createAt);
+                    const d2 = Date.parse(b.createAt);
+                    if (selectedDropdown === "oldest") {
+                      return d1 - d2;
+                    } else {
+                      return d2 - d1;
+                    }
+                  })
+                  .map((value, index) => (
+                    <GoalCard
+                      key={index}
+                      id={value.id}
+                      age={value.age}
+                      categories={value.categories}
+                      comments={value.comments}
+                      likes={value.likes}
+                      text={value.text}
+                    />
+                  ))}
           </ul>
         </div>
       </main>
@@ -144,6 +164,9 @@ function Goal({ data }) {
           width={queryMatch?.sm ? 59 : queryMatch?.md ? 110 : 110}
           height={queryMatch?.sm ? 59 : queryMatch?.md ? 110 : 110}
         />
+      </div>
+      <div className={`new-goal-modal-back`} onClick={onClickModalBack}>
+        <NewGoalForm toggleNewGoal={toggleNewGoal} onCloseModal={onCloseModal} />
       </div>
       <style jsx>{`
         header {
@@ -183,6 +206,7 @@ function Goal({ data }) {
         }
         main {
           background: rgba(143, 201, 255, 0.15);
+          padding-bottom: 5rem;
         }
         .goal-categories-small {
           margin-left: 1rem;
@@ -213,9 +237,22 @@ function Goal({ data }) {
           gap: 0.625rem 1.25rem;
         }
         .new-goal {
+          display: ${toggleNewGoal ? "none" : "block"};
           position: fixed;
           bottom: 1.688rem;
           right: 1rem;
+          z-index: 999;
+        }
+
+        .new-goal-modal-back {
+          display: ${toggleNewGoal ? "block" : "none"};
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: #00000080;
+          z-index: 10000;
         }
         @media (max-width: 295px) {
           .goal-header-image {
@@ -285,14 +322,21 @@ function Goal({ data }) {
   );
 }
 
-export default Goal;
+export default function Goal({ fallback }) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <ArticleList />
+    </SWRConfig>
+  );
+}
 
 export const getStaticProps = async () => {
   const res = await axios.get(`${server}/api/goal`);
-  console.log(res.data.results);
   return {
     props: {
-      data: res.data.results,
+      fallback: {
+        "/api/goal": res.data.results,
+      },
     },
   };
 };

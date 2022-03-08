@@ -1,6 +1,4 @@
 import Image from "next/image";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import Favorite from "public/img/Favorite.svg";
 import { useState, useCallback } from "react";
 
@@ -12,7 +10,7 @@ export default function VoteBox({ voteBoxData }) {
 
   return (
     <div className="vote_box">
-      <h1 className="subject_box">{voteBoxData.title.length > 35 ? `${voteBoxData.title.slice(0, 35)}...` : voteBoxData.title || <Skeleton />}</h1>
+      <h1 className="subject_box">{voteBoxData.title.length > 35 ? `${voteBoxData.title.slice(0, 35)}...` : voteBoxData.title}</h1>
       {voteBoxData.voteSelect.map((selectItem) => (
         <div key={selectItem.item} className="vote_select-items">
           <input type="radio" id={selectItem.item} name="vote" value={selectItem.item} />
@@ -150,7 +148,7 @@ export default function VoteBox({ voteBoxData }) {
             margin-right: 11px;
           }
           button {
-            bottom: 18px;
+            bottom: 25px;
             right: 27px;
           }
         }

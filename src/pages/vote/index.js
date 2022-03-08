@@ -4,27 +4,18 @@ import Link from "next/link";
 import server from "@/config/server";
 import axios from "axios";
 import VoteBox from "@/components/vote/VoteBox";
-import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import SkeletonBox from "@/components/vote/SkeletonBox";
 
-function Vote({ data }) {
-  console.log(data);
-  const router = useRouter();
+function Vote() {
+  const [data, setData] = useState(null);
 
-  const onClick = (id, likes, title, text, voteSelect, item) => {
-    router.push(
-      {
-        pathname: `/vote/${id}`,
-        query: {
-          id,
-          likes,
-          title,
-          text,
-          voteSelect,
-        },
-      },
-      `/vote/${id}`,
-    );
-  };
+  useEffect(() => {
+    setTimeout(async () => {
+      const result = await axios.get(`${server}/api/vote`);
+      setData(result.data.results);
+    }, 1000);
+  }, []);
 
   return (
     <>
@@ -41,25 +32,31 @@ function Vote({ data }) {
             투표하며 함께 고민을 해결해요.
           </p>
           <div className="img_character_money" width={82} height={67}>
-            <Image className="character_money" layout="responsive" src="/img/char.svg" alt="character" width={82} height={67} />
+            <Image className="character_money" layout="responsive" src="/img/char.svg" alt="character" width={82} height={67} priority={true} />
           </div>
         </section>
         {/* VoteBox */}
         <section className="vote_box_list">
           <ul className="vote_box_list_container">
-            {data.results.map((voteBoxData) => (
-              <li key={voteBoxData.id}>
-                <Link href={`/vote/${voteBoxData.id}`}>
-                  <a>
-                    <VoteBox voteBoxData={voteBoxData} />
-                  </a>
-                </Link>
-              </li>
-            ))}
+            {data &&
+              data.map((voteBoxData) => (
+                <li key={voteBoxData.id}>
+                  <Link href={`/vote/${voteBoxData.id}`}>
+                    <a>
+                      <VoteBox voteBoxData={voteBoxData} />
+                    </a>
+                  </Link>
+                </li>
+              ))}
           </ul>
+          <div className="loading_page">{!data && [1, 2, 3, 4, 5, 6].map((item, index) => <SkeletonBox key={index} />)}</div>
         </section>
         <style jsx>{`
           /* Mobile */
+          .loading_page {
+            margin: 0 auto;
+            width: 276px;
+          }
           .banner_box_container {
             position: relative;
             background-color: #5791ff;
@@ -72,7 +69,6 @@ function Vote({ data }) {
             color: #fff;
           }
           .banner_box_title {
-            /* border: 1px solid red; */
             font-size: 22px;
             line-height: 28px;
             font-weight: 700;
@@ -116,12 +112,18 @@ function Vote({ data }) {
 
           /* Tablet  */
           @media (min-width: 576px) {
+            .loading_page {
+              margin: 0 auto;
+              width: 590px;
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: space-between;
+            }
             .banner_box_container {
               height: 196px;
               padding: 0 150px;
             }
             .banner_box_title {
-              /* border: 1px solid red; */
               font-size: 28px;
               line-height: 36px;
               margin-bottom: 18px;
@@ -140,7 +142,6 @@ function Vote({ data }) {
               padding: 28px 0;
             }
             .vote_box_list_container {
-              /* border: 1px solid green; */
               width: 590px;
               display: flex;
               flex-wrap: wrap;
@@ -149,6 +150,13 @@ function Vote({ data }) {
           }
           /* Desktop */
           @media (min-width: 1200px) {
+            .loading_page {
+              margin: 0 auto;
+              width: 1200px;
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: space-between;
+            }
             .banner_box_container {
               height: 246px;
               padding: 0 261px;
@@ -185,11 +193,11 @@ function Vote({ data }) {
   );
 }
 
-export async function getStaticProps() {
-  const { data } = await axios.get(`${server}/api/vote`);
-  return {
-    props: { data },
-  };
-}
+// export async function getStaticProps() {
+//   const { data } = await axios.get(`${server}/api/vote`);
+//   return {
+//     props: { data },
+//   };
+// }
 
 export default Vote;
