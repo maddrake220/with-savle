@@ -9,29 +9,25 @@ import { useBreakpoint } from "@/hooks/useBreakpoint";
 function VoteById({ data }) {
   const breakpoint = useBreakpoint();
   const { title, text, likes, voteSelect, voteComments } = data.results;
-  // 좋아요 상태관리
   const [like, setLike] = useState(false);
-  // 선택한 투표 항목 아이디 배열
-  const [selItemId, setSelItemId] = useState({});
-  // 투표하기 버튼 활성화 상태관리
   const [btnColor, setBtnColor] = useState({
     voteBtnBg: "#d5d8dc",
     voteBtntextColor: "#B2B2B2",
   });
   const [copySuccess, setCopySuccess] = useState(null);
   const [modalActive, setModalActive] = useState(false);
-  // 투표 항목 클릭시 상태변화
   const [clickedItem, setClickedItem] = useState(Array(voteSelect.length).fill(false));
   // 전체 투표수 관리
   const [totalVotes, setTotalVotes] = useState(0);
   // 투표했으면 다시 투표 못하게
   const [voted, setVoted] = useState(false);
+  // 로컬스토리지에 저장할 투표 항목 아이디 배열
+  const [selItemIds, setSelItemIds] = useState([{ id: "", value: "" }]);
 
-  //* 좋아요 함수
   const handleLikeToggle = useCallback(() => setLike((prev) => !prev), []);
   //* 선택된 투표 항목 값 관리
   const onChange = (e) => {
-    setSelItemValue(e.currentTarget.value);
+    setSelItemIds();
     setBtnColor(() => ({
       voteBtnBg: "#3178FF",
       voteBtntextColor: "#fff",
@@ -46,10 +42,10 @@ function VoteById({ data }) {
   //* 폼 제출 실행함수
   function onSubmit(e) {
     e.preventDefault();
-    if (selItemValue === undefined) {
+    if (selItemIds === undefined) {
       return false;
     }
-    localStorage.setItem("selectedVote", JSON.stringify(selItemValue));
+    localStorage.setItem("selectedVote", JSON.stringify(selItemIds));
     setBtnColor((prevState) => ({
       voteBtnBg: "#3178FF",
       voteBtntextColor: "rgba(256, 256, 256, 0.5)",
@@ -86,7 +82,6 @@ function VoteById({ data }) {
               <label htmlFor={selectItem.item}>{selectItem.item}</label>
             </li>
           ))}
-
           <button type="submit" style={{ backgroundColor: btnColor.voteBtnBg, color: btnColor.voteBtntextColor }} className="vote_btn">
             투표하기
           </button>
@@ -107,7 +102,6 @@ function VoteById({ data }) {
             <button>목록보기</button>
           </a>
         </Link>
-
         <style jsx>{`
           .container {
             height: 100vh;

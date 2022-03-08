@@ -4,7 +4,6 @@ import Link from "next/link";
 import server from "@/config/server";
 import axios from "axios";
 import VoteBox from "@/components/vote/VoteBox";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import SkeletonBox from "@/components/vote/SkeletonBox";
 
