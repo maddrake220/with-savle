@@ -4,23 +4,22 @@ import axios from "axios";
 import Favorite from "public/img/Favorite.svg";
 import server from "@/config/server";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 function VoteById({ data }) {
-  console.log(data);
-
+  const breakpoint = useBreakpoint();
   const { title, text, likes, voteSelect, voteComments } = data.results;
   // 좋아요 상태관리
   const [like, setLike] = useState(false);
-  // 선택한 투표 항목 값 상태관리
-  const [selItemValue, setSelItemValue] = useState();
+  // 선택한 투표 항목 아이디 배열
+  const [selItemId, setSelItemId] = useState({});
   // 투표하기 버튼 활성화 상태관리
   const [btnColor, setBtnColor] = useState({
     voteBtnBg: "#d5d8dc",
     voteBtntextColor: "#B2B2B2",
   });
-  const [copySuccess, setCopySuccess] = useState("");
-  const textAreaRef = useRef(null);
+  const [copySuccess, setCopySuccess] = useState(null);
+  const [modalActive, setModalActive] = useState(false);
   // 투표 항목 클릭시 상태변화
   const [clickedItem, setClickedItem] = useState(Array(voteSelect.length).fill(false));
   // 전체 투표수 관리
@@ -56,19 +55,27 @@ function VoteById({ data }) {
       voteBtntextColor: "rgba(256, 256, 256, 0.5)",
     }));
   }
+
   //* 복사하기 실행함수
   function copy() {
-    const el = document.createElement("input");
-    el.value = window.location.href;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand("copy");
-    document.body.removeChild(el);
-    alert("복사는되지만 모달은 아직 구현 X");
+    setCopySuccess(() => {
+      const el = document.createElement("input");
+      el.value = window.location.href;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+    });
+  }
+  function onClickModalOn() {
+    setModalActive((prev) => !prev);
+    setTimeout(() => {
+      setModalActive((prev) => !prev);
+    }, 1000);
   }
 
   return (
-    <div className="body_container">
+    <div className="body_container" style={breakpoint.sm ? { backgroundColor: "#fff" } : { backgroundColor: "#E5E5E5" }}>
       <div className="container">
         <form onSubmit={onSubmit}>
           <h1>{title}</h1>
@@ -91,7 +98,9 @@ function VoteById({ data }) {
             <Image src="/img/comment.svg" alt="Comment" width={20} height={20} />
             <span>{voteComments.length}</span>
           </div>
-          <Image src="/img/share.svg" alt="Share" width={20} height={20} onClick={copy} />
+          <div className={`copy_btn active" ${modalActive ? "active" : ""}`} onClick={onClickModalOn}>
+            <Image src="/img/share.svg" alt="Share" width={20} height={20} onClick={copy} />
+          </div>
         </div>
         <Link href={`/vote`}>
           <a className="back_btn">
@@ -104,6 +113,7 @@ function VoteById({ data }) {
             height: 100vh;
             box-sizing: border-box;
             padding: 0 20px;
+            background-color: #fff;
           }
           h1 {
             font-size: 16px;
@@ -160,6 +170,7 @@ function VoteById({ data }) {
             margin-top: 20px;
             padding-bottom: 8px;
             border-bottom: 1px solid #e3e7ed;
+            position: relative;
           }
           .favorite_comment {
             display: flex;
@@ -188,26 +199,33 @@ function VoteById({ data }) {
             font-weight: 700;
             background-color: #d5d8dc;
           }
+          .copy_btn.active:before {
+            content: "URL이 복사되었습니다.";
+            font-size: 12px;
+            position: absolute;
+            right: 0;
+            bottom: -27px;
+            width: 130px;
+            padding: 4px;
+            text-align: center;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+          }
 
           /* Tablet */
           @media (min-width: 576px) {
             .container {
-              padding: 32px 0px;
+              padding: 32px 100px;
+              width: 90%;
+              box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
             }
           }
-
           /* Desktop */
           @media (min-width: 1200px) {
-            /* #e5e5e5 */
-            .body_container {
-              background-color: #e5e5e5;
-            }
-
             .container {
-              /* border: 1px solid red; */
               padding: 68px 103px;
               background-color: #fff;
-              box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
             }
             h1 {
               font-size: 22px;
@@ -303,7 +321,6 @@ export async function getStaticProps(context) {
     props: {
       data,
     },
-    revalidate: 10,
   };
 }
 
