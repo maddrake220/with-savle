@@ -14,7 +14,7 @@ export default function NewGoalSvg({ onClick, width, height }) {
         />
       </g>
       <defs>
-        <filter id="filter0_d_1099_77007" x="0" y="0" width="59" height="59" filterUnits="userSpaceOnUse" colorInterpolation-filters="sRGB">
+        <filter id="filter0_d_1099_77007" x="0" y="0" width="59" height="59" filterUnits="userSpaceOnUse" colorinterpolation-filters="sRGB">
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
           <feOffset dy="2" />
