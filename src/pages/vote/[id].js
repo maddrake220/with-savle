@@ -10,7 +10,7 @@ import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 function VoteById({ data }) {
   const breakpoint = useBreakpoint();
-  const { title, text, likes, voteSelect, voteComments } = data.results;
+  const { id, title, text, likes, voteSelect, voteComments } = data.results;
   const [like, setLike] = useState(false);
   const [btnColor, setBtnColor] = useState({
     voteBtnBg: "#d5d8dc",
@@ -23,13 +23,12 @@ function VoteById({ data }) {
   const [totalVotes, setTotalVotes] = useState(0);
   // 투표했으면 다시 투표 못하게
   const [voted, setVoted] = useState(false);
-  // 로컬스토리지에 저장할 투표 항목 아이디 배열
-  const [selItemIds, setSelItemIds] = useState([{ id: "", value: "" }]);
 
+  //* 좋아요 함수
   const handleLikeToggle = useCallback(() => setLike((prev) => !prev), []);
   //* 선택된 투표 항목 값 관리
   const onChange = (e) => {
-    setSelItemIds();
+    setSelItemValue(e.currentTarget.value);
     setBtnColor(() => ({
       voteBtnBg: "#3178FF",
       voteBtntextColor: "#fff",
@@ -44,36 +43,28 @@ function VoteById({ data }) {
   //* 폼 제출 실행함수
   function onSubmit(e) {
     e.preventDefault();
-    if (selItemIds === undefined) {
+    if (selItemValue === undefined) {
       return false;
     }
-    localStorage.setItem("selectedVote", JSON.stringify(selItemIds));
+    localStorage.setItem("selectedVote", JSON.stringify(selItemValue));
     setBtnColor((prevState) => ({
       voteBtnBg: "#3178FF",
       voteBtntextColor: "rgba(256, 256, 256, 0.5)",
     }));
   }
-
   //* 복사하기 실행함수
   function copy() {
-    setCopySuccess(() => {
-      const el = document.createElement("input");
-      el.value = window.location.href;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand("copy");
-      document.body.removeChild(el);
-    });
-  }
-  function onClickModalOn() {
-    setModalActive((prev) => !prev);
-    setTimeout(() => {
-      setModalActive((prev) => !prev);
-    }, 1000);
+    const el = document.createElement("input");
+    el.value = window.location.href;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+    alert("복사는되지만 모달은 아직 구현 X");
   }
 
   return (
-    <div className="body_container" style={breakpoint.sm ? { backgroundColor: "#fff" } : { backgroundColor: "#E5E5E5" }}>
+    <div className="body_container">
       <div className="container">
         <form onSubmit={onSubmit}>
           <h1>{title}</h1>
@@ -84,6 +75,7 @@ function VoteById({ data }) {
               <label htmlFor={selectItem.item}>{selectItem.item}</label>
             </li>
           ))}
+
           <button type="submit" style={{ backgroundColor: btnColor.voteBtnBg, color: btnColor.voteBtntextColor }} className="vote_btn">
             투표하기
           </button>
@@ -95,11 +87,9 @@ function VoteById({ data }) {
             <Image src="/img/comment.svg" alt="Comment" width={20} height={20} />
             <span>{voteComments.length}</span>
           </div>
-          <div className={`copy_btn active" ${modalActive ? "active" : ""}`} onClick={onClickModalOn}>
-            <Image src="/img/share.svg" alt="Share" width={20} height={20} onClick={copy} />
-          </div>
+          <Image src="/img/share.svg" alt="Share" width={20} height={20} onClick={copy} />
         </div>
-        <Comment Comments={voteComments} value="vote" />
+        <Comment id={id} value="vote" />
         <Link href={`/vote`}>
           <a className="back_btn">
             <button>목록보기</button>
@@ -110,7 +100,6 @@ function VoteById({ data }) {
             height: 100vh;
             box-sizing: border-box;
             padding: 0 20px;
-            background-color: #fff;
           }
           h1 {
             font-size: 16px;
@@ -167,7 +156,6 @@ function VoteById({ data }) {
             margin-top: 20px;
             padding-bottom: 8px;
             border-bottom: 1px solid #e3e7ed;
-            position: relative;
           }
           .favorite_comment {
             display: flex;
@@ -196,33 +184,26 @@ function VoteById({ data }) {
             font-weight: 700;
             background-color: #d5d8dc;
           }
-          .copy_btn.active:before {
-            content: "URL이 복사되었습니다.";
-            font-size: 12px;
-            position: absolute;
-            right: 0;
-            bottom: -27px;
-            width: 130px;
-            padding: 4px;
-            text-align: center;
-            border-radius: 4px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-          }
 
           /* Tablet */
           @media (min-width: 576px) {
             .container {
-              padding: 32px 100px;
-              width: 90%;
-              box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+              padding: 32px 0px;
             }
           }
+
           /* Desktop */
           @media (min-width: 1200px) {
+            /* #e5e5e5 */
+            .body_container {
+              background-color: #e5e5e5;
+            }
+
             .container {
+              /* border: 1px solid red; */
               padding: 68px 103px;
               background-color: #fff;
+              box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
             }
             h1 {
               font-size: 22px;
@@ -318,6 +299,7 @@ export async function getStaticProps(context) {
     props: {
       data,
     },
+    revalidate: 10,
   };
 }
 
