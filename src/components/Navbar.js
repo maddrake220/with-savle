@@ -46,7 +46,7 @@ const style = css`
     font-size: 0;
     flex-basis: 85%;
   }
-  @media (max-width: 576px) {
+  @media (max-width: 575px) {
     nav {
       background-color: #f0f6fb;
       width: 100vw;
@@ -93,7 +93,7 @@ const style = css`
       background-color: #f7f8fa;
     }
   }
-  @media (min-width: 577px) {
+  @media (min-width: 576px) {
     nav {
       justify-content: space-between;
     }
@@ -152,7 +152,7 @@ function Navbar() {
             </a>
           </Link>
         ))}
-        <Link href="https://savle.net/">
+        <Link href="https://savle.net/MBTI/index.html">
           <a className="white" target="_blank" onClick={isMobile && handleToggle}>
             저축성향 테스트
           </a>
