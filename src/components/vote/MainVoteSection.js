@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import MainVoteBox from "@/components/vote/MainVoteBox";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
-import { mockDatas } from "@/pages/vote/voteMockData";
+import { mockDatas } from "@/utils/voteMockData";
 
 function SampleNextArrow(props) {
   const { className, onClick } = props;

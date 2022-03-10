@@ -1,10 +1,9 @@
-import MainVoteSection from "@/components/vote/MainVoteSection";
-import ShortcutBar from "@/components/ShortcutBar";
+import MainGoal from "@/components/goal/MainGoal";
+
 export default function Home() {
   return (
     <>
-      <MainVoteSection />
-      <ShortcutBar />
+      <MainGoal />
     </>
   );
 }
