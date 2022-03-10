@@ -12,7 +12,7 @@ export default function MainVoteBox({ mockData }) {
       ))}
       <div className="favorite_comment">
         <div className="favorite">
-          <Image src="/img/favorite.png" alt="Favorite" width={18} height={18} />
+          <Image src="/img/favorite.svg" alt="Favorite" width={18} height={18} />
           <span>{mockData.likes}</span>
         </div>
         <div>

@@ -9,13 +9,10 @@ import { useBreakpoint } from "@/hooks/useBreakpoint";
 const style = css`
   .wrap {
     position: relative;
-    margin: 0;
+    box-sizing: border-box;
+    background: #f7f8fa;
   }
-  .backgroundBox {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
+
   h2 {
     position: absolute;
     color: #fff;
@@ -40,7 +37,7 @@ const style = css`
   }
   @media (min-width: 576px) {
     .wrap {
-      margin: 0 1.7vw;
+      padding: 0 1.1vw;
     }
     h2 {
       font-size: 2.6vw;
@@ -56,7 +53,7 @@ const style = css`
   }
   @media (min-width: 1200px) {
     .wrap {
-      margin: 0 1.7vw;
+      padding: 0 0.9vw;
     }
     h2 {
       font-size: 1.6vw;
@@ -76,9 +73,9 @@ function ShortcutBar() {
   return (
     <>
       <div className="wrap">
-        {isMobile && <MobileBackgroundBox width="100%" className="backgroundBox" style={{ display: "block" }} />}
-        {!isMobile && isTablet && <TabletBackgroundBox width="100%" className="backgroundBox" style={{ display: "block" }} />}
-        {!isMobile && !isTablet && <BackgroundBox width="100%" className="backgroundBox" style={{ display: "block" }} />}
+        {isMobile && <MobileBackgroundBox width="100%" style={{ display: "block" }} />}
+        {!isMobile && isTablet && <TabletBackgroundBox width="100%" style={{ display: "block" }} />}
+        {!isMobile && !isTablet && <BackgroundBox width="100%" style={{ display: "block" }} />}
         <h2>
           쉽고 FUN한 저축
           <br /> SAVLE

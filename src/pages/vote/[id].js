@@ -130,24 +130,17 @@ function VoteById({ data }) {
 
   //* 복사하기 실행함수
   function copy() {
-    setCopySuccess(() => {
-      const el = document.createElement("input");
-      el.value = window.location.href;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand("copy");
-      document.body.removeChild(el);
-    });
-  }
-  function onClickModalOn() {
-    setModalActive((prev) => !prev);
-    setTimeout(() => {
-      setModalActive((prev) => !prev);
-    }, 1000);
+    const el = document.createElement("input");
+    el.value = window.location.href;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+    alert("복사는되지만 모달은 아직 구현 X");
   }
 
   return (
-    <div className="body_container" style={breakpoint.sm ? { backgroundColor: "#fff" } : { backgroundColor: "#E5E5E5" }}>
+    <div className="body_container">
       <div className="container">
         <form onSubmit={onSubmit}>
           <h1>{title}</h1>
@@ -163,6 +156,7 @@ function VoteById({ data }) {
               <label htmlFor={selectItem.item}>{selectItem.item}</label>
             </li>
           ))}
+
           <button type="submit" style={{ backgroundColor: btnColor.voteBtnBg, color: btnColor.voteBtntextColor }} className="vote_btn">
             투표하기
           </button>
@@ -174,9 +168,7 @@ function VoteById({ data }) {
             <Image src="/img/comment.svg" alt="Comment" width={20} height={20} />
             <span>{voteComments.length}</span>
           </div>
-          <div className={`copy_btn active" ${modalActive ? "active" : ""}`} onClick={onClickModalOn}>
-            <Image src="/img/share.svg" alt="Share" width={20} height={20} onClick={copy} />
-          </div>
+          <Image src="/img/share.svg" alt="Share" width={20} height={20} onClick={copy} />
         </div>
         <Comment Comments={voteComments} value="vote" />
         <div className="back_btn_container">
@@ -191,7 +183,6 @@ function VoteById({ data }) {
             height: 100vh;
             box-sizing: border-box;
             padding: 0 20px;
-            background-color: #fff;
           }
           h1 {
             font-size: 16px;
@@ -253,7 +244,6 @@ function VoteById({ data }) {
             margin-top: 20px;
             padding-bottom: 8px;
             border-bottom: 1px solid #e3e7ed;
-            position: relative;
           }
           .favorite_comment {
             display: flex;
@@ -283,33 +273,26 @@ function VoteById({ data }) {
             background-color: #d5d8dc;
             cursor: pointer;
           }
-          .copy_btn.active:before {
-            content: "URL이 복사되었습니다.";
-            font-size: 12px;
-            position: absolute;
-            right: 0;
-            bottom: -27px;
-            width: 130px;
-            padding: 4px;
-            text-align: center;
-            border-radius: 4px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-          }
 
           /* Tablet */
           @media (min-width: 576px) {
             .container {
-              padding: 32px 100px;
-              width: 90%;
-              box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+              padding: 32px 0px;
             }
           }
+
           /* Desktop */
           @media (min-width: 1200px) {
+            /* #e5e5e5 */
+            .body_container {
+              background-color: #e5e5e5;
+            }
+
             .container {
+              /* border: 1px solid red; */
               padding: 68px 103px;
               background-color: #fff;
+              box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
             }
             h1 {
               font-size: 22px;
@@ -405,6 +388,7 @@ export async function getStaticProps(context) {
     props: {
       data,
     },
+    revalidate: 10,
   };
 }
 
