@@ -47,7 +47,7 @@ const style = css`
     }
     span {
       position: absolute;
-      top: -42px;
+      top: 2px;
       left: 0;
     }
   }
@@ -69,7 +69,7 @@ const style = css`
     }
     span {
       position: absolute;
-      top: -25px;
+      top: 10px;
       left: 0;
     }
   }
