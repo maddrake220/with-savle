@@ -6,10 +6,11 @@ import server from "@/config/server";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Comment from "@/components/Comment";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 function VoteById({ data }) {
   const breakpoint = useBreakpoint();
-  const { title, text, likes, voteSelect, voteComments } = data.results;
+  const { id, title, text, likes, voteSelect, voteComments } = data.results;
   const [like, setLike] = useState(false);
   const [btnColor, setBtnColor] = useState({
     voteBtnBg: "#d5d8dc",
@@ -88,7 +89,7 @@ function VoteById({ data }) {
           </div>
           <Image src="/img/share.svg" alt="Share" width={20} height={20} onClick={copy} />
         </div>
-        <Comment Comments={voteComments} value="vote" />
+        <Comment id={id} value="vote" />
         <Link href={`/vote`}>
           <a className="back_btn">
             <button>목록보기</button>
