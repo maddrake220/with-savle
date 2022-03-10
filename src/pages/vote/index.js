@@ -4,19 +4,19 @@ import Link from "next/link";
 import server from "@/config/server";
 import axios from "axios";
 import VoteBox from "@/components/vote/VoteBox";
-import { useEffect, useState } from "react";
 import SkeletonBox from "@/components/vote/SkeletonBox";
+import useSWR, { SWRConfig } from "swr";
+const fetcher = (server) => axios.get(server).then((r) => r.data);
 
-function Vote() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    setTimeout(async () => {
-      const result = await axios.get(`${server}/api/vote`);
-      setData(result.data.results);
-    }, 1000);
-  }, []);
-
+export const vote_address = "/api/vote";
+function Votelist() {
+  const {
+    data: { results: data },
+    error,
+  } = useSWR(vote_address, fetcher, {
+    revalidateOnFocus: false,
+  });
+  console.log(data);
   return (
     <>
       <Head>
@@ -193,11 +193,21 @@ function Vote() {
   );
 }
 
-// export async function getStaticProps() {
-//   const { data } = await axios.get(`${server}/api/vote`);
-//   return {
-//     props: { data },
-//   };
-// }
+export default function Vote({ fallback }) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Votelist />
+    </SWRConfig>
+  );
+}
 
-export default Vote;
+export async function getStaticProps() {
+  const res = await axios.get(`${server}/api/vote`);
+  return {
+    props: {
+      fallback: {
+        "/api/vote": res.data.results,
+      },
+    },
+  };
+}

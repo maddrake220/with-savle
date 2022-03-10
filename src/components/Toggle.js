@@ -35,7 +35,7 @@ const style = css`
   }
 `;
 const Toggle = ({ onClick, hidden }) => {
-  console.log(hidden);
+  // console.log(hidden);
   return (
     <div className="toggle" onClick={onClick}>
       <style jsx>{style}</style>
