@@ -121,7 +121,7 @@ function Votelist() {
             }
             .banner_box_container {
               height: 196px;
-              padding: 0 150px;
+              padding: 0 80px;
             }
             .banner_box_title {
               font-size: 28px;
@@ -134,7 +134,7 @@ function Votelist() {
             }
             .img_character_money {
               bottom: 20px;
-              right: 140px;
+              right: 70px;
               width: 176px;
               height: 143px;
             }
@@ -159,7 +159,7 @@ function Votelist() {
             }
             .banner_box_container {
               height: 246px;
-              padding: 0 261px;
+              padding: 0 160px;
             }
             .banner_box_title {
               font-size: 40px;
@@ -175,7 +175,7 @@ function Votelist() {
               width: 241px;
               height: 197px;
               bottom: 15px;
-              right: 261px;
+              right: 160px;
             }
             .vote_box_list {
               padding: 40px 0;

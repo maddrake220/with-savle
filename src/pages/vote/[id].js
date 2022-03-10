@@ -10,13 +10,6 @@ import { useBreakpoint } from "@/hooks/useBreakpoint";
 const putLike = async (id, like) => {
   await axios.put(`${server}/api/vote/like`, { params: { id, like } });
 };
-const putVoteCount = async (itemCount) => {
-  await axios.put(`${server}/api/vote`, {
-    params: {
-      itemCount,
-    },
-  });
-};
 
 function VoteById({ data }) {
   const breakpoint = useBreakpoint();
@@ -47,10 +40,10 @@ function VoteById({ data }) {
     likesId !== null ? setLike(likesId.includes(id)) : setLike(false);
   }, [id]);
 
+  // 값이 없다면 투표할수 있는 페이지로! 값이 있다면 투표할 수 없도록!
   useEffect(() => {
     const voteItemId = JSON.parse(localStorage.getItem("vote-list"));
     console.log(voteItemId);
-    // 값이 없다면 투표할수 있는 페이지로! 값이 있다면 투표할 수 없도록!
     voteItemId;
   }, []);
   const handleLikeToggle = useCallback(
@@ -95,9 +88,17 @@ function VoteById({ data }) {
       }
       const clickedItemIndex = (ele) => ele === true;
       const itemId = clickedItem.findIndex(clickedItemIndex);
-
+      console.log(itemId);
       // #put 통신으로 투표 count 집계
       const itemCount = voteSelect[itemId].count;
+
+      const putVoteCount = async () => {
+        await axios.put(`${server}/api/vote`, {
+          params: {
+            itemCount,
+          },
+        });
+      };
       if (itemId == 0) {
         setTotalVotes1((totalVotes1 = totalVotes1 + 1));
         // putVoteCount(itemCount);
@@ -116,7 +117,7 @@ function VoteById({ data }) {
       setVoteList([...voteList, { id: id, value: voteSelect[itemId].id }]);
       let newVoteList = [...voteList, { id: id, value: voteSelect[itemId].id }];
       localStorage.setItem("vote-list", JSON.stringify(newVoteList));
-      // #버튼 제출되면 색깔변화, 데이터 수치 보여주기
+      // #버튼 제출되면 색깔변화 | 데이터 수치 보여주기**
       setBtnColor(() => ({
         voteBtnBg: "#3178FF",
         voteBtntextColor: "rgba(256, 256, 256, 0.5)",
@@ -220,6 +221,12 @@ function VoteById({ data }) {
           .click_color {
             background-color: #e8f3ff;
           }
+          input[type="radio"] {
+            border: 8px solid #b2b2b2;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+          }
           label {
             display: flex;
             align-items: center;
@@ -229,7 +236,6 @@ function VoteById({ data }) {
             font-weight: 400;
             color: #36332e;
             margin-left: 5px;
-            padding: 5px 0;
           }
           .vote_btn {
             margin-top: 34px;
