@@ -18,7 +18,7 @@ const style = css`
   @media (min-width: 576px) {
     .box {
       width: 408px;
-      padding: 26px 37px 22px;
+      padding: 23px 37px 21px;
       border-radius: 16px;
       margin: 0 auto 40px;
     }

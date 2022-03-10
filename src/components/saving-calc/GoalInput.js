@@ -26,7 +26,7 @@ const style = css`
   }
   span {
     position: absolute;
-    top: 45px;
+    top: 6px;
     left: 0;
   }
   @media (min-width: 576px) {
@@ -47,7 +47,7 @@ const style = css`
     }
     span {
       position: absolute;
-      top: 42px;
+      top: -42px;
       left: 0;
     }
   }
@@ -69,7 +69,7 @@ const style = css`
     }
     span {
       position: absolute;
-      top: 25px;
+      top: -25px;
       left: 0;
     }
   }

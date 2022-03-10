@@ -23,13 +23,22 @@ const style = css`
   }
   .goal_amount {
     margin-bottom: 29px;
+    position: relative;
+  }
+  .saving_amount {
+    position: relative;
   }
   input {
     width: 175px;
   }
+  span {
+    position: absolute;
+    top: 20px;
+    left: 0;
+  }
   @media (min-width: 576px) {
     .title {
-      margin-bottom: 21px;
+      margin-bottom: 16px;
     }
     h2 {
       width: 192px;
@@ -38,14 +47,17 @@ const style = css`
       width: 192px;
     }
     .amount {
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
     .goal_amount {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
     input {
       width: 248px;
-      margin: 10px 10px 2px 0;
+      margin: 18px 10px 2px 0;
+    }
+    span {
+      top: 23px;
     }
   }
   @media (min-width: 1200px) {
@@ -67,6 +79,9 @@ const style = css`
     input {
       width: 488px;
       margin: 35px 15px 5px 0;
+    }
+    span {
+      top: 50px;
     }
   }
 `;
@@ -133,14 +148,15 @@ const AmountInput = (props) => {
       <div className="amount">
         <div className="goal_amount">
           <p>목표 금액은</p>
+          <span className={goal_amount.length > 15 ? "" : "hidden"}>*입력범위를 초과했습니다.</span>
           <p className="goal_amount_input">
             <input name="goal_amount" type="text" maxLength={16} placeholder="예) 70,000,000" onChange={handleChange} value={goal_amount}></input>원 입니다
           </p>
-          <span className={goal_amount.length > 15 ? "" : "hidden"}>*입력범위를 초과했습니다.</span>
           <PlusButton mode="goal" handleClick={handleClick} />
         </div>
         <div className="saving_amount">
           <p>저축 금액은</p>
+          <span className={saving_amount !== "" && !campareValue ? "" : "hidden"}>*저축금액은 목표금액을 같거나 클 수 없습니다</span>
           <p className="saving_amount_input">
             <input
               name="saving_amount"
@@ -152,7 +168,7 @@ const AmountInput = (props) => {
             ></input>
             원 입니다
           </p>
-          <span className={saving_amount !== "" && !campareValue ? "" : "hidden"}>*저축금액은 목표금액을 같거나 클 수 없습니다</span>
+
           <PlusButton mode="saving" handleClick={handleClick} />
         </div>
       </div>
