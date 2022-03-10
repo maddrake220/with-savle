@@ -23,9 +23,21 @@ export default function ArticleList() {
   const [filtered, setFiltered] = useState(ageRange);
   const [selectedDropdown, setSelectedDropdown] = useState("newest");
   const [toggleNewGoal, setToggleNewGoal] = useState(false);
+  // const [toggleNewGoalComp, setToggleNewGoalComp] = useState(false);
+  const onCloseAllModal = useCallback(() => {
+    setToggleNewGoal(false);
+    //setToggleNewGoalComp(false);
+  }, []);
   const onCloseModal = useCallback(() => {
     setToggleNewGoal(false);
   }, []);
+  const onSuccessNewGoal = useCallback(() => {
+    // setToggleNewGoalComp((t) => !t);
+    setToggleNewGoal((t) => !t);
+  }, []);
+  // const onCloseCompModal = useCallback(() => {
+  //   setToggleNewGoalComp(false);
+  // }, []);
   const handleMenuChange = (event) => {
     setSelectedDropdown(event.target.value);
   };
@@ -95,7 +107,7 @@ export default function ArticleList() {
           </div>
           <ul className="goal-list">
             {!data
-              ? [0, 1, 2, 3, 4, 5].map((v, index) => <GoalCard key={index} />)
+              ? Array(5).map((v, index) => <GoalCard key={index} />)
               : data
                   ?.filter((value) => {
                     return value.age >= filtered.start && value.age <= filtered.end;
@@ -131,8 +143,14 @@ export default function ArticleList() {
           height={queryMatch?.sm ? 59 : queryMatch?.md ? 110 : 110}
         />
       </div>
-      <div className={`new-goal-modal-back`} onClick={onCloseModal}>
-        <NewGoalForm toggleNewGoal={toggleNewGoal} onCloseModal={onCloseModal} />
+      <div className={`new-goal-modal-back`} onClick={onCloseAllModal}>
+        <NewGoalForm
+          toggleNewGoal={toggleNewGoal}
+          // setToggleNewGoalComp={setToggleNewGoalComp}
+          onCloseModal={onCloseModal}
+          onSuccessNewGoal={onSuccessNewGoal}
+        />
+        {/* <NewGoalComplete toggleNewGoalComp={toggleNewGoalComp} onCloseModal={onCloseCompModal} /> */}
       </div>
       <style jsx>{`
         header {

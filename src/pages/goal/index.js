@@ -19,5 +19,6 @@ export const getStaticProps = async () => {
         "/api/goal": res.data.results,
       },
     },
+    revalidate: 604800,
   };
 };

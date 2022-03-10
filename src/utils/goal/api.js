@@ -12,3 +12,7 @@ export const postNewGoal = async (data) => {
   mutate(goal_address);
   return res;
 };
+
+export const getGoalCategoryByAge = async (age) => {
+  return await axios.get(`${server}/api/goal/category`, { params: { age } });
+};

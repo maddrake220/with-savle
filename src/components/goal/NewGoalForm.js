@@ -2,24 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import NewGoalCategoryButton from "./NewGoalCategoryButton";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import Image from "next/image";
-import { postNewGoal } from "@/utils/goal/api";
+import { postNewGoal, getGoalCategoryByAge } from "@/utils/goal/api";
 import { newGoalAgeList } from "@/utils/goal/data";
-import axios from "axios";
-import server from "@/config/server";
-const MAX_GOAL_CATEGORY = 2;
+import { MAX_GOAL_CATEGORY } from "@/utils/goal/constants";
 
-const recommendGoalCategories = [
-  { id: 0, value: "내집마련" },
-  { id: 1, value: "냉장고" },
-  { id: 2, value: "차 구매" },
-  { id: 3, value: "결혼" },
-  { id: 4, value: "수입차구매" },
-];
-
-const getGoalCategoryByAge = async (age) => {
-  return await axios.get(`${server}/api/goal/category`, { params: { age } });
-};
-export default function NewGoalForm({ toggleNewGoal, onCloseModal }) {
+export default function NewGoalForm({ toggleNewGoal, onCloseModal, onSuccessNewGoal }) {
   const matchQuery = useBreakpoint();
   const [selectedAge, setSelectedAge] = useState(null);
   const [isFocusedCategoryInput, setIsFocusedCategoryInput] = useState(false);
@@ -56,10 +43,14 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal }) {
         likes: 0,
       };
       postNewGoal(data)
-        .then((resolve) => resolve.status === 200 && onCloseModal())
+        .then((resolve) => {
+          if (resolve.status === 200) {
+            onSuccessNewGoal();
+          }
+        })
         .catch((error) => alert(error, "fail to post"));
     },
-    [seletedGoalCategories, textareaRef, selectedAge, onCloseModal],
+    [seletedGoalCategories, textareaRef, selectedAge, onSuccessNewGoal],
   );
   const onClickselectedAge = useCallback((value) => {
     setSelectedAge(value);
