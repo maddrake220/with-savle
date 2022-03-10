@@ -1,4 +1,8 @@
+import axios from "axios";
+import server from "@/config/server";
+import { useCallback, useEffect, useState } from "react";
 import css from "styled-jsx/css";
+
 const style = css`
   div {
     margin-top: 20px;
@@ -11,11 +15,12 @@ const style = css`
     font-weight: bold;
     margin: 0 0 6px;
   }
-  p {
+  pre {
     font-size: 13px;
     line-height: 1.5;
     color: #7a7a81;
     margin: 0;
+    font-family: "Noto Sans KR";
   }
   @media (min-width: 1200px) {
     div {
@@ -29,7 +34,7 @@ const style = css`
       font-weight: bold;
       margin: 0 0 10px;
     }
-    p {
+    pre {
       font-size: 16px;
     }
   }
@@ -37,14 +42,10 @@ const style = css`
 const CommentText = ({ data }) => {
   const { id, text } = data;
 
-  const randaomId = () => {
-    const result = Math.ceil(Math.random() * 100);
-    return result;
-  };
   return (
     <div>
-      <h3>익명의 {randaomId(id)}님</h3>
-      <p>{text}</p>
+      <h3>익명의 {id}님</h3>
+      <pre>{text}</pre>
       <style jsx>{style}</style>
     </div>
   );

@@ -2,6 +2,8 @@ import { useCallback, useRef, useState } from "react";
 import server from "@/config/server";
 import css from "styled-jsx/css";
 import axios from "axios";
+import useSWR from "swr";
+import { set } from "react-hook-form";
 
 const style = css`
   .input_box {
@@ -33,18 +35,18 @@ const style = css`
   textarea:focus {
     outline: none;
   }
-  button {
+  form input {
     width: 48px;
     height: 27px;
     border: none;
     border-radius: 3px;
     font-size: 13px;
-    line-height: 1.5;
     color: #3178ff;
     background: #e8f3ff;
     position: absolute;
     bottom: 8px;
     right: 8px;
+    padding: 0;
   }
 
   @media (min-width: 1200px) {
@@ -73,38 +75,87 @@ const style = css`
 
 const CommentInput = ({ value, id }) => {
   const [comment, setComment] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const textRef = useRef();
-  console.log(id);
-  const handelResizeHieght = useCallback(() => {
-    textRef.current.style.height = "20px";
-    textRef.current.style.height = textRef.current.scrollHeight + "px";
-    setComment(textRef.current.value);
-  }, []);
+  const blankCheck = comment.replace(/(^\s*)|(\s*$)/gi, "").length;
 
-  const handleSubmit = async () => {
-    const res = await axios.post(`${server}/api/${value}/comment`, {
-      params: {
-        text: comment,
-        id: id,
-      },
-    });
+  const fetcher = async (url) => {
+    const res = await axios.get(url);
+    return res.data.results;
   };
 
+  const { data, mutate } = useSWR(`${server}/api/${value}/comment/${id}`, fetcher);
+
+  const handelChange = useCallback((e) => {
+    if (e.target.value.length > 1000) {
+      alert("1000자까지 작성할 수 있습니다.");
+    } else {
+      textRef.current.style.height = "20px";
+      textRef.current.style.height = textRef.current.scrollHeight + "px";
+      setComment(e.target.value);
+    }
+  }, []);
+  console.log(data);
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && e.shiftKey) {
+      return;
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
+
+  const handleSubmit = useCallback(
+    async (e) => {
+      e !== undefined && e.preventDefault();
+      setDisabled(true);
+      if (blankCheck === 0) {
+        alert("텍스트를 입력해주세요");
+      } else {
+        mutate([...data, { text: comment }], false);
+        const res = await axios.post(`${server}/api/${value}/comment`, {
+          params: {
+            text: comment,
+            id: id,
+          },
+        });
+        mutate([...data, res.data.results], false);
+        setComment("");
+        textRef.current.blur();
+        textRef.current.style.height = "20px";
+      }
+      setDisabled(false);
+    },
+    [comment],
+  );
+
   return (
-    <div className="input_box">
-      <textarea naeme="comment" ref={textRef} onChange={handelResizeHieght} placeholder="댓글을 남겨보세요 " />
-      <button type="submit" className={comment && "submit"} onClick={handleSubmit}>
-        등록
-      </button>
+    <form className="input_box" onSubmit={handleSubmit}>
+      <textarea
+        naeme="comment"
+        ref={textRef}
+        value={comment}
+        disabled={disabled}
+        onChange={handelChange}
+        onKeyPress={handleKeyPress}
+        placeholder="댓글을 남겨보세요 "
+      />
+      <input type="submit" className={blankCheck !== 0 && "submit"} value="등록" disabled={disabled} />
       <style jsx>{style}</style>
       <style jsx>{`
-        button.submit {
+        form input.submit {
           background: #3178ff;
           color: #fff;
         }
       `}</style>
-    </div>
+    </form>
   );
 };
 
 export default CommentInput;
+
+// if (data.length === 0) {
+//   mutate([...data, { text: comment }], false);
+// } else {
+//   mutate([...data, { id: data[data.length - 1].id + 1, text: comment }], false);
+// }

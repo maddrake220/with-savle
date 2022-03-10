@@ -3,8 +3,12 @@ import CommentText from "./CommentText";
 import CommentInput from "./CommentInput";
 import { useState } from "react";
 import Toggle from "./Toggle";
+import axios from "axios";
+import server from "@/config/server";
+import useSwr from "swr";
+
 const style = css`
-  .comment_input {
+  .comment_container {
     margin-top: 30px;
   }
   .title {
@@ -30,7 +34,7 @@ const style = css`
     transition: 0.3ms;
   }
   @media (min-width: 1200px) {
-    .comment_input {
+    .comment_container {
       margin-top: 20px;
     }
     .title p {
@@ -38,19 +42,28 @@ const style = css`
     }
   }
 `;
-const Comment = ({ Comments, value, id }) => {
+const Comment = ({ value, id }) => {
   const [hidden, setHidden] = useState(true);
+  console.log("lender");
+  const fetcher = async (url) => {
+    const res = await axios.get(url);
+    return res.data.results;
+  };
+
+  const { data, mutate } = useSwr(`${server}/api/${value}/comment/${id}`, fetcher);
+
   const handleHiddenComment = () => {
     setHidden(!hidden);
   };
+
   return (
-    <div className="comment_input">
+    <div className="comment_container">
       <div className="title">
         <p>댓글</p>
         <Toggle onClick={handleHiddenComment} hidden={hidden} />
       </div>
       <CommentInput value={value} id={id} />
-      {!hidden && Comments !== [] && Comments.map((data) => <CommentText data={data} key={data.id} />)}
+      {!hidden && data.map((comment) => <CommentText data={comment} key={comment.id} />)}
       <style jsx>{style}</style>
     </div>
   );
