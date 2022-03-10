@@ -105,7 +105,7 @@ const GoalInput = ({ inputs, setInputs, state, setState }) => {
       <div className="goal">
         <p>저의 목표는</p>
         <p className="goal_input">
-          <input name="goal" type="text" maxLength={20} placeholder="예) 결혼자금 모으기" onChange={handleChange} value={goal}></input> 입니다
+          <input name="goal" type="text" maxLength={21} placeholder="예) 결혼자금 모으기" onChange={handleChange} value={goal}></input> 입니다
           <span className={goal.length > 20 ? "" : "hidden"}>*최대 글자수는 20자입니다.</span>
         </p>
       </div>
