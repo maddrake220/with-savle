@@ -4,19 +4,19 @@ import Link from "next/link";
 import server from "@/config/server";
 import axios from "axios";
 import VoteBox from "@/components/vote/VoteBox";
-import { useEffect, useState } from "react";
 import SkeletonBox from "@/components/vote/SkeletonBox";
+import useSWR, { SWRConfig } from "swr";
+const fetcher = (server) => axios.get(server).then((r) => r.data);
 
-function Vote() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    setTimeout(async () => {
-      const result = await axios.get(`${server}/api/vote`);
-      setData(result.data.results);
-    }, 1000);
-  }, []);
-
+export const vote_address = "/api/vote";
+function Votelist() {
+  const {
+    data: { results: data },
+    error,
+  } = useSWR(vote_address, fetcher, {
+    revalidateOnFocus: false,
+  });
+  console.log(data);
   return (
     <>
       <Head>
@@ -121,7 +121,7 @@ function Vote() {
             }
             .banner_box_container {
               height: 196px;
-              padding: 0 150px;
+              padding: 0 80px;
             }
             .banner_box_title {
               font-size: 28px;
@@ -134,7 +134,7 @@ function Vote() {
             }
             .img_character_money {
               bottom: 20px;
-              right: 140px;
+              right: 70px;
               width: 176px;
               height: 143px;
             }
@@ -159,7 +159,7 @@ function Vote() {
             }
             .banner_box_container {
               height: 246px;
-              padding: 0 261px;
+              padding: 0 160px;
             }
             .banner_box_title {
               font-size: 40px;
@@ -175,7 +175,7 @@ function Vote() {
               width: 241px;
               height: 197px;
               bottom: 15px;
-              right: 261px;
+              right: 160px;
             }
             .vote_box_list {
               padding: 40px 0;
@@ -193,4 +193,21 @@ function Vote() {
   );
 }
 
-export default Vote;
+export default function Vote({ fallback }) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Votelist />
+    </SWRConfig>
+  );
+}
+
+export async function getStaticProps() {
+  const res = await axios.get(`${server}/api/vote`);
+  return {
+    props: {
+      fallback: {
+        "/api/vote": res.data.results,
+      },
+    },
+  };
+}
