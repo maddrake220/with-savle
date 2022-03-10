@@ -10,6 +10,7 @@ import Image from "next/image";
 import { checkRangeAge } from "@/utils/goal/functions";
 import { ageList, ageRange } from "@/utils/goal/data";
 import { fetcher, goal_address } from "@/utils/swr";
+import NewGoalComplete from "./NewGoalComplete";
 
 export default function ArticleList() {
   const {
@@ -23,21 +24,22 @@ export default function ArticleList() {
   const [filtered, setFiltered] = useState(ageRange);
   const [selectedDropdown, setSelectedDropdown] = useState("newest");
   const [toggleNewGoal, setToggleNewGoal] = useState(false);
-  // const [toggleNewGoalComp, setToggleNewGoalComp] = useState(false);
+  const [toggleNewGoalComp, setToggleNewGoalComp] = useState(false);
   const onCloseAllModal = useCallback(() => {
     setToggleNewGoal(false);
-    //setToggleNewGoalComp(false);
+    setToggleNewGoalComp(false);
   }, []);
   const onCloseModal = useCallback(() => {
     setToggleNewGoal(false);
   }, []);
   const onSuccessNewGoal = useCallback(() => {
-    // setToggleNewGoalComp((t) => !t);
-    setToggleNewGoal((t) => !t);
+    setToggleNewGoal(false);
+    setToggleNewGoalComp(false);
   }, []);
-  // const onCloseCompModal = useCallback(() => {
-  //   setToggleNewGoalComp(false);
-  // }, []);
+  const onCloseCompModal = useCallback(() => {
+    setToggleNewGoal(false);
+    setToggleNewGoalComp(false);
+  }, []);
   const handleMenuChange = (event) => {
     setSelectedDropdown(event.target.value);
   };
@@ -144,13 +146,8 @@ export default function ArticleList() {
         />
       </div>
       <div className={`new-goal-modal-back`} onClick={onCloseAllModal}>
-        <NewGoalForm
-          toggleNewGoal={toggleNewGoal}
-          // setToggleNewGoalComp={setToggleNewGoalComp}
-          onCloseModal={onCloseModal}
-          onSuccessNewGoal={onSuccessNewGoal}
-        />
-        {/* <NewGoalComplete toggleNewGoalComp={toggleNewGoalComp} onCloseModal={onCloseCompModal} /> */}
+        <NewGoalForm toggleNewGoal={toggleNewGoal} onCloseModal={onCloseModal} onSuccessNewGoal={onSuccessNewGoal} />
+        {/* <NewGoalComplete toggleNewGoalComp={toggleNewGoalComp} onCloseCompModal={onCloseCompModal} from={"goal"} /> */}
       </div>
       <style jsx>{`
         header {
@@ -227,9 +224,8 @@ export default function ArticleList() {
           bottom: 1.688rem;
           right: 1rem;
         }
-
         .new-goal-modal-back {
-          display: ${toggleNewGoal ? "block" : "none"};
+          display: ${toggleNewGoal || toggleNewGoalComp ? "block" : "none"};
           position: fixed;
           top: 0;
           left: 0;

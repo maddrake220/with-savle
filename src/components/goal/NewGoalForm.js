@@ -46,6 +46,10 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal, onSuccessNewG
         .then((resolve) => {
           if (resolve.status === 200) {
             onSuccessNewGoal();
+            setSearchCategory("");
+            textareaRef.current.value = "";
+            setSelectedGoalCategories([]);
+            setSelectedAge(null);
           }
         })
         .catch((error) => alert(error, "fail to post"));
@@ -57,7 +61,9 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal, onSuccessNewG
     setSelectedGoalCategories([]);
     setSearchCategory("");
   }, []);
-
+  const onClickInputBox = useCallback(() => {
+    inputRef.current.focus();
+  }, []);
   const onFocus = useCallback((e) => {
     setIsFocusedCategoryInput(true);
   }, []);
@@ -148,7 +154,7 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal, onSuccessNewG
               <span>목표 카테고리</span>
             </label>
             <div className="goal-wrapper">
-              <div className="input-box">
+              <div className="input-box" onClick={onClickInputBox}>
                 <input
                   ref={inputRef}
                   onFocus={onFocus}
@@ -169,11 +175,13 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal, onSuccessNewG
                 {categoryByAge.length === 0 ? (
                   <li style={{ color: "red" }}>연령대를 선택해 주세요!</li>
                 ) : searchCategory === "" ? (
-                  categoryByAge.map((goalCategory, index) => (
-                    <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
-                      {goalCategory.keyword}
-                    </li>
-                  ))
+                  categoryByAge
+                    .sort((a, b) => b.count - a.count)
+                    .map((goalCategory, index) => (
+                      <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
+                        {goalCategory.keyword}
+                      </li>
+                    ))
                 ) : (
                   searchingCategoryByAge.map((goalCategory, index) => (
                     <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
@@ -284,6 +292,7 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal, onSuccessNewG
             color: #2d2d2d;
           }
           .input-box {
+            cursor: text;
             width: 10rem;
             height: 1.5rem;
             background: #f7f8fa;
