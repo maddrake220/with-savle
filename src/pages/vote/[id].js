@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import axios from "axios";
 import Favorite from "public/img/Favorite.svg";
@@ -7,18 +7,40 @@ import Link from "next/link";
 import Comment from "@/components/Comment";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
-const putLike = async (id, like) => {
-  await axios.put(`${server}/api/vote/like`, { params: { id, like } });
+export async function getStaticProps(context) {
+  const { id } = context.params;
+  const { data } = await axios.get(`${server}/api/vote/${id}`);
+  return {
+    props: {
+      data,
+    },
+  };
+}
+export const getStaticPaths = async () => {
+  const { data } = await axios.get(`${server}/api/vote`);
+  const ids = data.results.map((data) => data.id);
+  const paths = ids.map((id) => {
+    return {
+      params: { id: id.toString() },
+    };
+  });
+  return {
+    paths,
+    fallback: false,
+  };
 };
 
 function VoteById({ data }) {
   const breakpoint = useBreakpoint();
-  console.log(data.results);
+  const gaugeBox = useRef();
+
   const { title, text, likes, voteSelect, voteComments, id } = data.results;
   const [btnColor, setBtnColor] = useState({
     voteBtnBg: "#d5d8dc",
     voteBtntextColor: "#B2B2B2",
     borderColor: "1px solid #3178FF",
+    itemBackground: "#fff",
+    itemGaugeColor: "#e8f3ff",
   });
   const [copySuccess, setCopySuccess] = useState(null);
   const [modalActive, setModalActive] = useState(false);
@@ -27,13 +49,16 @@ function VoteById({ data }) {
   const [likeNums, setLikeNums] = useState(likes);
   const [clickedItem, setClickedItem] = useState(Array(voteSelect.length).fill(false));
   const [voteList, setVoteList] = useState([{ id: id, value: "" }]);
-  //# 전체 투표수 관리
-  const [totalVotes1, setTotalVotes1] = useState(voteSelect[0].count);
-  const [totalVotes2, setTotalVotes2] = useState(voteSelect[1].count);
-  const [totalVotes3, setTotalVotes3] = useState(voteSelect[2].count);
-  const [totalVotes4, setTotalVotes4] = useState(voteSelect[3]?.count);
-  //# 투표했으면 다시 투표 못하게
-  const [voted, setVoted] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
+  const totalVotes = voteSelect.map((item) => item.count);
+  const clickedItemIndex = (ele) => ele === true;
+  const itemIndex = clickedItem.findIndex(clickedItemIndex);
+
+  const itemCount = totalVotes[itemIndex];
+  const totalCount = totalVotes.reduce(function add(sum, currValue) {
+    return sum + currValue;
+  }, 0);
 
   useEffect(() => {
     const likesId = localStorage.getItem("votebox-like-list");
@@ -43,12 +68,14 @@ function VoteById({ data }) {
   // 값이 없다면 투표할수 있는 페이지로! 값이 있다면 투표할 수 없도록!
   useEffect(() => {
     const voteItemId = JSON.parse(localStorage.getItem("vote-list"));
-    console.log(voteItemId);
     voteItemId;
   }, []);
   const handleLikeToggle = useCallback(
     (e) => {
       e.preventDefault();
+      const putLike = async (id, like) => {
+        await axios.put(`${server}/api/vote/like`, { params: { id, like } });
+      };
       const likesId = localStorage.getItem("votebox-like-list");
       console.log(likesId);
       let arrlikes = [];
@@ -82,82 +109,107 @@ function VoteById({ data }) {
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      // 아이템 선택 안했을 시 제출버튼 클릭 방지
-      if (itemValue === "") {
+      if (itemCount === undefined) {
         return false;
       }
-      const clickedItemIndex = (ele) => ele === true;
-      const itemId = clickedItem.findIndex(clickedItemIndex);
-      console.log(itemId);
-      // #put 통신으로 투표 count 집계
-      const itemCount = voteSelect[itemId].count;
-
+      const itemId = voteSelect[itemIndex].id;
       const putVoteCount = async () => {
         await axios.put(`${server}/api/vote`, {
           params: {
-            itemCount,
+            id: itemId,
           },
         });
       };
-      if (itemId == 0) {
-        setTotalVotes1((totalVotes1 = totalVotes1 + 1));
-        // putVoteCount(itemCount);
-      } else if (itemId == 1) {
-        setTotalVotes2((totalVotes2 = totalVotes2 + 1));
-      } else if (itemId == 2) {
-        setTotalVotes3((totalVotes3 = totalVotes3 + 1));
+
+      if (itemIndex === 0) {
+        itemCount = itemCount + 1;
+        putVoteCount();
+      } else if (itemIndex === 1) {
+        itemCount = itemCount + 1;
+        putVoteCount();
+      } else if (itemIndex === 2) {
+        itemCount = itemCount + 1;
+        putVoteCount();
       } else {
-        setTotalVotes3((totalVotes4 = totalVotes4 + 1));
+        itemCount = itemCount + 1;
+        putVoteCount();
       }
-      // console.log(totalVotes1);
-      // console.log(totalVotes2);
-      // console.log(totalVotes3);
+
+      console.log("항목카운트 더한값", itemCount);
 
       // #localstorage에 데이터 전달!
-      setVoteList([...voteList, { id: id, value: voteSelect[itemId].id }]);
-      let newVoteList = [...voteList, { id: id, value: voteSelect[itemId].id }];
+      setVoteList([...voteList, { id: id, value: voteSelect[itemIndex].id }]);
+      let newVoteList = [...voteList, { id: id, value: voteSelect[itemIndex].id }];
       localStorage.setItem("vote-list", JSON.stringify(newVoteList));
-      // #버튼 제출되면 색깔변화 | 데이터 수치 보여주기**
+
+      // #제출되면 색깔변화
       setBtnColor(() => ({
         voteBtnBg: "#3178FF",
         voteBtntextColor: "rgba(256, 256, 256, 0.5)",
-        borderColor: itemId ? "1px solid #3178FF" : "1px solid #3178FF",
+        borderColor: itemIndex ? "1px solid #3178FF" : "1px solid #3178FF",
+        itemBackground: itemIndex ? "#fff" : "#fff",
+        itemGaugeColor: itemIndex ? "#e8f3ff" : "#e8f3ff",
       }));
+
+      // # 각각 맞는 게이지 보여주기
+      const gaugeWitdh = Math.floor((itemCount / totalCount) * 100);
+      console.log(gaugeWitdh);
+      //자바스크립트 자체에서 width 스타일 변경하기
+      gaugeBox.current.style.width = `${gaugeWitdh}px`;
+
       // #마지막으로 다시 투표 못하도록 비활성화하기
+      setDisabled(true);
     },
-    [clickedItem],
+    [id, itemValue, totalVotes, voteSelect, voteList, clickedItem],
   );
 
-  //* 복사하기 실행함수
   function copy() {
-    const el = document.createElement("input");
-    el.value = window.location.href;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand("copy");
-    document.body.removeChild(el);
-    alert("복사는되지만 모달은 아직 구현 X");
+    setCopySuccess(() => {
+      const el = document.createElement("input");
+      el.value = window.location.href;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+    });
+  }
+  function onClickModalOn() {
+    setModalActive((prev) => !prev);
+    setTimeout(() => {
+      setModalActive((prev) => !prev);
+    }, 1000);
   }
 
   return (
-    <div className="body_container">
+    <div className="body_container" style={breakpoint.sm ? { backgroundColor: "#fff" } : { backgroundColor: "#E5E5E5" }}>
       <div className="container">
         <form onSubmit={onSubmit}>
           <h1>{title}</h1>
           <p>{text}</p>
-          {voteSelect.map((selectItem, index) => (
-            <li
-              style={clickedItem[index] ? { border: btnColor.borderColor } : { border: "0px" }}
-              key={selectItem.item}
-              className={`vote_box ${clickedItem[index] ? "click_color" : "false"} `}
-              onClick={() => handleClick(index)}
-            >
-              <input type="radio" id={selectItem.item} name="vote" value={selectItem.item} onChange={onChange} />
-              <label htmlFor={selectItem.item}>{selectItem.item}</label>
-            </li>
-          ))}
+          <div className={`${disabled ? "block" : "false"}`}>
+            {voteSelect.map((selectItem, index) => (
+              <li
+                style={
+                  clickedItem[index]
+                    ? { border: btnColor.borderColor, backgroundColor: btnColor.itemBackground }
+                    : { border: "0px", backgroundColor: "#f6f6f6" }
+                }
+                key={selectItem.item}
+                className={`vote_box ${disabled ? "showGauge" : "false"} ${clickedItem[index] ? "click_color" : "false"} `}
+                onClick={() => handleClick(index)}
+              >
+                <div
+                  ref={gaugeBox}
+                  style={clickedItem[index] ? { backgroundColor: btnColor.itemGaugeColor } : { backgroundColor: "#e4e4e4" }}
+                  className={`${disabled ? "currentGauge" : "false"}`}
+                ></div>
 
-          <button type="submit" style={{ backgroundColor: btnColor.voteBtnBg, color: btnColor.voteBtntextColor }} className="vote_btn">
+                <input type="radio" id={selectItem.item} name="vote" value={selectItem.item} onChange={onChange} />
+                <label htmlFor={selectItem.item}>{selectItem.item}</label>
+              </li>
+            ))}
+          </div>
+          <button type="submit" disabled={disabled} style={{ backgroundColor: btnColor.voteBtnBg, color: btnColor.voteBtntextColor }} className="vote_btn">
             투표하기
           </button>
         </form>
@@ -168,7 +220,9 @@ function VoteById({ data }) {
             <Image src="/img/comment.svg" alt="Comment" width={20} height={20} />
             <span>{voteComments.length}</span>
           </div>
-          <Image src="/img/share.svg" alt="Share" width={20} height={20} onClick={copy} />
+          <div className={`copy_btn active" ${modalActive ? "active" : ""}`} onClick={onClickModalOn}>
+            <Image src="/img/share.svg" alt="Share" width={20} height={20} onClick={copy} />
+          </div>
         </div>
         <Comment Comments={voteComments} value="vote" />
         <div className="back_btn_container">
@@ -183,6 +237,7 @@ function VoteById({ data }) {
             height: 100vh;
             box-sizing: border-box;
             padding: 0 20px;
+            background-color: #fff;
           }
           h1 {
             font-size: 16px;
@@ -203,30 +258,69 @@ function VoteById({ data }) {
             background-color: #f6f6f6;
             border-radius: 4px;
             height: 36px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            box-sizing: border-box;
+            position: relative;
+          }
+          .vote_box:last-child {
+            margin-bottom: 0;
+          }
+          .vote_box .showGauge {
+            background-color: red;
+            border-radius: 4px;
+            height: 36px;
             margin-top: 10px;
             display: flex;
             align-items: center;
             padding: 0 8px;
             box-sizing: border-box;
+            pointer-events: none;
+          }
+          .block {
+            pointer-events: none;
           }
           .click_color {
             background-color: #e8f3ff;
           }
+          .currentGauge {
+            position: absolute;
+            left: 0;
+            background-color: #e4e4e4;
+            height: 100%;
+          }
           input[type="radio"] {
-            border: 8px solid #b2b2b2;
-            height: 16px;
-            width: 16px;
-            border-radius: 50%;
+            display: none;
           }
           label {
+            position: relative;
             display: flex;
             align-items: center;
             width: 100%;
+            height: 95%;
             font-size: 13px;
             line-height: 20px;
             font-weight: 400;
             color: #36332e;
-            margin-left: 5px;
+            padding: 0 18px;
+          }
+          label:before {
+            position: absolute;
+            content: "";
+            height: 8px;
+            width: 8px;
+            border: 2px solid #b2b2b2;
+            border-radius: 50%;
+            margin-right: 10px;
+            left: 0;
+            background-color: #fff;
+          }
+          input[type="radio"]:checked + label:before {
+            height: 5px;
+            width: 5px;
+            border: 4px solid #3178ff;
           }
           .vote_btn {
             margin-top: 34px;
@@ -244,6 +338,7 @@ function VoteById({ data }) {
             margin-top: 20px;
             padding-bottom: 8px;
             border-bottom: 1px solid #e3e7ed;
+            position: relative;
           }
           .favorite_comment {
             display: flex;
@@ -273,26 +368,33 @@ function VoteById({ data }) {
             background-color: #d5d8dc;
             cursor: pointer;
           }
+          .copy_btn.active:before {
+            content: "URL이 복사되었습니다.";
+            font-size: 12px;
+            position: absolute;
+            right: 0;
+            bottom: -27px;
+            width: 130px;
+            padding: 4px;
+            text-align: center;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+          }
 
           /* Tablet */
           @media (min-width: 576px) {
             .container {
-              padding: 32px 0px;
+              padding: 32px 100px;
+              width: 90%;
+              box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
             }
           }
-
           /* Desktop */
           @media (min-width: 1200px) {
-            /* #e5e5e5 */
-            .body_container {
-              background-color: #e5e5e5;
-            }
-
             .container {
-              /* border: 1px solid red; */
               padding: 68px 103px;
               background-color: #fff;
-              box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
             }
             h1 {
               font-size: 22px;
@@ -380,30 +482,5 @@ function VoteById({ data }) {
     </div>
   );
 }
-
-export async function getStaticProps(context) {
-  const { id } = context.params;
-  const { data } = await axios.get(`${server}/api/vote/${id}`);
-  return {
-    props: {
-      data,
-    },
-    revalidate: 10,
-  };
-}
-
-export const getStaticPaths = async () => {
-  const { data } = await axios.get(`${server}/api/vote`);
-  const ids = data.results.map((data) => data.id);
-  const paths = ids.map((id) => {
-    return {
-      params: { id: id.toString() },
-    };
-  });
-  return {
-    paths,
-    fallback: false,
-  };
-};
 
 export default VoteById;
