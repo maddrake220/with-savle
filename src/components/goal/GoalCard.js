@@ -9,6 +9,7 @@ import GoalLike from "./GoalLike";
 import { useLike } from "@/hooks/index";
 
 export default function GoalCard({ id, age, categories, comments, likes, text }) {
+  const skeletonView = new Array(3).fill(0);
   const [like, likeNums, localStorageHandler] = useLike(id, likes, localstorageGoalLike);
 
   const onClickCard = useCallback(() => {
@@ -38,7 +39,7 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
                   <span>{category}</span>
                 </li>
               ))
-            : [1, 2, 3].map((v, i) => (
+            : skeletonView.map((v, i) => (
                 <li key={i}>
                   <span>
                     <Skeleton style={{ marginRight: "10px" }} width={40} height={25} count={1} />

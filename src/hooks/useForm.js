@@ -8,21 +8,22 @@ export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {
   const [seletedGoalCategories, setSelectedGoalCategories] = useState([]);
   const [categoryByAge, setCategoryByAge] = useState([]);
   const [searchingCategoryByAge, setSearchingCategoryByAge] = useState([]);
+  const [text, setText] = useState("");
   const [searchCategory, setSearchCategory] = useState("");
+  const [validationCheck, setValidationCheck] = useState({ age: false, text: false, category: false });
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      const text = textareaRef.current.value;
       if (selectedAge === null) {
-        alert("test) 연령대를 선택해 주세요!");
+        setValidationCheck({ age: true });
         return;
       }
       if (text === "") {
-        alert("test) 내용을 입력해 주세요!");
+        setValidationCheck({ text: true });
         return;
       }
       if (seletedGoalCategories.length === 0) {
-        alert("test) 목표 카테고리를 골라주세요!");
+        setValidationCheck({ category: true });
         return;
       }
       const categories = seletedGoalCategories.map((v) => v.keyword);
@@ -38,16 +39,23 @@ export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {
           if (resolve.status === 200) {
             toggleModal();
             setSearchCategory("");
-            textareaRef.current.value = "";
+            setText("");
             setSelectedGoalCategories([]);
             setSelectedAge(null);
           }
         })
         .catch((error) => alert(error, "fail to post"));
     },
-    [seletedGoalCategories, textareaRef, selectedAge, toggleModal],
+    [seletedGoalCategories, setText, selectedAge, toggleModal, text],
   );
+  const onChangeText = useCallback((e) => {
+    if (e.target.value !== "") {
+      setValidationCheck({ text: false });
+    }
+    setText(e.target.value);
+  }, []);
   const onClickselectedAge = useCallback((value) => {
+    setValidationCheck({ age: false });
     setSelectedAge(value);
     setSelectedGoalCategories([]);
     setSearchCategory("");
@@ -71,6 +79,7 @@ export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {
         }
       }, 100);
       setSelectedGoalCategories((values) => [...values, value]);
+      setValidationCheck({ category: false });
     },
     [seletedGoalCategories, inputRef],
   );
@@ -107,7 +116,6 @@ export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {
         .catch((error) => console.log(error, "fail to get category"));
     }
   }, [selectedAge]);
-
   return [
     selectedAge,
     isFocusedCategoryInput,
@@ -115,6 +123,8 @@ export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {
     categoryByAge,
     searchingCategoryByAge,
     searchCategory,
+    validationCheck,
+    text,
     onSubmit,
     onClickselectedAge,
     onClickInputBox,
@@ -123,5 +133,6 @@ export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {
     onMouseDownGoalCategory,
     onMouseDownUndoGoalCategory,
     onChangeSearchCategory,
+    onChangeText,
   ];
 };

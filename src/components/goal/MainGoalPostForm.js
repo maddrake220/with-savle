@@ -18,6 +18,8 @@ export default function NewGoalForm({ toggleModal }) {
     categoryByAge,
     searchingCategoryByAge,
     searchCategory,
+    validationCheck,
+    text,
     onSubmit,
     onClickselectedAge,
     onClickInputBox,
@@ -26,6 +28,7 @@ export default function NewGoalForm({ toggleModal }) {
     onMouseDownGoalCategory,
     onMouseDownUndoGoalCategory,
     onChangeSearchCategory,
+    onChangeText,
   ] = useForm(toggleModal, textareaRef, selectedRef, inputRef);
 
   return (
@@ -62,8 +65,12 @@ export default function NewGoalForm({ toggleModal }) {
                 />
               ))}
             </ul>
+            {validationCheck.age && <div className="validation-fail">연령선택을 해주세요!</div>}
           </div>
-          <textarea ref={textareaRef} className="text" type="text" placeholder="내용을 입력해주세요!" />
+          <div className="textarea-wrapper">
+            <textarea ref={textareaRef} className="text" type="text" placeholder="내용을 입력해주세요!" onChange={onChangeText} value={text} />
+            {validationCheck.text && <div className="validation-fail">내용을 입력해주세요!</div>}
+          </div>
           <div className="goal-category-wrapper">
             <label>
               <span>목표 카테고리</span>
@@ -124,6 +131,7 @@ export default function NewGoalForm({ toggleModal }) {
                 </svg>
               </button>
             </div>
+            {validationCheck.category && <div className="validation-fail">목표 카테고리를 선택해주세요!</div>}
           </div>
         </form>
       </main>
@@ -289,6 +297,14 @@ export default function NewGoalForm({ toggleModal }) {
             background: #e8f3ff;
             border-radius: 4px;
             border: none;
+          }
+          .textarea-wrapper {
+            width: 100%;
+            position: relative;
+          }
+          .validation-fail {
+            font-size: 0.7rem;
+            color: red;
           }
           @media (min-width: 576px) {
             section {

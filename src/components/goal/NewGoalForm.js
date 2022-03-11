@@ -19,6 +19,8 @@ export default function NewGoalForm({ isToggleModal, toggleModal }) {
     categoryByAge,
     searchingCategoryByAge,
     searchCategory,
+    validationCheck,
+    text,
     onSubmit,
     onClickselectedAge,
     onClickInputBox,
@@ -27,6 +29,7 @@ export default function NewGoalForm({ isToggleModal, toggleModal }) {
     onMouseDownGoalCategory,
     onMouseDownUndoGoalCategory,
     onChangeSearchCategory,
+    onChangeText,
   ] = useForm(toggleModal, textareaRef, selectedRef, inputRef);
 
   return (
@@ -34,7 +37,7 @@ export default function NewGoalForm({ isToggleModal, toggleModal }) {
       <h1>목표 작성하기</h1>
       <div className="modal-top">
         {matchQuery.sm ? (
-          <svg onClick={onCloseModal} width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg onClick={toggleModal} width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M14.25 4.75L4.75 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M4.75 4.75L14.25 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
@@ -63,8 +66,12 @@ export default function NewGoalForm({ isToggleModal, toggleModal }) {
                 />
               ))}
             </ul>
+            <div>{validationCheck.age && <div className="validation-fail">연령대를 선택 해주세요!</div>}</div>
           </div>
-          <textarea ref={textareaRef} className="text" type="text" placeholder="내용을 입력해주세요!" />
+          <div className="textarea-wrapper">
+            <textarea ref={textareaRef} className="text" type="text" placeholder="내용을 입력해주세요!" onChange={onChangeText} value={text} />
+            {validationCheck.text && <div className="validation-fail">내용을 입력해주세요!</div>}
+          </div>
           <div className="goal-category-wrapper">
             <label>
               <span>목표 카테고리</span>
@@ -125,6 +132,7 @@ export default function NewGoalForm({ isToggleModal, toggleModal }) {
                 </svg>
               </button>
             </div>
+            {validationCheck.category && <div className="validation-fail">목표 카테고리를 선택해주세요!</div>}
           </div>
         </form>
       </main>
@@ -169,6 +177,7 @@ export default function NewGoalForm({ isToggleModal, toggleModal }) {
             align-items: center;
           }
           .age-list-container {
+            position: relative;
             margin-top: 0.875rem;
             display: flex;
             white-space: pre;
@@ -293,6 +302,15 @@ export default function NewGoalForm({ isToggleModal, toggleModal }) {
             background: #e8f3ff;
             border-radius: 4px;
             border: none;
+          }
+          .textarea-wrapper {
+            margin-top: 7px;
+            width: 100%;
+            position: relative;
+          }
+          .validation-fail {
+            font-size: 0.7rem;
+            color: red;
           }
           @media (min-width: 576px) {
             section {

@@ -13,7 +13,7 @@ import { fetcher, goal_address } from "@/utils/swr";
 import { useModal } from "@/hooks/index";
 
 export default function ArticleList() {
-  const skeletonView = new Array(5).fill(0);
+  const skeletonView = new Array(9).fill(0);
   const {
     data: { results: data },
     error,
