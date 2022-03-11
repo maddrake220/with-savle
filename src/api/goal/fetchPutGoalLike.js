@@ -1,4 +1,5 @@
-import server from "@/config/server";
 import axios from "axios";
 
-export const fetchPutGoalLike = async (params) => await axios.put(`${server}/api/vote/goal`, { params });
+import server from "@/config/server";
+
+export const fetchPutGoalLike = async (parameters) => await axios.put(`${server}/api/vote/goal`, { params: parameters });
