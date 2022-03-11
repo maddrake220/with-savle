@@ -1,15 +1,17 @@
-import React, { useRef } from "react";
-import NewGoalCategoryButton from "./NewGoalCategoryButton";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
 import Image from "next/image";
-import { newGoalAgeList } from "@/utils/goal/data";
+import React, { useRef } from "react";
+
 import { useForm } from "@/hooks/index";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { newGoalAgeList } from "@/utils/goal/data";
+
+import NewGoalCategoryButton from "./NewGoalCategoryButton";
 export default function NewGoalForm({ toggleModal }) {
   const matchQuery = useBreakpoint();
 
-  const textareaRef = useRef(null);
-  const inputRef = useRef(null);
-  const selectedRef = useRef(null);
+  const textareaReference = useRef(null);
+  const inputReference = useRef(null);
+  const selectedReference = useRef(null);
 
   const [
     selectedAge,
@@ -29,20 +31,51 @@ export default function NewGoalForm({ toggleModal }) {
     onMouseDownUndoGoalCategory,
     onChangeSearchCategory,
     onChangeText,
-  ] = useForm(toggleModal, textareaRef, selectedRef, inputRef);
+  ] = useForm(
+    toggleModal,
+    textareaReference,
+    selectedReference,
+    inputReference,
+  );
 
   return (
-    <section onClick={(e) => e.stopPropagation()}>
+    <section onClick={(event) => event.stopPropagation()}>
       <h1>목표 작성하기</h1>
       <div className="modal-top">
         {matchQuery.sm ? (
-          <svg onClick={toggleModal} width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14.25 4.75L4.75 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M4.75 4.75L14.25 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            onClick={toggleModal}
+            width="19"
+            height="19"
+            viewBox="0 0 19 19"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14.25 4.75L4.75 14.25"
+              stroke="#CCD2E3"
+              strokeWidth="1.09524"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M4.75 4.75L14.25 14.25"
+              stroke="#CCD2E3"
+              strokeWidth="1.09524"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         ) : (
-          <div style={{ marginTop: "7px", position: "absolute", right: "11px" }}>
-            <Image width="101px" height="51px" src="/img/newgoalchar.svg" alt="" />
+          <div
+            style={{ marginTop: "7px", position: "absolute", right: "11px" }}
+          >
+            <Image
+              width="101px"
+              height="51px"
+              src="/img/newgoalchar.svg"
+              alt=""
+            />
           </div>
         )}
       </div>
@@ -65,11 +98,22 @@ export default function NewGoalForm({ toggleModal }) {
                 />
               ))}
             </ul>
-            {validationCheck.age && <div className="validation-fail">연령선택을 해주세요!</div>}
+            {validationCheck.age && (
+              <div className="validation-fail">연령선택을 해주세요!</div>
+            )}
           </div>
           <div className="textarea-wrapper">
-            <textarea ref={textareaRef} className="text" type="text" placeholder="내용을 입력해주세요!" onChange={onChangeText} value={text} />
-            {validationCheck.text && <div className="validation-fail">내용을 입력해주세요!</div>}
+            <textarea
+              ref={textareaReference}
+              className="text"
+              type="text"
+              placeholder="내용을 입력해주세요!"
+              onChange={onChangeText}
+              value={text}
+            />
+            {validationCheck.text && (
+              <div className="validation-fail">내용을 입력해주세요!</div>
+            )}
           </div>
           <div className="goal-category-wrapper">
             <label>
@@ -78,7 +122,7 @@ export default function NewGoalForm({ toggleModal }) {
             <div className="goal-wrapper">
               <div className="input-box" onClick={onClickInputBox}>
                 <input
-                  ref={inputRef}
+                  ref={inputReference}
                   onFocus={onFocus}
                   onBlur={onBlur}
                   className="goal-category-search-input"
@@ -86,31 +130,42 @@ export default function NewGoalForm({ toggleModal }) {
                   onChange={onChangeSearchCategory}
                 />
               </div>
-              <ul className="selected-goal-categories" ref={selectedRef}>
+              <ul className="selected-goal-categories" ref={selectedReference}>
                 {seletedGoalCategories?.map((seletedGoalCategory, index) => (
-                  <li onMouseDown={(e) => onMouseDownUndoGoalCategory(e, seletedGoalCategory)} key={index}>
+                  <li
+                    onMouseDown={(event) =>
+                      onMouseDownUndoGoalCategory(event, seletedGoalCategory)
+                    }
+                    key={index}
+                  >
                     {seletedGoalCategory.keyword}
                   </li>
                 ))}
               </ul>
               <ul className="goal-category-list">
-                {categoryByAge.length === 0 ? (
-                  <li style={{ color: "red" }}>연령대를 선택해 주세요!</li>
-                ) : searchCategory === "" ? (
-                  categoryByAge
-                    .sort((a, b) => b.count - a.count)
-                    .map((goalCategory, index) => (
-                      <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
+                {searchCategory === ""
+                  ? categoryByAge
+                      .sort((a, b) => b.count - a.count)
+                      .map((goalCategory, index) => (
+                        <li
+                          onMouseDown={(event) =>
+                            onMouseDownGoalCategory(event, goalCategory)
+                          }
+                          key={index}
+                        >
+                          {goalCategory.keyword}
+                        </li>
+                      ))
+                  : searchingCategoryByAge.map((goalCategory, index) => (
+                      <li
+                        onMouseDown={(event) =>
+                          onMouseDownGoalCategory(event, goalCategory)
+                        }
+                        key={index}
+                      >
                         {goalCategory.keyword}
                       </li>
-                    ))
-                ) : (
-                  searchingCategoryByAge.map((goalCategory, index) => (
-                    <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
-                      {goalCategory.keyword}
-                    </li>
-                  ))
-                )}
+                    ))}
               </ul>
               <button type="submit" className="submit-button">
                 <svg
@@ -131,7 +186,11 @@ export default function NewGoalForm({ toggleModal }) {
                 </svg>
               </button>
             </div>
-            {validationCheck.category && <div className="validation-fail">목표 카테고리를 선택해주세요!</div>}
+            {validationCheck.category && (
+              <div className="validation-fail">
+                목표 카테고리를 선택해주세요!
+              </div>
+            )}
           </div>
         </form>
       </main>
