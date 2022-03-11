@@ -10,9 +10,9 @@ import Image from "next/image";
 import { checkRangeAge } from "@/utils/goal/functions";
 import { ageList, ageRange } from "@/utils/goal/data";
 import { fetcher, goal_address } from "@/utils/swr";
-import NewGoalComplete from "./NewGoalComplete";
 
 export default function ArticleList() {
+  const skeletonArray = new Array(5).fill(0);
   const {
     data: { results: data },
     error,
@@ -109,7 +109,7 @@ export default function ArticleList() {
           </div>
           <ul className="goal-list">
             {!data
-              ? Array(5).map((v, index) => <GoalCard key={index} />)
+              ? skeletonArray.map((v, index) => <GoalCard key={index} />)
               : data
                   ?.filter((value) => {
                     return value.age >= filtered.start && value.age <= filtered.end;
