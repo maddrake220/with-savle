@@ -1,3 +1,6 @@
+@import "./variables.scss";
+
+
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
@@ -403,4 +406,7 @@ template {
     width: 1200px;
     margin: 0 auto;
   }
+}
+html {
+  font-size: 16px;
 }

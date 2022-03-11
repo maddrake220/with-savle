@@ -1,14 +1,16 @@
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 import Image from "next/image";
 import Link from "next/link";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import MainVoteBox from "@/components/vote/MainVoteBox";
+
+import MainVoteBox from "@/components/Vote/MainVoteBox";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { mockDatas } from "@/utils/voteMockData";
 
-function SampleNextArrow(props) {
-  const { className, onClick } = props;
+function SampleNextArrow(properties) {
+  const { className, onClick } = properties;
   return (
     <div className={className} onClick={onClick}>
       <Image src="/img/next.svg" alt="next" width={10} height={40} />
@@ -18,6 +20,7 @@ function SampleNextArrow(props) {
           justify-content: end;
           position: absolute;
           top: 44%;
+          z-index: 1;
         }
         .slick-arrow:before {
           content: "";
@@ -27,15 +30,14 @@ function SampleNextArrow(props) {
   );
 }
 
-function SamplePrevArrow(props) {
-  const { className, onClick } = props;
+function SamplePreviousArrow(properties) {
+  const { className, onClick } = properties;
   return (
     <div className={className} onClick={onClick}>
       <Image src="/img/prev.svg" alt="prev" width={10} height={40} />
       <style jsx>{`
         .slick-arrow {
           display: flex;
-          /* background: green; */
           position: absolute;
           top: 44%;
         }

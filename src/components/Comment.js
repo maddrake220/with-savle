@@ -2,7 +2,7 @@ import css from "styled-jsx/css";
 import CommentText from "./CommentText";
 import CommentInput from "./CommentInput";
 import { useState } from "react";
-import Toggle from "./Toggle";
+import Toggle from "./Common/Toggle";
 import axios from "axios";
 import server from "@/config/server";
 import useSwr from "swr";
