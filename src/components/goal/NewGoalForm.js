@@ -6,7 +6,7 @@ import { postNewGoal, getGoalCategoryByAge } from "@/utils/goal/api";
 import { newGoalAgeList } from "@/utils/goal/data";
 import { MAX_GOAL_CATEGORY } from "@/utils/goal/constants";
 
-export default function NewGoalForm({ toggleNewGoal, onCloseModal, onSuccessNewGoal }) {
+export default function NewGoalForm({ isToggleModal, toggleModal }) {
   const matchQuery = useBreakpoint();
   const [selectedAge, setSelectedAge] = useState(null);
   const [isFocusedCategoryInput, setIsFocusedCategoryInput] = useState(false);
@@ -45,7 +45,7 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal, onSuccessNewG
       postNewGoal(data)
         .then((resolve) => {
           if (resolve.status === 200) {
-            onSuccessNewGoal();
+            toggleModal();
             setSearchCategory("");
             textareaRef.current.value = "";
             setSelectedGoalCategories([]);
@@ -54,7 +54,7 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal, onSuccessNewG
         })
         .catch((error) => alert(error, "fail to post"));
     },
-    [seletedGoalCategories, textareaRef, selectedAge, onSuccessNewGoal],
+    [seletedGoalCategories, textareaRef, selectedAge, toggleModal],
   );
   const onClickselectedAge = useCallback((value) => {
     setSelectedAge(value);
@@ -100,7 +100,7 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal, onSuccessNewG
   }, [searchCategory, categoryByAge]);
   useEffect(() => {
     textareaRef.current.focus();
-  }, [toggleNewGoal]);
+  }, [isToggleModal]);
   useEffect(() => {
     const width = selectedRef.current.offsetWidth;
     inputRef.current.style.left = `${width}px`;
@@ -231,7 +231,7 @@ export default function NewGoalForm({ toggleNewGoal, onCloseModal, onSuccessNewG
             height: 16.938rem;
             border-radius: 0.5rem;
             background: #fff;
-            display: ${toggleNewGoal ? "block" : "none"};
+            display: ${isToggleModal ? "block" : "none"};
           }
           section h1 {
             font-size: 0;

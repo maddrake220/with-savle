@@ -1,2 +1,4 @@
 import { useLike } from "./useLike";
-export { useLike };
+import { useModal } from "./useModal";
+
+export { useLike, useModal };

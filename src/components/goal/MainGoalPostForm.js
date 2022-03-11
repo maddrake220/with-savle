@@ -6,7 +6,7 @@ import { postNewGoal, getGoalCategoryByAge } from "@/utils/goal/api";
 import { newGoalAgeList } from "@/utils/goal/data";
 import { MAX_GOAL_CATEGORY } from "@/utils/goal/constants";
 
-export default function NewGoalForm({ setToggleNewGoalComp, onCloseModal }) {
+export default function NewGoalForm({ toggleModal }) {
   const matchQuery = useBreakpoint();
   const [selectedAge, setSelectedAge] = useState(null);
   const [isFocusedCategoryInput, setIsFocusedCategoryInput] = useState(false);
@@ -19,12 +19,12 @@ export default function NewGoalForm({ setToggleNewGoalComp, onCloseModal }) {
   const selectedRef = useRef(null);
   const sectionRef = useRef(null);
   const onSuccessNewGoal = useCallback(() => {
-    setToggleNewGoalComp((t) => !t);
+    toggleModal();
     setSearchCategory("");
     textareaRef.current.value = "";
     setSelectedGoalCategories([]);
     setSelectedAge(null);
-  }, [setToggleNewGoalComp, setSelectedAge, setSelectedGoalCategories]);
+  }, [setSelectedAge, setSelectedGoalCategories, toggleModal]);
 
   const onSubmit = useCallback(
     (e) => {
@@ -104,7 +104,7 @@ export default function NewGoalForm({ setToggleNewGoalComp, onCloseModal }) {
   }, [searchCategory, categoryByAge]);
   useEffect(() => {
     textareaRef.current.focus();
-  }, [onCloseModal]);
+  }, [toggleModal]);
   useEffect(() => {
     const width = selectedRef.current.offsetWidth;
     inputRef.current.style.left = `${width}px`;
@@ -122,7 +122,7 @@ export default function NewGoalForm({ setToggleNewGoalComp, onCloseModal }) {
       <h1>목표 작성하기</h1>
       <div className="modal-top">
         {matchQuery.sm ? (
-          <svg onClick={onCloseModal} width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg onClick={toggleModal} width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M14.25 4.75L4.75 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M4.75 4.75L14.25 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
