@@ -1,7 +1,14 @@
+/* eslint-disable prettier/prettier */
 export default function MainGoalTitle() {
   return (
     <div className="main-title">
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg
+        width="40"
+        height="40"
+        viewBox="0 0 40 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <g clipPath="url(#clip0_933_78245)">
           <path
             d="M31.496 6.80269L12.7758 2.14082C14.1021 2.46861 14.9161 3.81386 14.58 5.13617L7.45766 33.765L8.9233 32.8804L9.79992 34.3423L11.2656 33.4578L12.1422 34.9197L13.6078 34.0351L14.4844 35.497L15.9501 34.6125L16.8267 36.0744L18.2923 35.1899L19.1689 36.6518L20.6346 35.7672L21.5112 37.2291L22.9768 36.3446L23.8534 37.8065L25.3191 36.9219L26.1957 38.3838L33.3002 9.79804C33.6363 8.47573 32.8223 7.13048 31.496 6.80269Z"
