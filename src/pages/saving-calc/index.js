@@ -1,8 +1,9 @@
-import CalcInputBox from "@/components/saving-calc/CalcInputBox";
-import SavingCalcStep from "@/components/saving-calc/SavingCalcStep";
-import ShortCutBar from "@/components/Common/ShortcutBar";
-import { useState } from "react";
 import Character from "public/layout/character.svg";
+import { useState } from "react";
+
+import ShortCutBar from "@/components/Common/ShortcutBar";
+import CalcInputBox from "@/components/Saving-calc/CalcInputBox";
+import SavingCalcStep from "@/components/Saving-calc/SavingCalcStep";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 function SavingCalc() {
@@ -16,7 +17,7 @@ function SavingCalc() {
       <div className="container">
         <SavingCalcStep state={state} />
         <CalcInputBox data={data} />
-        <Character width={isMobile ? "141px " : (isTablet ? "214px" : "311px")} style={{ display: "block", margin: "0 auto" }} />
+        <Character width={isMobile ? "141px " : isTablet ? "214px" : "311px"} style={{ display: "block", margin: "0 auto" }} />
       </div>
       <ShortCutBar />
     </div>

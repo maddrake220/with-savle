@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import useSWR, { SWRConfig } from "swr";
 
-import SkeletonBox from "@/components/vote/SkeletonBox";
-import VoteBox from "@/components/vote/VoteBox";
+import SkeletonBox from "@/components/Vote/SkeletonBox";
+import VoteBox from "@/components/Vote/VoteBox";
 import server from "@/config/server";
 const fetcher = (server) => axios.get(server).then((r) => r.data);
 

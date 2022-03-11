@@ -1,13 +1,15 @@
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import MainGoalItem from "@/components/goal/MainGoalItem";
+
+import Slider from "react-slick";
 import Data from "src/pages/goal/goalAPI.json";
+
+import MainGoalItem from "@/components/Goal/MainGoalItem";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 export default function MainGoalSlider() {
-  function PrevArrow(props) {
-    const { className, onClick } = props;
+  function PreviousArrow(properties) {
+    const { className, onClick } = properties;
     return (
       <div className={className} onClick={onClick}>
         <svg width="10" height="40" viewBox="0 0 11 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,8 +26,8 @@ export default function MainGoalSlider() {
       </div>
     );
   }
-  function NextArrow(props) {
-    const { className, onClick } = props;
+  function NextArrow(properties) {
+    const { className, onClick } = properties;
     return (
       <div className={className} onClick={onClick}>
         <svg width="10" height="40" viewBox="0 0 11 18" fill="none" xmlns="http://www.w3.org/2000/svg">
