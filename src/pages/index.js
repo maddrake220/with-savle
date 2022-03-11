@@ -1,6 +1,6 @@
-import Footer from "@/components/Footer";
+import Footer from "@/components/Common/Footer";
 import MainGoal from "@/components/goal/MainGoal";
-import ShortcutBar from "@/components/ShortcutBar";
+import ShortcutBar from "@/components/Common/ShortcutBar";
 import MainVoteSection from "@/components/vote/MainVoteSection";
 
 export default function Home() {
