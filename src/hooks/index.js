@@ -1,3 +1,1 @@
-import { useBreakpoint } from "./useBreakpoint";
-
-export { useBreakpoint };
+export { useBreakpoint } from "./useBreakpoint";

@@ -16,7 +16,7 @@ function SavingCalc() {
       <div className="container">
         <SavingCalcStep state={state} />
         <CalcInputBox data={data} />
-        <Character width={isMobile ? "141px " : isTablet ? "214px" : "311px"} style={{ display: "block", margin: "0 auto" }} />
+        <Character width={isMobile ? "141px " : (isTablet ? "214px" : "311px")} style={{ display: "block", margin: "0 auto" }} />
       </div>
       <ShortCutBar />
     </div>
