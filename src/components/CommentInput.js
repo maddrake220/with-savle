@@ -95,7 +95,7 @@ const CommentInput = ({ value, id }) => {
       setComment(e.target.value);
     }
   }, []);
-  console.log(data);
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && e.shiftKey) {
       return;

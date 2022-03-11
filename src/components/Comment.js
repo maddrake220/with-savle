@@ -44,7 +44,7 @@ const style = css`
 `;
 const Comment = ({ value, id }) => {
   const [hidden, setHidden] = useState(true);
-  console.log("lender");
+
   const fetcher = async (url) => {
     const res = await axios.get(url);
     return res.data.results;
