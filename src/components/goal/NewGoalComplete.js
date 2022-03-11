@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export default function NewGoalComplete({ toggleNewGoalComp, onCloseCompModal, from = "main" }) {
+export default function NewGoalComplete({ isToggleModal, toggleModal, from = "main" }) {
   const matchQuery = useBreakpoint();
   return (
     <div onClick={(e) => e.stopPropagation()} className="newgoal-comp">
@@ -11,7 +11,7 @@ export default function NewGoalComplete({ toggleNewGoalComp, onCloseCompModal, f
         <div className="newgoal-char">
           <Image src="/img/goalcompchar.svg" alt="savle-char" width={matchQuery.sm ? 85 : 197} height={matchQuery.sm ? 65 : 80} />
         </div>
-        <div className="close-button" onClick={onCloseCompModal}>
+        <div className="close-button" onClick={toggleModal}>
           <Image src="/img/goal-close.svg" alt="close" width={matchQuery.sm ? 19 : 45} height={matchQuery.sm ? 19 : 45} />
         </div>
       </div>
@@ -19,7 +19,7 @@ export default function NewGoalComplete({ toggleNewGoalComp, onCloseCompModal, f
         <div>세이러님의</div>
         <div>목표가 입력 되었습니다!</div>
       </div>
-      <div className="button" onClick={onCloseCompModal}>
+      <div className="button" onClick={toggleModal}>
         {from === "goal" ? (
           <div>확인</div>
         ) : (
@@ -34,7 +34,7 @@ export default function NewGoalComplete({ toggleNewGoalComp, onCloseCompModal, f
       <style jsx>
         {`
           .newgoal-comp {
-            display: ${toggleNewGoalComp ? "block" : "none"};
+            display: ${isToggleModal ? "block" : "none"};
             width: 86%;
             height: 35%;
             position: absolute;

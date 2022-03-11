@@ -11,10 +11,10 @@ import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { ageList, ageRange } from "@/utils/goal/data";
 import { checkRangeAge } from "@/utils/goal/functions";
 import { fetcher, goal_address } from "@/utils/swr";
-
-import NewGoalComplete from "./NewGoalComplete";
+import { useModal } from "@/hooks/index";
 
 export default function ArticleList() {
+  const skeletonView = new Array(9).fill(0);
   const {
     data: { results: data },
     error,
@@ -25,35 +25,18 @@ export default function ArticleList() {
   const [clickedAge, setClickedAge] = useState(0);
   const [filtered, setFiltered] = useState(ageRange);
   const [selectedDropdown, setSelectedDropdown] = useState("newest");
-  const [toggleNewGoal, setToggleNewGoal] = useState(false);
-  const [toggleNewGoalComp, setToggleNewGoalComp] = useState(false);
-  const onCloseAllModal = useCallback(() => {
-    setToggleNewGoal(false);
-    setToggleNewGoalComp(false);
-  }, []);
-  const onCloseModal = useCallback(() => {
-    setToggleNewGoal(false);
-  }, []);
-  const onSuccessNewGoal = useCallback(() => {
-    setToggleNewGoal(false);
-    setToggleNewGoalComp(false);
-  }, []);
-  const onCloseCompModal = useCallback(() => {
-    setToggleNewGoal(false);
-    setToggleNewGoalComp(false);
-  }, []);
+  const [isToggleModal, toggleModal] = useModal();
+
   const handleMenuChange = (event) => {
     setSelectedDropdown(event.target.value);
   };
   const onClick = useCallback((id) => {
     setClickedAge(id);
   }, []);
-  const onClickNewGoal = useCallback(() => {
-    setToggleNewGoal(true);
-  }, []);
   useEffect(() => {
     setFiltered(checkRangeAge(clickedAge));
   }, [clickedAge]);
+
   if (error) {
     return null;
   }
@@ -111,7 +94,7 @@ export default function ArticleList() {
           </div>
           <ul className="goal-list">
             {!data
-              ? Array.from({ length: 5 }).map((v, index) => <GoalCard key={index} />)
+              ? skeletonView.map((v, index) => <GoalCard key={index} />)
               : data
                   ?.filter((value) => {
                     return value.age >= filtered.start && value.age <= filtered.end;
@@ -135,7 +118,7 @@ export default function ArticleList() {
           </ul>
         </div>
       </main>
-      <div className="new-goal" onClick={onClickNewGoal}>
+      <div className="new-goal" onClick={toggleModal}>
         <Image
           src="/img/newgoal.svg"
           alt=""
@@ -143,9 +126,8 @@ export default function ArticleList() {
           height={queryMatch?.sm ? 59 : (queryMatch?.md ? 110 : 110)}
         />
       </div>
-      <div className={`new-goal-modal-back`} onClick={onCloseAllModal}>
-        <NewGoalForm toggleNewGoal={toggleNewGoal} onCloseModal={onCloseModal} onSuccessNewGoal={onSuccessNewGoal} />
-        {/* <NewGoalComplete toggleNewGoalComp={toggleNewGoalComp} onCloseCompModal={onCloseCompModal} from={"goal"} /> */}
+      <div className={`new-goal-modal-back`} onClick={toggleModal}>
+        <NewGoalForm isToggleModal={isToggleModal} toggleModal={toggleModal} />
       </div>
       <style jsx>{`
         header {
@@ -217,13 +199,13 @@ export default function ArticleList() {
         }
         .new-goal {
           cursor: pointer;
-          display: ${toggleNewGoal ? "none" : "block"};
+          display: ${isToggleModal ? "none" : "block"};
           position: fixed;
           bottom: 1.688rem;
           right: 1rem;
         }
         .new-goal-modal-back {
-          display: ${toggleNewGoal || toggleNewGoalComp ? "block" : "none"};
+          display: ${isToggleModal ? "block" : "none"};
           position: fixed;
           top: 0;
           left: 0;

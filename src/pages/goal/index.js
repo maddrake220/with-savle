@@ -3,6 +3,7 @@ import { SWRConfig } from "swr";
 
 import GoalList from "@/components/Goal/GoalList";
 import server from "@/config/server";
+import { revalidate } from "@/utils/goal/constants";
 
 export default function Goal({ fallback }) {
   return (
@@ -14,13 +15,13 @@ export default function Goal({ fallback }) {
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export const getStaticProps = async () => {
-  const res = await axios.get(`${server}/api/goal`);
+  const response = await axios.get(`${server}/api/goal`);
   return {
     props: {
       fallback: {
-        "/api/goal": res.data.results,
+        "/api/goal": response.data.results,
       },
     },
-    revalidate: 604_800,
+    revalidate,
   };
 };
