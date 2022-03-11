@@ -1,8 +1,9 @@
-import CalcInputBox from "@/components/saving-calc/CalcInputBox";
-import SavingCalcStep from "@/components/saving-calc/SavingCalcStep";
-import ShortCutBar from "@/components/ShortcutBar";
-import { useState } from "react";
 import Character from "public/layout/character.svg";
+import { useState } from "react";
+
+import ShortCutBar from "@/components/Common/ShortcutBar";
+import CalcInputBox from "@/components/Saving-calc/CalcInputBox";
+import SavingCalcStep from "@/components/Saving-calc/SavingCalcStep";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 function SavingCalc() {

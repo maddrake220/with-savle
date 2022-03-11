@@ -1,7 +1,7 @@
-import MainGoalTitle from "@/components/goal/MainGoalTitle";
-import MainGoalSlider from "@/components/goal/MainGoalSlider";
-import MainGoalButton from "@/components/goal/MainGoalButton";
-import MainGoalPostItem from "@/components/goal/MainGoalPostItem";
+import MainGoalButton from "@/components/Goal/MainGoalButton";
+import MainGoalPostItem from "@/components/Goal/MainGoalPostItem";
+import MainGoalSlider from "@/components/Goal/MainGoalSlider";
+import MainGoalTitle from "@/components/Goal/MainGoalTitle";
 
 export default function MainGoal() {
   return (

@@ -1,6 +1,8 @@
-import MainGoalPostForm from "@/components/goal/MainGoalPostForm";
 import { useCallback, useState } from "react";
+
+import MainGoalPostForm from "@/components/Goal/MainGoalPostForm";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+
 import NewGoalComplete from "./NewGoalComplete";
 
 export default function MainGoalPostItem() {

@@ -1,15 +1,17 @@
 import Head from "next/head";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
-import { useCallback, useEffect, useState } from "react";
-import CategoryButton from "@/components/goal/CategoryButton";
-import GoalDropdown from "@/components/goal/GoalDropdown";
-import GoalCard from "@/components/goal/GoalCard";
-import NewGoalForm from "@/components/goal/NewGoalForm";
-import useSWR from "swr";
 import Image from "next/image";
-import { checkRangeAge } from "@/utils/goal/functions";
+import { useCallback, useEffect, useState } from "react";
+import useSWR from "swr";
+
+import CategoryButton from "@/components/Goal/CategoryButton";
+import GoalCard from "@/components/Goal/GoalCard";
+import GoalDropdown from "@/components/Goal/GoalDropdown";
+import NewGoalForm from "@/components/Goal/NewGoalForm";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { ageList, ageRange } from "@/utils/goal/data";
+import { checkRangeAge } from "@/utils/goal/functions";
 import { fetcher, goal_address } from "@/utils/swr";
+
 import NewGoalComplete from "./NewGoalComplete";
 
 export default function ArticleList() {
@@ -70,8 +72,8 @@ export default function ArticleList() {
         <div className="goal-header-image">
           <Image
             src="/img/goalchar.svg"
-            width={queryMatch?.sm ? 71 : queryMatch?.md ? 141 : 185}
-            height={queryMatch?.sm ? 70 : queryMatch?.md ? 138 : 181}
+            width={queryMatch?.sm ? 71 : (queryMatch?.md ? 141 : 185)}
+            height={queryMatch?.sm ? 70 : (queryMatch?.md ? 138 : 181)}
             alt=""
           />
         </div>
@@ -109,7 +111,7 @@ export default function ArticleList() {
           </div>
           <ul className="goal-list">
             {!data
-              ? Array(5).map((v, index) => <GoalCard key={index} />)
+              ? Array.from({ length: 5 }).map((v, index) => <GoalCard key={index} />)
               : data
                   ?.filter((value) => {
                     return value.age >= filtered.start && value.age <= filtered.end;
@@ -117,11 +119,7 @@ export default function ArticleList() {
                   .sort((a, b) => {
                     const d1 = Date.parse(a.createAt);
                     const d2 = Date.parse(b.createAt);
-                    if (selectedDropdown === "oldest") {
-                      return d1 - d2;
-                    } else {
-                      return d2 - d1;
-                    }
+                    return selectedDropdown === "oldest" ? d1 - d2 : d2 - d1;
                   })
                   .map((value, index) => (
                     <GoalCard
@@ -141,8 +139,8 @@ export default function ArticleList() {
         <Image
           src="/img/newgoal.svg"
           alt=""
-          width={queryMatch?.sm ? 59 : queryMatch?.md ? 110 : 110}
-          height={queryMatch?.sm ? 59 : queryMatch?.md ? 110 : 110}
+          width={queryMatch?.sm ? 59 : (queryMatch?.md ? 110 : 110)}
+          height={queryMatch?.sm ? 59 : (queryMatch?.md ? 110 : 110)}
         />
       </div>
       <div className={`new-goal-modal-back`} onClick={onCloseAllModal}>

@@ -35,7 +35,7 @@ function VoteById({ data }) {
   const gaugeBox = useRef();
 
   const { title, text, likes, voteSelect, voteComments, id } = data.results;
-  const [btnColor, setBtnColor] = useState({
+  const [buttonColor, setButtonColor] = useState({
     voteBtnBg: "#d5d8dc",
     voteBtntextColor: "#B2B2B2",
     borderColor: "1px solid #3178FF",
@@ -47,7 +47,7 @@ function VoteById({ data }) {
   const [itemValue, setItemValue] = useState("");
   const [like, setLike] = useState(false);
   const [likeNums, setLikeNums] = useState(likes);
-  const [clickedItem, setClickedItem] = useState(Array(voteSelect.length).fill(false));
+  const [clickedItem, setClickedItem] = useState(Array.from({ length: voteSelect.length }).fill(false));
   const [voteList, setVoteList] = useState([{ id: id, value: "" }]);
   const [disabled, setDisabled] = useState(false);
 
@@ -85,7 +85,7 @@ function VoteById({ data }) {
       localStorage.setItem("votebox-like-list", newLikes);
       putLike(id, !like);
       !like ? setLikeNums((like) => (like = like + 1)) : setLikeNums((like) => (like = like - 1));
-      setLike((prev) => !prev);
+      setLike((previous) => !previous);
       console.log(newLikes);
     },
     [id, like],
@@ -93,16 +93,16 @@ function VoteById({ data }) {
 
   const onChange = (e) => {
     setItemValue(e.currentTarget.value);
-    setBtnColor(() => ({
+    setButtonColor(() => ({
       voteBtnBg: "#3178FF",
       voteBtntextColor: "#fff",
     }));
   };
 
-  const handleClick = (idx) => {
-    const newArr = Array(voteSelect.length).fill(false);
-    newArr[idx] = true;
-    setClickedItem(newArr);
+  const handleClick = (index) => {
+    const newArray = Array.from({ length: voteSelect.length }).fill(false);
+    newArray[index] = true;
+    setClickedItem(newArray);
   };
 
   // //* 폼 제출 실행함수

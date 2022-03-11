@@ -8,6 +8,7 @@ export default function Layout({ children }) {
       <style jsx>{`
         main {
           margin-top: 52px;
+          overflow-y: hidden;
         }
       `}</style>
     </>

@@ -1,12 +1,15 @@
 import Link from "next/link";
-import css from "styled-jsx/css";
-import MobileLogo from "public/layout/logo-mobile.svg";
-import Logo from "public/layout/logo.svg";
+import { useRouter } from "next/router";
 import Back from "public/layout/back.svg";
 import Bar from "public/layout/bar.svg";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
+import Logo from "public/layout/logo.svg";
+import MobileLogo from "public/layout/logo-mobile.svg";
 import { useCallback, useState } from "react";
-import { useRouter } from "next/router";
+import css from "styled-jsx/css";
+
+import { useBreakpoint } from "@/hooks/useBreakpoint";
+
+import styles from "./styles/Navbar.module.scss";
 
 const style = css`
   nav {
@@ -121,10 +124,11 @@ function Navbar() {
   const { sm: isMobile } = useBreakpoint();
   const { pathname, back } = useRouter();
   const [toggled, setToggled] = useState(false);
-  const handleToggle = useCallback(() => setToggled((prev) => !prev), []);
+  const handleToggle = useCallback(() => setToggled((previous) => !previous), []);
 
   return (
-    <nav className={`${!toggled && pathname.split("/")[1]}`}>
+    // <nav className={`${!toggled && pathname.split("/")[1]}`}>
+    <nav className={styles.nav}>
       <div className="logoBox">
         <div className="mobile">
           {toggled && <Back fill="#FFFFFF" onClick={handleToggle} />}
