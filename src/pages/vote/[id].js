@@ -15,7 +15,7 @@ function VoteById({ data }) {
   const breakpoint = useBreakpoint();
   console.log(data.results);
   const { title, text, likes, voteSelect, voteComments, id } = data.results;
-  const [btnColor, setBtnColor] = useState({
+  const [buttonColor, setButtonColor] = useState({
     voteBtnBg: "#d5d8dc",
     voteBtntextColor: "#B2B2B2",
     borderColor: "1px solid #3178FF",
@@ -25,7 +25,7 @@ function VoteById({ data }) {
   const [itemValue, setItemValue] = useState("");
   const [like, setLike] = useState(false);
   const [likeNums, setLikeNums] = useState(likes);
-  const [clickedItem, setClickedItem] = useState(Array(voteSelect.length).fill(false));
+  const [clickedItem, setClickedItem] = useState(Array.from({ length: voteSelect.length }).fill(false));
   const [voteList, setVoteList] = useState([{ id: id, value: "" }]);
   //# 전체 투표수 관리
   const [totalVotes1, setTotalVotes1] = useState(voteSelect[0].count);
@@ -58,7 +58,7 @@ function VoteById({ data }) {
       localStorage.setItem("votebox-like-list", newLikes);
       putLike(id, !like);
       !like ? setLikeNums((like) => (like = like + 1)) : setLikeNums((like) => (like = like - 1));
-      setLike((prev) => !prev);
+      setLike((previous) => !previous);
       console.log(newLikes);
     },
     [id, like],
@@ -66,16 +66,16 @@ function VoteById({ data }) {
 
   const onChange = (e) => {
     setItemValue(e.currentTarget.value);
-    setBtnColor(() => ({
+    setButtonColor(() => ({
       voteBtnBg: "#3178FF",
       voteBtntextColor: "#fff",
     }));
   };
 
-  const handleClick = (idx) => {
-    const newArr = Array(voteSelect.length).fill(false);
-    newArr[idx] = true;
-    setClickedItem(newArr);
+  const handleClick = (index) => {
+    const newArray = Array.from({ length: voteSelect.length }).fill(false);
+    newArray[index] = true;
+    setClickedItem(newArray);
   };
 
   // //* 폼 제출 실행함수
@@ -118,7 +118,7 @@ function VoteById({ data }) {
       let newVoteList = [...voteList, { id: id, value: voteSelect[itemId].id }];
       localStorage.setItem("vote-list", JSON.stringify(newVoteList));
       // #버튼 제출되면 색깔변화 | 데이터 수치 보여주기**
-      setBtnColor(() => ({
+      setButtonColor(() => ({
         voteBtnBg: "#3178FF",
         voteBtntextColor: "rgba(256, 256, 256, 0.5)",
         borderColor: itemId ? "1px solid #3178FF" : "1px solid #3178FF",
@@ -130,12 +130,12 @@ function VoteById({ data }) {
 
   //* 복사하기 실행함수
   function copy() {
-    const el = document.createElement("input");
-    el.value = window.location.href;
-    document.body.appendChild(el);
-    el.select();
+    const element = document.createElement("input");
+    element.value = window.location.href;
+    document.body.append(element);
+    element.select();
     document.execCommand("copy");
-    document.body.removeChild(el);
+    element.remove();
     alert("복사는되지만 모달은 아직 구현 X");
   }
 
@@ -147,7 +147,7 @@ function VoteById({ data }) {
           <p>{text}</p>
           {voteSelect.map((selectItem, index) => (
             <li
-              style={clickedItem[index] ? { border: btnColor.borderColor } : { border: "0px" }}
+              style={clickedItem[index] ? { border: buttonColor.borderColor } : { border: "0px" }}
               key={selectItem.item}
               className={`vote_box ${clickedItem[index] ? "click_color" : "false"} `}
               onClick={() => handleClick(index)}
@@ -157,7 +157,7 @@ function VoteById({ data }) {
             </li>
           ))}
 
-          <button type="submit" style={{ backgroundColor: btnColor.voteBtnBg, color: btnColor.voteBtntextColor }} className="vote_btn">
+          <button type="submit" style={{ backgroundColor: buttonColor.voteBtnBg, color: buttonColor.voteBtntextColor }} className="vote_btn">
             투표하기
           </button>
         </form>

@@ -1,6 +1,7 @@
-import { SWRConfig } from "swr";
-import GoalList from "@/components/goal/GoalList";
 import axios from "axios";
+import { SWRConfig } from "swr";
+
+import GoalList from "@/components/Goal/GoalList";
 import server from "@/config/server";
 import { revalidate } from "@/utils/goal/constants";
 
@@ -12,6 +13,7 @@ export default function Goal({ fallback }) {
   );
 }
 
+// eslint-disable-next-line unicorn/prevent-abbreviations
 export const getStaticProps = async () => {
   const response = await axios.get(`${server}/api/goal`);
   return {

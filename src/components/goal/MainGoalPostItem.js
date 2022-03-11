@@ -1,6 +1,7 @@
 import MainGoalPostForm from "@/components/goal/MainGoalPostForm";
 import { useModal } from "@/hooks/index";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+
 import NewGoalComplete from "./NewGoalComplete";
 
 export default function MainGoalPostItem() {
