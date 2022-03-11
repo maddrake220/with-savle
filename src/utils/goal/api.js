@@ -1,6 +1,8 @@
-import server from "@/config/server";
 import axios from "axios";
 import { mutate } from "swr";
+
+import server from "@/config/server";
+
 import { goal_address } from "../swr";
 
 export const putLike = async (id, like) => {
@@ -8,9 +10,9 @@ export const putLike = async (id, like) => {
 };
 
 export const postNewGoal = async (data) => {
-  const res = await axios.post(`${server}/api/goal`, { params: data });
+  const response = await axios.post(`${server}/api/goal`, { params: data });
   mutate(goal_address);
-  return res;
+  return response;
 };
 
 export const getGoalCategoryByAge = async (age) => {

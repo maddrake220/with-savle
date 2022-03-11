@@ -4,8 +4,8 @@ export default function CategoryButton({ id, text, value, onClick, clicked }) {
   return (
     <li key={id}>
       <button
-        onClick={(e) => {
-          e.preventDefault();
+        onClick={(event) => {
+          event.preventDefault();
           onClick({ id, text, value });
         }}
       >

@@ -1,10 +1,16 @@
 import React from "react";
 
-export default function CategoryButton({ id, text, backgroundColor = "#fff", onClick, clicked }) {
+export default function CategoryButton({
+  id,
+  text,
+  backgroundColor = "#fff",
+  onClick,
+  clicked,
+}) {
   return (
     <>
       <button
-        onClick={(e) => {
+        onClick={() => {
           onClick(id);
         }}
       >
@@ -15,8 +21,12 @@ export default function CategoryButton({ id, text, backgroundColor = "#fff", onC
           button {
             cursor: pointer;
             border: 0.094rem solid #3178ff;
-            background-color: ${clicked === id ? backgroundColor : "transparent"};
-            color: ${clicked === id ? (backgroundColor === "#3178FF" ? "#EEF7FF" : "#3178ff") : "#3178ff"};
+            background-color: ${clicked === id
+              ? backgroundColor
+              : "transparent"};
+            color: ${clicked === id
+              ? backgroundColor === "#3178FF"
+              : "#EEF7FF"};
             border-radius: 6.25rem;
             display: flex;
             align-items: center;

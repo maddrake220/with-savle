@@ -7,14 +7,14 @@ import CategoryButton from "@/components/Goal/CategoryButton";
 import GoalCard from "@/components/Goal/GoalCard";
 import GoalDropdown from "@/components/Goal/GoalDropdown";
 import NewGoalForm from "@/components/Goal/NewGoalForm";
+import { useModal } from "@/hooks/index";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { ageList, ageRange } from "@/utils/goal/data";
-import { checkRangeAge } from "@/utils/goal/functions";
+import { checkRangeAge, getSize } from "@/utils/goal/functions";
 import { fetcher, goal_address } from "@/utils/swr";
-import { useModal } from "@/hooks/index";
 
-export default function ArticleList() {
-  const skeletonView = new Array(9).fill(0);
+export default function GoalList() {
+  const skeletonView = Array.from({ length: 9 }).fill(0);
   const {
     data: { results: data },
     error,
@@ -26,7 +26,6 @@ export default function ArticleList() {
   const [filtered, setFiltered] = useState(ageRange);
   const [selectedDropdown, setSelectedDropdown] = useState("newest");
   const [isToggleModal, toggleModal] = useModal();
-
   const handleMenuChange = (event) => {
     setSelectedDropdown(event.target.value);
   };
@@ -38,7 +37,7 @@ export default function ArticleList() {
   }, [clickedAge]);
 
   if (error) {
-    return null;
+    return;
   }
   return (
     <section className="goal-container">
@@ -55,8 +54,8 @@ export default function ArticleList() {
         <div className="goal-header-image">
           <Image
             src="/img/goalchar.svg"
-            width={queryMatch?.sm ? 71 : (queryMatch?.md ? 141 : 185)}
-            height={queryMatch?.sm ? 70 : (queryMatch?.md ? 138 : 181)}
+            width={getSize(queryMatch, true)}
+            height={getSize(queryMatch, false)}
             alt=""
           />
         </div>
@@ -66,7 +65,13 @@ export default function ArticleList() {
           <ul className={`age-list`}>
             {ageList.map((age) => (
               <li key={age.id}>
-                <CategoryButton id={age.id} text={age.text} backgroundColor={age.backgroundColor} onClick={onClick} clicked={clickedAge} />
+                <CategoryButton
+                  id={age.id}
+                  text={age.text}
+                  backgroundColor={age.backgroundColor}
+                  onClick={onClick}
+                  clicked={clickedAge}
+                />
               </li>
             ))}
           </ul>
@@ -97,7 +102,9 @@ export default function ArticleList() {
               ? skeletonView.map((v, index) => <GoalCard key={index} />)
               : data
                   ?.filter((value) => {
-                    return value.age >= filtered.start && value.age <= filtered.end;
+                    return (
+                      value.age >= filtered.start && value.age <= filtered.end
+                    );
                   })
                   .sort((a, b) => {
                     const d1 = Date.parse(a.createAt);
@@ -122,8 +129,8 @@ export default function ArticleList() {
         <Image
           src="/img/newgoal.svg"
           alt=""
-          width={queryMatch?.sm ? 59 : (queryMatch?.md ? 110 : 110)}
-          height={queryMatch?.sm ? 59 : (queryMatch?.md ? 110 : 110)}
+          width={queryMatch?.sm ? 59 : 110}
+          height={queryMatch?.sm ? 59 : 110}
         />
       </div>
       <div className={`new-goal-modal-back`} onClick={toggleModal}>
