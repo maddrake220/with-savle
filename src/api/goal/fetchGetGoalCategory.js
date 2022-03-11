@@ -1,4 +1,5 @@
-import server from "@/config/server";
 import axios from "axios";
 
-export const fetchGetGoalCategory = async (params) => await axios.get(`${server}/api/goal/category`, { params });
+import server from "@/config/server";
+
+export const fetchGetGoalCategory = async (parameters) => await axios.get(`${server}/api/goal/category`, { params: parameters });
