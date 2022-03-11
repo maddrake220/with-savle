@@ -1,42 +1,30 @@
-import server from "@/config/server";
-import axios from "axios";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { mutate } from "swr";
 import NewGoalCategoryButton from "./NewGoalCategoryButton";
-import { goal_address } from "../../pages/goal";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
-import NewGoalCharSvg from "./svg/NewGoalCharSvg";
+import Image from "next/image";
+import { postNewGoal, getGoalCategoryByAge } from "@/utils/goal/api";
+import { newGoalAgeList } from "@/utils/goal/data";
+import { MAX_GOAL_CATEGORY } from "@/utils/goal/constants";
 
-const MAX_GOAL_CATEGORY = 2;
-const categories = [
-  { id: 0, text: "10대", value: 10 },
-  { id: 1, text: "20대", value: 20 },
-  { id: 2, text: "30대", value: 30 },
-  { id: 3, text: "40대 이상", value: 40 },
-];
-const recommendGoalCategories = [
-  { id: 0, value: "내집마련" },
-  { id: 1, value: "냉장고" },
-  { id: 2, value: "차 구매" },
-  { id: 3, value: "결혼" },
-  { id: 4, value: "수입차구매" },
-];
-
-const postNewGoal = async (data) => {
-  const res = await axios.post(`${server}/api/goal`, { params: data });
-  mutate(goal_address);
-  return res;
-};
-
-export default function MainGoalPostForm({ toggleNewGoal, onCloseModal }) {
+export default function NewGoalForm({ setToggleNewGoalComp, onCloseModal }) {
   const matchQuery = useBreakpoint();
   const [selectedAge, setSelectedAge] = useState(null);
   const [isFocusedCategoryInput, setIsFocusedCategoryInput] = useState(false);
   const [seletedGoalCategories, setSelectedGoalCategories] = useState([]);
+  const [categoryByAge, setCategoryByAge] = useState([]);
+  const [searchingCategoryByAge, setSearchingCategoryByAge] = useState([]);
+  const [searchCategory, setSearchCategory] = useState("");
   const textareaRef = useRef(null);
   const inputRef = useRef(null);
   const selectedRef = useRef(null);
   const sectionRef = useRef(null);
+  const onSuccessNewGoal = useCallback(() => {
+    setToggleNewGoalComp((t) => !t);
+    setSearchCategory("");
+    textareaRef.current.value = "";
+    setSelectedGoalCategories([]);
+    setSelectedAge(null);
+  }, [setToggleNewGoalComp, setSelectedAge, setSelectedGoalCategories]);
 
   const onSubmit = useCallback(
     (e) => {
@@ -54,7 +42,7 @@ export default function MainGoalPostForm({ toggleNewGoal, onCloseModal }) {
         alert("test) 목표 카테고리를 골라주세요!");
         return;
       }
-      const categories = seletedGoalCategories.map((v) => v.value);
+      const categories = seletedGoalCategories.map((v) => v.keyword);
       const age = selectedAge.value;
       const data = {
         categories,
@@ -63,19 +51,22 @@ export default function MainGoalPostForm({ toggleNewGoal, onCloseModal }) {
         likes: 0,
       };
       postNewGoal(data)
-        .then((resolve) => resolve.status === 200 && onCloseModal())
+        .then((resolve) => {
+          if (resolve.status === 200) {
+            onSuccessNewGoal();
+          }
+        })
         .catch((error) => alert(error, "fail to post"));
     },
-    [seletedGoalCategories, textareaRef, selectedAge, onCloseModal],
+    [seletedGoalCategories, textareaRef, selectedAge, onSuccessNewGoal],
   );
   const onClickselectedAge = useCallback((value) => {
     setSelectedAge(value);
+    setSelectedGoalCategories([]);
+    setSearchCategory("");
   }, []);
-
-  const onKeyDown = useCallback((e) => {
-    if (e.key === "Enter") {
-      alert("asd");
-    }
+  const onClickInputBox = useCallback(() => {
+    inputRef.current.focus();
   }, []);
   const onFocus = useCallback((e) => {
     setIsFocusedCategoryInput(true);
@@ -103,14 +94,29 @@ export default function MainGoalPostForm({ toggleNewGoal, onCloseModal }) {
       return values.filter((v) => v.id !== value.id);
     });
   }, []);
+  const onChangeSearchCategory = useCallback((e) => {
+    setSearchCategory(e.target.value);
+  }, []);
+  useEffect(() => {
+    if (searchCategory !== "") {
+      setSearchingCategoryByAge(categoryByAge.filter((v) => v.keyword.includes(searchCategory)));
+    }
+  }, [searchCategory, categoryByAge]);
   useEffect(() => {
     textareaRef.current.focus();
-  }, [toggleNewGoal]);
+  }, [onCloseModal]);
   useEffect(() => {
     const width = selectedRef.current.offsetWidth;
     inputRef.current.style.left = `${width}px`;
     inputRef.current.style.maxWidth = 160 - width + "px";
   }, [seletedGoalCategories]);
+  useEffect(() => {
+    if (selectedAge !== null) {
+      getGoalCategoryByAge(selectedAge.value)
+        .then((resolve) => setCategoryByAge(resolve.data.results))
+        .catch((error) => console.log(error, "fail to get category"));
+    }
+  }, [selectedAge]);
   return (
     <section onClick={(e) => e.stopPropagation()} ref={sectionRef}>
       <h1>목표 작성하기</h1>
@@ -121,7 +127,9 @@ export default function MainGoalPostForm({ toggleNewGoal, onCloseModal }) {
             <path d="M4.75 4.75L14.25 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         ) : (
-          <NewGoalCharSvg style={{ marginTop: "7px", position: "absolute", right: "11px" }} />
+          <div style={{ marginTop: "7px", position: "absolute", right: "11px" }}>
+            <Image width="101px" height="51px" src="/img/newgoalchar.svg" alt="" />
+          </div>
         )}
       </div>
       <main>
@@ -131,41 +139,60 @@ export default function MainGoalPostForm({ toggleNewGoal, onCloseModal }) {
               <span>연령대</span>
             </label>
             <ul className="age-list">
-              {categories?.map((category) => (
+              {newGoalAgeList?.map((age) => (
                 <NewGoalCategoryButton
                   className="age-button"
-                  key={category.id}
-                  id={category.id}
+                  key={age.id}
+                  id={age.id}
                   onClick={onClickselectedAge}
                   clicked={selectedAge}
-                  text={category.text}
-                  value={category.value}
+                  text={age.text}
+                  value={age.value}
                 />
               ))}
             </ul>
           </div>
-          <textarea ref={textareaRef} className="text" type="text" placeholder="목표를 입력해 주세요." />
+          <textarea ref={textareaRef} className="text" type="text" placeholder="내용을 입력해주세요!" />
           <div className="goal-category-wrapper">
             <label>
               <span>목표 카테고리</span>
             </label>
             <div className="goal-wrapper">
-              <div className="input-box">
-                <input ref={inputRef} onFocus={onFocus} onBlur={onBlur} className="goal-category-search-input" onKeyDown={onKeyDown} />
+              <div className="input-box" onClick={onClickInputBox}>
+                <input
+                  ref={inputRef}
+                  onFocus={onFocus}
+                  onBlur={onBlur}
+                  className="goal-category-search-input"
+                  value={searchCategory}
+                  onChange={onChangeSearchCategory}
+                />
               </div>
               <ul className="selected-goal-categories" ref={selectedRef}>
                 {seletedGoalCategories?.map((seletedGoalCategory, index) => (
                   <li onMouseDown={(e) => onMouseDownUndoGoalCategory(e, seletedGoalCategory)} key={index}>
-                    {seletedGoalCategory.value}
+                    {seletedGoalCategory.keyword}
                   </li>
                 ))}
               </ul>
               <ul className="goal-category-list">
-                {recommendGoalCategories.map((goalCategory, index) => (
-                  <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
-                    {goalCategory.value}
-                  </li>
-                ))}
+                {categoryByAge.length === 0 ? (
+                  <li style={{ color: "red" }}>연령대를 선택해 주세요!</li>
+                ) : searchCategory === "" ? (
+                  categoryByAge
+                    .sort((a, b) => b.count - a.count)
+                    .map((goalCategory, index) => (
+                      <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
+                        {goalCategory.keyword}
+                      </li>
+                    ))
+                ) : (
+                  searchingCategoryByAge.map((goalCategory, index) => (
+                    <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
+                      {goalCategory.keyword}
+                    </li>
+                  ))
+                )}
               </ul>
               <button type="submit" className="submit-button">
                 <svg
@@ -266,6 +293,7 @@ export default function MainGoalPostForm({ toggleNewGoal, onCloseModal }) {
             color: #2d2d2d;
           }
           .input-box {
+            cursor: text;
             width: 10rem;
             height: 1.5rem;
             background: #f7f8fa;

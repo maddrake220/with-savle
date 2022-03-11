@@ -1,17 +1,48 @@
 import Image from "next/image";
 import Favorite from "public/img/Favorite.svg";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import axios from "axios";
+import server from "@/config/server";
+
+const putLike = async (id, like) => {
+  await axios.put(`${server}/api/vote/like`, { params: { id, like } });
+};
 
 export default function VoteBox({ voteBoxData }) {
+  const { id, text, title, likes, voteSelect, voteComments } = voteBoxData;
+
   const [like, setLike] = useState(false);
-  const handleLikeToggle = useCallback(() => {
-    setLike((prev) => !prev);
-  }, []);
+  const [likeNums, setLikeNums] = useState(likes);
+
+  // 이건 페이지를 로드했을 때 하트를 비우는지 채우는지 검사하는 함수!
+  useEffect(() => {
+    const likesId = localStorage.getItem("votebox-like-list");
+    likesId !== null ? setLike(likesId.includes(id)) : setLike(false);
+  }, [id]);
+
+  const handleLikeToggle = useCallback(
+    (e) => {
+      e.preventDefault();
+      const likesId = localStorage.getItem("votebox-like-list");
+      console.log(likesId);
+      let arrlikes = [];
+      let newLikes = [];
+
+      arrlikes = likesId !== null ? likesId.split(",") : [""];
+      !like ? (newLikes = [...arrlikes, id]) : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
+      localStorage.setItem("votebox-like-list", newLikes);
+      putLike(id, !like);
+      !like ? setLikeNums((like) => (like = like + 1)) : setLikeNums((like) => (like = like - 1));
+      setLike((prev) => !prev);
+      console.log(newLikes);
+    },
+    [id, like],
+  );
 
   return (
     <div className="vote_box">
-      <h1 className="subject_box">{voteBoxData.title.length > 35 ? `${voteBoxData.title.slice(0, 35)}...` : voteBoxData.title}</h1>
-      {voteBoxData.voteSelect.map((selectItem) => (
+      <h1 className="subject_box">{title.length > 35 ? `${title.slice(0, 35)}...` : title}</h1>
+      {voteSelect.map((selectItem) => (
         <div key={selectItem.item} className="vote_select-items">
           <input type="radio" id={selectItem.item} name="vote" value={selectItem.item} />
           <label htmlFor={selectItem.item}>{selectItem.item}</label>
@@ -21,16 +52,16 @@ export default function VoteBox({ voteBoxData }) {
         <div
           className="favorite"
           onClick={(e) => {
-            console.log(e.cancelable);
+            // console.log(e.cancelable);
             e.preventDefault();
           }}
         >
           <Favorite fill={like ? "#FF2222" : "#fff"} onClick={handleLikeToggle} />
-          <span>{voteBoxData.likes}</span>
+          <span>{likeNums}</span>
         </div>
         <div>
           <Image src="/img/comment.svg" alt="Comment" width={21} height={21} />
-          <span>{voteBoxData.voteComments.length}</span>
+          <span>{voteComments.length}</span>
         </div>
       </div>
       <button>더보기 &gt;</button>

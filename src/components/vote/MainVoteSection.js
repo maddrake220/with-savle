@@ -18,6 +18,7 @@ function SampleNextArrow(props) {
           justify-content: end;
           position: absolute;
           top: 44%;
+          z-index: 1;
         }
         .slick-arrow:before {
           content: "";
@@ -35,7 +36,6 @@ function SamplePrevArrow(props) {
       <style jsx>{`
         .slick-arrow {
           display: flex;
-          /* background: green; */
           position: absolute;
           top: 44%;
         }
