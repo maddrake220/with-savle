@@ -1,70 +1,30 @@
-import css from "styled-jsx/css";
-import CommentText from "./CommentText";
-import CommentInput from "./CommentInput";
 import { useState } from "react";
+
+import useGetComment from "@/hooks/useGetComment";
+
+import styles from "../../styles/comment/Comment.module.scss";
+import CommentInput from "./CommentInput";
+import CommentText from "./CommentText";
 import Toggle from "./Common/Toggle";
-import axios from "axios";
-import server from "@/config/server";
-import useSwr from "swr";
 
-const style = css`
-  .comment_container {
-    margin-top: 30px;
-  }
-  .title {
-    display: flex;
-    margin-bottom: 8px;
-  }
-  .title p {
-    font-weight: bold;
-    font-size: 13px;
-    margin-bottom: 8px;
-    margin: 0 5px 0 0;
-  }
-
-  .toggle_icon_off {
-    background-image: url(/layout/ic_toggle_default_off.svg);
-    width: 32px;
-    height: 20px;
-  }
-  .toggle_icon_on {
-    background-image: url(/layout/ic_toggle_default_on.svg);
-    width: 32px;
-    height: 20px;
-    transition: 0.3ms;
-  }
-  @media (min-width: 1200px) {
-    .comment_container {
-      margin-top: 20px;
-    }
-    .title p {
-      font-size: 16px;
-    }
-  }
-`;
-const Comment = ({ value, id }) => {
+const Comment = ({ value }) => {
   const [hidden, setHidden] = useState(true);
-  console.log("lender");
-  const fetcher = async (url) => {
-    const res = await axios.get(url);
-    return res.data.results;
-  };
-
-  const { data, mutate } = useSwr(`${server}/api/${value}/comment/${id}`, fetcher);
+  const id = 5;
+  const [data] = useGetComment(value, id);
 
   const handleHiddenComment = () => {
     setHidden(!hidden);
   };
 
   return (
-    <div className="comment_container">
-      <div className="title">
+    <div className={styles.comment_container}>
+      <div className={styles.title}>
         <p>댓글</p>
         <Toggle onClick={handleHiddenComment} hidden={hidden} />
       </div>
       <CommentInput value={value} id={id} />
-      {!hidden && data.map((comment) => <CommentText data={comment} key={comment.id} />)}
-      <style jsx>{style}</style>
+      {!hidden &&
+        data.map((comment) => <CommentText data={comment} key={comment.id} />)}
     </div>
   );
 };
