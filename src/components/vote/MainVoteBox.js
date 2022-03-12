@@ -3,16 +3,31 @@ import Image from "next/image";
 export default function MainVoteBox({ mockData }) {
   return (
     <li className="vote_box">
-      <h1 className="subject_box">{mockData.title.length > 35 ? `${mockData.title.slice(0, 35)}...` : mockData.title}</h1>
+      <h1 className="subject_box">
+        {mockData.title.length > 35
+          ? `${mockData.title.slice(0, 35)}...`
+          : mockData.title}
+      </h1>
       {mockData.voteSelect.map((selectItem) => (
         <div key={selectItem.item} className="vote_select-items">
-          <input type="radio" id={selectItem.item} name="vote" value={selectItem.item} disabled />
+          <input
+            type="radio"
+            id={selectItem.item}
+            name="vote"
+            value={selectItem.item}
+            disabled
+          />
           <label htmlFor={selectItem.item}>{selectItem.item}</label>
         </div>
       ))}
       <div className="favorite_comment">
         <div className="favorite">
-          <Image src="/img/favorite.svg" alt="Favorite" width={18} height={18} />
+          <Image
+            src="/img/favorite.svg"
+            alt="Favorite"
+            width={18}
+            height={18}
+          />
           <span>{mockData.likes}</span>
         </div>
         <div>

@@ -1,12 +1,14 @@
-import { useState, useCallback, useEffect, useRef } from "react";
-import Image from "next/image";
 import axios from "axios";
-import Favorite from "public/img/Favorite.svg";
-import server from "@/config/server";
+import Image from "next/image";
 import Link from "next/link";
+import Favorite from "public/img/Favorite.svg";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import Comment from "@/components/Comment";
+import server from "@/config/server";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
+// eslint-disable-next-line unicorn/prevent-abbreviations
 export async function getStaticProps(context) {
   const { id } = context.params;
   const { data } = await axios.get(`${server}/api/vote/${id}`);
@@ -30,89 +32,104 @@ export const getStaticPaths = async () => {
   };
 };
 
+const clickedItemIndex = (element) => element === true;
+
+const setCopySuccess = () => {
+  const element = document.createElement("input");
+  element.value = window.location.href;
+  document.body.append(element);
+  element.select();
+  document.execCommand("copy");
+  element.remove();
+};
+function copy() {
+  setCopySuccess();
+}
+
 function VoteById({ data }) {
   const breakpoint = useBreakpoint();
   const gaugeBox = useRef();
-
   const { title, text, likes, voteSelect, voteComments, id } = data.results;
-  const [btnColor, setBtnColor] = useState({
-    voteBtnBg: "#d5d8dc",
-    voteBtntextColor: "#B2B2B2",
+  const [changedButtonColor, setChangdeButtonColor] = useState({
+    voteBtnBg: "#3178FF",
+    voteBtntextColor: "#fff",
     borderColor: "1px solid #3178FF",
-    itemBackground: "#fff",
+    itemBackground: "#e8f3ff",
     itemGaugeColor: "#e8f3ff",
+    selectItemBackground: "fff",
   });
-  const [copySuccess, setCopySuccess] = useState(null);
+  const {
+    voteBtnBg,
+    voteBtntextColor,
+    borderColor,
+    itemBackground,
+    itemGaugeColor,
+    selectItemBackground,
+  } = changedButtonColor;
   const [modalActive, setModalActive] = useState(false);
-  const [itemValue, setItemValue] = useState("");
   const [like, setLike] = useState(false);
   const [likeNums, setLikeNums] = useState(likes);
-  const [clickedItem, setClickedItem] = useState(Array(voteSelect.length).fill(false));
+  const [clickedItem, setClickedItem] = useState(
+    Array.from({ length: voteSelect.length }).fill(false),
+  );
   const [voteList, setVoteList] = useState([{ id: id, value: "" }]);
   const [disabled, setDisabled] = useState(false);
 
   const totalVotes = voteSelect.map((item) => item.count);
-  const clickedItemIndex = (ele) => ele === true;
-  const itemIndex = clickedItem.findIndex(clickedItemIndex);
-
-  const itemCount = totalVotes[itemIndex];
-  const totalCount = totalVotes.reduce(function add(sum, currValue) {
-    return sum + currValue;
+  const itemIndex = clickedItem.findIndex((element) =>
+    clickedItemIndex(element),
+  );
+  const itemCount = totalVotes[Number.parseInt(itemIndex)];
+  const totalCount = totalVotes.reduce(function add(sum, currentValue) {
+    return sum + currentValue;
   }, 0);
 
   useEffect(() => {
-    const likesId = localStorage.getItem("votebox-like-list");
+    const likesId = localStorage.getItem("voteboxlikeList");
     likesId !== null ? setLike(likesId.includes(id)) : setLike(false);
   }, [id]);
-
-  // 값이 없다면 투표할수 있는 페이지로! 값이 있다면 투표할 수 없도록!
-  useEffect(() => {
-    const voteItemId = JSON.parse(localStorage.getItem("vote-list"));
-    voteItemId;
-  }, []);
   const handleLikeToggle = useCallback(
-    (e) => {
-      e.preventDefault();
+    (event) => {
+      event.preventDefault();
       const putLike = async (id, like) => {
         await axios.put(`${server}/api/vote/like`, { params: { id, like } });
       };
-      const likesId = localStorage.getItem("votebox-like-list");
-      console.log(likesId);
+      const likesId = localStorage.getItem("voteboxlikeList");
+
       let arrlikes = [];
       let newLikes = [];
       arrlikes = likesId !== null ? likesId.split(",") : [""];
-      !like ? (newLikes = [...arrlikes, id]) : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
+      !like
+        ? (newLikes = [...arrlikes, id])
+        : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
       localStorage.setItem("votebox-like-list", newLikes);
       putLike(id, !like);
-      !like ? setLikeNums((like) => (like = like + 1)) : setLikeNums((like) => (like = like - 1));
-      setLike((prev) => !prev);
-      console.log(newLikes);
+      !like
+        ? setLikeNums((like) => (like = like + 1))
+        : setLikeNums((like) => (like = like - 1));
+      setLike((previous) => !previous);
     },
     [id, like],
   );
 
-  const onChange = (e) => {
-    setItemValue(e.currentTarget.value);
-    setBtnColor(() => ({
-      voteBtnBg: "#3178FF",
-      voteBtntextColor: "#fff",
-    }));
+  const handleClick = (index) => {
+    const newArray = Array.from({ length: voteSelect.length }).fill(false);
+    newArray[Number.parseInt(index)] = true;
+    setClickedItem(newArray);
+    setChangdeButtonColor({
+      itemBackground,
+      voteBtnBg,
+      voteBtntextColor,
+    });
   };
 
-  const handleClick = (idx) => {
-    const newArr = Array(voteSelect.length).fill(false);
-    newArr[idx] = true;
-    setClickedItem(newArr);
-  };
-
-  // //* 폼 제출 실행함수
   const onSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
+    (event) => {
+      event.preventDefault();
       if (itemCount === undefined) {
         return false;
       }
-      const itemId = voteSelect[itemIndex].id;
+      const itemId = voteSelect[Number.parseInt(itemIndex)].id;
       const putVoteCount = async () => {
         await axios.put(`${server}/api/vote`, {
           params: {
@@ -120,108 +137,138 @@ function VoteById({ data }) {
           },
         });
       };
-
-      if (itemIndex === 0) {
-        itemCount = itemCount + 1;
+      const plusCount = () => {
+        itemCount + 1;
         putVoteCount();
-      } else if (itemIndex === 1) {
-        itemCount = itemCount + 1;
-        putVoteCount();
-      } else if (itemIndex === 2) {
-        itemCount = itemCount + 1;
-        putVoteCount();
-      } else {
-        itemCount = itemCount + 1;
-        putVoteCount();
-      }
-
-      console.log("항목카운트 더한값", itemCount);
+      };
+      plusCount();
 
       // #localstorage에 데이터 전달!
-      setVoteList([...voteList, { id: id, value: voteSelect[itemIndex].id }]);
-      let newVoteList = [...voteList, { id: id, value: voteSelect[itemIndex].id }];
+      setVoteList([
+        ...voteList,
+        { id: id, value: voteSelect[Number.parseInt(itemIndex)].id },
+      ]);
+      let newVoteList = [
+        ...voteList,
+        { id: id, value: voteSelect[Number.parseInt(itemIndex)].id },
+      ];
       localStorage.setItem("vote-list", JSON.stringify(newVoteList));
 
       // #제출되면 색깔변화
-      setBtnColor(() => ({
-        voteBtnBg: "#3178FF",
+      setChangdeButtonColor({
+        voteBtnBg,
         voteBtntextColor: "rgba(256, 256, 256, 0.5)",
-        borderColor: itemIndex ? "1px solid #3178FF" : "1px solid #3178FF",
-        itemBackground: itemIndex ? "#fff" : "#fff",
-        itemGaugeColor: itemIndex ? "#e8f3ff" : "#e8f3ff",
-      }));
+        borderColor: itemIndex ? "1px solid #3178FF" : "1px solid red",
+        itemGaugeColor: itemIndex ? "#e8f3ff" : "red",
+        selectItemBackground: itemIndex ? "#fff" : "red",
+      });
 
-      // # 각각 맞는 게이지 보여주기
+      // # 각각 맞는 게이지 보여주기 함수로
       const gaugeWitdh = Math.floor((itemCount / totalCount) * 100);
-      console.log(gaugeWitdh);
       //자바스크립트 자체에서 width 스타일 변경하기
-      gaugeBox.current.style.width = `${gaugeWitdh}px`;
+      gaugeBox.current.style.width = `${gaugeWitdh}%`;
 
-      // #마지막으로 다시 투표 못하도록 비활성화하기
       setDisabled(true);
     },
-    [id, itemValue, totalVotes, voteSelect, voteList, clickedItem],
+    [itemIndex, itemCount, id, totalCount, voteList, voteSelect, voteBtnBg],
   );
 
-  function copy() {
-    setCopySuccess(() => {
-      const el = document.createElement("input");
-      el.value = window.location.href;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand("copy");
-      document.body.removeChild(el);
-    });
-  }
   function onClickModalOn() {
-    setModalActive((prev) => !prev);
+    setModalActive((previous) => !previous);
     setTimeout(() => {
-      setModalActive((prev) => !prev);
+      setModalActive((previous) => !previous);
     }, 1000);
   }
 
+  const checkClicked = clickedItem.some((element) => clickedItemIndex(element));
+
   return (
-    <div className="body_container" style={breakpoint.sm ? { backgroundColor: "#fff" } : { backgroundColor: "#E5E5E5" }}>
+    <div
+      className="body_container"
+      style={
+        breakpoint.sm
+          ? { backgroundColor: "#fff" }
+          : { backgroundColor: "#E5E5E5" }
+      }
+    >
       <div className="container">
         <form onSubmit={onSubmit}>
           <h1>{title}</h1>
           <p>{text}</p>
-          <div className={`${disabled ? "block" : "false"}`}>
+          <div className={`${disabled ? "click_block" : "false"}`}>
             {voteSelect.map((selectItem, index) => (
               <li
                 style={
-                  clickedItem[index]
-                    ? { border: btnColor.borderColor, backgroundColor: btnColor.itemBackground }
+                  clickedItem[Number.parseInt(index)]
+                    ? {
+                        border: borderColor,
+                        backgroundColor: selectItemBackground,
+                      }
                     : { border: "0px", backgroundColor: "#f6f6f6" }
                 }
                 key={selectItem.item}
-                className={`vote_box ${disabled ? "showGauge" : "false"} ${clickedItem[index] ? "click_color" : "false"} `}
+                className={`vote_box ${disabled ? "showGauge" : "false"} `}
                 onClick={() => handleClick(index)}
               >
                 <div
                   ref={gaugeBox}
-                  style={clickedItem[index] ? { backgroundColor: btnColor.itemGaugeColor } : { backgroundColor: "#e4e4e4" }}
+                  style={
+                    clickedItem[Number.parseInt(index)]
+                      ? { backgroundColor: itemGaugeColor }
+                      : { backgroundColor: "#e4e4e4" }
+                  }
                   className={`${disabled ? "currentGauge" : "false"}`}
                 ></div>
 
-                <input type="radio" id={selectItem.item} name="vote" value={selectItem.item} onChange={onChange} />
+                <input
+                  type="radio"
+                  id={selectItem.item}
+                  name="vote"
+                  value={selectItem.item}
+                />
                 <label htmlFor={selectItem.item}>{selectItem.item}</label>
               </li>
             ))}
           </div>
-          <button type="submit" disabled={disabled} style={{ backgroundColor: btnColor.voteBtnBg, color: btnColor.voteBtntextColor }} className="vote_btn">
+          <button
+            type="submit"
+            disabled={disabled}
+            style={
+              checkClicked
+                ? { backgroundColor: voteBtnBg, color: voteBtntextColor }
+                : { backgroundColor: "#d5d8dc", color: "#B2B2B2" }
+            }
+            className="vote_btn"
+          >
             투표하기
           </button>
         </form>
         <div className="favorite_comment_share">
           <div className="favorite_comment">
-            <Favorite fill={like ? "#FF2222" : "#fff"} onClick={handleLikeToggle} />
+            <Favorite
+              fill={like ? "#FF2222" : "#fff"}
+              onClick={handleLikeToggle}
+            />
             <span className="favorite">{likeNums}</span>
-            <Image src="/img/comment.svg" alt="Comment" width={20} height={20} />
+            <Image
+              src="/img/comment.svg"
+              alt="Comment"
+              width={20}
+              height={20}
+            />
             <span>{voteComments.length}</span>
           </div>
-          <div className={`copy_btn active" ${modalActive ? "active" : ""}`} onClick={onClickModalOn}>
-            <Image src="/img/share.svg" alt="Share" width={20} height={20} onClick={copy} />
+          <div
+            className={`copy_btn active" ${modalActive ? "active" : ""}`}
+            onClick={onClickModalOn}
+          >
+            <Image
+              src="/img/share.svg"
+              alt="Share"
+              width={20}
+              height={20}
+              onClick={copy}
+            />
           </div>
         </div>
         <Comment Comments={voteComments} value="vote" />
@@ -279,11 +326,8 @@ function VoteById({ data }) {
             box-sizing: border-box;
             pointer-events: none;
           }
-          .block {
+          .click_block {
             pointer-events: none;
-          }
-          .click_color {
-            background-color: #e8f3ff;
           }
           .currentGauge {
             position: absolute;

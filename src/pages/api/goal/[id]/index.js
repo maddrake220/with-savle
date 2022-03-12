@@ -1,13 +1,13 @@
 import client from "libs/prisma";
 
-async function handler(req, res) {
-  if (req.method === "GET") {
+async function handler(request, res) {
+  if (request.method === "GET") {
     const {
       query: { id },
-    } = req;
+    } = request;
     const results = await client.goal.findUnique({
       where: {
-        id: parseInt(id),
+        id: Number.parseInt(id),
       },
       include: {
         comments: true,

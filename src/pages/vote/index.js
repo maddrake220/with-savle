@@ -1,29 +1,28 @@
-import Image from "next/image";
-import Head from "next/head";
-import Link from "next/link";
-import server from "@/config/server";
 import axios from "axios";
-import VoteBox from "@/components/vote/VoteBox";
-import SkeletonBox from "@/components/vote/SkeletonBox";
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
 import useSWR, { SWRConfig } from "swr";
+
+import SkeletonBox from "@/components/Vote/SkeletonBox";
+import VoteBox from "@/components/Vote/VoteBox";
+import server from "@/config/server";
 const fetcher = (server) => axios.get(server).then((r) => r.data);
 
 export const vote_address = "/api/vote";
 function Votelist() {
   const {
     data: { results: data },
-    error,
   } = useSWR(vote_address, fetcher, {
     revalidateOnFocus: false,
   });
-  console.log(data);
+
   return (
     <>
       <Head>
         <title>Vote</title>
       </Head>
       <>
-        {/* Banner */}
         <section className="banner_box_container">
           <h1 className="banner_box_title">저축러의 고민해결소</h1>
           <p className="banner_box_sub">
@@ -32,10 +31,17 @@ function Votelist() {
             투표하며 함께 고민을 해결해요.
           </p>
           <div className="img_character_money" width={82} height={67}>
-            <Image className="character_money" layout="responsive" src="/img/char.svg" alt="character" width={82} height={67} priority={true} />
+            <Image
+              className="character_money"
+              layout="responsive"
+              src="/img/char.svg"
+              alt="character"
+              width={82}
+              height={67}
+              priority={true}
+            />
           </div>
         </section>
-        {/* VoteBox */}
         <section className="vote_box_list">
           <ul className="vote_box_list_container">
             {data &&
@@ -49,7 +55,12 @@ function Votelist() {
                 </li>
               ))}
           </ul>
-          <div className="loading_page">{!data && [1, 2, 3, 4, 5, 6].map((item, index) => <SkeletonBox key={index} />)}</div>
+          <div className="loading_page">
+            {!data &&
+              [1, 2, 3, 4, 5, 6].map((item, index) => (
+                <SkeletonBox key={index} />
+              ))}
+          </div>
         </section>
         <style jsx>{`
           /* Mobile */
@@ -201,12 +212,13 @@ export default function Vote({ fallback }) {
   );
 }
 
+// eslint-disable-next-line unicorn/prevent-abbreviations
 export async function getStaticProps() {
-  const res = await axios.get(`${server}/api/vote`);
+  const response = await axios.get(`${server}/api/vote`);
   return {
     props: {
       fallback: {
-        "/api/vote": res.data.results,
+        "/api/vote": response.data.results,
       },
     },
   };
