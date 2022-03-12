@@ -1,7 +1,7 @@
 import Book from "public/layout/book.svg";
 
-import useGoalInput from "@/hooks/useGoalInput";
-import useWidth from "@/hooks/useWidth";
+import { useGoalInput } from "@/hooks/useGoalInput";
+import { useWidth } from "@/hooks/useWidth";
 
 import styles from "../../../styles/saving-calc/SavingClacCommon.module.scss";
 

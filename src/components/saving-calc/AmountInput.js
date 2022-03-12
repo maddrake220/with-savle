@@ -1,7 +1,7 @@
 import PiggyBank from "public/layout/piggy-bank.svg";
 
-import useAmountInput from "@/hooks/useAmountInput";
-import useWidth from "@/hooks/useWidth";
+import { useAmountInput } from "@/hooks/useAmountInput";
+import { useWidth } from "@/hooks/useWidth";
 
 import styles from "../../../styles/saving-calc/SavingClacCommon.module.scss";
 import PlusButton from "./PlusButton";

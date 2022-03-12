@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import useGetComment from "@/hooks/useGetComment";
+import { useGetComment } from "@/hooks/useGetComment";
 
 import styles from "../../styles/comment/Comment.module.scss";
 import CommentInput from "./CommentInput";

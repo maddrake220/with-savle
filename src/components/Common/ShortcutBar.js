@@ -5,7 +5,7 @@ import TabletBackgroundBox from "public/layout/shortcut-bar-tablet.svg";
 import BackgroundBox from "public/layout/shortcut-bar-web.svg";
 
 import { useBreakpoint } from "@/hooks/useBreakpoint";
-import useWidth from "@/hooks/useWidth";
+import { useWidth } from "@/hooks/useWidth";
 
 import styles from "../../../styles/ShortcutBar.module.scss";
 

@@ -3,8 +3,8 @@ import Character from "public/layout/character.svg";
 import ShortCutBar from "@/components/Common/ShortcutBar";
 import CalcInputBox from "@/components/Saving-calc/CalcInputBox";
 import SavingCalcStep from "@/components/Saving-calc/SavingCalcStep";
-import useSavingCalc from "@/hooks/useSavingCalc";
-import useWidth from "@/hooks/useWidth";
+import { useSavingCalc } from "@/hooks/useSavingCalc";
+import { useWidth } from "@/hooks/useWidth";
 
 function SavingCalc() {
   const data = useSavingCalc();
