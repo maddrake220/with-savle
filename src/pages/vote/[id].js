@@ -4,9 +4,11 @@ import Link from "next/link";
 import Favorite from "public/img/Favorite.svg";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import Comment from "@/components/Comment";
+// import Comment from "@/components/Comment";
 import server from "@/config/server";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+
+import style from "./Id.module.scss";
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export async function getStaticProps(context) {
@@ -54,15 +56,13 @@ function VoteById({ data }) {
     voteBtnBg: "#3178FF",
     voteBtntextColor: "#fff",
     borderColor: "1px solid #3178FF",
-    itemBackground: "#e8f3ff",
     itemGaugeColor: "#e8f3ff",
-    selectItemBackground: "fff",
+    selectItemBackground: "#e8f3ff",
   });
   const {
     voteBtnBg,
     voteBtntextColor,
     borderColor,
-    itemBackground,
     itemGaugeColor,
     selectItemBackground,
   } = changedButtonColor;
@@ -117,7 +117,7 @@ function VoteById({ data }) {
     newArray[Number.parseInt(index)] = true;
     setClickedItem(newArray);
     setChangdeButtonColor({
-      itemBackground,
+      selectItemBackground,
       voteBtnBg,
       voteBtntextColor,
     });
@@ -158,9 +158,9 @@ function VoteById({ data }) {
       setChangdeButtonColor({
         voteBtnBg,
         voteBtntextColor: "rgba(256, 256, 256, 0.5)",
-        borderColor: itemIndex ? "1px solid #3178FF" : "1px solid red",
-        itemGaugeColor: itemIndex ? "#e8f3ff" : "red",
-        selectItemBackground: itemIndex ? "#fff" : "red",
+        borderColor: "1px solid #3178FF",
+        itemGaugeColor: "#e8f3ff",
+        selectItemBackground: "#fff",
       });
 
       // # 각각 맞는 게이지 보여주기 함수로
@@ -184,18 +184,18 @@ function VoteById({ data }) {
 
   return (
     <div
-      className="body_container"
+      className={style.body_container}
       style={
         breakpoint.sm
           ? { backgroundColor: "#fff" }
-          : { backgroundColor: "#E5E5E5" }
+          : { backgroundColor: "#f7f8fa" }
       }
     >
-      <div className="container">
+      <div className={style.container}>
         <form onSubmit={onSubmit}>
-          <h1>{title}</h1>
-          <p>{text}</p>
-          <div className={`${disabled ? "click_block" : "false"}`}>
+          <h1 className={style.title}>{title}</h1>
+          <p className={style.text}>{text}</p>
+          <div className={`${disabled ? style.click_block : ""}`}>
             {voteSelect.map((selectItem, index) => (
               <li
                 style={
@@ -207,7 +207,9 @@ function VoteById({ data }) {
                     : { border: "0px", backgroundColor: "#f6f6f6" }
                 }
                 key={selectItem.item}
-                className={`vote_box ${disabled ? "showGauge" : "false"} `}
+                className={`${style.vote_box} ${
+                  disabled ? style.showGauge : "false"
+                }`}
                 onClick={() => handleClick(index)}
               >
                 <div
@@ -217,20 +219,29 @@ function VoteById({ data }) {
                       ? { backgroundColor: itemGaugeColor }
                       : { backgroundColor: "#e4e4e4" }
                   }
-                  className={`${disabled ? "currentGauge" : "false"}`}
+                  className={`${disabled ? style.currentGauge : ""}`}
                 ></div>
-
+                <div className={`${disabled ? style.votePercent : ""}`}></div>
                 <input
                   type="radio"
                   id={selectItem.item}
                   name="vote"
                   value={selectItem.item}
+                  className={style.radio_btn}
                 />
-                <label htmlFor={selectItem.item}>{selectItem.item}</label>
+                <label
+                  className={`${style.radio_label} ${
+                    disabled ? "" : style.active
+                  }`}
+                  htmlFor={selectItem.item}
+                >
+                  {selectItem.item}
+                </label>
               </li>
             ))}
           </div>
           <button
+            className={style.vote_btn}
             type="submit"
             disabled={disabled}
             style={
@@ -238,18 +249,17 @@ function VoteById({ data }) {
                 ? { backgroundColor: voteBtnBg, color: voteBtntextColor }
                 : { backgroundColor: "#d5d8dc", color: "#B2B2B2" }
             }
-            className="vote_btn"
           >
             투표하기
           </button>
         </form>
-        <div className="favorite_comment_share">
-          <div className="favorite_comment">
+        <div className={style.favorite_comment_share}>
+          <div className={style.favorite_comment}>
             <Favorite
               fill={like ? "#FF2222" : "#fff"}
               onClick={handleLikeToggle}
             />
-            <span className="favorite">{likeNums}</span>
+            <span className={style.favorite}>{likeNums}</span>
             <Image
               src="/img/comment.svg"
               alt="Comment"
@@ -259,7 +269,7 @@ function VoteById({ data }) {
             <span>{voteComments.length}</span>
           </div>
           <div
-            className={`copy_btn active" ${modalActive ? "active" : ""}`}
+            className={`${style.copy_btn} ${modalActive ? style.active : ""}`}
             onClick={onClickModalOn}
           >
             <Image
@@ -271,257 +281,14 @@ function VoteById({ data }) {
             />
           </div>
         </div>
-        <Comment Comments={voteComments} value="vote" />
-        <div className="back_btn_container">
+        {/* <Comment Comments={voteComments} value="vote" /> */}
+        <div className={style.back_btn_container}>
           <Link href={`/vote`}>
             <a>
-              <button className="back_btn">목록보기</button>
+              <button className={style.back_btn}>목록보기</button>
             </a>
           </Link>
         </div>
-        <style jsx>{`
-          .container {
-            height: 100vh;
-            box-sizing: border-box;
-            padding: 0 20px;
-            background-color: #fff;
-          }
-          h1 {
-            font-size: 16px;
-            font-weight: 700;
-            line-height: 24px;
-            margin: 0 0 4px;
-          }
-          p {
-            font-size: 13px;
-            font-weight: 400;
-            line-height: 20px;
-            margin: 0 0 20px;
-            padding-bottom: 21px;
-            color: #5e5e5e;
-            border-bottom: 1px solid #e3e7ed;
-          }
-          .vote_box {
-            background-color: #f6f6f6;
-            border-radius: 4px;
-            height: 36px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            padding: 0 8px;
-            box-sizing: border-box;
-            position: relative;
-          }
-          .vote_box:last-child {
-            margin-bottom: 0;
-          }
-          .vote_box .showGauge {
-            background-color: red;
-            border-radius: 4px;
-            height: 36px;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            padding: 0 8px;
-            box-sizing: border-box;
-            pointer-events: none;
-          }
-          .click_block {
-            pointer-events: none;
-          }
-          .currentGauge {
-            position: absolute;
-            left: 0;
-            background-color: #e4e4e4;
-            height: 100%;
-          }
-          input[type="radio"] {
-            display: none;
-          }
-          label {
-            position: relative;
-            display: flex;
-            align-items: center;
-            width: 100%;
-            height: 95%;
-            font-size: 13px;
-            line-height: 20px;
-            font-weight: 400;
-            color: #36332e;
-            padding: 0 18px;
-          }
-          label:before {
-            position: absolute;
-            content: "";
-            height: 8px;
-            width: 8px;
-            border: 2px solid #b2b2b2;
-            border-radius: 50%;
-            margin-right: 10px;
-            left: 0;
-            background-color: #fff;
-          }
-          input[type="radio"]:checked + label:before {
-            height: 5px;
-            width: 5px;
-            border: 4px solid #3178ff;
-          }
-          .vote_btn {
-            margin-top: 34px;
-            border: none;
-            width: 100%;
-            height: 36px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-          }
-          .favorite_comment_share {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 20px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #e3e7ed;
-            position: relative;
-          }
-          .favorite_comment {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-          }
-          .favorite_comment span {
-            margin-left: 4px;
-            font-size: 13px;
-            font-weight: 700;
-          }
-          .favorite {
-            margin-right: 8px;
-          }
-          .back_btn_container {
-            display: flex;
-            justify-content: center;
-          }
-          .back_btn {
-            margin: 52px auto 0;
-            border: none;
-            width: 105px;
-            height: 37px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            background-color: #d5d8dc;
-            cursor: pointer;
-          }
-          .copy_btn.active:before {
-            content: "URL이 복사되었습니다.";
-            font-size: 12px;
-            position: absolute;
-            right: 0;
-            bottom: -27px;
-            width: 130px;
-            padding: 4px;
-            text-align: center;
-            border-radius: 4px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-          }
-
-          /* Tablet */
-          @media (min-width: 576px) {
-            .container {
-              padding: 32px 100px;
-              width: 90%;
-              box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
-            }
-          }
-          /* Desktop */
-          @media (min-width: 1200px) {
-            .container {
-              padding: 68px 103px;
-              background-color: #fff;
-            }
-            h1 {
-              font-size: 22px;
-              font-weight: 700;
-              line-height: 24px;
-              margin: 0 0 4px;
-            }
-            p {
-              font-size: 13px;
-              font-weight: 400;
-              line-height: 20px;
-              margin: 0 0 20px;
-              padding-bottom: 21px;
-              color: #5e5e5e;
-              border-bottom: 1px solid #e3e7ed;
-            }
-            .vote_box {
-              background-color: #f6f6f6;
-              border-radius: 4px;
-              height: 36px;
-              margin-top: 10px;
-              display: flex;
-              align-items: center;
-              padding: 0 8px;
-              box-sizing: border-box;
-            }
-            label {
-              display: flex;
-              align-items: center;
-              width: 100%;
-              font-size: 13px;
-              line-height: 20px;
-              font-weight: 400;
-              color: #36332e;
-              margin-left: 5px;
-              padding: 5px 0;
-            }
-            .vote_btn {
-              margin-top: 34px;
-              border: none;
-              width: 100%;
-              height: 36px;
-              border-radius: 8px;
-              font-size: 12px;
-              font-weight: 700;
-            }
-            .favorite_comment_share {
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              margin-top: 20px;
-              padding-bottom: 8px;
-              border-bottom: 1px solid #e3e7ed;
-            }
-            .favorite_comment {
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-            }
-            .favorite_comment span {
-              margin-left: 4px;
-              font-size: 13px;
-              font-weight: 700;
-            }
-            .favorite {
-              margin-right: 8px;
-            }
-            .back_btn {
-              display: block;
-              text-align: center;
-            }
-            .back_btn button {
-              margin: 52px auto 0;
-              border: none;
-              width: 105px;
-              height: 37px;
-              border-radius: 8px;
-              font-size: 12px;
-              font-weight: 700;
-              background-color: #d5d8dc;
-            }
-          }
-        `}</style>
       </div>
     </div>
   );
