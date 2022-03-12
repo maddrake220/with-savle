@@ -1,13 +1,13 @@
 import Image from "next/image";
 import React, { useRef } from "react";
+import styles from "styles/goal/new-goal-form.module.scss";
 
 import { useForm } from "@/hooks/index";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { newGoalAgeList } from "@/utils/goal/data";
 
 import NewGoalCategoryButton from "./NewGoalCategoryButton";
-
-export default function NewGoalForm({ isToggleModal, toggleModal }) {
+export default function NewGoalForm({ toggleModal }) {
   const matchQuery = useBreakpoint();
 
   const textareaReference = useRef(null);
@@ -40,9 +40,12 @@ export default function NewGoalForm({ isToggleModal, toggleModal }) {
   );
 
   return (
-    <section onClick={(event) => event.stopPropagation()}>
+    <section
+      className={styles.newGoal}
+      onClick={(event) => event.stopPropagation()}
+    >
       <h1>목표 작성하기</h1>
-      <div className="modal-top">
+      <div className={styles.modalTop}>
         {matchQuery.sm ? (
           <svg
             onClick={toggleModal}
@@ -81,15 +84,14 @@ export default function NewGoalForm({ isToggleModal, toggleModal }) {
         )}
       </div>
       <main>
-        <form onSubmit={onSubmit}>
-          <div className="age-list-container">
+        <form className={styles.newGoalForm} onSubmit={onSubmit}>
+          <div className={styles.ageListWrapper}>
             <label>
               <span>연령대</span>
             </label>
-            <ul className="age-list">
+            <ul className={styles.ageList}>
               {newGoalAgeList?.map((age) => (
                 <NewGoalCategoryButton
-                  className="age-button"
                   key={age.id}
                   id={age.id}
                   onClick={onClickselectedAge}
@@ -101,39 +103,44 @@ export default function NewGoalForm({ isToggleModal, toggleModal }) {
             </ul>
             <div>
               {validationCheck.age && (
-                <div className="validation-fail">연령대를 선택 해주세요!</div>
+                <div className={styles.validationFail}>
+                  연령대를 선택 해주세요!
+                </div>
               )}
             </div>
           </div>
-          <div className="textarea-wrapper">
+          <div className={styles.textareaWrapper}>
             <textarea
               ref={textareaReference}
-              className="text"
+              className={styles.text}
               type="text"
               placeholder="내용을 입력해주세요!"
               onChange={onChangeText}
               value={text}
             />
             {validationCheck.text && (
-              <div className="validation-fail">내용을 입력해주세요!</div>
+              <div className={styles.validationFail}>내용을 입력해주세요!</div>
             )}
           </div>
-          <div className="goal-category-wrapper">
+          <div className={styles.goalCategoryWrapper}>
             <label>
               <span>목표 카테고리</span>
             </label>
-            <div className="goal-wrapper">
-              <div className="input-box" onClick={onClickInputBox}>
+            <div className={styles.goalWrapper}>
+              <div className={styles.inputBox} onClick={onClickInputBox}>
                 <input
                   ref={inputReference}
                   onFocus={onFocus}
                   onBlur={onBlur}
-                  className="goal-category-search-input"
+                  className={styles.goalCategorySearchInput}
                   value={searchCategory}
                   onChange={onChangeSearchCategory}
                 />
               </div>
-              <ul className="selected-goal-categories" ref={selectedReference}>
+              <ul
+                className={styles.selectedGoalCategories}
+                ref={selectedReference}
+              >
                 {seletedGoalCategories?.map((seletedGoalCategory, index) => (
                   <li
                     onMouseDown={(event) =>
@@ -145,7 +152,13 @@ export default function NewGoalForm({ isToggleModal, toggleModal }) {
                   </li>
                 ))}
               </ul>
-              <ul className="goal-category-list">
+              <ul
+                className={
+                  isFocusedCategoryInput
+                    ? styles.goalCategoryList
+                    : styles.displayNone
+                }
+              >
                 {searchCategory === ""
                   ? categoryByAge
                       .sort((a, b) => b.count - a.count)
@@ -170,7 +183,7 @@ export default function NewGoalForm({ isToggleModal, toggleModal }) {
                       </li>
                     ))}
               </ul>
-              <button type="submit" className="submit-button">
+              <button type="submit" className={styles.submitButton}>
                 <svg
                   width={matchQuery.sm ? "17" : "28"}
                   height={matchQuery.sm ? "17" : "28"}
@@ -190,270 +203,13 @@ export default function NewGoalForm({ isToggleModal, toggleModal }) {
               </button>
             </div>
             {validationCheck.category && (
-              <div className="validation-fail">
+              <div className={styles.validationFail}>
                 목표 카테고리를 선택해주세요!
               </div>
             )}
           </div>
         </form>
       </main>
-      <style jsx>
-        {`
-          ol,
-          ul {
-            list-style: none;
-            margin: 0px;
-            padding: 0px;
-          }
-          section {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 7%;
-            margin: auto 0;
-            max-width: 30.188rem;
-            width: 86%;
-            height: 16.938rem;
-            border-radius: 0.5rem;
-            background: #fff;
-            display: ${isToggleModal ? "block" : "none"};
-          }
-          section h1 {
-            font-size: 0;
-          }
-          section .modal-top {
-            background: #73bcff;
-            height: 1.375rem;
-            border-radius: 0.5rem 0.5rem 0 0;
-          }
-
-          section .modal-top svg {
-            position: absolute;
-            right: 0.813rem;
-          }
-          form {
-            margin: 0 1rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-          }
-          .age-list-container {
-            position: relative;
-            margin-top: 0.875rem;
-            display: flex;
-            white-space: pre;
-            gap: 8px 50px;
-          }
-          .age-list-container label {
-            font-weight: bold;
-            font-size: 0.813rem;
-            line-height: 1.25rem;
-            color: #2d2d2d;
-          }
-          .age-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.25rem 0.5rem;
-          }
-          .text {
-            margin-top: 10px;
-            resize: none;
-            background: #f7f8fa;
-            border-radius: 4px;
-            border: none;
-            width: 85%;
-            height: 4.813rem;
-            padding: 0.5rem 1rem;
-          }
-          .text:focus {
-            outline: 0;
-          }
-          .goal-category-wrapper {
-            position: relative;
-          }
-          .goal-category-wrapper label span {
-            font-weight: bold;
-            font-size: 0.813rem;
-            line-height: 1.25rem;
-            color: #2d2d2d;
-          }
-          .input-box {
-            cursor: text;
-            width: 10rem;
-            height: 1.5rem;
-            background: #f7f8fa;
-            border-radius: 0.25rem;
-            overflow: hidden;
-            position: relative;
-          }
-          .goal-category-search-input {
-            position: absolute;
-            left: 0;
-            background: #f7f8fa;
-            max-width: 10rem;
-            height: 1.5rem;
-            outline: none;
-            border: none;
-          }
-          .goal-category-search-input:focus {
-            outline: none;
-          }
-          .goal-category-list {
-            position: absolute;
-            top: 50px;
-            left: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-          }
-          .goal-category-list li {
-            display: ${isFocusedCategoryInput ? "flex" : "none"};
-            padding: 0px;
-            background: #ffffff;
-            width: 10.5rem;
-            height: 2.25rem;
-            font-size: 13px;
-            line-height: 20px;
-            color: #36332e;
-            align-items: center;
-            cursor: pointer;
-          }
-          .goal-category-list li:last-child {
-            border-radius: 0 0 8px 8px;
-          }
-          .goal-category-list li:not(:last-child) {
-            box-shadow: inset 0px -0.5px 0px rgba(0, 0, 0, 0.1);
-          }
-          .goal-category-list li::before {
-            content: " # ";
-            margin-left: 20px;
-          }
-          .selected-goal-categories {
-            position: absolute;
-            top: 22px;
-            display: flex;
-            gap: 0.25rem;
-          }
-          .selected-goal-categories li {
-            border: 0.5px solid #73bcff;
-            color: #73bcff;
-            height: 1rem;
-            padding: 0.12rem 0.12rem;
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            font-size: 13px;
-            line-height: 20px;
-          }
-          .selected-goal-categories li::before {
-            content: " # ";
-          }
-          .goal-wrapper {
-            display: flex;
-          }
-          .submit-button {
-            margin-left: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 3.875rem;
-            height: 1.813rem;
-            background: #e8f3ff;
-            border-radius: 4px;
-            border: none;
-          }
-          .textarea-wrapper {
-            margin-top: 7px;
-            width: 100%;
-            position: relative;
-          }
-          .validation-fail {
-            font-size: 0.7rem;
-            color: red;
-          }
-          @media (min-width: 576px) {
-            section {
-              left: calc(50% - 15.94rem);
-              height: 32.563rem;
-              border-radius: 1rem;
-            }
-            section .modal-top {
-              height: 3.625rem;
-            }
-            .text {
-              width: 94%;
-              height: 14.625rem;
-            }
-            form {
-              margin: 0 2rem;
-            }
-            .age-list-container {
-              flex-direction: column;
-              transform: translateX(-3rem);
-            }
-            .goal-category-wrapper {
-              margin-top: 1rem;
-              transform: translateX(-0.5rem);
-            }
-            .input-box {
-              width: 19.375rem;
-              height: 3.375rem;
-            }
-            .goal-category-search-input {
-              max-width: 19.375rem;
-              height: 3.375rem;
-            }
-            .goal-category-list {
-              top: 80px;
-            }
-            .goal-category-list li {
-              display: ${isFocusedCategoryInput ? "flex" : "none"};
-              padding: 0px;
-              background: #ffffff;
-              width: 10.5rem;
-              height: 2.25rem;
-              font-size: 13px;
-              line-height: 20px;
-              color: #36332e;
-              align-items: center;
-              cursor: pointer;
-            }
-            .selected-goal-categories {
-              left: 3px;
-              top: 34px;
-              display: flex;
-              gap: 0.25rem;
-              font-weight: bold;
-            }
-            .selected-goal-categories li {
-              border: 1px solid #73bcff;
-              color: #73bcff;
-              height: 1rem;
-              padding: 0.2rem 0.6rem;
-              font-size: 1rem;
-              line-height: 26px;
-            }
-            .submit-button {
-              margin-left: 15px;
-              width: 5.125rem;
-              height: 3.375rem;
-              border-radius: 4px;
-            }
-          }
-
-          @media (min-width: 1200px) {
-            section {
-              top: auto;
-              left: auto;
-              right: 5.625rem;
-              bottom: 5rem;
-              max-height: 32.563rem;
-            }
-          }
-        `}
-      </style>
     </section>
   );
 }

@@ -17,11 +17,6 @@ export default function GoalDropdown({
           </option>
         ))}
       </select>
-      <style jsx>{`
-        select:focus {
-          outline: none;
-        }
-      `}</style>
     </label>
   );
 }

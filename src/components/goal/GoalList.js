@@ -94,6 +94,7 @@ export default function GoalList() {
                 fontSize: "0.813rem",
                 lineHeight: "1.25rem",
                 color: "#111",
+                outline: "none",
               }}
             />
           </div>
@@ -134,7 +135,7 @@ export default function GoalList() {
         />
       </div>
       <div className={`new-goal-modal-back`} onClick={toggleModal}>
-        <NewGoalForm isToggleModal={isToggleModal} toggleModal={toggleModal} />
+        <NewGoalForm toggleModal={toggleModal} />
       </div>
       <style jsx>{`
         header {

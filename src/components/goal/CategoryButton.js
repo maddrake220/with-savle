@@ -1,21 +1,21 @@
 import React from "react";
-import style from "styles/goal/category-button.module.scss";
+import styles from "styles/goal/category-button.module.scss";
 const getBackgroundColor = (backgroundColor) => {
   switch (backgroundColor) {
     case "blue": {
-      return style.blue;
+      return styles.blue;
     }
     case "yellow": {
-      return style.yellow;
+      return styles.yellow;
     }
     case "green": {
-      return style.green;
+      return styles.green;
     }
     case "sky": {
-      return style.sky;
+      return styles.sky;
     }
     default: {
-      return style.blue;
+      return styles.blue;
     }
   }
 };
@@ -29,7 +29,7 @@ export default function CategoryButton({
   return (
     <>
       <button
-        className={`${style.categoryButton} ${
+        className={`${styles.categoryButton} ${
           id === clicked && getBackgroundColor(backgroundColor)
         }`}
         onClick={() => {
