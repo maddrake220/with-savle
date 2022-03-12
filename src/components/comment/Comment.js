@@ -7,9 +7,8 @@ import CommentInput from "./CommentInput";
 import CommentText from "./CommentText";
 import Toggle from "./Toggle";
 
-const Comment = ({ value }) => {
+const Comment = ({ value, id }) => {
   const [hidden, setHidden] = useState(true);
-  const id = 5;
   const [data] = useGetComment(value, id);
 
   const handleHiddenComment = () => {
