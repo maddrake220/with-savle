@@ -37,7 +37,7 @@ export const useForm = (
         return;
       }
       const categories = seletedGoalCategories.map((v) => v.keyword);
-      const age = selectedAge.value;
+      const age = selectedAge?.value;
       const data = {
         categories,
         age,
@@ -123,7 +123,7 @@ export const useForm = (
   }, [seletedGoalCategories, inputReference, selectedReference]);
   useEffect(() => {
     if (selectedAge !== null) {
-      getGoalCategoryByAge(selectedAge.value)
+      getGoalCategoryByAge(selectedAge?.value)
         .then((resolve) => setCategoryByAge(resolve.data.results))
         .catch((error) => new Error(error));
     }

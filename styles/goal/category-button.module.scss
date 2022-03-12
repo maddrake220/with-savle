@@ -1,0 +1,37 @@
+@import "../variables.scss";
+
+.categoryButton {
+  cursor: pointer;
+  border: 0.094rem solid $primary;
+  background-color: $goal-background;
+  border-radius: 6.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  padding: 0 1.25rem;
+  height: 2.25rem;
+  white-space: pre;
+}
+.blue {
+  background-color: #3178ff;
+  color: $goal-background;
+}
+.yellow {
+  background-color: #fdd18f;
+}
+.green {
+  background-color: #d9fbcd;
+}
+.sky {
+  background-color: #cadcff;
+}
+@media (max-width: 575px) {
+  .categoryButton {
+    height: 1.875rem;
+    font-size: 0.813rem;
+    line-height: 1.25rem;
+  }
+}

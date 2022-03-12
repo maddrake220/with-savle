@@ -30,7 +30,7 @@ function SampleNextArrow(properties) {
   );
 }
 
-function SamplePreviousArrow(properties) {
+function SamplePrevArrow(properties) {
   const { className, onClick } = properties;
   return (
     <div className={className} onClick={onClick}>
@@ -82,7 +82,13 @@ export default function MainVoteSection() {
     <section className="vote_section">
       <div className="vote_section_title">
         <div className="vote_key_img" width={36} height={28}>
-          <Image layout="responsive" src="/img/key.svg" alt="key" width={36} height={28} />
+          <Image
+            layout="responsive"
+            src="/img/key.svg"
+            alt="key"
+            width={36}
+            height={28}
+          />
         </div>
         <h1>저축러의 고민해결소</h1>
         <p>
@@ -103,20 +109,46 @@ export default function MainVoteSection() {
       </Link>
       {breakpoints.sm == true ? (
         <div className="vote_woman">
-          <Image layout="responsive" src="/img/woman.svg" alt="woman" width={75} height={105} />
+          <Image
+            layout="responsive"
+            src="/img/woman.svg"
+            alt="woman"
+            width={75}
+            height={105}
+          />
         </div>
       ) : (
         <div className="vote_woman_group">
-          <Image layout="responsive" src="/img/woman_group.svg" alt="woman_group" width={116} height={154} priority={true} />
+          <Image
+            layout="responsive"
+            src="/img/woman_group.svg"
+            alt="woman_group"
+            width={116}
+            height={154}
+            priority={true}
+          />
         </div>
       )}
       {breakpoints.sm === true ? (
         <div className="vote_man">
-          <Image layout="responsive" src="/img/man.svg" alt="man" width={68} height={115} />
+          <Image
+            layout="responsive"
+            src="/img/man.svg"
+            alt="man"
+            width={68}
+            height={115}
+          />
         </div>
       ) : (
         <div className="vote_man_group">
-          <Image layout="responsive" src="/img/man_group.svg" alt="man_group" width={139} height={190} priority={true} />
+          <Image
+            layout="responsive"
+            src="/img/man_group.svg"
+            alt="man_group"
+            width={139}
+            height={190}
+            priority={true}
+          />
         </div>
       )}
       <style jsx>{`
