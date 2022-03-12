@@ -1,7 +1,8 @@
+import axios from "axios";
 import Image from "next/image";
 import Favorite from "public/img/Favorite.svg";
-import { useState, useCallback, useEffect } from "react";
-import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
+
 import server from "@/config/server";
 
 const putLike = async (id, like) => {
@@ -9,54 +10,64 @@ const putLike = async (id, like) => {
 };
 
 export default function VoteBox({ voteBoxData }) {
-  const { id, text, title, likes, voteSelect, voteComments } = voteBoxData;
+  const { id, title, likes, voteSelect, voteComments } = voteBoxData;
 
   const [like, setLike] = useState(false);
   const [likeNums, setLikeNums] = useState(likes);
 
-  // 이건 페이지를 로드했을 때 하트를 비우는지 채우는지 검사하는 함수!
   useEffect(() => {
-    const likesId = localStorage.getItem("votebox-like-list");
+    const likesId = localStorage.getItem("voteboxLikeList");
     likesId !== null ? setLike(likesId.includes(id)) : setLike(false);
   }, [id]);
 
   const handleLikeToggle = useCallback(
-    (e) => {
-      e.preventDefault();
-      const likesId = localStorage.getItem("votebox-like-list");
-      console.log(likesId);
+    (event) => {
+      event.preventDefault();
+      const likesId = localStorage.getItem("voteboxLikeList");
       let arrlikes = [];
       let newLikes = [];
 
       arrlikes = likesId !== null ? likesId.split(",") : [""];
-      !like ? (newLikes = [...arrlikes, id]) : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
-      localStorage.setItem("votebox-like-list", newLikes);
+      !like
+        ? (newLikes = [...arrlikes, id])
+        : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
+      localStorage.setItem("voteboxLikeList", newLikes);
       putLike(id, !like);
-      !like ? setLikeNums((like) => (like = like + 1)) : setLikeNums((like) => (like = like - 1));
-      setLike((prev) => !prev);
-      console.log(newLikes);
+      !like
+        ? setLikeNums((like) => (like = like + 1))
+        : setLikeNums((like) => (like = like - 1));
+      setLike((previous) => !previous);
     },
     [id, like],
   );
 
   return (
     <div className="vote_box">
-      <h1 className="subject_box">{title.length > 35 ? `${title.slice(0, 35)}...` : title}</h1>
+      <h1 className="subject_box">
+        {title.length > 35 ? `${title.slice(0, 35)}...` : title}
+      </h1>
       {voteSelect.map((selectItem) => (
         <div key={selectItem.item} className="vote_select-items">
-          <input type="radio" id={selectItem.item} name="vote" value={selectItem.item} />
+          <input
+            type="radio"
+            id={selectItem.item}
+            name="vote"
+            value={selectItem.item}
+          />
           <label htmlFor={selectItem.item}>{selectItem.item}</label>
         </div>
       ))}
       <div className="favorite_comment">
         <div
           className="favorite"
-          onClick={(e) => {
-            // console.log(e.cancelable);
-            e.preventDefault();
+          onClick={(event) => {
+            event.preventDefault();
           }}
         >
-          <Favorite fill={like ? "#FF2222" : "#fff"} onClick={handleLikeToggle} />
+          <Favorite
+            fill={like ? "#FF2222" : "#fff"}
+            onClick={handleLikeToggle}
+          />
           <span>{likeNums}</span>
         </div>
         <div>
