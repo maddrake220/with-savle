@@ -6,7 +6,7 @@ import { useWidth } from "@/hooks/useWidth";
 import styles from "../../../styles/saving-calc/SavingClacCommon.module.scss";
 
 const GoalInput = ({ data }) => {
-  const [goal, nextButtonFocus, handleChange, handleSubmit] =
+  const [goal, nextButtonFocus, handleChange, handelKeypress, handleSubmit] =
     useGoalInput(data);
 
   return (
@@ -22,13 +22,16 @@ const GoalInput = ({ data }) => {
         <p>저의 목표는</p>
         <p className={styles.goal_input}>
           <input
+            id="next"
             name="goal"
             type="text"
             maxLength={21}
             placeholder="예) 결혼자금 모으기"
             onChange={handleChange}
+            onKeyDown={handelKeypress}
             value={goal}
             className={styles.input}
+            autoFocus
           ></input>{" "}
           입니다
           <span className={goal.length <= 20 && styles.hidden}>

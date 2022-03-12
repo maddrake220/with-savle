@@ -7,8 +7,15 @@ export function useGoalInput(data) {
   const nextButtonFocus = goal.length > 0 && goal.length < 21;
 
   const handleChange = useCallback((event) => {
+    if (event.target.value === " ") return;
     setGoal(event.target.value);
   }, []);
+
+  const handelKeypress = (event) => {
+    if (event.key === "Enter") {
+      handleSubmit(event);
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -23,5 +30,5 @@ export function useGoalInput(data) {
     });
   };
 
-  return [goal, nextButtonFocus, handleChange, handleSubmit];
+  return [goal, nextButtonFocus, handleChange, handelKeypress, handleSubmit];
 }

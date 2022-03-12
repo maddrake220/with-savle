@@ -25,13 +25,13 @@ export function useCommentInput(textReference, data, mutate, value, id) {
       return;
     } else if (event.key === "Enter") {
       event.preventDefault();
-      handleSubmit();
+      handleSubmit(event);
     }
   };
 
   const handleSubmit = useCallback(
     async (event) => {
-      event !== undefined && event.preventDefault();
+      event.preventDefault();
       setDisabled(true);
       if (blankCheck === 0) {
         alert("텍스트를 입력해주세요");

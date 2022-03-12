@@ -1,4 +1,5 @@
 import PiggyBank from "public/layout/piggy-bank.svg";
+import { useRef } from "react";
 
 import { useAmountInput } from "@/hooks/useAmountInput";
 import { useWidth } from "@/hooks/useWidth";
@@ -7,14 +8,17 @@ import styles from "../../../styles/saving-calc/SavingClacCommon.module.scss";
 import PlusButton from "./PlusButton";
 
 const AmountInput = ({ data }) => {
+  const saving_amount_reference = useRef();
+
   const [
     amount,
     campareValue,
     resultButtonFocus,
     handleChange,
     handleClick,
+    handelKeypress,
     handleSubmit,
-  ] = useAmountInput(data);
+  ] = useAmountInput(data, saving_amount_reference);
 
   const { goal_amount, saving_amount } = amount;
 
@@ -32,6 +36,7 @@ const AmountInput = ({ data }) => {
           </span>
           <p className={styles.goal_amount_input}>
             <input
+              id="goal"
               className={styles.input}
               name="goal_amount"
               type="text"
@@ -39,6 +44,8 @@ const AmountInput = ({ data }) => {
               maxLength={16}
               placeholder="예) 70,000,000"
               onChange={handleChange}
+              onKeyDown={handelKeypress}
+              autoFocus
             ></input>
             원 입니다
           </p>
@@ -53,6 +60,7 @@ const AmountInput = ({ data }) => {
           </span>
           <p className={styles.saving_amount_input}>
             <input
+              id="result"
               className={styles.input}
               name="saving_amount"
               type="text"
@@ -60,6 +68,8 @@ const AmountInput = ({ data }) => {
               maxLength={goal_amount.length + 1}
               placeholder="예) 500,000"
               onChange={handleChange}
+              onKeyDown={handelKeypress}
+              ref={saving_amount_reference}
             ></input>
             원 입니다
           </p>
