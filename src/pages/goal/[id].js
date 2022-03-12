@@ -1,6 +1,6 @@
 function GoalById() {
   return (
-    <section className="goal-detail">
+    <section className="goal_detail">
       <div className="container">
         <div className="info">익명의 302님 | 20대</div>
         <div className="text">
@@ -73,110 +73,6 @@ function GoalById() {
           </div>
         </div>
       </div>
-      <style jsx>{`
-        .goal-detail {
-          background: #f7f8fa;
-        }
-        .goal-detail .container {
-          width: 280px;
-
-          padding: 22px 20px 0;
-          background: #ffffff;
-          box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .goal-detail .info {
-          font-size: 13px;
-          line-height: 20px;
-          font-weight: 700;
-
-          color: #b2b2b2;
-        }
-        .goal-detail .text {
-          font-size: 13px;
-          line-height: 20px;
-
-          margin-top: 4px;
-
-          color: #000000;
-        }
-        .goal-detail .categories {
-          margin-top: 30px;
-        }
-        .goal-detail .categories ul {
-          display: flex;
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-        .goal-detail .categories ul li {
-          border: 1.35417px solid #73bcff;
-          box-sizing: border-box;
-          border-radius: 22.3115px;
-
-          color: #73bcff;
-        }
-        .goal-detail .categories ul li + li {
-          margin-left: 6px;
-        }
-        .goal-detail .categories ul li span {
-          height: 25px;
-
-          font-size: 13px;
-          line-height: 20px;
-          padding: 0 10px;
-        }
-        .goal-detail .Icons {
-          position: relative;
-          display: flex;
-          align-items: center;
-
-          margin-top: 25px;
-          padding-bottom: 13px;
-
-          border-bottom: 1px solid #e3e7ed;
-        }
-        .goal-detail .Icons span {
-          margin-left: 4px;
-        }
-        .goal-detail .likes {
-          display: flex;
-          align-items: center;
-        }
-        .goal-detail .comments {
-          display: flex;
-          align-items: center;
-
-          margin-left: 10px;
-        }
-        .goal-detail .share {
-          position: absolute;
-          right: 0;
-        }
-        @media (min-width: 576px) {
-          .goal-detail .container {
-            width: 455px;
-
-            padding: 40px 60px 0;
-          }
-          .goal-detail .info,
-          .goal-detail .text {
-            font-size: 15px;
-            line-height: 22px;
-          }
-        }
-        @media (min-width: 1200px) {
-          .goal-detail .container {
-            width: 1000px;
-
-            padding: 68px 100px 0;
-          }
-          .goal-detail .info,
-          .goal-detail .text {
-            font-size: 16px;
-            line-height: 24px;
-          }
-        }
-      `}</style>
     </section>
   );
 }
