@@ -8,7 +8,7 @@ const fetcher = async (url) => {
   return response.data.results;
 };
 
-function useGetComment(value, id) {
+export function useGetComment(value, id) {
   const type = value === "goal" ? true : false;
   const { data, mutate } = useSWR(
     type
@@ -18,5 +18,3 @@ function useGetComment(value, id) {
   );
   return [data, mutate];
 }
-
-export default useGetComment;

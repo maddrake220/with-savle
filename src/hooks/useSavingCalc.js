@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function useSavingCalc() {
+export function useSavingCalc() {
   const [inputs, setInputs] = useState({
     goal: "",
     goal_amount: "",
@@ -14,5 +14,3 @@ function useSavingCalc() {
 
   return [inputs, setInputs, state, setState];
 }
-
-export default useSavingCalc;

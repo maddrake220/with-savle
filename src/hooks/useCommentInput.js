@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { fetchPostGoalComment } from "src/api/goal";
 import { fetchPostVoteComment } from "src/api/vote";
 
-function useCommentInput(textReference, data, mutate, value, id) {
+export function useCommentInput(textReference, data, mutate, value, id) {
   const [comment, setComment] = useState("");
   const [disabled, setDisabled] = useState(false);
 
@@ -65,5 +65,3 @@ function useCommentInput(textReference, data, mutate, value, id) {
     handleSubmit,
   ];
 }
-
-export default useCommentInput;

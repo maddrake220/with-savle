@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import addAmount from "@/utils/addAmount";
 import comma from "@/utils/comma";
 
-function useAmountInput(data) {
+export function useAmountInput(data) {
   const [amount, setAmount] = useState({ goal_amount: "", saving_amount: "" });
   const { goal_amount, saving_amount } = amount;
   const [inputs, setInputs, state, setState] = data;
@@ -72,5 +72,3 @@ function useAmountInput(data) {
     handleSubmit,
   ];
 }
-
-export default useAmountInput;
