@@ -1,42 +1,30 @@
-import { localstorageLike } from "@/utils/goal/constants";
+import { localstorageGoalLike } from "@/utils/goal/constants";
 import { putLike } from "@/utils/goal/api";
 import { getAgeGeneration } from "@/utils/goal/functions";
 import Image from "next/image";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import GoalLike from "./GoalLike";
+import { useLike } from "@/hooks/index";
 
 export default function GoalCard({ id, age, categories, comments, likes, text }) {
-  const [like, setLike] = useState(false);
-  const [likeNums, setLikeNums] = useState();
-  useEffect(() => {
-    setLikeNums(likes);
-  }, [likes]);
-  useEffect(() => {
-    const likes = localStorage.getItem(localstorageLike);
-    likes !== null ? setLike(likes.includes(id)) : setLike(false);
-  }, [id]);
-
-  const onClickLike = useCallback(
-    (e) => {
-      e.stopPropagation();
-      const likes = localStorage.getItem(localstorageLike);
-      let arrlikes = [];
-      let newLikes = [];
-      arrlikes = likes !== null ? likes.split(",") : [""];
-      !like ? (newLikes = [...arrlikes, id]) : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
-      localStorage.setItem(localstorageLike, newLikes);
-      putLike(id, !like);
-      !like ? setLikeNums((like) => (like = like + 1)) : setLikeNums((like) => (like = like - 1));
-      setLike((like) => !like);
-    },
-    [id, like],
-  );
+  const skeletonView = new Array(3).fill(0);
+  const [like, likeNums, localStorageHandler] = useLike(id, likes, localstorageGoalLike);
 
   const onClickCard = useCallback(() => {
     alert("상세페이지로 이동 구현X");
   }, []);
+
+  const onClickLike = useCallback(
+    (e) => {
+      e.stopPropagation();
+      localStorageHandler();
+      putLike(id, !like);
+    },
+    [id, like, localStorageHandler],
+  );
+
   return (
     <li className="goal-card" key={id} onClick={onClickCard}>
       <div className="goal-card-wrapper">
@@ -51,7 +39,7 @@ export default function GoalCard({ id, age, categories, comments, likes, text })
                   <span>{category}</span>
                 </li>
               ))
-            : [1, 2, 3].map((v, i) => (
+            : skeletonView.map((v, i) => (
                 <li key={i}>
                   <span>
                     <Skeleton style={{ marginRight: "10px" }} width={40} height={25} count={1} />

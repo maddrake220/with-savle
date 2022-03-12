@@ -1,128 +1,42 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import NewGoalCategoryButton from "./NewGoalCategoryButton";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import Image from "next/image";
-import { postNewGoal, getGoalCategoryByAge } from "@/utils/goal/api";
 import { newGoalAgeList } from "@/utils/goal/data";
-import { MAX_GOAL_CATEGORY } from "@/utils/goal/constants";
-
-export default function NewGoalForm({ setToggleNewGoalComp, onCloseModal }) {
+import { useForm } from "@/hooks/index";
+export default function NewGoalForm({ toggleModal }) {
   const matchQuery = useBreakpoint();
-  const [selectedAge, setSelectedAge] = useState(null);
-  const [isFocusedCategoryInput, setIsFocusedCategoryInput] = useState(false);
-  const [seletedGoalCategories, setSelectedGoalCategories] = useState([]);
-  const [categoryByAge, setCategoryByAge] = useState([]);
-  const [searchingCategoryByAge, setSearchingCategoryByAge] = useState([]);
-  const [searchCategory, setSearchCategory] = useState("");
+
   const textareaRef = useRef(null);
   const inputRef = useRef(null);
   const selectedRef = useRef(null);
-  const sectionRef = useRef(null);
-  const onSuccessNewGoal = useCallback(() => {
-    setToggleNewGoalComp((t) => !t);
-    setSearchCategory("");
-    textareaRef.current.value = "";
-    setSelectedGoalCategories([]);
-    setSelectedAge(null);
-  }, [setToggleNewGoalComp, setSelectedAge, setSelectedGoalCategories]);
 
-  const onSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      const text = textareaRef.current.value;
-      if (selectedAge === null) {
-        alert("test) 연령대를 선택해 주세요!");
-        return;
-      }
-      if (text === "") {
-        alert("test) 내용을 입력해 주세요!");
-        return;
-      }
-      if (seletedGoalCategories.length === 0) {
-        alert("test) 목표 카테고리를 골라주세요!");
-        return;
-      }
-      const categories = seletedGoalCategories.map((v) => v.keyword);
-      const age = selectedAge.value;
-      const data = {
-        categories,
-        age,
-        text,
-        likes: 0,
-      };
-      postNewGoal(data)
-        .then((resolve) => {
-          if (resolve.status === 200) {
-            onSuccessNewGoal();
-          }
-        })
-        .catch((error) => alert(error, "fail to post"));
-    },
-    [seletedGoalCategories, textareaRef, selectedAge, onSuccessNewGoal],
-  );
-  const onClickselectedAge = useCallback((value) => {
-    setSelectedAge(value);
-    setSelectedGoalCategories([]);
-    setSearchCategory("");
-  }, []);
-  const onClickInputBox = useCallback(() => {
-    inputRef.current.focus();
-  }, []);
-  const onFocus = useCallback((e) => {
-    setIsFocusedCategoryInput(true);
-  }, []);
-  const onBlur = useCallback((e) => {
-    setIsFocusedCategoryInput(false);
-  }, []);
-  const onMouseDownGoalCategory = useCallback(
-    (e, value) => {
-      e.preventDefault();
-      setTimeout(() => {
-        inputRef.current.blur();
-        if (seletedGoalCategories.length === MAX_GOAL_CATEGORY) {
-          inputRef.current.disabled = true;
-        }
-      }, 100);
-      setSelectedGoalCategories((values) => [...values, value]);
-    },
-    [seletedGoalCategories],
-  );
-  const onMouseDownUndoGoalCategory = useCallback((e, value) => {
-    e.preventDefault();
-    inputRef.current.disabled = false;
-    setSelectedGoalCategories((values) => {
-      return values.filter((v) => v.id !== value.id);
-    });
-  }, []);
-  const onChangeSearchCategory = useCallback((e) => {
-    setSearchCategory(e.target.value);
-  }, []);
-  useEffect(() => {
-    if (searchCategory !== "") {
-      setSearchingCategoryByAge(categoryByAge.filter((v) => v.keyword.includes(searchCategory)));
-    }
-  }, [searchCategory, categoryByAge]);
-  useEffect(() => {
-    textareaRef.current.focus();
-  }, [onCloseModal]);
-  useEffect(() => {
-    const width = selectedRef.current.offsetWidth;
-    inputRef.current.style.left = `${width}px`;
-    inputRef.current.style.maxWidth = 160 - width + "px";
-  }, [seletedGoalCategories]);
-  useEffect(() => {
-    if (selectedAge !== null) {
-      getGoalCategoryByAge(selectedAge.value)
-        .then((resolve) => setCategoryByAge(resolve.data.results))
-        .catch((error) => console.log(error, "fail to get category"));
-    }
-  }, [selectedAge]);
+  const [
+    selectedAge,
+    isFocusedCategoryInput,
+    seletedGoalCategories,
+    categoryByAge,
+    searchingCategoryByAge,
+    searchCategory,
+    validationCheck,
+    text,
+    onSubmit,
+    onClickselectedAge,
+    onClickInputBox,
+    onFocus,
+    onBlur,
+    onMouseDownGoalCategory,
+    onMouseDownUndoGoalCategory,
+    onChangeSearchCategory,
+    onChangeText,
+  ] = useForm(toggleModal, textareaRef, selectedRef, inputRef);
+
   return (
-    <section onClick={(e) => e.stopPropagation()} ref={sectionRef}>
+    <section onClick={(e) => e.stopPropagation()}>
       <h1>목표 작성하기</h1>
       <div className="modal-top">
         {matchQuery.sm ? (
-          <svg onClick={onCloseModal} width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg onClick={toggleModal} width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M14.25 4.75L4.75 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M4.75 4.75L14.25 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
@@ -151,8 +65,12 @@ export default function NewGoalForm({ setToggleNewGoalComp, onCloseModal }) {
                 />
               ))}
             </ul>
+            {validationCheck.age && <div className="validation-fail">연령선택을 해주세요!</div>}
           </div>
-          <textarea ref={textareaRef} className="text" type="text" placeholder="내용을 입력해주세요!" />
+          <div className="textarea-wrapper">
+            <textarea ref={textareaRef} className="text" type="text" placeholder="내용을 입력해주세요!" onChange={onChangeText} value={text} />
+            {validationCheck.text && <div className="validation-fail">내용을 입력해주세요!</div>}
+          </div>
           <div className="goal-category-wrapper">
             <label>
               <span>목표 카테고리</span>
@@ -213,6 +131,7 @@ export default function NewGoalForm({ setToggleNewGoalComp, onCloseModal }) {
                 </svg>
               </button>
             </div>
+            {validationCheck.category && <div className="validation-fail">목표 카테고리를 선택해주세요!</div>}
           </div>
         </form>
       </main>
@@ -378,6 +297,14 @@ export default function NewGoalForm({ setToggleNewGoalComp, onCloseModal }) {
             background: #e8f3ff;
             border-radius: 4px;
             border: none;
+          }
+          .textarea-wrapper {
+            width: 100%;
+            position: relative;
+          }
+          .validation-fail {
+            font-size: 0.7rem;
+            color: red;
           }
           @media (min-width: 576px) {
             section {

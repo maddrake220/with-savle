@@ -1,0 +1,260 @@
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  margin: 0 0 4px;
+}
+.container {
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 20px 20px 0;
+  background-color: $white;
+}
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  margin: 0 0 4px;
+}
+.text {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0 0 20px;
+  padding-bottom: 21px;
+  color: #5e5e5e;
+  border-bottom: 1px solid $grey-3;
+}
+.vote_box {
+  background-color: $grey-3;
+  border-radius: 4px;
+  height: 36px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  box-sizing: border-box;
+  position: relative;
+}
+.vote_box:last-child {
+  margin-bottom: 0;
+}
+.vote_box .showGauge {
+  background-color: red;
+  border-radius: 4px;
+  height: 36px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.click_block {
+  pointer-events: none;
+}
+.currentGauge {
+  position: absolute;
+  left: 0;
+  background-color: $gauge;
+  height: 100%;
+  border-radius: 4px;
+}
+.votePercent {
+  position: absolute;
+  right: 13px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #888888;
+}
+.votePercent::before{
+  content: "1%";
+}
+.radio_btn[type="radio"] {
+  display: none;
+}
+.radio_label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 95%;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+  color: $text-1;
+  padding: 0 18px;
+}
+.radio_label.active:before {
+  position: absolute;
+  content: "";
+  height: 8px;
+  width: 8px;
+  border: 2px solid $grey-2;
+  border-radius: 50%;
+  margin-right: 10px;
+  left: 0;
+  background-color: $white;
+}
+.radio_btn[type="radio"]:checked + label:before {
+  height: 5px;
+  width: 5px;
+  border: 4px solid $primary;
+}
+.vote_btn {
+  margin-top: 34px;
+  border: none;
+  width: 100%;
+  height: 36px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.favorite_comment_share {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid $grey-3;
+  position: relative;
+}
+.favorite_comment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.favorite_comment span {
+  margin-left: 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.favorite {
+  margin-right: 8px;
+}
+.back_btn_container {
+  display: flex;
+  justify-content: center;
+}
+.back_btn {
+  margin: 52px auto 0;
+  border: none;
+  width: 105px;
+  height: 37px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  background-color: $grey-5;
+  cursor: pointer;
+}
+.copy_btn.active:before {
+  content: "URL이 복사되었습니다.";
+  font-size: 12px;
+  position: absolute;
+  right: 0;
+  bottom: -27px;
+  width: 130px;
+  padding: 4px;
+  text-align: center;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  color: $white;
+}
+
+/* Tablet */
+@media (min-width: 576px) {
+  .container {
+    padding: 32px 100px;
+    width: 90%;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+  }
+}
+/* Desktop */
+@media (min-width: 1200px) {
+  .container {
+    width: 1000px;
+    padding: 68px 103px;
+    background-color: $white;
+  }
+  .title {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 24px;
+    margin: 0 0 4px;
+  }
+  .text {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    margin: 0 0 20px;
+    padding-bottom: 21px;
+    color: #5e5e5e;
+    border-bottom: 1px solid $grey-3;
+  }
+  .vote_box {
+    background-color: #f6f6f6;
+    border-radius: 4px;
+    height: 36px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+  .radio_label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #36332e;
+    margin-left: 5px;
+    padding: 5px 0;
+  }
+  .vote_btn {
+    margin-top: 34px;
+    border: none;
+    width: 100%;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .favorite_comment_share {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid $grey-3;
+  }
+  .favorite_comment {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .favorite_comment span {
+    margin-left: 4px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .favorite {
+    margin-right: 8px;
+  }
+  .back_btn {
+    display: block;
+    text-align: center;
+  }
+  .back_btn button {
+    margin: 52px auto 0;
+    border: none;
+    width: 105px;
+    height: 37px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    background-color: $grey-5;
+  }
+}

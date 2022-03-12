@@ -9,7 +9,7 @@ import MainVoteBox from "@/components/Vote/MainVoteBox";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { mockDatas } from "@/utils/voteMockData";
 
-function SampleNextArrow(properties) {
+function NextArrow(properties) {
   const { className, onClick } = properties;
   return (
     <div className={className} onClick={onClick}>
@@ -30,7 +30,7 @@ function SampleNextArrow(properties) {
   );
 }
 
-function SamplePreviousArrow(properties) {
+function PreviousArrow(properties) {
   const { className, onClick } = properties;
   return (
     <div className={className} onClick={onClick}>
@@ -58,8 +58,8 @@ export default function MainVoteSection() {
     slidesToShow: 3,
     slidesToScroll: 3,
     initialSlide: 0,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    nextArrow: <NextArrow />,
+    prevArrow: <PreviousArrow />,
     responsive: [
       {
         breakpoint: 1200,
@@ -82,7 +82,13 @@ export default function MainVoteSection() {
     <section className="vote_section">
       <div className="vote_section_title">
         <div className="vote_key_img" width={36} height={28}>
-          <Image layout="responsive" src="/img/key.svg" alt="key" width={36} height={28} />
+          <Image
+            layout="responsive"
+            src="/img/key.svg"
+            alt="key"
+            width={36}
+            height={28}
+          />
         </div>
         <h1>저축러의 고민해결소</h1>
         <p>
@@ -101,22 +107,48 @@ export default function MainVoteSection() {
           <button>투표하러 가기</button>
         </a>
       </Link>
-      {breakpoints.sm == true ? (
+      {breakpoints.sm ? (
         <div className="vote_woman">
-          <Image layout="responsive" src="/img/woman.svg" alt="woman" width={75} height={105} />
+          <Image
+            layout="responsive"
+            src="/img/woman.svg"
+            alt="woman"
+            width={75}
+            height={105}
+          />
         </div>
       ) : (
         <div className="vote_woman_group">
-          <Image layout="responsive" src="/img/woman_group.svg" alt="woman_group" width={116} height={154} priority={true} />
+          <Image
+            layout="responsive"
+            src="/img/woman_group.svg"
+            alt="woman_group"
+            width={116}
+            height={154}
+            priority={true}
+          />
         </div>
       )}
-      {breakpoints.sm === true ? (
+      {breakpoints.sm ? (
         <div className="vote_man">
-          <Image layout="responsive" src="/img/man.svg" alt="man" width={68} height={115} />
+          <Image
+            layout="responsive"
+            src="/img/man.svg"
+            alt="man"
+            width={68}
+            height={115}
+          />
         </div>
       ) : (
         <div className="vote_man_group">
-          <Image layout="responsive" src="/img/man_group.svg" alt="man_group" width={139} height={190} priority={true} />
+          <Image
+            layout="responsive"
+            src="/img/man_group.svg"
+            alt="man_group"
+            width={139}
+            height={190}
+            priority={true}
+          />
         </div>
       )}
       <style jsx>{`
@@ -148,7 +180,6 @@ export default function MainVoteSection() {
           margin: 0;
         }
         .votebox_container {
-          /* slick 컨테이너 */
           margin: 26px auto 32px;
           list-style: none;
           padding: 0;
