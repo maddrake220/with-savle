@@ -1,14 +1,16 @@
+import style from "./GoalId.module.scss";
+
 function GoalById() {
   return (
-    <section className="goal_detail">
-      <div className="container">
-        <div className="info">익명의 302님 | 20대</div>
-        <div className="text">
+    <section className={style.goal_detail}>
+      <div className={style.container}>
+        <div className={style.info}>익명의 302님 | 20대</div>
+        <div className={style.text}>
           주변에 한우목장들이 있어 산업이 유망하다고 알고는 있었는데, 저 같은
           일반 투자자도 이제 투자가 가능해졌네요. 주변에 한우목장들이 있어
           산업이 유망하다고 알고는 있었는데, 저 같은 일반 투자자도 가능하네요
         </div>
-        <div className="categories">
+        <div className={style.categories}>
           <ul>
             <li>
               <span>#여행</span>
@@ -21,8 +23,8 @@ function GoalById() {
             </li>
           </ul>
         </div>
-        <div className="Icons">
-          <div className="likes">
+        <div className={style.Icons}>
+          <div className={style.likes}>
             <svg
               width="24"
               height="24"
@@ -37,7 +39,7 @@ function GoalById() {
             </svg>
             <span>4</span>
           </div>
-          <div className="comments">
+          <div className={style.comments}>
             <svg
               width="24"
               height="24"
@@ -55,7 +57,7 @@ function GoalById() {
             </svg>
             <span>2</span>
           </div>
-          <div className="share">
+          <div className={style.share}>
             <svg
               width="15"
               height="16"

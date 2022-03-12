@@ -10,6 +10,8 @@ import Data from "src/pages/goal/goalAPI.json";
 import MainGoalItem from "@/components/Goal/MainGoalItem";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
+import style from "./MainGoal.module.scss"
+
 export default function MainGoalSlider() {
   function PreviousArrow(properties) {
     const { className, onClick } = properties;
@@ -74,7 +76,7 @@ export default function MainGoalSlider() {
 
   return (
     <div className="container">
-      <ul className="goal-slider">
+      <ul className={style.goal_slider}>
         {breakpoint.sm ? (
           <Slider {...settings}>
             {goalItems.map((item) => {
@@ -109,35 +111,6 @@ export default function MainGoalSlider() {
           </div>
         )}
       </ul>
-      <style jsx>{`
-        .goal-slider {
-          list-style: none;
-          width: 100%;
-          padding: 0;
-          margin: 0 auto;
-
-          background: #f0f6fb;
-        }
-        .goal-slider div {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-around;
-
-          width: 575px;
-          margin: auto;
-        }
-        @media (min-width: 1200px) {
-          .goal-slider {
-            position: relative;
-          }
-          .goal-slider div {
-            position: absolute;
-
-            left: 132px;
-            top: -170px;
-          }
-        }
-      `}</style>
     </div>
   );
 }
