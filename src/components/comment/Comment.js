@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { useGetComment } from "@/hooks/useGetComment";
 
-import styles from "../../styles/comment/Comment.module.scss";
+import styles from "../../../styles/comment/Comment.module.scss";
 import CommentInput from "./CommentInput";
 import CommentText from "./CommentText";
 import Toggle from "./Toggle";

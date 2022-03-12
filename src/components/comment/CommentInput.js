@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useCommentInput } from "@/hooks/useCommentInput";
 import { useGetComment } from "@/hooks/useGetComment";
 
-import styles from "../../styles/comment/CommentInput.module.scss";
+import styles from "../../../styles/comment/CommentInput.module.scss";
 
 const CommentInput = ({ value, id }) => {
   const textReference = useRef();
