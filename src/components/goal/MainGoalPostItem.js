@@ -14,7 +14,10 @@ export default function MainGoalPostItem() {
         <>
           <MainGoalPostForm toggleModal={toggleModal} />
           <div className={`new-goal-modal-back`} onClick={toggleModal}>
-            <NewGoalComplete isToggleModal={isToggleModal} toggleModal={toggleModal} />
+            <NewGoalComplete
+              isToggleModal={isToggleModal}
+              toggleModal={toggleModal}
+            />
           </div>
         </>
       ) : (
