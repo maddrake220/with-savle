@@ -4,10 +4,9 @@ import Link from "next/link";
 import Favorite from "public/img/Favorite.svg";
 import { useCallback, useEffect, useState } from "react";
 
-import Comment from "@/components/Comment";
+// import Comment from "@/components/Comment";
 import server from "@/config/server";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
-import { useVoteState } from "@/hooks/useVoteState";
+import { useBreakpoint, useTimeoutToggle, useVoteState } from "@/hooks/index";
 import { copy, percentage, sumCount } from "@/utils/index";
 
 import style from "./Id.module.scss";
@@ -44,10 +43,8 @@ function VoteById({ data }) {
 
   const { voteBtnBg, voteBtntextColor, borderColor, selectItemBackground } =
     buttonStyles;
-  // -------------------------------------------------------------------------------------------------
 
-  const [modalActive, setModalActive] = useState(false);
-
+  const { timeoutToggle, timeoutModal } = useTimeoutToggle();
   // -------------------------------------------------------------------------------------------------
 
   const totalCount = sumCount(voteSelect);
@@ -85,13 +82,6 @@ function VoteById({ data }) {
     [id, like],
   );
   // -------------------------------------------------------------------------------------------------
-
-  function onClickModalOn() {
-    setModalActive((previous) => !previous);
-    setTimeout(() => {
-      setModalActive((previous) => !previous);
-    }, 1000);
-  }
 
   return (
     <div
@@ -135,7 +125,14 @@ function VoteById({ data }) {
                       : style.notClicked_Background
                   }`}
                 ></div>
-                <div className={`${disabled ? style.votePercent : ""}`}>
+                <div
+                  style={
+                    selectId === selectItem.id
+                      ? { color: voteBtnBg }
+                      : { color: "#888" }
+                  }
+                  className={`${disabled ? style.votePercent : ""} `}
+                >
                   {disabled && `${percentage(selectItem.count, totalCount)}%`}
                 </div>
                 <input
@@ -185,8 +182,8 @@ function VoteById({ data }) {
             <span>{voteComments.length}</span>
           </div>
           <div
-            className={`${style.copy_btn} ${modalActive ? style.active : ""}`}
-            onClick={onClickModalOn}
+            className={`${style.copy_btn} ${timeoutToggle ? style.active : ""}`}
+            onClick={timeoutModal}
           >
             <Image
               src="/img/share.svg"
@@ -197,10 +194,10 @@ function VoteById({ data }) {
             />
           </div>
         </div>
-        <Comment Comments={voteComments} value="vote" />
+        {/* <Comment Comments={voteComments} value="vote" /> */}
         <div className={style.back_btn_container}>
           <Link href={`/vote`}>
-            <a>
+            <a className={style.link}>
               <button className={style.back_btn}>목록보기</button>
             </a>
           </Link>
