@@ -1,0 +1,155 @@
+.vote_section {
+  background-color: $grey-4;
+  margin: 0 auto;
+  position: relative;
+  box-sizing: border-box;
+  .vote_section_title {
+    padding: 40px 21px 0;
+    box-sizing: border-box;
+    .vote_key_img {
+      width: 36px;
+      height: 28px;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 28px;
+      margin: 5px 0 8px 0;
+    }
+    p {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 20px;
+      color: $grey-1;
+      margin: 0;
+    }
+  }
+  .votebox_container {
+    margin: 16px auto 22px;
+    list-style: none;
+    padding: 0;
+    width: 75%;
+  }
+  .vote_button {
+    display: block;
+    text-align: center;
+    button {
+      border: none;
+      width: 174px;
+      height: 46px;
+      border-radius: 8px;
+      background-color: $primary;
+      color: $white;
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0px 0 64px;
+    }
+  }
+  .vote_woman {
+    position: absolute;
+    bottom: 0;
+    width: 75px;
+  }
+  .vote_man {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 68px;
+  }
+}
+
+@media (min-width: 576px) {
+  .vote_section {
+    .vote_section_title {
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 300px;
+      text-align: center;
+      .vote_key_img {
+        width: 55px;
+        height: 42px;
+      }
+      h1 {
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 36px;
+      }
+      p {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+      }
+      span {
+        display: block;
+        font-size: 16px;
+        line-height: 24px;
+      }
+    }
+    .votebox_container {
+      margin: 93px auto 0px;
+      width: 70%;
+    }
+    .vote_button button {
+      width: 250px;
+      height: 58px;
+      font-size: 23px;
+      font-weight: 500;
+      margin: 91px 0 40px;
+    }
+    .vote_woman_group {
+      position: absolute;
+      bottom: 0;
+      left: 40px;
+      width: 116px;
+      height: 154px;
+    }
+    .vote_man_group {
+      position: absolute;
+      bottom: 0;
+      right: 40px;
+      width: 139px;
+      height: 190px;
+    }
+  }
+}
+@media (min-width: 1200px) {
+  .vote_section {
+    .vote_section_title {
+      width: 500px;
+      h1 {
+        height: 52px;
+        padding-top: 10px;
+        box-sizing: border-box;
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 36px;
+        margin: 6px 0 8px 0;
+      }
+      p {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+      }
+      span {
+        display: inline;
+        font-size: 16px;
+        line-height: 24px;
+      }
+    }
+    .votebox_container {
+      width: 75%;
+    }
+    .vote_woman_group {
+      left: 50px;
+      width: 240px;
+      height: 318px;
+    }
+    .vote_man_group {
+      right: 50px;
+      width: 288px;
+      height: 392px;
+    }
+  }
+}
