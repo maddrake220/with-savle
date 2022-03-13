@@ -10,7 +10,11 @@ async function handler(request, respond) {
         id: Number.parseInt(id),
       },
       include: {
-        voteSelect: true,
+        voteSelect: {
+          orderBy: {
+            id: "asc",
+          },
+        },
         voteComments: true,
       },
     });
