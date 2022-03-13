@@ -1,5 +1,6 @@
-import { useState, useCallback, useEffect } from "react";
-import { postNewGoal, getGoalCategoryByAge } from "@/utils/goal/api";
+import { useCallback, useEffect, useState } from "react";
+
+import { getGoalCategoryByAge, postNewGoal } from "@/utils/goal/api";
 import { MAX_GOAL_CATEGORY } from "@/utils/goal/constants";
 
 export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {

@@ -73,6 +73,8 @@ function VoteById({ data }) {
   const [clickedItem, setClickedItem] = useState(
     Array.from({ length: voteSelect.length }).fill(false),
   );
+  const [clicked, setClicked] = useState(-1);
+
   const [voteList, setVoteList] = useState([]);
   const [disabled, setDisabled] = useState(false);
 
@@ -162,7 +164,7 @@ function VoteById({ data }) {
         },
       ];
       localStorage.setItem("vote-list", JSON.stringify(saved));
-
+      setClicked(itemId);
       // #제출되면 색깔변화
       setChangdeButtonColor({
         voteBtnBg,
@@ -192,11 +194,20 @@ function VoteById({ data }) {
   const checkClicked = clickedItem.some((element) => clickedItemIndex(element));
 
   useEffect(() => {
-    const savedVoteList = localStorage.getItem("vote-list");
+    const savedVoteList = JSON.parse(localStorage.getItem("vote-list"));
     if (savedVoteList) {
-      setVoteList(JSON.parse(savedVoteList));
+      setVoteList(savedVoteList);
+
+      const getSelectedIndex = savedVoteList.findIndex(
+        (item) => item.id === id,
+      );
+
+      if (getSelectedIndex !== -1) {
+        setClicked(savedVoteList[Number.parseInt(getSelectedIndex)].value);
+        setDisabled(true);
+      }
     }
-  }, []);
+  }, [id]);
 
   return (
     <div
@@ -215,7 +226,7 @@ function VoteById({ data }) {
             {voteSelect.map((selectItem, index) => (
               <li
                 style={
-                  clickedItem[Number.parseInt(index)]
+                  clicked === selectItem.id
                     ? {
                         border: borderColor,
                         backgroundColor: selectItemBackground,
@@ -229,7 +240,6 @@ function VoteById({ data }) {
                 onClick={() => handleClick(index)}
               >
                 <div
-                  // ref={gaugeBox}
                   style={{
                     width:
                       disabled &&
