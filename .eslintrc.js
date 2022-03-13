@@ -35,5 +35,6 @@ module.exports = {
     "unicorn/filename-case": "off",
     "prettier/prettier": "error",
     "sonarjs/cognitive-complexity": ["error", 30],
+    "sonarjs/no-duplicate-string": ["error", 5],
   },
 };
