@@ -10,7 +10,11 @@ export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {
   const [searchingCategoryByAge, setSearchingCategoryByAge] = useState([]);
   const [text, setText] = useState("");
   const [searchCategory, setSearchCategory] = useState("");
-  const [validationCheck, setValidationCheck] = useState({ age: false, text: false, category: false });
+  const [validationCheck, setValidationCheck] = useState({
+    age: false,
+    text: false,
+    category: false,
+  });
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -98,7 +102,9 @@ export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {
   }, []);
   useEffect(() => {
     if (searchCategory !== "") {
-      setSearchingCategoryByAge(categoryByAge.filter((v) => v.keyword.includes(searchCategory)));
+      setSearchingCategoryByAge(
+        categoryByAge.filter((v) => v.keyword.includes(searchCategory)),
+      );
     }
   }, [searchCategory, categoryByAge]);
   useEffect(() => {
