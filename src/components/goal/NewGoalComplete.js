@@ -1,18 +1,33 @@
-import { useBreakpoint } from "@/hooks/useBreakpoint";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export default function NewGoalComplete({ isToggleModal, toggleModal, from = "main" }) {
+import { useBreakpoint } from "@/hooks/useBreakpoint";
+
+export default function NewGoalComplete({
+  isToggleModal,
+  toggleModal,
+  from = "main",
+}) {
   const matchQuery = useBreakpoint();
   return (
     <div onClick={(e) => e.stopPropagation()} className="newgoal-comp">
       <div className="newgoal-comp-top">
         <div className="newgoal-char">
-          <Image src="/img/goalcompchar.svg" alt="savle-char" width={matchQuery.sm ? 85 : 197} height={matchQuery.sm ? 65 : 80} />
+          <Image
+            src="/img/goalcompchar.svg"
+            alt="savle-char"
+            width={matchQuery.sm ? 85 : 197}
+            height={matchQuery.sm ? 65 : 80}
+          />
         </div>
         <div className="close-button" onClick={toggleModal}>
-          <Image src="/img/goal-close.svg" alt="close" width={matchQuery.sm ? 19 : 45} height={matchQuery.sm ? 19 : 45} />
+          <Image
+            src="/img/goal-close.svg"
+            alt="close"
+            width={matchQuery.sm ? 19 : 45}
+            height={matchQuery.sm ? 19 : 45}
+          />
         </div>
       </div>
       <div className="newgoal-comp-text">

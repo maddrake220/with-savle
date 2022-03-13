@@ -1,14 +1,17 @@
+import "react-loading-skeleton/dist/skeleton.css";
+
 import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import useSWR, { SWRConfig } from "swr";
 
-import SkeletonBox from "@/components/Vote/SkeletonBox";
 import VoteBox from "@/components/Vote/VoteBox";
 import server from "@/config/server";
+import SkeletonBox from "@/pages/vote/SkeletonBox";
 
 import style from "./Index.module.scss";
+
 const fetcher = (server) => axios.get(server).then((r) => r.data);
 
 export const vote_address = "/api/vote";
