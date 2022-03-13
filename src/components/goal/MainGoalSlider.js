@@ -64,7 +64,7 @@ export default function MainGoalSlider() {
   const goalItems = Data.results;
 
   return (
-    <div className={`${style.goal_slider_container} container`}>
+    <div className="container">
       <ul className={style.goal_slider}>
         {breakpoint.sm ? (
           <Slider {...settings}>
