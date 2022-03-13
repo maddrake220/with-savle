@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 // import Comment from "@/components/Comment";
 import server from "@/config/server";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { percentage } from "@/utils/index";
 
 import style from "./Id.module.scss";
 
@@ -88,6 +89,7 @@ function VoteById({ data }) {
     const likesId = localStorage.getItem("voteboxlikeList");
     likesId !== null ? setLike(likesId.includes(id)) : setLike(false);
   }, [id]);
+
   const handleLikeToggle = useCallback(
     (event) => {
       event.preventDefault();
@@ -163,10 +165,10 @@ function VoteById({ data }) {
         selectItemBackground: "#fff",
       });
 
-      // # 각각 맞는 게이지 보여주기 함수로
-      const gaugeWitdh = Math.floor((itemCount / totalCount) * 100);
-      //자바스크립트 자체에서 width 스타일 변경하기
-      gaugeBox.current.style.width = `${gaugeWitdh}%`;
+      // // # 각각 맞는 게이지 보여주기 함수로
+      // const gaugeWitdh = percentage(itemCount, totalCount);
+      // //자바스크립트 자체에서 width 스타일 변경하기
+      // gaugeBox.current.style.width = `${gaugeWitdh}%`;
 
       setDisabled(true);
     },
@@ -213,15 +215,21 @@ function VoteById({ data }) {
                 onClick={() => handleClick(index)}
               >
                 <div
-                  ref={gaugeBox}
-                  style={
+                  // ref={gaugeBox}
+                  style={{
+                    width:
+                      disabled &&
+                      `${percentage(selectItem.count, totalCount)}%`,
+                  }}
+                  className={`${disabled ? style.currentGauge : ""} ${
                     clickedItem[Number.parseInt(index)]
-                      ? { backgroundColor: itemGaugeColor }
-                      : { backgroundColor: "#e4e4e4" }
-                  }
-                  className={`${disabled ? style.currentGauge : ""}`}
+                      ? style.clicked_Background
+                      : style.notClicked_Background
+                  }`}
                 ></div>
-                <div className={`${disabled ? style.votePercent : ""}`}></div>
+                <div className={`${disabled ? style.votePercent : ""}`}>
+                  {disabled && `${percentage(selectItem.count, totalCount)}%`}
+                </div>
                 <input
                   type="radio"
                   id={selectItem.item}
