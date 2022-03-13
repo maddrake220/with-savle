@@ -1,6 +1,6 @@
 import comma from "./comma";
 
-const addAmount = (id, amount) => {
+function addAmount(id, amount) {
   const numberValue = Number(amount.replaceAll(",", ""));
   const data = { value: 0, amount: numberValue };
   if (amount === "") {
@@ -24,6 +24,6 @@ const addAmount = (id, amount) => {
   }
 
   return data.value;
-};
+}
 
 export default addAmount;

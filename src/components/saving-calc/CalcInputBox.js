@@ -1,9 +1,10 @@
-import styles from "../../../styles/saving-calc/CalcInputBox.module.scss";
+import styles from "styles/saving-calc/CalcInputBox.module.scss";
+
 import AmountInput from "./AmountInput";
 import GoalInput from "./GoalInput";
 import Result from "./Result";
 
-const CalcInputBox = ({ data }) => {
+function CalcInputBox({ data }) {
   const state = data[2];
   const { next, result } = state;
 
@@ -14,6 +15,6 @@ const CalcInputBox = ({ data }) => {
       {result && <Result data={data} />}
     </div>
   );
-};
+}
 
 export default CalcInputBox;

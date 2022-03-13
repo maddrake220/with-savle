@@ -1,6 +1,6 @@
-import styles from "../../../styles/comment/CommentText.module.scss";
+import styles from "styles/comment/CommentText.module.scss";
 
-const CommentText = ({ data }) => {
+function CommentText({ data }) {
   const { id, text } = data;
 
   return (
@@ -9,6 +9,6 @@ const CommentText = ({ data }) => {
       <pre>{text}</pre>
     </div>
   );
-};
+}
 
 export default CommentText;

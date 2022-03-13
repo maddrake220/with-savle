@@ -1,8 +1,7 @@
 import React from "react";
+import styles from "styles/saving-calc/PlusButton.module.scss";
 
-import styles from "../../../styles/saving-calc/PlusButton.module.scss";
-
-const PlusButton = ({ mode, handleClick }) => {
+function PlusButton({ mode, handleClick }) {
   return (
     <>
       <div className={styles.wrap}>
@@ -18,5 +17,5 @@ const PlusButton = ({ mode, handleClick }) => {
       </div>
     </>
   );
-};
+}
 export default React.memo(PlusButton);

@@ -1,13 +1,12 @@
 import PiggyBank from "public/layout/piggy-bank.svg";
 import { useRef } from "react";
+import styles from "styles/saving-calc/SavingClacCommon.module.scss";
 
-import { useAmountInput } from "@/hooks/useAmountInput";
-import { useWidth } from "@/hooks/useWidth";
+import { useAmountInput, useWidth } from "@/hooks/index";
 
-import styles from "../../../styles/saving-calc/SavingClacCommon.module.scss";
 import PlusButton from "./PlusButton";
 
-const AmountInput = ({ data }) => {
+function AmountInput({ data }) {
   const saving_amount_reference = useRef();
 
   const [
@@ -86,6 +85,6 @@ const AmountInput = ({ data }) => {
       </button>
     </>
   );
-};
+}
 
 export default AmountInput;

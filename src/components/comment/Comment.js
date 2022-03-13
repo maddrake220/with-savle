@@ -1,13 +1,13 @@
 import { useState } from "react";
+import styles from "styles/comment/Comment.module.scss";
 
-import { useGetComment } from "@/hooks/useGetComment";
+import { useGetComment } from "@/hooks/index";
 
-import styles from "../../../styles/comment/Comment.module.scss";
 import CommentInput from "./CommentInput";
 import CommentText from "./CommentText";
 import Toggle from "./Toggle";
 
-const Comment = ({ value, id }) => {
+function Comment({ value, id }) {
   const [hidden, setHidden] = useState(true);
   const [data] = useGetComment(value, id);
 
@@ -26,6 +26,6 @@ const Comment = ({ value, id }) => {
         data.map((comment) => <CommentText data={comment} key={comment.id} />)}
     </div>
   );
-};
+}
 
 export default Comment;

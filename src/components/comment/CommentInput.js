@@ -1,11 +1,9 @@
 import { useRef } from "react";
+import styles from "styles/comment/CommentInput.module.scss";
 
-import { useCommentInput } from "@/hooks/useCommentInput";
-import { useGetComment } from "@/hooks/useGetComment";
+import { useCommentInput, useGetComment } from "@/hooks/index";
 
-import styles from "../../../styles/comment/CommentInput.module.scss";
-
-const CommentInput = ({ value, id }) => {
+function CommentInput({ value, id }) {
   const textReference = useRef();
 
   const [data, mutate] = useGetComment(value, id);
@@ -38,6 +36,6 @@ const CommentInput = ({ value, id }) => {
       />
     </form>
   );
-};
+}
 
 export default CommentInput;

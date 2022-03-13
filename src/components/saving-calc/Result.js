@@ -1,9 +1,10 @@
+import styles from "styles/saving-calc/SavingClacCommon.module.scss";
+
 import periodCalc from "@/utils/periodCalc";
 
-import styles from "../../../styles/saving-calc/SavingClacCommon.module.scss";
 import ResultFoldBox from "./ResultFoldBox";
 
-const Result = ({ data }) => {
+function Result({ data }) {
   const [inputs, setInputs, , setState] = data;
   const { goal, goal_amount, saving_amount } = inputs;
 
@@ -96,6 +97,6 @@ const Result = ({ data }) => {
       `}</style>
     </>
   );
-};
+}
 
 export default Result;

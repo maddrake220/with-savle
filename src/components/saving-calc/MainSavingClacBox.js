@@ -1,10 +1,10 @@
 import PiggyBank from "public/layout/piggy-bank.svg";
 
-import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { useBreakpoint } from "@/hooks/index";
 
 import styles from "../../../styles/saving-calc/MainSavingCalcBox.module.scss";
 
-const MainSavingClacBox = () => {
+function MainSavingClacBox() {
   const { md: isTablet } = useBreakpoint();
   return (
     <div className={styles.box}>
@@ -41,6 +41,6 @@ const MainSavingClacBox = () => {
       <div className={styles.button}>결과보기</div>
     </div>
   );
-};
+}
 
 export default MainSavingClacBox;

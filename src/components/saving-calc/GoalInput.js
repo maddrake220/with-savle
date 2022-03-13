@@ -1,11 +1,9 @@
 import Book from "public/layout/book.svg";
+import styles from "styles/saving-calc/SavingClacCommon.module.scss";
 
-import { useGoalInput } from "@/hooks/useGoalInput";
-import { useWidth } from "@/hooks/useWidth";
+import { useGoalInput, useWidth } from "@/hooks/index";
 
-import styles from "../../../styles/saving-calc/SavingClacCommon.module.scss";
-
-const GoalInput = ({ data }) => {
+function GoalInput({ data }) {
   const [goal, nextButtonFocus, handleChange, handelKeypress, handleSubmit] =
     useGoalInput(data);
 
@@ -49,6 +47,6 @@ const GoalInput = ({ data }) => {
       </button>
     </>
   );
-};
+}
 
 export default GoalInput;

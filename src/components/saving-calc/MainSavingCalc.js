@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Main from "public/layout/main-saving-calc.svg";
+import styles from "styles/saving-calc/MainSavingCalc.module.scss";
 
-import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { useBreakpoint } from "@/hooks/index";
 
-import styles from "../../../styles/saving-calc/MainSavingCalc.module.scss";
 import MainSavingCalcStep from "./MainSavingCalcStep";
 import MainSavingClacBox from "./MainSavingClacBox";
 
-const MainSavingCalc = () => {
+function MainSavingCalc() {
   const { sm: isMobile, md: isTablet } = useBreakpoint();
   return (
     <>
@@ -73,6 +73,6 @@ const MainSavingCalc = () => {
       )}
     </>
   );
-};
+}
 
 export default MainSavingCalc;

@@ -1,11 +1,10 @@
 import { useState } from "react";
+import styles from "styles/saving-calc/ResultFoldBox.module.scss";
 
 import Arrow from "/public/layout/ic_arrow_expand.svg";
-import { useWidth } from "@/hooks/useWidth";
+import { useWidth } from "@/hooks/index";
 
-import styles from "../../../styles/saving-calc/ResultFoldBox.module.scss";
-
-const ResultFoldBox = ({ period, date, rule, setState }) => {
+function ResultFoldBox({ period, date, rule, setState }) {
   const [hidden, setHidden] = useState(true);
 
   const hadleClick = () => {
@@ -53,6 +52,6 @@ const ResultFoldBox = ({ period, date, rule, setState }) => {
       </div>
     </div>
   );
-};
+}
 
 export default ResultFoldBox;

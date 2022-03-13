@@ -1,6 +1,4 @@
-import React from "react";
-
-const Circle = ({ width, type, children }) => {
+function Circle({ width, type, children }) {
   return (
     <svg
       width={width}
@@ -19,6 +17,6 @@ const Circle = ({ width, type, children }) => {
       {children}
     </svg>
   );
-};
+}
 
 export default Circle;
