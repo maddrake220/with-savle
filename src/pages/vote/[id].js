@@ -1,13 +1,12 @@
 import axios from "axios";
-import Image from "next/image";
 import Link from "next/link";
-import Favorite from "public/img/Favorite.svg";
 import { useCallback, useEffect, useState } from "react";
 
+import FavoriteCommentShare from "@/components/vote/FavoriteCommentShare";
 // import Comment from "@/components/Comment";
 import server from "@/config/server";
 import { useBreakpoint, useTimeoutToggle, useVoteState } from "@/hooks/index";
-import { copy, percentage, sumCount } from "@/utils/index";
+import { percentage, sumCount } from "@/utils/index";
 
 import style from "./Id.module.scss";
 
@@ -166,34 +165,14 @@ function VoteById({ data }) {
             투표하기
           </button>
         </form>
-        <div className={style.favorite_comment_share}>
-          <div className={style.favorite_comment}>
-            <Favorite
-              fill={like ? "#FF2222" : "#fff"}
-              onClick={handleLikeToggle}
-            />
-            <span className={style.favorite}>{likeNums}</span>
-            <Image
-              src="/img/comment.svg"
-              alt="Comment"
-              width={20}
-              height={20}
-            />
-            <span>{voteComments.length}</span>
-          </div>
-          <div
-            className={`${style.copy_btn} ${timeoutToggle ? style.active : ""}`}
-            onClick={timeoutModal}
-          >
-            <Image
-              src="/img/share.svg"
-              alt="Share"
-              width={20}
-              height={20}
-              onClick={copy}
-            />
-          </div>
-        </div>
+        <FavoriteCommentShare
+          voteComments={voteComments}
+          timeoutToggle={timeoutToggle}
+          timeoutModal={timeoutModal}
+          like={like}
+          likeNums={likeNums}
+          handleLikeToggle={handleLikeToggle}
+        />
         {/* <Comment Comments={voteComments} value="vote" /> */}
         <div className={style.back_btn_container}>
           <Link href={`/vote`}>
