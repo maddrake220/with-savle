@@ -4,25 +4,17 @@ import Back from "public/layout/back.svg";
 import Bar from "public/layout/bar.svg";
 import Logo from "public/layout/logo.svg";
 import MobileLogo from "public/layout/logo-mobile.svg";
-import { useCallback, useState } from "react";
-import styles from "styles/layout/Navbar.module.scss";
+import styles from "styles/layout/Layout.module.scss";
 
 import { useBreakpoint } from "@/hooks/useBreakpoint";
-
-const routes = [
-  { name: "goal", path: "/goal", title: "목표공유" },
-  { name: "index", path: "/saving-calc", title: "저축계산기" },
-  { name: "index", path: "/vote", title: "고민해결소" },
-];
+import { useToggleHook } from "@/hooks/useToggleHook";
+import { routes } from "@/utils/index";
 
 function Navbar() {
   const { sm: isMobile } = useBreakpoint();
   const { pathname, back } = useRouter();
-  const [toggled, setToggled] = useState(false);
-  const handleToggle = useCallback(
-    () => setToggled((previous) => !previous),
-    [],
-  );
+  const { toggled, setToggled, handleToggle } = useToggleHook();
+
   return (
     <nav
       className={`${styles.nav} ${!toggled && styles[pathname.split("/")[1]]} ${
@@ -72,7 +64,9 @@ function Navbar() {
         {routes.map((route) => (
           <Link key={route.path} href={route.path}>
             <a
-              className={`${pathname.includes(route.path) && "active"} white`}
+              className={`${
+                pathname.includes(route.path) && styles.active
+              } white`}
               onClick={isMobile && handleToggle}
             >
               {route.title}

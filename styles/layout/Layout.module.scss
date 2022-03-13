@@ -1,10 +1,11 @@
-
+.main {
+  margin-top: 52px;
+}
 .nav {
   background-color: $primary;
   width: 100vw;
   height: 53.87px;
   display: flex;
-  /* padding: 0 7.083333vw; */
   z-index: 999;
   position: fixed;
   top: 0;
@@ -118,7 +119,7 @@
     background-color: $white;
   }
   .saving-calc {
-    background-color: #f7f8fa;
+    background-color: $grey-4;
   }
   .backgroundColor_primary {
     background-color: $primary;
@@ -129,4 +130,31 @@
   .height_close {
     height: 52px;
   }
+}
+
+.footer {
+  padding-top: 60px;
+  padding-bottom: 73px;
+  padding-left: 8.59375vw;
+  padding-right: 8.59375vw;
+  line-height: 24px;
+  background: $grey-4;
+}
+.address {
+  margin: 40px 0px;
+  font-style: inherit;
+}
+.address > span {
+  display: block;
+}
+.address__detail {
+  display: inline-block;
+}
+.link {
+  color: $black;
+  text-decoration: none;
+}
+.company_name {
+  font-size: 16px;
+  margin: 0px;
 }
