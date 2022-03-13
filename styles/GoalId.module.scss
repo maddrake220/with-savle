@@ -74,25 +74,28 @@
 	}
 }
 @media (min-width: 576px) {
-	.goal-detail .container {
-		width: 455px;
+	.container {
+		min-width: 455px;
+		border: 1px solid red;
 
 		padding: 40px 60px 0;
 	}
-	.goal-detail .info,
-	.goal-detail .text {
+	.info,
+	.text {
 		font-size: 15px;
 		line-height: 22px;
 	}
 }
 @media (min-width: 1200px) {
-	.goal-detail .container {
-		width: 1000px;
+	.container {
+		min-width: 1000px;
+
+		border: 1px solid red;
 
 		padding: 68px 100px 0;
 	}
-	.goal-detail .info,
-	.goal-detail .text {
+	.info,
+	.text {
 		font-size: 16px;
 		line-height: 24px;
 	}

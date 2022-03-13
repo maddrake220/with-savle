@@ -30,7 +30,7 @@ function GoalById({ data }) {
   const { id, age, categories, text, likes, comments } = data.results;
   return (
     <section className={style.goal_detail}>
-      <div className={`${style.container} container`}>
+      <div className={`${style.container} container `}>
         <div className={style.info}>
           익명의 {id}님 | {age}대
         </div>
