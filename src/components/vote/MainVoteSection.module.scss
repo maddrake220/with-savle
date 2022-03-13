@@ -1,3 +1,16 @@
+.slick_arrow {
+  position: absolute;
+  top: 44%;
+  z-index: 1;
+  
+}
+.slick_arrow:before {
+  content: "";
+}
+.slick_arrow:last-child {
+  right: 0;
+}
+
 .vote_section {
   background-color: $grey-4;
   margin: 0 auto;

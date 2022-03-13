@@ -2,12 +2,13 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import Favorite from "public/img/Favorite.svg";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-// import Comment from "@/components/Comment";
+import Comment from "@/components/Comment";
 import server from "@/config/server";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
-import { percentage } from "@/utils/index";
+import { useVoteState } from "@/hooks/useVoteState";
+import { copy, percentage, sumCount } from "@/utils/index";
 
 import style from "./Id.module.scss";
 
@@ -21,71 +22,39 @@ export async function getStaticProps(context) {
     },
   };
 }
+
 export const getStaticPaths = async () => {
   const { data } = await axios.get(`${server}/api/vote`);
   const ids = data.results.map((data) => data.id);
-  const paths = ids.map((id) => {
-    return {
-      params: { id: id.toString() },
-    };
-  });
+  const paths = ids.map((id) => ({ params: { id: id.toString() } }));
   return {
     paths,
     fallback: false,
   };
 };
 
-const clickedItemIndex = (element) => element === true;
-
-const setCopySuccess = () => {
-  const element = document.createElement("input");
-  element.value = window.location.href;
-  document.body.append(element);
-  element.select();
-  document.execCommand("copy");
-  element.remove();
-};
-function copy() {
-  setCopySuccess();
-}
-
 function VoteById({ data }) {
   const breakpoint = useBreakpoint();
-  const gaugeBox = useRef();
   const { title, text, likes, voteSelect, voteComments, id } = data.results;
-  const [changedButtonColor, setChangdeButtonColor] = useState({
-    voteBtnBg: "#3178FF",
-    voteBtntextColor: "#fff",
-    borderColor: "1px solid #3178FF",
-    itemGaugeColor: "#e8f3ff",
-    selectItemBackground: "#e8f3ff",
-  });
-  const {
-    voteBtnBg,
-    voteBtntextColor,
-    borderColor,
-    itemGaugeColor,
-    selectItemBackground,
-  } = changedButtonColor;
+
+  // -------------------------------------------------------------------------------------------------
+
+  const { selectId, selected, disabled, buttonStyles, handleClick, onSubmit } =
+    useVoteState(id);
+
+  const { voteBtnBg, voteBtntextColor, borderColor, selectItemBackground } =
+    buttonStyles;
+  // -------------------------------------------------------------------------------------------------
+
   const [modalActive, setModalActive] = useState(false);
+
+  // -------------------------------------------------------------------------------------------------
+
+  const totalCount = sumCount(voteSelect);
+
+  // -------------------------------------------------------------------------------------------------
   const [like, setLike] = useState(false);
   const [likeNums, setLikeNums] = useState(likes);
-  const [clickedItem, setClickedItem] = useState(
-    Array.from({ length: voteSelect.length }).fill(false),
-  );
-  const [clicked, setClicked] = useState(-1);
-
-  const [voteList, setVoteList] = useState([]);
-  const [disabled, setDisabled] = useState(false);
-
-  const totalVotes = voteSelect.map((item) => item.count);
-  const itemIndex = clickedItem.findIndex((element) =>
-    clickedItemIndex(element),
-  );
-  const itemCount = totalVotes[Number.parseInt(itemIndex)];
-  const totalCount = totalVotes.reduce(function add(sum, currentValue) {
-    return sum + currentValue;
-  }, 0);
 
   useEffect(() => {
     const likesId = localStorage.getItem("voteboxlikeList");
@@ -115,74 +84,7 @@ function VoteById({ data }) {
     },
     [id, like],
   );
-
-  const handleClick = (index) => {
-    const newArray = Array.from({ length: voteSelect.length }).fill(false);
-    newArray[Number.parseInt(index)] = true;
-    setClickedItem(newArray);
-    setChangdeButtonColor({
-      selectItemBackground,
-      voteBtnBg,
-      voteBtntextColor,
-    });
-  };
-
-  const onSubmit = useCallback(
-    (event) => {
-      event.preventDefault();
-      if (itemCount === undefined) {
-        return false;
-      }
-      const itemId = voteSelect[Number.parseInt(itemIndex)].id;
-      const putVoteCount = async () => {
-        await axios.put(`${server}/api/vote`, {
-          params: {
-            id: itemId,
-          },
-        });
-      };
-      const plusCount = () => {
-        itemCount + 1;
-        putVoteCount();
-      };
-      plusCount();
-
-      // #localstorage에 데이터 전달!
-      // setVoteList([
-      //   ...voteList,
-      //   { id: id, value: voteSelect[Number.parseInt(itemIndex)].id },
-      // ]);
-      // let newVoteList = [
-      //   ...voteList,
-      //   { id: id, value: voteSelect[Number.parseInt(itemIndex)].id },
-      // ];
-      const saved = [
-        ...voteList,
-        {
-          id: id,
-          value: voteSelect[Number.parseInt(itemIndex)].id,
-        },
-      ];
-      localStorage.setItem("vote-list", JSON.stringify(saved));
-      setClicked(itemId);
-      // #제출되면 색깔변화
-      setChangdeButtonColor({
-        voteBtnBg,
-        voteBtntextColor: "rgba(256, 256, 256, 0.5)",
-        borderColor: "1px solid #3178FF",
-        itemGaugeColor: "#e8f3ff",
-        selectItemBackground: "#fff",
-      });
-
-      // // # 각각 맞는 게이지 보여주기 함수로
-      // const gaugeWitdh = percentage(itemCount, totalCount);
-      // //자바스크립트 자체에서 width 스타일 변경하기
-      // gaugeBox.current.style.width = `${gaugeWitdh}%`;
-
-      setDisabled(true);
-    },
-    [itemIndex, itemCount, id, totalCount, voteList, voteSelect, voteBtnBg],
-  );
+  // -------------------------------------------------------------------------------------------------
 
   function onClickModalOn() {
     setModalActive((previous) => !previous);
@@ -190,24 +92,6 @@ function VoteById({ data }) {
       setModalActive((previous) => !previous);
     }, 1000);
   }
-
-  const checkClicked = clickedItem.some((element) => clickedItemIndex(element));
-
-  useEffect(() => {
-    const savedVoteList = JSON.parse(localStorage.getItem("vote-list"));
-    if (savedVoteList) {
-      setVoteList(savedVoteList);
-
-      const getSelectedIndex = savedVoteList.findIndex(
-        (item) => item.id === id,
-      );
-
-      if (getSelectedIndex !== -1) {
-        setClicked(savedVoteList[Number.parseInt(getSelectedIndex)].value);
-        setDisabled(true);
-      }
-    }
-  }, [id]);
 
   return (
     <div
@@ -223,10 +107,10 @@ function VoteById({ data }) {
           <h1 className={style.title}>{title}</h1>
           <p className={style.text}>{text}</p>
           <div className={`${disabled ? style.click_block : ""}`}>
-            {voteSelect.map((selectItem, index) => (
+            {voteSelect.map((selectItem) => (
               <li
                 style={
-                  clicked === selectItem.id
+                  selectId === selectItem.id
                     ? {
                         border: borderColor,
                         backgroundColor: selectItemBackground,
@@ -237,7 +121,7 @@ function VoteById({ data }) {
                 className={`${style.vote_box} ${
                   disabled ? style.showGauge : "false"
                 }`}
-                onClick={() => handleClick(index)}
+                onClick={() => handleClick(selectItem.id)}
               >
                 <div
                   style={{
@@ -246,7 +130,7 @@ function VoteById({ data }) {
                       `${percentage(selectItem.count, totalCount)}%`,
                   }}
                   className={`${disabled ? style.currentGauge : ""} ${
-                    clickedItem[Number.parseInt(index)]
+                    selectId === selectItem.id
                       ? style.clicked_Background
                       : style.notClicked_Background
                   }`}
@@ -277,7 +161,7 @@ function VoteById({ data }) {
             type="submit"
             disabled={disabled}
             style={
-              checkClicked
+              selected
                 ? { backgroundColor: voteBtnBg, color: voteBtntextColor }
                 : { backgroundColor: "#d5d8dc", color: "#B2B2B2" }
             }
@@ -313,7 +197,7 @@ function VoteById({ data }) {
             />
           </div>
         </div>
-        {/* <Comment Comments={voteComments} value="vote" /> */}
+        <Comment Comments={voteComments} value="vote" />
         <div className={style.back_btn_container}>
           <Link href={`/vote`}>
             <a>

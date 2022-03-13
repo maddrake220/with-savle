@@ -6,9 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import useSWR, { SWRConfig } from "swr";
 
+import SkeletonBox from "@/components/vote/SkeletonBox";
 import VoteBox from "@/components/Vote/VoteBox";
 import server from "@/config/server";
-import SkeletonBox from "@/pages/vote/SkeletonBox";
 
 import style from "./Index.module.scss";
 
