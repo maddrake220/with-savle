@@ -44,13 +44,13 @@ function VoteById({ data }) {
   const breakpoint = useBreakpoint();
   const [timeoutToggle, timeoutModal] = useTimeoutToggle();
 
-  const { selectId, selected, disabled, buttonStyles, handleClick, onSubmit } =
+  const { selectId, submitted, disabled, buttonStyles, handleClick, onSubmit } =
     useVoteState(id);
 
   const { voteBtnBg, voteBtntextColor, borderColor, selectItemBackground } =
     buttonStyles;
 
-  const totalCount = sumCount(voteSelect);
+  const [commentCount, setCommentCount] = useState(0);
 
   const [like, likeNums, localStorageHandler] = useLike(
     id,
@@ -86,7 +86,7 @@ function VoteById({ data }) {
             disabled={disabled}
             voteSelect={voteSelect}
             selectId={selectId}
-            totalCount={totalCount}
+            submitted={submitted}
             borderColor={borderColor}
             selectItemBackground={selectItemBackground}
             voteBtnBg={voteBtnBg}
@@ -96,7 +96,7 @@ function VoteById({ data }) {
             type="submit"
             disabled={disabled}
             style={
-              selected
+              selectId !== -1
                 ? { backgroundColor: voteBtnBg, color: voteBtntextColor }
                 : { backgroundColor: "#d5d8dc", color: "#B2B2B2" }
             }
@@ -105,7 +105,7 @@ function VoteById({ data }) {
           </button>
         </form>
         <FavoriteCommentShare
-          voteComments={voteComments}
+          commentCount={commentCount}
           timeoutToggle={timeoutToggle}
           timeoutModal={timeoutModal}
           like={like}
@@ -126,7 +126,7 @@ function VoteById({ data }) {
               width={20}
               height={20}
             />
-            <span>{voteComments.length}</span>
+            <span>{commentCount}</span>
           </div>
           <div
             className={`${style.copy_btn} ${modalActive ? style.active : ""}`}
@@ -141,7 +141,8 @@ function VoteById({ data }) {
             />
           </div>
         </div>
-        <Comment id={id} value="vote" /> */}
+          */}
+        <Comment id={id} value="vote" setCount={setCommentCount} />
         <div className={style.back_btn_container}>
           <Link href={`/vote`}>
             <a className={style.link}>
