@@ -95,7 +95,10 @@ function VoteById({ data }) {
         <form onSubmit={onSubmit}>
           <h1 className={style.title}>{title}</h1>
           <p className={style.text}>{text}</p>
-          <ul className={`${disabled ? style.click_block : ""}`}>
+          <ul
+            style={{ padding: "0" }}
+            className={`${disabled ? style.click_block : ""}`}
+          >
             {voteSelect.map((selectItem) => (
               <li
                 style={
