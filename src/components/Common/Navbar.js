@@ -124,7 +124,10 @@ function Navbar() {
   const { sm: isMobile } = useBreakpoint();
   const { pathname, back } = useRouter();
   const [toggled, setToggled] = useState(false);
-  const handleToggle = useCallback(() => setToggled((previous) => !previous), []);
+  const handleToggle = useCallback(
+    () => setToggled((previous) => !previous),
+    [],
+  );
 
   return (
     // <nav className={`${!toggled && pathname.split("/")[1]}`}>
@@ -132,13 +135,22 @@ function Navbar() {
       <div className="logoBox">
         <div className="mobile">
           {toggled && <Back fill="#FFFFFF" onClick={handleToggle} />}
-          {!toggled && pathname !== "/" && <Back fill="#3178ff" onClick={() => back()} />}
+          {!toggled && pathname !== "/" && (
+            <Back fill="#3178ff" onClick={() => back()} />
+          )}
           <Link href="/" passHref>
             <h1 className="logo">
-              <MobileLogo className="mobileLogo" fill={toggled ? "#FFFFFF" : "#3178ff"} onClick={() => setToggled(false)} />
+              <MobileLogo
+                className="mobileLogo"
+                fill={toggled ? "#FFFFFF" : "#3178ff"}
+                onClick={() => setToggled(false)}
+              />
             </h1>
           </Link>
-          <Bar stroke={toggled ? "#FFFFFF" : "#3178ff"} onClick={handleToggle} />
+          <Bar
+            stroke={toggled ? "#FFFFFF" : "#3178ff"}
+            onClick={handleToggle}
+          />
         </div>
         <div className="notMobile">
           <Link href="/">
@@ -151,13 +163,20 @@ function Navbar() {
       <div className="menuBox">
         {routes.map((route) => (
           <Link key={route.path} href={route.path}>
-            <a className={`${pathname.includes(route.path) && "active"} white`} onClick={isMobile && handleToggle}>
+            <a
+              className={`${pathname.includes(route.path) && "active"} white`}
+              onClick={isMobile && handleToggle}
+            >
               {route.title}
             </a>
           </Link>
         ))}
         <Link href="https://savle.net/MBTI/index.html">
-          <a className="white" target="_blank" onClick={isMobile && handleToggle}>
+          <a
+            className="white"
+            target="_blank"
+            onClick={isMobile && handleToggle}
+          >
             저축성향 테스트
           </a>
         </Link>
