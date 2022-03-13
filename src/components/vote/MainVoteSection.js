@@ -12,41 +12,19 @@ import { mockDatas } from "@/utils/voteMockData";
 import style from "./MainVoteSection.module.scss";
 
 function NextArrow(properties) {
-  const { className, onClick } = properties;
+  const { onClick } = properties;
   return (
-    <div className={className} onClick={onClick}>
+    <div className={`className ${style.slick_arrow}`} onClick={onClick}>
       <Image src="/img/next.svg" alt="next" width={10} height={40} />
-      <style jsx>{`
-        .slick-arrow {
-          display: flex;
-          justify-content: end;
-          position: absolute;
-          top: 44%;
-          z-index: 1;
-        }
-        .slick-arrow:before {
-          content: "";
-        }
-      `}</style>
     </div>
   );
 }
 
 function PreviousArrow(properties) {
-  const { className, onClick } = properties;
+  const { onClick } = properties;
   return (
-    <div className={className} onClick={onClick}>
+    <div className={`className ${style.slick_arrow}`} onClick={onClick}>
       <Image src="/img/prev.svg" alt="prev" width={10} height={40} />
-      <style jsx>{`
-        .slick-arrow {
-          display: flex;
-          position: absolute;
-          top: 44%;
-        }
-        .slick-arrow:before {
-          content: "";
-        }
-      `}</style>
     </div>
   );
 }

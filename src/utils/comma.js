@@ -1,8 +1,7 @@
-const comma = (value) => {
-  const result = String(value)
-    .replace(/[^0-9]/g, "")
+function comma(value) {
+  return String(value)
+    .replace(/\D/g, "")
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return result;
-};
+}
 
 export default comma;
