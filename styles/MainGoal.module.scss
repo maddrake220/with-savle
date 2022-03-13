@@ -1,5 +1,9 @@
 .main_goal {
   background: #f0f6fb;
+  a {
+    text-decoration: none;
+    color: #000000;
+  }
   .container {
     padding-top: 12px;
     padding-bottom: 27px;
@@ -196,13 +200,23 @@
     margin: auto;
   }
 }
+@media (min-width: 576px) {
+  .goal_slider {
+    margin: 0;
+    >div {
+      width: 576px;
+    }
+  }
+}
 @media (min-width: 1200px) {
   .goal_slider {
     position: relative;
     >div {
       position: absolute;
+
+      width: 575px;
   
-      left: 132px;
+      left: 112px;
       top: -170px;
     }
   }

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/link-passhref */
 import Link from "next/link";
 import style from "styles/MainGoal.module.scss";
 
@@ -10,7 +9,9 @@ export default function MainGoalButton() {
       </a>
 
       <Link href={`/goal`}>
-        <div className={`${style.btn} ${style.more}`}>더 많은 목표 보기</div>
+        <a>
+          <div className={`${style.btn} ${style.more}`}>더 많은 목표 보기</div>
+        </a>
       </Link>
     </div>
   );
