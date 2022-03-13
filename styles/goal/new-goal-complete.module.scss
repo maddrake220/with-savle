@@ -7,7 +7,7 @@
   top: 0;
   bottom: 0;
   margin: auto auto;
-  background: #f7f8fa;
+  background: $grey-4;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 16.6452px;
   overflow: hidden;
@@ -19,7 +19,7 @@
     height: 2.438rem;
     left: 0px;
     top: 0px;
-    background: #2557ff;
+    background: $primary-accent;
     overflow: hidden;
     .newgoalCompleteChar {
       position: absolute;
@@ -42,7 +42,7 @@
     font-weight: 400;
     font-size: 1rem;
     line-height: 1.5rem;
-    color: #888888;
+    color: $grey-1;
     display: block;
   }
   .buttonOk {
@@ -51,7 +51,7 @@
     bottom: 2.8rem;
     width: 10.875rem;
     height: 2.875rem;
-    background: #3178ff;
+    background: $primary;
     box-sizing: border-box;
     border-radius: 10px;
     display: flex;
@@ -62,18 +62,9 @@
     font-weight: 400;
     font-size: 22px;
     line-height: 28px;
-    color: #fff;
-    &:hover {
-      border: 1.5px solid #3178ff;
-      background: #fff;
-      color: #3178ff;
-    }
     a {
-      color: #fff;
+      color: $white;
       text-decoration: none;
-      div {
-        color: #3178ff;
-      }
     }
   }
 }
@@ -89,7 +80,7 @@
         top: 0;
       }
     }
-    .newgoalCompleteText {
+    .newGoalCompleteText {
       top: 7rem;
       font-size: 2.5rem;
       line-height: 3.438rem;
@@ -107,7 +98,7 @@
   .newgoalComplete {
     min-width: 490px;
     max-width: 53%;
-    .newgoalCompleteText {
+    .newGoalCompleteText {
       font-size: 2.5rem;
       line-height: 3.438rem;
     }

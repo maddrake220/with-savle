@@ -12,13 +12,13 @@
   max-width: 30.188rem;
   width: 86%;
   box-shadow: 7.18426px 7.18426px 10.7764px rgba(227, 233, 240, 0.5);
-  background: #fff;
+  background: $white;
   display: "block";
   h1 {
     font-size: 0;
   }
   .modalTop {
-    background: #73bcff;
+    background: $secondary-accent;
     height: 3.625rem;
     border-radius: 0.5rem 0.5rem 0 0;
     > svg {
@@ -42,7 +42,7 @@
         font-weight: bold;
         font-size: 0.813rem;
         line-height: 1.25rem;
-        color: #2d2d2d;
+        color: $black;
       }
       .ageList {
         display: flex;
@@ -57,7 +57,7 @@
       .text {
         margin-top: 10px;
         resize: none;
-        background: #f7f8fa;
+        background: $grey-4;
         border-radius: 4px;
         border: none;
         width: 93%;
@@ -76,7 +76,7 @@
         font-weight: bold;
         font-size: 0.813rem;
         line-height: 1.25rem;
-        color: #2d2d2d;
+        color: $black;
       }
       .goalWrapper {
         display: flex;
@@ -84,7 +84,7 @@
           cursor: text;
           width: 19.375rem;
           height: 3.375rem;
-          background: #f7f8fa;
+          background: $grey-4;
           border-radius: 0.25rem;
           overflow: hidden;
           position: relative;
@@ -93,7 +93,7 @@
             height: 3.375rem;
             position: absolute;
             left: 0;
-            background: #f7f8fa;
+            background: $grey-4;
             outline: none;
             border: none;
             &:focus {
@@ -109,11 +109,11 @@
           gap: 0.25rem;
           font-weight: bold;
           > li {
-            border: 1px solid #73bcff;
+            border: 1px solid $secondary-accent;
             padding: 0.2rem 0.6rem;
             font-size: 1rem;
             line-height: 26px;
-            color: #73bcff;
+            color: $secondary-accent;
             height: 1rem;
             border-radius: 0.5rem;
             display: flex;
@@ -135,7 +135,7 @@
           li {
             display: flex;
             padding: 0px;
-            background: #ffffff;
+            background: $white;
             width: 10.5rem;
             height: 2.25rem;
             font-size: 13px;
