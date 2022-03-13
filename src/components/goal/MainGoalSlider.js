@@ -10,24 +10,19 @@ import Data from "src/pages/goal/goalAPI.json";
 import MainGoalItem from "@/components/Goal/MainGoalItem";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
-import style from "./MainGoal.module.scss"
+import style from "./MainGoal.module.scss";
 
 export default function MainGoalSlider() {
   function PreviousArrow(properties) {
     const { className, onClick } = properties;
     return (
       <div className={className} onClick={onClick}>
-          <Image
-            src="/img/prev.svg"
-            alt="이전"
-            width={10}
-            height={40}
-          />
+        <Image src="/img/prev.svg" alt="이전" width={10} height={40} />
         <style jsx>{`
-        .slick-arrow {
-          display: flex;
-          top: 50%;
-        }
+          .slick-arrow {
+            display: flex;
+            top: 50%;
+          }
           .slick-arrow:before {
             content: "";
           }
@@ -39,18 +34,13 @@ export default function MainGoalSlider() {
     const { className, onClick } = properties;
     return (
       <div className={className} onClick={onClick}>
-          <Image
-            src="/img/next.svg"
-            alt="next"
-            width={10}
-            height={40}
-          />
+        <Image src="/img/next.svg" alt="next" width={10} height={40} />
         <style jsx>{`
-        .slick-arrow {
-          display: flex;
-          justify-content: end;
-          top: 50%;
-        }
+          .slick-arrow {
+            display: flex;
+            justify-content: end;
+            top: 50%;
+          }
           .slick-arrow:before {
             content: "";
           }
