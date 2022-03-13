@@ -33,8 +33,9 @@ export const getStaticPaths = async () => {
 };
 
 function VoteById({ data }) {
-  const breakpoint = useBreakpoint();
   const { title, text, likes, voteSelect, voteComments, id } = data.results;
+  const breakpoint = useBreakpoint();
+  const [timeoutToggle, timeoutModal] = useTimeoutToggle();
 
   // -------------------------------------------------------------------------------------------------
 
@@ -44,7 +45,6 @@ function VoteById({ data }) {
   const { voteBtnBg, voteBtntextColor, borderColor, selectItemBackground } =
     buttonStyles;
 
-  const { timeoutToggle, timeoutModal } = useTimeoutToggle();
   // -------------------------------------------------------------------------------------------------
 
   const totalCount = sumCount(voteSelect);
@@ -96,7 +96,7 @@ function VoteById({ data }) {
         <form onSubmit={onSubmit}>
           <h1 className={style.title}>{title}</h1>
           <p className={style.text}>{text}</p>
-          <div className={`${disabled ? style.click_block : ""}`}>
+          <ul className={`${disabled ? style.click_block : ""}`}>
             {voteSelect.map((selectItem) => (
               <li
                 style={
@@ -152,7 +152,7 @@ function VoteById({ data }) {
                 </label>
               </li>
             ))}
-          </div>
+          </ul>
           <button
             className={style.vote_btn}
             type="submit"
