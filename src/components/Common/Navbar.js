@@ -24,8 +24,13 @@ function Navbar() {
     [],
   );
   return (
-    // <nav className={`${!toggled && pathname.split("/")[1]}`}>
-    <nav className={styles.nav}>
+    <nav
+      className={`${styles.nav} ${!toggled && styles[pathname.split("/")[1]]} ${
+        toggled
+          ? `${styles.backgroundColor_primary} ${styles.height_open}`
+          : styles.height_close
+      }`}
+    >
       <div className={styles.logoBox}>
         <div className={styles.mobile}>
           {toggled && (
@@ -84,12 +89,6 @@ function Navbar() {
           </a>
         </Link>
       </div>
-      <style jsx>{`
-        nav {
-          height: ${isMobile && toggled ? "100vh" : "52px"};
-          background-color: ${isMobile && toggled && "#3178ff"};
-        }
-      `}</style>
     </nav>
   );
 }

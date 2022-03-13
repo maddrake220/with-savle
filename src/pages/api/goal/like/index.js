@@ -1,14 +1,13 @@
 import client from "libs/prisma";
 
-async function handler(req, res) {
-  if (req.method === "PUT") {
-    console.log(req);
+async function handler(request, response) {
+  if (request.method === "PUT") {
     const {
       params: { id, like },
-    } = req.body;
+    } = request.body;
     const results = await client.goal.update({
       where: {
-        id: parseInt(id),
+        id: Number.parseInt(id),
       },
       data: {
         likes: {
@@ -17,12 +16,12 @@ async function handler(req, res) {
       },
     });
     if (results) {
-      res.json({
+      response.json({
         success: true,
         results,
       });
     } else {
-      res.json({
+      response.json({
         success: false,
       });
     }

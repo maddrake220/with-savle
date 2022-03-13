@@ -1,10 +1,10 @@
-import client from 'libs/prisma';
+import client from "libs/prisma";
 
-async function handler(req, res) {
-  if (req.method === 'PUT') {
+async function handler(request, response) {
+  if (request.method === "PUT") {
     const {
       params: { id, like },
-    } = req.body;
+    } = request.body;
     const results = await client.vote.update({
       where: {
         id,
@@ -16,12 +16,12 @@ async function handler(req, res) {
       },
     });
     if (results) {
-      res.json({
+      response.json({
         success: true,
         results,
       });
     } else {
-      res.json({
+      response.json({
         success: false,
       });
     }

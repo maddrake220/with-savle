@@ -1,3 +1,2 @@
-export function percentage(itemCount, totalCount) {
-  return Math.round((itemCount / totalCount) * 100);
-}
+export const percentage = (itemCount, totalCount) =>
+  Math.round((itemCount / totalCount) * 100);

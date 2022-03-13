@@ -93,13 +93,6 @@
       font-size: 13px;
       line-height: 20px;
     }
-    .goal,
-    .vote {
-      background-color: #ffffff;
-    }
-    .saving-calc {
-      background-color: #f7f8fa;
-    }
   }
   @media (min-width: 576px) {
     .nav {
@@ -116,5 +109,24 @@
     .logoBox {
       margin-left: 11.726562vw;
     }
+  }
+}
+
+@media (max-width: 575px) {
+  .goal,
+  .vote {
+    background-color: $white;
+  }
+  .saving-calc {
+    background-color: #f7f8fa;
+  }
+  .backgroundColor_primary {
+    background-color: $primary;
+  }
+  .height_open {
+    height: 100vh;
+  }
+  .height_close {
+    height: 52px;
   }
 }
