@@ -1,16 +1,10 @@
-/* eslint-disable prettier/prettier */
-import Image from "next/image"
+import Image from "next/image";
 import style from "styles/MainGoal.module.scss";
 
 export default function MainGoalTitle() {
   return (
     <div className={style.main_title}>
-          <Image
-            src="/img/receipt.svg"
-            alt="배경이미지"
-            width={40}
-            height={40}
-          />
+      <Image src="/img/receipt.svg" alt="배경이미지" width={40} height={40} />
       <h1>
         세이블에서 목표달성,
         <br /> 함께해요!

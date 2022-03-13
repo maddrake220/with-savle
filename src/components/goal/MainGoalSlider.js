@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable sonarjs/no-identical-functions */
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -84,19 +82,17 @@ export default function MainGoalSlider() {
           </Slider>
         ) : (
           <div>
-            {goalItems.map((item) => {
-              return (
-                <MainGoalItem
-                  id={item.id}
-                  age={item.age}
-                  categories={item.categories.slice(0, 2)}
-                  text={item.text}
-                  likes={item.likes}
-                  comments={item.comments.length}
-                  key={item.id}
-                />
-              );
-            })}
+            {goalItems.map((item) => (
+              <MainGoalItem
+                id={item.id}
+                age={item.age}
+                categories={item.categories.slice(0, 2)}
+                text={item.text}
+                likes={item.likes}
+                comments={item.comments.length}
+                key={item.id}
+              />
+            ))}
           </div>
         )}
       </ul>
