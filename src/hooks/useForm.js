@@ -24,7 +24,7 @@ export const useForm = (
   const onSubmit = useCallback(
     (event) => {
       event.preventDefault();
-      if (selectedAge === null) {
+      if (selectedAge === undefined) {
         setValidationCheck({ age: true });
         return;
       }

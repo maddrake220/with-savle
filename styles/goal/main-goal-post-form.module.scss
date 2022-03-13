@@ -2,25 +2,24 @@
   ol,
   ul {
     list-style: none;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
   }
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 7%;
-  margin: auto 0;
+  margin: 40px auto 100px;
+  height: 32.563rem;
+  border-radius: 1rem;
+  position: relative;
   max-width: 30.188rem;
   width: 86%;
-  height: 16.938rem;
-  border-radius: 0.5rem;
+  box-shadow: 7.18426px 7.18426px 10.7764px rgba(227, 233, 240, 0.5);
   background: #fff;
+  display: "block";
   h1 {
     font-size: 0;
   }
   .modalTop {
     background: #73bcff;
-    height: 1.375rem;
+    height: 3.625rem;
     border-radius: 0.5rem 0.5rem 0 0;
     > svg {
       position: absolute;
@@ -28,16 +27,17 @@
     }
   }
   .newGoalForm {
-    margin: 0 1rem;
+    margin: 0 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     .ageListWrapper {
-      position: relative;
       margin-top: 0.875rem;
       display: flex;
       white-space: pre;
       gap: 8px 50px;
+      flex-direction: column;
+      transform: translateX(-3rem);
       > label {
         font-weight: bold;
         font-size: 0.813rem;
@@ -60,8 +60,8 @@
         background: #f7f8fa;
         border-radius: 4px;
         border: none;
-        width: 85%;
-        height: 4.813rem;
+        width: 93%;
+        height: 15.625rem;
         padding: 0.5rem 1rem;
         &:focus {
           outline: 0;
@@ -69,6 +69,8 @@
       }
     }
     .goalCategoryWrapper {
+      margin-top: 1rem;
+      transform: translateX(-0.5rem);
       position: relative;
       > label span {
         font-weight: bold;
@@ -80,49 +82,52 @@
         display: flex;
         .inputBox {
           cursor: text;
-          width: 10rem;
-          height: 1.5rem;
+          width: 19.375rem;
+          height: 3.375rem;
           background: #f7f8fa;
           border-radius: 0.25rem;
           overflow: hidden;
           position: relative;
           .goalCategorySearchInput {
+            max-width: 19.375rem;
+            height: 3.375rem;
             position: absolute;
             left: 0;
             background: #f7f8fa;
-            max-width: 10rem;
-            height: 1.5rem;
             outline: none;
             border: none;
-            :focus {
+            &:focus {
               outline: none;
             }
           }
         }
         .selectedGoalCategories {
           position: absolute;
-          top: 22px;
+          left: 3px;
+          top: 34px;
           display: flex;
           gap: 0.25rem;
+          font-weight: bold;
           > li {
-            border: 0.5px solid #73bcff;
+            border: 1px solid #73bcff;
+            padding: 0.2rem 0.6rem;
+            font-size: 1rem;
+            line-height: 26px;
             color: #73bcff;
             height: 1rem;
-            padding: 0.12rem 0.12rem;
             border-radius: 0.5rem;
             display: flex;
             align-items: center;
             cursor: pointer;
-            font-size: 13px;
-            line-height: 20px;
             &::before {
               content: " # ";
             }
           }
         }
+
         .goalCategoryList {
           position: absolute;
-          top: 50px;
+          top: 80px;
           left: 0;
           display: flex;
           flex-direction: column;
@@ -144,7 +149,7 @@
             &:not(:last-child) {
               box-shadow: inset 0px -0.5px 0px rgba(0, 0, 0, 0.1);
             }
-            &:before {
+            &::before {
               content: " # ";
               margin-left: 20px;
             }
@@ -152,108 +157,33 @@
         }
         .submitButton {
           margin-left: 15px;
+          width: 5.125rem;
+          height: 3.375rem;
+          border-radius: 4px;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 3.875rem;
-          height: 1.813rem;
           background: #e8f3ff;
           border-radius: 4px;
           border: none;
         }
       }
     }
-  }
-  .validationFail {
-    font-size: 0.7rem;
-    color: red;
+    .validationFail {
+      font-size: 0.7rem;
+      color: red;
+    }
   }
 }
 
-@media (min-width: 576px) {
-  .newGoal {
-    left: calc(50% - 15.94rem);
-    height: 32.563rem;
-    border-radius: 1rem;
-    .modalTop {
-      height: 3.625rem;
-    }
-    .newGoalForm {
-      margin: 0 2rem;
-      .ageListWrapper {
-        flex-direction: column;
-        transform: translateX(-3rem);
-      }
-      .textareaWrapper {
-        .text {
-          width: 94%;
-          height: 15.625rem;
-        }
-      }
-      .goalCategoryWrapper {
-        margin-top: 0.5rem;
-        transform: translateX(-0.5rem);
-        .goalWrapper {
-          .inputBox {
-            width: 19.375rem;
-            height: 3.375rem;
-            .goalCategorySearchInput {
-              max-width: 19.375rem;
-              height: 3.375rem;
-            }
-          }
-          .goalCategoryList {
-            top: 80px;
-            li {
-              display: flex;
-              padding: 0px;
-              background: #ffffff;
-              width: 10.5rem;
-              height: 2.25rem;
-              font-size: 13px;
-              line-height: 20px;
-              color: #36332e;
-              align-items: center;
-              cursor: pointer;
-            }
-          }
-          .selectedGoalCategories {
-            left: 3px;
-            top: 34px;
-            display: flex;
-            gap: 0.25rem;
-            font-weight: bold;
-            li {
-              border: 1px solid #73bcff;
-              color: #73bcff;
-              height: 1rem;
-              padding: 0.2rem 0.6rem;
-              font-size: 1rem;
-              line-height: 26px;
-            }
-          }
-          .submitButton {
-            margin-left: 15px;
-            width: 5.125rem;
-            height: 3.375rem;
-            border-radius: 4px;
-          }
-        }
-      }
-    }
-  }
-}
 @media (min-width: 1200px) {
   .newGoal {
-    top: auto;
-    left: auto;
-    right: 5.625rem;
-    bottom: 5rem;
     max-height: 32.563rem;
+    width: 483px;
+    margin-left: 18px;
   }
 }
-
 .displayNone {
   display: none;
 }

@@ -1,0 +1,115 @@
+.newgoalComplete {
+  width: 86%;
+  height: 35%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto auto;
+  background: #f7f8fa;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 16.6452px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  .newgoalCompleteTop {
+    position: absolute;
+    width: 100%;
+    height: 2.438rem;
+    left: 0px;
+    top: 0px;
+    background: #2557ff;
+    overflow: hidden;
+    .newgoalCompleteChar {
+      position: absolute;
+      right: 1.875rem;
+      top: -9px;
+    }
+    .closeButton {
+      cursor: pointer;
+      position: absolute;
+      top: 0.734rem;
+      right: 15px;
+    }
+  }
+  .newGoalCompleteText {
+    position: absolute;
+    top: 4.832rem;
+    text-align: center;
+    font-family: "Noto Sans KR";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #888888;
+    display: block;
+  }
+  .buttonOk {
+    cursor: pointer;
+    position: absolute;
+    bottom: 2.8rem;
+    width: 10.875rem;
+    height: 2.875rem;
+    background: #3178ff;
+    box-sizing: border-box;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Noto Sans KR";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 28px;
+    color: #fff;
+    &:hover {
+      border: 1.5px solid #3178ff;
+      background: #fff;
+      color: #3178ff;
+    }
+    a {
+      color: #fff;
+      text-decoration: none;
+      div {
+        color: #3178ff;
+      }
+    }
+  }
+}
+@media (min-width: 576px) {
+  .newgoalComplete {
+    min-width: 490px;
+    max-width: 53%;
+    height: 25.938rem;
+    .newgoalCompleteTop {
+      height: 5rem;
+      .newgoalCompleteChar {
+        right: 1.875rem;
+        top: 0;
+      }
+    }
+    .newgoalCompleteText {
+      top: 7rem;
+      font-size: 2.5rem;
+      line-height: 3.438rem;
+    }
+    .closeButton {
+      top: 18px;
+    }
+    .buttonOk {
+      width: 13.625rem;
+      height: 3.625rem;
+    }
+  }
+}
+@media (min-width: 1200px) {
+  .newgoalComplete {
+    min-width: 490px;
+    max-width: 53%;
+    .newgoalCompleteText {
+      font-size: 2.5rem;
+      line-height: 3.438rem;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+.categoryButton {
+  cursor: pointer;
+  background-color: #fff;
+  color: #73bcff;
+  font-weight: bold;
+  font-size: 0.813rem;
+  line-height: 1.25rem;
+  width: 4.5rem;
+  border: 0.094rem solid #73bcff;
+  box-sizing: border-box;
+  border-radius: 1.545rem;
+  &:hover {
+    background-color: #73bcff;
+    color: #fff;
+  }
+  &.clicked {
+    background-color: #73bcff;
+    color: #fff;
+  }
+}
+
+@media (max-width: 575px) {
+  .categoryButton {
+    height: 1.875rem;
+    font-size: 0.813rem;
+    line-height: 1.25rem;
+  }
+}
