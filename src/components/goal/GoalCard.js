@@ -3,10 +3,10 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Image from "next/image";
 import React, { useCallback } from "react";
 import Skeleton from "react-loading-skeleton";
+import { fetchPutGoalLike } from "src/api/goal";
 import styles from "styles/goal/goal-card.module.scss";
 
 import { useLike } from "@/hooks/index";
-import { putLike } from "@/utils/goal/api";
 import { localstorageGoalLike } from "@/utils/goal/constants";
 import { getAgeGeneration } from "@/utils/goal/functions";
 
@@ -35,7 +35,8 @@ export default function GoalCard({
     (event) => {
       event.stopPropagation();
       localStorageHandler();
-      putLike(id, !like);
+      const parameter = { id: id, like: !like };
+      fetchPutGoalLike(parameter);
     },
     [id, like, localStorageHandler],
   );

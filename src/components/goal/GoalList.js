@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import styles from "styles/goal/goal-list.module.scss";
 import useSWR from "swr";
 
 import CategoryButton from "@/components/Goal/CategoryButton";
@@ -40,18 +41,18 @@ export default function GoalList() {
     return;
   }
   return (
-    <section className="goal-container">
+    <section className={styles.goalListContainer}>
       <Head>
         <title>savle 목표달성</title>
         <meta keyword="" />
         <meta contents="" />
       </Head>
       <header>
-        <div className="header-info container">
+        <div className={`${styles.headerInfo} container`}>
           <h1>세이블에서 목표달성, 함께해요!</h1>
           <p>다른 사람들과 목표를 공유해보아요.</p>
         </div>
-        <div className="goal-header-image">
+        <div className={styles.goalHeaderImage}>
           <Image
             src="/img/goalchar.svg"
             width={getSize(queryMatch, true)}
@@ -61,8 +62,10 @@ export default function GoalList() {
         </div>
       </header>
       <main>
-        <div className={`${queryMatch?.sm ? "age-list-small" : "container"}`}>
-          <ul className={`age-list`}>
+        <div
+          className={`${queryMatch?.sm ? styles.ageListSmall : "container"}`}
+        >
+          <ul className={styles.ageList}>
             {ageList.map((age) => (
               <li key={age.id}>
                 <CategoryButton
@@ -76,8 +79,8 @@ export default function GoalList() {
             ))}
           </ul>
         </div>
-        <div className="goal-list-wrapper container">
-          <div className="goal-dropdown">
+        <div className={`${styles.goalListWrapper} container`}>
+          <div className={styles.goalDropdown}>
             <GoalDropdown
               label=""
               options={[
@@ -98,7 +101,7 @@ export default function GoalList() {
               }}
             />
           </div>
-          <ul className="goal-list">
+          <ul className={styles.goalList}>
             {!data
               ? skeletonView.map((v, index) => <GoalCard key={index} />)
               : data
@@ -126,7 +129,10 @@ export default function GoalList() {
           </ul>
         </div>
       </main>
-      <div className="new-goal" onClick={toggleModal}>
+      <div
+        className={!isToggleModal ? styles.newGoal : styles.displayNone}
+        onClick={toggleModal}
+      >
         <Image
           src="/img/newgoal.svg"
           alt=""
@@ -134,158 +140,12 @@ export default function GoalList() {
           height={queryMatch?.sm ? 59 : 110}
         />
       </div>
-      <div className={`new-goal-modal-back`} onClick={toggleModal}>
+      <div
+        className={isToggleModal ? styles.newGoalModalBack : styles.displayNone}
+        onClick={toggleModal}
+      >
         <NewGoalForm toggleModal={toggleModal} />
       </div>
-      <style jsx>{`
-        header {
-          background-color: rgba(49, 120, 255, 0.8);
-          height: 8rem;
-          position: relative;
-          color: white;
-        }
-        header .header-info {
-          padding-top: 0.34rem;
-          display: flex;
-          flex-direction: column;
-        }
-        header h1 {
-          width: 12.288rem;
-          margin-right: 6.563rem;
-          font-size: 1.375rem;
-          font-weight: bold;
-          line-height: 1.75rem;
-        }
-        header p {
-          font-weight: normal;
-          font-size: 0.813rem;
-          line-height: 1.25rem;
-          transform: translateY(-0.843rem);
-        }
-        header .goal-header-image {
-          position: absolute;
-          right: 1.089rem;
-          bottom: 1.155rem;
-        }
-        ol,
-        ul {
-          list-style: none;
-          margin: 0px;
-          padding: 0px;
-        }
-        main {
-          background: rgba(143, 201, 255, 0.15);
-          padding-bottom: 5rem;
-        }
-        .age-list-small {
-          margin-left: 1rem;
-        }
-        main .age-list {
-          height: 3.875rem;
-          display: flex;
-          align-items: center;
-          overflow-x: scroll;
-          -ms-overflow-style: none; /* IE and Edge */
-          scrollbar-width: none; /* Firefox */
-        }
-        main .age-list li:not(:first-child) {
-          margin-left: 0.75rem;
-        }
-        main .age-list::-webkit-scrollbar {
-          display: none;
-        }
-        main .goal-list-wrapper {
-          position: relative;
-        }
-        main .goal-list {
-          padding-top: 1rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding-top: 2rem;
-          gap: 0.625rem 1.25rem;
-        }
-        .new-goal {
-          cursor: pointer;
-          display: ${isToggleModal ? "none" : "block"};
-          position: fixed;
-          bottom: 1.688rem;
-          right: 1rem;
-        }
-        .new-goal-modal-back {
-          display: ${isToggleModal ? "block" : "none"};
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: #00000080;
-          z-index: 10000;
-        }
-        @media (max-width: 295px) {
-          .goal-header-image {
-            display: none;
-          }
-        }
-        @media (min-width: 576px) {
-          header {
-            height: 12.688rem;
-          }
-          header .header-info {
-            padding-top: 1rem;
-          }
-          header h1 {
-            width: 16.25rem;
-            line-height: 2.25rem;
-            font-size: 1.75rem;
-            letter-spacing: 0.031rem;
-          }
-          header p {
-            font-size: 1rem;
-            line-height: 1.5rem;
-          }
-          header .goal-header-image {
-            bottom: 2.188rem;
-          }
-          main .goal-list {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-          }
-          .new-goal {
-            right: 5.813rem;
-            bottom: 2.375rem;
-          }
-        }
-        @media (min-width: 1200px) {
-          header {
-            height: 15.375rem;
-          }
-          header h1 {
-            width: 24.125rem;
-            font-size: 2.5rem;
-            line-height: 3.438rem;
-          }
-          header p {
-            transform: translateY(-2.224rem);
-            font-size: 1.75rem;
-            line-height: 2.25rem;
-          }
-          main .age-list {
-            padding-top: 1rem;
-          }
-          main .goal-list {
-            gap: 1.25rem 2rem;
-          }
-          main .goal-dropdown {
-            transform: translateY(-38px);
-          }
-          .new-goal {
-            right: 3.875rem;
-            bottom: 2.5rem;
-          }
-        }
-      `}</style>
     </section>
   );
 }

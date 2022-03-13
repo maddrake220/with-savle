@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
+import { fetchGetGoalCategory, fetchPostGoal } from "src/api/goal";
 import { mutate } from "swr";
 
-import { getGoalCategoryByAge, postNewGoal } from "@/utils/goal/api";
 import { MAX_GOAL_CATEGORY } from "@/utils/goal/constants";
 import { goal_address } from "@/utils/swr";
 
@@ -46,7 +46,7 @@ export const useForm = (
         text,
         likes: 0,
       };
-      postNewGoal(data)
+      fetchPostGoal(data)
         .then((resolve) => {
           if (resolve.status === 200) {
             toggleModal();
@@ -125,8 +125,9 @@ export const useForm = (
     inputReference.current.style.maxWidth = 160 - width + "px";
   }, [seletedGoalCategories, inputReference, selectedReference]);
   useEffect(() => {
-    if (selectedAge !== null) {
-      getGoalCategoryByAge(selectedAge?.value)
+    if (selectedAge !== undefined) {
+      const age = { age: selectedAge?.value };
+      fetchGetGoalCategory(age)
         .then((resolve) => setCategoryByAge(resolve.data.results))
         .catch((error) => new Error(error));
     }

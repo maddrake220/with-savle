@@ -5,7 +5,13 @@ const SkeletonElement = ({ type }) => {
       <style jsx>{`
         .skeleton {
           border-radius: 4px;
-          background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80%), lightgray;
+          background: linear-gradient(
+              to right,
+              rgba(255, 255, 255, 0),
+              rgba(255, 255, 255, 0.5) 50%,
+              rgba(255, 255, 255, 0) 80%
+            ),
+            lightgray;
           background-repeat: repeat-y;
           background-size: 50px 100px;
           animation: loading 2.5s infinite;
