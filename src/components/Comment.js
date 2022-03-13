@@ -1,11 +1,13 @@
-import css from "styled-jsx/css";
-import CommentText from "./CommentText";
-import CommentInput from "./CommentInput";
-import { useState } from "react";
-import Toggle from "./Common/Toggle";
 import axios from "axios";
-import server from "@/config/server";
+import { useState } from "react";
+import css from "styled-jsx/css";
 import useSwr from "swr";
+
+import server from "@/config/server";
+
+import CommentInput from "./CommentInput";
+import CommentText from "./CommentText";
+import Toggle from "./Common/Toggle";
 
 const style = css`
   .comment_container {
@@ -50,7 +52,10 @@ const Comment = ({ value, id }) => {
     return res.data.results;
   };
 
-  const { data, mutate } = useSwr(`${server}/api/${value}/comment/${id}`, fetcher);
+  const { data, mutate } = useSwr(
+    `${server}/api/${value}/comment/${id}`,
+    fetcher,
+  );
 
   const handleHiddenComment = () => {
     setHidden(!hidden);
@@ -63,7 +68,8 @@ const Comment = ({ value, id }) => {
         <Toggle onClick={handleHiddenComment} hidden={hidden} />
       </div>
       <CommentInput value={value} id={id} />
-      {!hidden && data.map((comment) => <CommentText data={comment} key={comment.id} />)}
+      {!hidden &&
+        data.map((comment) => <CommentText data={comment} key={comment.id} />)}
       <style jsx>{style}</style>
     </div>
   );
