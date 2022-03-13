@@ -97,13 +97,26 @@
   }
 }
 
+.goal_slider_container{
+  width: 240px;
+  height: 272px;
+  padding: 0;
+  margin: auto;
+}
+
 .main_goal_item {
+  width: 240px;
+  height: 272px;
+  padding: 0;
+  margin: 0;
+
   .item {
     position: relative;
 
     width: 240px;
     height: 272px;
 
+    padding: 0;
     margin: 26px auto 0;
 
     background: #ffffff;
@@ -183,12 +196,12 @@
 
 .goal_slider {
   list-style: none;
-  width: 100%;
+  width: 320px;
   padding: 0;
-  margin: 0 auto;
+  margin: auto;
 
   background: #f0f6fb;
-  > div {
+  >div {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -199,7 +212,7 @@
   @media (min-width: 1200px) {
     .goal_slider {
       position: relative;
-      > div {
+      >div {
         position: absolute;
     
         left: 132px;

@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/link-passhref */
 import Link from "next/link";
-
-import style from "./MainGoal.module.scss";
+import style from "styles/MainGoal.module.scss";
 
 export default function MainGoalButton() {
   return (

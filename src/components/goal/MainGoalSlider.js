@@ -6,11 +6,10 @@ import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
 import Slider from "react-slick";
 import Data from "src/pages/goal/goalAPI.json";
+import style from "styles/MainGoal.module.scss";
 
 import MainGoalItem from "@/components/Goal/MainGoalItem";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
-
-import style from "./MainGoal.module.scss";
 
 export default function MainGoalSlider() {
   function PreviousArrow(properties) {
@@ -65,7 +64,7 @@ export default function MainGoalSlider() {
   const goalItems = Data.results;
 
   return (
-    <div className="container">
+    <div className={`${style.goal_slider_container} container`}>
       <ul className={style.goal_slider}>
         {breakpoint.sm ? (
           <Slider {...settings}>

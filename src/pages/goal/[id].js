@@ -1,9 +1,9 @@
-import style from "./GoalId.module.scss";
+import style from "styles/GoalId.module.scss";
 
 function GoalById() {
   return (
     <section className={style.goal_detail}>
-      <div className={style.container}>
+      <div className={`${style.container} container`}>
         <div className={style.info}>익명의 302님 | 20대</div>
         <div className={style.text}>
           주변에 한우목장들이 있어 산업이 유망하다고 알고는 있었는데, 저 같은
