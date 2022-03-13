@@ -73,7 +73,7 @@ function VoteById({ data }) {
   const [clickedItem, setClickedItem] = useState(
     Array.from({ length: voteSelect.length }).fill(false),
   );
-  const [voteList, setVoteList] = useState([{ id: id, value: "" }]);
+  const [voteList, setVoteList] = useState([]);
   const [disabled, setDisabled] = useState(false);
 
   const totalVotes = voteSelect.map((item) => item.count);
@@ -146,15 +146,22 @@ function VoteById({ data }) {
       plusCount();
 
       // #localstorage에 데이터 전달!
-      setVoteList([
+      // setVoteList([
+      //   ...voteList,
+      //   { id: id, value: voteSelect[Number.parseInt(itemIndex)].id },
+      // ]);
+      // let newVoteList = [
+      //   ...voteList,
+      //   { id: id, value: voteSelect[Number.parseInt(itemIndex)].id },
+      // ];
+      const saved = [
         ...voteList,
-        { id: id, value: voteSelect[Number.parseInt(itemIndex)].id },
-      ]);
-      let newVoteList = [
-        ...voteList,
-        { id: id, value: voteSelect[Number.parseInt(itemIndex)].id },
+        {
+          id: id,
+          value: voteSelect[Number.parseInt(itemIndex)].id,
+        },
       ];
-      localStorage.setItem("vote-list", JSON.stringify(newVoteList));
+      localStorage.setItem("vote-list", JSON.stringify(saved));
 
       // #제출되면 색깔변화
       setChangdeButtonColor({
@@ -183,6 +190,13 @@ function VoteById({ data }) {
   }
 
   const checkClicked = clickedItem.some((element) => clickedItemIndex(element));
+
+  useEffect(() => {
+    const savedVoteList = localStorage.getItem("vote-list");
+    if (savedVoteList) {
+      setVoteList(JSON.parse(savedVoteList));
+    }
+  }, []);
 
   return (
     <div
