@@ -13,9 +13,10 @@ const BreakpointProvider = ({ children, queries }) => {
     let isAttached = false;
 
     const handleQueryListener = () => {
+      // eslint-disable-next-line unicorn/no-array-reduce, unicorn/prefer-object-from-entries
       const updatedMatches = keys.reduce((accumulator, media) => {
-        accumulator[media] = !!(
-          mediaQueryLists[media] && mediaQueryLists[media].matches
+        accumulator[`${media}`] = !!(
+          mediaQueryLists[`${media}`] && mediaQueryLists[`${media}`].matches
         );
         return accumulator;
       }, {});
@@ -25,18 +26,18 @@ const BreakpointProvider = ({ children, queries }) => {
     if (window && window.matchMedia) {
       const matches = {};
       for (const media of keys) {
-        if (typeof queries[media] === "string") {
-          mediaQueryLists[media] = window.matchMedia(queries[media]);
-          matches[media] = mediaQueryLists[media].matches;
+        if (typeof queries[`${media}`] === "string") {
+          mediaQueryLists[`${media}`] = window.matchMedia(queries[`${media}`]);
+          matches[`${media}`] = mediaQueryLists[`${media}`].matches;
         } else {
-          matches[media] = false;
+          matches[`${media}`] = false;
         }
       }
       setQueryMatch(matches);
       isAttached = true;
       for (const media of keys) {
-        if (typeof queries[media] === "string") {
-          mediaQueryLists[media].addListener(handleQueryListener);
+        if (typeof queries[`${media}`] === "string") {
+          mediaQueryLists[`${media}`].addListener(handleQueryListener);
         }
       }
     }
@@ -44,8 +45,8 @@ const BreakpointProvider = ({ children, queries }) => {
     return () => {
       if (isAttached) {
         for (const media of keys) {
-          if (typeof queries[media] === "string") {
-            mediaQueryLists[media].removeListener(handleQueryListener);
+          if (typeof queries[`${media}`] === "string") {
+            mediaQueryLists[`${media}`].removeListener(handleQueryListener);
           }
         }
       }
