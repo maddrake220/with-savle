@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useLike = (id, likes, localstorageName) => {
   const [like, setLike] = useState(false);
@@ -18,16 +18,23 @@ export const useLike = (id, likes, localstorageName) => {
     const arrlikes = [];
     const newLikes = [];
     if (likes !== null) {
-      arrlikes = likes.split(",");
+      arrlikes.push(...likes.split(","));
     }
     if (like) {
-      newLikes = arrlikes.filter((value) => value.toString() !== id.toString());
+      const filterd = arrlikes.filter(
+        (value) => value.toString() !== id.toString(),
+      );
+      newLikes.push(filterd);
       setLikeNums((like) => (like = like - 1));
     } else {
-      newLikes = [...arrlikes, id];
+      arrlikes.push(id);
       setLikeNums((like) => (like = like + 1));
     }
-    localStorage.setItem(localstorageName, newLikes);
+    if (newLikes.length > 0) {
+      localStorage.setItem(localstorageName, newLikes);
+    } else {
+      localStorage.setItem(localstorageName, arrlikes);
+    }
     setLike((like) => !like);
   }, [id, like, setLike, setLikeNums, localstorageName]);
 

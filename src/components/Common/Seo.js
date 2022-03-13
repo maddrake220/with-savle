@@ -1,6 +1,14 @@
 import Head from "next/head";
 
-function Seo({ title = "", keywords = "", desc = "", ogUrl = "", ogTitle = "", ogImage = "", ogDesc = "" }) {
+function Seo({
+  title = "",
+  keywords = "",
+  desc = "",
+  ogUrl = "",
+  ogTitle = "",
+  ogImage = "",
+  ogDesc = "",
+}) {
   return (
     <Head>
       <title>{title}</title>
