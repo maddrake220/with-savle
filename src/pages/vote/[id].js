@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 import FavoriteCommentShare from "@/components/vote/FavoriteCommentShare";
-import VoteForm from "@/components/vote/VoteForm";
+import VoteItems from "@/components/vote/VoteItems";
 // import Comment from "@/components/Comment";
 import server from "@/config/server";
 import { useBreakpoint, useTimeoutToggle, useVoteState } from "@/hooks/index";
@@ -37,15 +37,11 @@ function VoteById({ data }) {
   const breakpoint = useBreakpoint();
   const [timeoutToggle, timeoutModal] = useTimeoutToggle();
 
-  // -------------------------------------------------------------------------------------------------
-
   const { selectId, selected, disabled, buttonStyles, handleClick, onSubmit } =
     useVoteState(id);
 
   const { voteBtnBg, voteBtntextColor, borderColor, selectItemBackground } =
     buttonStyles;
-
-  // -------------------------------------------------------------------------------------------------
 
   const totalCount = sumCount(voteSelect);
 
@@ -92,22 +88,32 @@ function VoteById({ data }) {
       }
     >
       <div className={style.container}>
-        <VoteForm
-          onSubmit={onSubmit}
-          title={title}
-          text={text}
-          disabled={disabled}
-          voteSelect={voteSelect}
-          borderColor={borderColor}
-          selectItemBackground={selectItemBackground}
-          handleClick={handleClick}
-          totalCount={totalCount}
-          selectId={selectId}
-          voteBtnBg={voteBtnBg}
-          selected={selected}
-          voteBtntextColor={voteBtntextColor}
-        />
-
+        <form onSubmit={onSubmit}>
+          <h1 className={style.title}>{title}</h1>
+          <p className={style.text}>{text}</p>
+          <VoteItems
+            handleClick={handleClick}
+            disabled={disabled}
+            voteSelect={voteSelect}
+            selectId={selectId}
+            totalCount={totalCount}
+            borderColor={borderColor}
+            selectItemBackground={selectItemBackground}
+            voteBtnBg={voteBtnBg}
+          />
+          <button
+            className={style.vote_btn}
+            type="submit"
+            disabled={disabled}
+            style={
+              selected
+                ? { backgroundColor: voteBtnBg, color: voteBtntextColor }
+                : { backgroundColor: "#d5d8dc", color: "#B2B2B2" }
+            }
+          >
+            투표하기
+          </button>
+        </form>
         <FavoriteCommentShare
           voteComments={voteComments}
           timeoutToggle={timeoutToggle}
