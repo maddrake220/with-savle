@@ -2,8 +2,7 @@
 /* eslint-disable @next/next/link-passhref */
 import Image from "next/image"
 import Link from "next/link";
-
-import style from "./MainGoal.module.scss"
+import style from "styles/MainGoal.module.scss";
 
 MainGoalItem.defaultProps = {
   id: 0,

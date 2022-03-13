@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import Image from "next/image"
-
-import style from "./MainGoal.module.scss";
+import style from "styles/MainGoal.module.scss";
 
 export default function MainGoalTitle() {
   return (

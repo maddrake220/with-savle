@@ -1,9 +1,9 @@
+import style from "styles/MainGoal.module.scss";
+
 import MainGoalButton from "@/components/Goal/MainGoalButton";
 import MainGoalPostItem from "@/components/Goal/MainGoalPostItem";
 import MainGoalSlider from "@/components/Goal/MainGoalSlider";
 import MainGoalTitle from "@/components/Goal/MainGoalTitle";
-
-import style from "./MainGoal.module.scss";
 
 export default function MainGoal() {
   return (
