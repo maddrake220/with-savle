@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
+import { mutate } from "swr";
 
 import { getGoalCategoryByAge, postNewGoal } from "@/utils/goal/api";
 import { MAX_GOAL_CATEGORY } from "@/utils/goal/constants";
+import { goal_address } from "@/utils/swr";
 
 export const useForm = (
   toggleModal,
@@ -52,6 +54,7 @@ export const useForm = (
             setText("");
             setSelectedGoalCategories([]);
             setSelectedAge();
+            mutate(goal_address);
           }
         })
         .catch((error) => alert(error, "fail to post"));
