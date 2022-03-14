@@ -1,5 +1,6 @@
-import "styles/globals.css";
-import Layout from "@/components/Layout";
+import "styles/globals.scss";
+
+import Layout from "@/components/Common/Layout";
 import { BreakpointProvider } from "@/hooks/useBreakpoint";
 
 const queries = {

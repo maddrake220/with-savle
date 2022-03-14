@@ -1,147 +1,96 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import NewGoalCategoryButton from "./NewGoalCategoryButton";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
 import Image from "next/image";
-import { postNewGoal, getGoalCategoryByAge } from "@/utils/goal/api";
+import React, { useRef } from "react";
+import styles from "styles/goal/main-goal-post-form.module.scss";
+
+import { useBreakpoint, useForm } from "@/hooks/index";
 import { newGoalAgeList } from "@/utils/goal/data";
-import { MAX_GOAL_CATEGORY } from "@/utils/goal/constants";
 
-export default function NewGoalForm({ setToggleNewGoalComp, onCloseModal }) {
+import NewGoalCategoryButton from "./NewGoalCategoryButton";
+export default function NewGoalForm({ toggleModal }) {
   const matchQuery = useBreakpoint();
-  const [selectedAge, setSelectedAge] = useState(null);
-  const [isFocusedCategoryInput, setIsFocusedCategoryInput] = useState(false);
-  const [seletedGoalCategories, setSelectedGoalCategories] = useState([]);
-  const [categoryByAge, setCategoryByAge] = useState([]);
-  const [searchingCategoryByAge, setSearchingCategoryByAge] = useState([]);
-  const [searchCategory, setSearchCategory] = useState("");
-  const textareaRef = useRef(null);
-  const inputRef = useRef(null);
-  const selectedRef = useRef(null);
-  const sectionRef = useRef(null);
-  const onSuccessNewGoal = useCallback(() => {
-    setToggleNewGoalComp((t) => !t);
-    setSearchCategory("");
-    textareaRef.current.value = "";
-    setSelectedGoalCategories([]);
-    setSelectedAge(null);
-  }, [setToggleNewGoalComp, setSelectedAge, setSelectedGoalCategories]);
 
-  const onSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      const text = textareaRef.current.value;
-      if (selectedAge === null) {
-        alert("test) 연령대를 선택해 주세요!");
-        return;
-      }
-      if (text === "") {
-        alert("test) 내용을 입력해 주세요!");
-        return;
-      }
-      if (seletedGoalCategories.length === 0) {
-        alert("test) 목표 카테고리를 골라주세요!");
-        return;
-      }
-      const categories = seletedGoalCategories.map((v) => v.keyword);
-      const age = selectedAge.value;
-      const data = {
-        categories,
-        age,
-        text,
-        likes: 0,
-      };
-      postNewGoal(data)
-        .then((resolve) => {
-          if (resolve.status === 200) {
-            onSuccessNewGoal();
-          }
-        })
-        .catch((error) => alert(error, "fail to post"));
-    },
-    [seletedGoalCategories, textareaRef, selectedAge, onSuccessNewGoal],
+  const textareaReference = useRef(null);
+  const inputReference = useRef(null);
+  const selectedReference = useRef(null);
+
+  const [
+    selectedAge,
+    isFocusedCategoryInput,
+    seletedGoalCategories,
+    categoryByAge,
+    searchingCategoryByAge,
+    searchCategory,
+    validationCheck,
+    text,
+    onSubmit,
+    onClickselectedAge,
+    onClickInputBox,
+    onFocus,
+    onBlur,
+    onMouseDownGoalCategory,
+    onMouseDownUndoGoalCategory,
+    onChangeSearchCategory,
+    onChangeText,
+  ] = useForm(
+    toggleModal,
+    textareaReference,
+    selectedReference,
+    inputReference,
   );
-  const onClickselectedAge = useCallback((value) => {
-    setSelectedAge(value);
-    setSelectedGoalCategories([]);
-    setSearchCategory("");
-  }, []);
-  const onClickInputBox = useCallback(() => {
-    inputRef.current.focus();
-  }, []);
-  const onFocus = useCallback((e) => {
-    setIsFocusedCategoryInput(true);
-  }, []);
-  const onBlur = useCallback((e) => {
-    setIsFocusedCategoryInput(false);
-  }, []);
-  const onMouseDownGoalCategory = useCallback(
-    (e, value) => {
-      e.preventDefault();
-      setTimeout(() => {
-        inputRef.current.blur();
-        if (seletedGoalCategories.length === MAX_GOAL_CATEGORY) {
-          inputRef.current.disabled = true;
-        }
-      }, 100);
-      setSelectedGoalCategories((values) => [...values, value]);
-    },
-    [seletedGoalCategories],
-  );
-  const onMouseDownUndoGoalCategory = useCallback((e, value) => {
-    e.preventDefault();
-    inputRef.current.disabled = false;
-    setSelectedGoalCategories((values) => {
-      return values.filter((v) => v.id !== value.id);
-    });
-  }, []);
-  const onChangeSearchCategory = useCallback((e) => {
-    setSearchCategory(e.target.value);
-  }, []);
-  useEffect(() => {
-    if (searchCategory !== "") {
-      setSearchingCategoryByAge(categoryByAge.filter((v) => v.keyword.includes(searchCategory)));
-    }
-  }, [searchCategory, categoryByAge]);
-  useEffect(() => {
-    textareaRef.current.focus();
-  }, [onCloseModal]);
-  useEffect(() => {
-    const width = selectedRef.current.offsetWidth;
-    inputRef.current.style.left = `${width}px`;
-    inputRef.current.style.maxWidth = 160 - width + "px";
-  }, [seletedGoalCategories]);
-  useEffect(() => {
-    if (selectedAge !== null) {
-      getGoalCategoryByAge(selectedAge.value)
-        .then((resolve) => setCategoryByAge(resolve.data.results))
-        .catch((error) => console.log(error, "fail to get category"));
-    }
-  }, [selectedAge]);
+
   return (
-    <section onClick={(e) => e.stopPropagation()} ref={sectionRef}>
+    <section
+      className={styles.newGoal}
+      onClick={(event) => event.stopPropagation()}
+    >
       <h1>목표 작성하기</h1>
-      <div className="modal-top">
+      <div className={styles.modalTop}>
         {matchQuery.sm ? (
-          <svg onClick={onCloseModal} width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14.25 4.75L4.75 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M4.75 4.75L14.25 14.25" stroke="#CCD2E3" strokeWidth="1.09524" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            onClick={toggleModal}
+            width="19"
+            height="19"
+            viewBox="0 0 19 19"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14.25 4.75L4.75 14.25"
+              stroke="#CCD2E3"
+              strokeWidth="1.09524"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M4.75 4.75L14.25 14.25"
+              stroke="#CCD2E3"
+              strokeWidth="1.09524"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         ) : (
-          <div style={{ marginTop: "7px", position: "absolute", right: "11px" }}>
-            <Image width="101px" height="51px" src="/img/newgoalchar.svg" alt="" />
+          <div
+            style={{ marginTop: "7px", position: "absolute", right: "11px" }}
+          >
+            <Image
+              width="101px"
+              height="51px"
+              src="/img/newgoalchar.svg"
+              alt=""
+            />
           </div>
         )}
       </div>
       <main>
-        <form onSubmit={onSubmit}>
-          <div className="age-list-container">
+        <form className={styles.newGoalForm} onSubmit={onSubmit}>
+          <div className={styles.ageListWrapper}>
             <label>
               <span>연령대</span>
             </label>
-            <ul className="age-list">
+            <ul className={styles.ageList}>
               {newGoalAgeList?.map((age) => (
                 <NewGoalCategoryButton
-                  className="age-button"
                   key={age.id}
                   id={age.id}
                   onClick={onClickselectedAge}
@@ -151,50 +100,85 @@ export default function NewGoalForm({ setToggleNewGoalComp, onCloseModal }) {
                 />
               ))}
             </ul>
+            {validationCheck.age && (
+              <div className={styles.validationFail}>연령선택을 해주세요!</div>
+            )}
           </div>
-          <textarea ref={textareaRef} className="text" type="text" placeholder="내용을 입력해주세요!" />
-          <div className="goal-category-wrapper">
+          <div className={styles.textareaWrapper}>
+            <textarea
+              ref={textareaReference}
+              className={styles.text}
+              type="text"
+              placeholder="내용을 입력해주세요!"
+              onChange={onChangeText}
+              value={text}
+            />
+            {validationCheck.text && (
+              <div className={styles.validationFail}>내용을 입력해주세요!</div>
+            )}
+          </div>
+          <div className={styles.goalCategoryWrapper}>
             <label>
               <span>목표 카테고리</span>
             </label>
-            <div className="goal-wrapper">
-              <div className="input-box" onClick={onClickInputBox}>
+            <div className={styles.goalWrapper}>
+              <div className={styles.inputBox} onClick={onClickInputBox}>
                 <input
-                  ref={inputRef}
+                  ref={inputReference}
                   onFocus={onFocus}
                   onBlur={onBlur}
-                  className="goal-category-search-input"
+                  className={styles.goalCategorySearchInput}
                   value={searchCategory}
                   onChange={onChangeSearchCategory}
                 />
               </div>
-              <ul className="selected-goal-categories" ref={selectedRef}>
+              <ul
+                className={styles.selectedGoalCategories}
+                ref={selectedReference}
+              >
                 {seletedGoalCategories?.map((seletedGoalCategory, index) => (
-                  <li onMouseDown={(e) => onMouseDownUndoGoalCategory(e, seletedGoalCategory)} key={index}>
+                  <li
+                    onMouseDown={(event) =>
+                      onMouseDownUndoGoalCategory(event, seletedGoalCategory)
+                    }
+                    key={index}
+                  >
                     {seletedGoalCategory.keyword}
                   </li>
                 ))}
               </ul>
-              <ul className="goal-category-list">
-                {categoryByAge.length === 0 ? (
-                  <li style={{ color: "red" }}>연령대를 선택해 주세요!</li>
-                ) : searchCategory === "" ? (
-                  categoryByAge
-                    .sort((a, b) => b.count - a.count)
-                    .map((goalCategory, index) => (
-                      <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
+              <ul
+                className={
+                  isFocusedCategoryInput
+                    ? styles.goalCategoryList
+                    : styles.displayNone
+                }
+              >
+                {searchCategory === ""
+                  ? categoryByAge
+                      .sort((a, b) => b.count - a.count)
+                      .map((goalCategory, index) => (
+                        <li
+                          onMouseDown={(event) =>
+                            onMouseDownGoalCategory(event, goalCategory)
+                          }
+                          key={index}
+                        >
+                          {goalCategory.keyword}
+                        </li>
+                      ))
+                  : searchingCategoryByAge.map((goalCategory, index) => (
+                      <li
+                        onMouseDown={(event) =>
+                          onMouseDownGoalCategory(event, goalCategory)
+                        }
+                        key={index}
+                      >
                         {goalCategory.keyword}
                       </li>
-                    ))
-                ) : (
-                  searchingCategoryByAge.map((goalCategory, index) => (
-                    <li onMouseDown={(e) => onMouseDownGoalCategory(e, goalCategory)} key={index}>
-                      {goalCategory.keyword}
-                    </li>
-                  ))
-                )}
+                    ))}
               </ul>
-              <button type="submit" className="submit-button">
+              <button type="submit" className={styles.submitButton}>
                 <svg
                   width={matchQuery.sm ? "17" : "28"}
                   height={matchQuery.sm ? "17" : "28"}
@@ -213,252 +197,14 @@ export default function NewGoalForm({ setToggleNewGoalComp, onCloseModal }) {
                 </svg>
               </button>
             </div>
+            {validationCheck.category && (
+              <div className={styles.validationFail}>
+                목표 카테고리를 선택해주세요!
+              </div>
+            )}
           </div>
         </form>
       </main>
-      <style jsx>
-        {`
-          ol,
-          ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-          }
-          section {
-            position: relative;
-            max-width: 30.188rem;
-            width: 86%;
-            height: 16.938rem;
-            box-shadow: 7.18426px 7.18426px 10.7764px rgba(227, 233, 240, 0.5);
-            border-radius: 0.5rem;
-            background: #fff;
-            display: "block";
-          }
-          section h1 {
-            font-size: 0;
-          }
-          section .modal-top {
-            background: #73bcff;
-            height: 1.375rem;
-            border-radius: 0.5rem 0.5rem 0 0;
-          }
-
-          section .modal-top svg {
-            position: absolute;
-            right: 0.813rem;
-          }
-          form {
-            margin: 0 1rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-          }
-          .age-list-container {
-            margin-top: 0.875rem;
-            display: flex;
-            white-space: pre;
-            gap: 8px 50px;
-          }
-          .age-list-container label {
-            font-weight: bold;
-            font-size: 0.813rem;
-            line-height: 1.25rem;
-            color: #2d2d2d;
-          }
-          .age-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.25rem 0.5rem;
-          }
-          .text {
-            margin-top: 10px;
-            resize: none;
-            background: #f7f8fa;
-            border-radius: 4px;
-            border: none;
-            width: 85%;
-            height: 4.813rem;
-            padding: 0.5rem 1rem;
-          }
-          .text:focus {
-            outline: 0;
-          }
-          .goal-category-wrapper {
-            position: relative;
-          }
-          .goal-category-wrapper label span {
-            font-weight: bold;
-            font-size: 0.813rem;
-            line-height: 1.25rem;
-            color: #2d2d2d;
-          }
-          .input-box {
-            cursor: text;
-            width: 10rem;
-            height: 1.5rem;
-            background: #f7f8fa;
-            border-radius: 0.25rem;
-            overflow: hidden;
-            position: relative;
-          }
-          .goal-category-search-input {
-            position: absolute;
-            left: 0;
-            background: #f7f8fa;
-            max-width: 10rem;
-            height: 1.5rem;
-            outline: none;
-            border: none;
-          }
-          .goal-category-search-input:focus {
-            outline: none;
-          }
-          .goal-category-list {
-            position: absolute;
-            top: 50px;
-            left: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-          }
-          .goal-category-list li {
-            display: ${isFocusedCategoryInput ? "flex" : "none"};
-            padding: 0px;
-            background: #ffffff;
-            width: 10.5rem;
-            height: 2.25rem;
-            font-size: 13px;
-            line-height: 20px;
-            color: #36332e;
-            align-items: center;
-            cursor: pointer;
-          }
-          .goal-category-list li:last-child {
-            border-radius: 0 0 8px 8px;
-          }
-          .goal-category-list li:not(:last-child) {
-            box-shadow: inset 0px -0.5px 0px rgba(0, 0, 0, 0.1);
-          }
-          .goal-category-list li::before {
-            content: " # ";
-            margin-left: 20px;
-          }
-          .selected-goal-categories {
-            position: absolute;
-            top: 22px;
-            display: flex;
-            gap: 0.25rem;
-          }
-          .selected-goal-categories li {
-            border: 0.5px solid #73bcff;
-            color: #73bcff;
-            height: 1rem;
-            padding: 0.12rem 0.12rem;
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            font-size: 13px;
-            line-height: 20px;
-          }
-          .selected-goal-categories li::before {
-            content: " # ";
-          }
-          .goal-wrapper {
-            display: flex;
-          }
-          .submit-button {
-            margin-left: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 3.875rem;
-            height: 1.813rem;
-            background: #e8f3ff;
-            border-radius: 4px;
-            border: none;
-          }
-          @media (min-width: 576px) {
-            section {
-              margin: 40px auto 100px;
-              height: 32.563rem;
-              border-radius: 1rem;
-            }
-            section .modal-top {
-              height: 3.625rem;
-            }
-            .text {
-              width: 94%;
-              height: 14.625rem;
-            }
-            form {
-              margin: 0 2rem;
-            }
-            .age-list-container {
-              flex-direction: column;
-              transform: translateX(-3rem);
-            }
-            .goal-category-wrapper {
-              margin-top: 1rem;
-              transform: translateX(-0.5rem);
-            }
-            .input-box {
-              width: 19.375rem;
-              height: 3.375rem;
-            }
-            .goal-category-search-input {
-              max-width: 19.375rem;
-              height: 3.375rem;
-            }
-            .goal-category-list {
-              top: 80px;
-            }
-            .goal-category-list li {
-              display: ${isFocusedCategoryInput ? "flex" : "none"};
-              padding: 0px;
-              background: #ffffff;
-              width: 10.5rem;
-              height: 2.25rem;
-              font-size: 13px;
-              line-height: 20px;
-              color: #36332e;
-              align-items: center;
-              cursor: pointer;
-            }
-            .selected-goal-categories {
-              left: 3px;
-              top: 34px;
-              display: flex;
-              gap: 0.25rem;
-              font-weight: bold;
-            }
-            .selected-goal-categories li {
-              border: 1px solid #73bcff;
-              color: #73bcff;
-              height: 1rem;
-              padding: 0.2rem 0.6rem;
-              font-size: 1rem;
-              line-height: 26px;
-            }
-            .submit-button {
-              margin-left: 15px;
-              width: 5.125rem;
-              height: 3.375rem;
-              border-radius: 4px;
-            }
-          }
-
-          @media (min-width: 1200px) {
-            section {
-              max-height: 32.563rem;
-
-              width: 483px;
-              margin-left: 18px;
-            }
-          }
-        `}
-      </style>
     </section>
   );
 }

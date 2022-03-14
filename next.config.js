@@ -1,4 +1,6 @@
+/* eslint-disable unicorn/prefer-module */
 /** @type {import('next').NextConfig} */
+const path = require("path");
 const nextConfig = {
   webpack(config) {
     config.module.rules.push({
@@ -10,6 +12,10 @@ const nextConfig = {
     return config;
   },
   reactStrictMode: true,
+  sassOptions: {
+    includePaths: [path.join(__dirname, "styles")],
+    prependData: `@import "styles/variables.scss";`,
+  },
 };
 const withImages = require("next-images");
 module.exports = withImages();

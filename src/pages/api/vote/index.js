@@ -1,8 +1,8 @@
 import client from "libs/prisma";
 
-async function handler(req, res) {
-  if (req.method === "POST") {
-    const { params } = req.body;
+async function handler(request, response) {
+  if (request.method === "POST") {
+    const { params } = request.body;
     const results = await client.vote.create({
       data: {
         title: params.title,
@@ -13,42 +13,46 @@ async function handler(req, res) {
       },
     });
     if (results) {
-      res.json({
+      response.json({
         success: true,
         results,
       });
     } else {
-      res.json({
+      response.json({
         success: false,
       });
     }
   }
 
-  if (req.method === "GET") {
+  if (request.method === "GET") {
     const results = await client.vote.findMany({
       include: {
-        voteSelect: true,
+        voteSelect: {
+          orderBy: {
+            id: "desc",
+          },
+        },
         voteComments: true,
       },
     });
     if (results) {
-      res.json({
+      response.json({
         success: true,
         results,
       });
     } else {
-      res.json({
+      response.json({
         success: false,
       });
     }
   }
-  if (req.method === "PUT") {
+  if (request.method === "PUT") {
     const {
       params: { id },
-    } = req.body;
+    } = request.body;
     const results = await client.voteSelect.update({
       where: {
-        id: parseInt(id),
+        id: Number.parseInt(id),
       },
       data: {
         count: {
@@ -57,12 +61,12 @@ async function handler(req, res) {
       },
     });
     if (results) {
-      res.json({
+      response.json({
         success: true,
         results,
       });
     } else {
-      res.json({
+      response.json({
         success: false,
       });
     }

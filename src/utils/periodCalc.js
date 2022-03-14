@@ -1,88 +1,94 @@
-const periodCalc = (value, goal, saving) => {
-  let numberGoalValue = Number(goal.replaceAll(",", ""));
-  let numberSavingValue = Number(saving.replaceAll(",", ""));
-  let count = Math.ceil(numberGoalValue / numberSavingValue);
+function periodCalc(value, goal, saving) {
+  const numberGoalValue = Number(goal.replaceAll(",", ""));
+  const numberSavingValue = Number(saving.replaceAll(",", ""));
+  const count = Math.ceil(numberGoalValue / numberSavingValue);
 
-  let year = 0;
-  let month = 0;
+  const data = { year: 0, month: 0, count: count };
 
-  if (value === "month") {
-    while (count > 12) {
-      count = count - 12;
-      year++;
+  switch (value) {
+    case "month": {
+      return month(data);
     }
-    if (count === 0) {
-      return `${year}년`;
-    } else {
-      return `${year}년 ${count}개월`;
+    case "week": {
+      return week(data);
     }
-  } else if (value === "week") {
-    if (count >= 52) {
-      while (count >= 52) {
-        count = count - 52;
-        year++;
-      }
-      if (count === 0) {
-        return `${year}년`;
-      } else if (count < 4) {
-        return `${year}년 ${count}주`;
-      } else {
-        while (count >= 4) {
-          count = count - 4;
-          month++;
-        }
-        if (count === 0) {
-          return `${year}년 ${month}개월`;
-        }
-        return `${year}년 ${month}개월 ${count}주`;
-      }
-    } else if (count >= 4) {
-      while (count >= 4) {
-        count = count - 4;
-        month++;
-      }
-      if (count === 0) {
-        return `${month}개월`;
-      } else {
-        return `${month}개월 ${count}주`;
-      }
-    } else {
-      return `${count}주`;
+    case "day": {
+      return day(data);
     }
-  } else if (value === "day") {
-    if (count >= 365) {
-      while (count >= 365) {
-        count = count - 365;
-        year++;
-      }
-      if (count === 0) {
-        return `${year}년`;
-      } else if (count < 30) {
-        return `${year}년 ${count}일`;
-      } else {
-        while (count >= 30) {
-          count = count - 30;
-          month++;
-        }
-        if (count === 0) {
-          return `${year}년 ${month}개월`;
-        }
-        return `${year}년 ${month}개월 ${count}일`;
-      }
-    } else if (count <= 365 && count > 30) {
-      while (count >= 30) {
-        count = count - 30;
-        month++;
-      }
-      if (count === 0) {
-        return `${month}개월`;
-      } else {
-        return `${month}개월 ${count}일`;
-      }
-    } else {
-      return `${count}일`;
-    }
+    // No default
   }
-};
+}
 
 export default periodCalc;
+
+function month(data) {
+  while (data.count > 12) {
+    data.count = data.count - 12;
+    data.year++;
+  }
+  return data.count === 0
+    ? `${data.year}년`
+    : `${data.year}년 ${data.count}개월`;
+}
+
+// eslint-disable-next-line sonarjs/cognitive-complexity
+function week(data) {
+  if (data.count >= 52) {
+    while (data.count >= 52) {
+      data.count = data.count - 52;
+      data.year++;
+    }
+    if (data.count === 0) `${data.year}년`;
+    else if (data.count < 4) `${data.year}년 ${data.count}주`;
+    else {
+      while (data.count >= 4) {
+        data.count = data.count - 4;
+        data.month++;
+      }
+      return data.count === 0
+        ? `${data.year}년 ${data.month}개월`
+        : `${data.year}년 ${data.month}개월 ${data.count}주`;
+    }
+  } else if (data.count >= 4) {
+    while (data.count >= 4) {
+      data.count = data.count - 4;
+      data.month++;
+    }
+    return data.count === 0
+      ? `${data.month}개월`
+      : `${data.month}개월 ${data.count}주`;
+  } else {
+    return `${data.count}주`;
+  }
+}
+
+// eslint-disable-next-line sonarjs/cognitive-complexity
+function day(data) {
+  if (data.count >= 365) {
+    while (data.count >= 365) {
+      data.count = data.count - 365;
+      data.year++;
+    }
+    if (data.count === 0) `${data.year}년`;
+    else if (data.count < 30) `${data.year}년 ${data.count}일`;
+    else {
+      while (data.count >= 30) {
+        data.count = data.count - 30;
+        data.month++;
+      }
+      return data.count === 0
+        ? `${data.year}년 ${data.month}개월`
+        : `${data.year}년 ${data.month}개월 ${data.count}일`;
+    }
+  } else if (data.count <= 365 && data.count > 30) {
+    while (data.count >= 30) {
+      data.count = data.count - 30;
+      data.month++;
+    }
+    return data.count === 0
+      ? `${data.month}개월`
+      : `${data.month}개월 ${data.count}일`;
+  } else {
+    return `${data.count}일`;
+  }
+}
