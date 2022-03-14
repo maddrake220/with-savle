@@ -4,9 +4,8 @@ import { useCallback } from "react";
 import { fetchPutVoteLike } from "src/api/vote";
 
 import { useLike } from "@/hooks/useLike";
+import style from "@/styles/VoteBox.module.scss";
 import { LOCALSTORAGE_VOTE_LIKE } from "@/utils/constants";
-
-import style from "./VoteBox.module.scss";
 
 export default function VoteBox({ voteBoxData }) {
   const { id, title, likes, voteSelect, voteComments } = voteBoxData;

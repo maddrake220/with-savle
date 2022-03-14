@@ -5,11 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import Slider from "react-slick";
 
-import MainVoteBox from "@/components/Vote/MainVoteBox";
+import MainVoteBox from "@/components/vote/MockVoteBox";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import style from "@/styles/MainVote.module.scss";
 import { mockDatas } from "@/utils/voteMockData";
-
-import style from "./MainVoteSection.module.scss";
 
 function NextArrow(properties) {
   const { onClick } = properties;

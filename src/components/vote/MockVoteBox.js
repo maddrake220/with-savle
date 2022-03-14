@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import style from "@/styles/MainVoteBox.module.scss";
+import style from "@/styles/MockVoteBox.module.scss";
 
 export default function MainVoteBox({ mockData }) {
   return (

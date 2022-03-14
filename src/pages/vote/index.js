@@ -9,8 +9,7 @@ import useSWR, { SWRConfig } from "swr";
 import SkeletonBox from "@/components/vote/SkeletonBox";
 import VoteBox from "@/components/Vote/VoteBox";
 import server from "@/config/server";
-
-import style from "./Index.module.scss";
+import style from "@/styles/VoteIndex.module.scss";
 
 const fetcher = (server) => axios.get(server).then((r) => r.data);
 
