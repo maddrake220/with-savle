@@ -17,10 +17,8 @@ const eventStyles = {
 export const useVoteState = (id) => {
   const [selectId, setSelectId] = useState(-1);
   const [selected, setSelected] = useState(false);
-
   const [voteList, setVoteList] = useState([]);
   const [disabled, setDisabled] = useState(false);
-
   const [changedButtonColor, setChangdeButtonColor] = useState(initialStyles);
 
   const handleClick = (id) => {

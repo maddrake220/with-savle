@@ -1,10 +1,11 @@
 import axios from "axios";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { fetchGetVoteById } from "src/api/vote";
 
+import Comment from "@/components/Comment";
 import FavoriteCommentShare from "@/components/vote/FavoriteCommentShare";
 import VoteItems from "@/components/vote/VoteItems";
-// import Comment from "@/components/Comment";
 import server from "@/config/server";
 import { useBreakpoint, useTimeoutToggle, useVoteState } from "@/hooks/index";
 import { sumCount } from "@/utils/index";
@@ -12,7 +13,7 @@ import { sumCount } from "@/utils/index";
 import style from "./Id.module.scss";
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
-export async function getStaticProps(context) {
+export const getStaticProps = async (context) => {
   const { id } = context.params;
   const { data } = await axios.get(`${server}/api/vote/${id}`);
   return {
@@ -20,7 +21,7 @@ export async function getStaticProps(context) {
       data,
     },
   };
-}
+};
 
 export const getStaticPaths = async () => {
   const { data } = await axios.get(`${server}/api/vote`);
@@ -122,7 +123,7 @@ function VoteById({ data }) {
           likeNums={likeNums}
           handleLikeToggle={handleLikeToggle}
         />
-        {/* <Comment Comments={voteComments} value="vote" /> */}
+        <Comment Comments={voteComments} value="vote" />
         <div className={style.back_btn_container}>
           <Link href={`/vote`}>
             <a className={style.link}>
