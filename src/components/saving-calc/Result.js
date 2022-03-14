@@ -1,136 +1,101 @@
-import ResultFoldBox from "./ResultFoldBox";
-import css from "styled-jsx/css";
-import periodCalc from "@/utils/periodCalc";
+import styles from "@/styles/saving-calc/SavingClacCommon.module.scss";
+import { periodCalc } from "@/utils/index";
 
-const style = css`
-  .title {
-    width: 210px;
-    margin-bottom: 24px;
-  }
-  h2 span {
-    position: relative;
-    font-size: 18px;
-    color: #3178ff;
-  }
-  h2 span::before {
-    content: "";
-    position: absolute;
-    height: 8px;
-    background: rgba(143, 201, 255, 0.7);
-    opacity: 0.4;
-    top: 17px;
-    left: -2px;
-  }
-  .result {
-    margin-bottom: 85px;
-  }
-  button {
-    color: #fff;
-    background: #3178ff;
-  }
-  @media (min-width: 576px) {
-    .title {
-      width: 100%;
-      margin-bottom: 27px;
-    }
-    h2 span {
-      font-size: 20px;
-    }
-    h2 span::before {
-      height: 8px;
-      top: 20px;
-      left: -2px;
-    }
-    .result {
-      margin-bottom: 23px;
-    }
-  }
-  @media (min-width: 1200px) {
-    .title {
-      width: 100%;
-      margin-bottom: 55px;
-    }
-    h2 span {
-      font-size: 40px;
-    }
-    h2 span::before {
-      height: 16px;
-      top: 35px;
-      left: -2px;
-    }
-    .result {
-      margin-bottom: 57px;
-    }
-  }
-`;
-const Result = ({ inputs, setInputs, setState }) => {
+import ResultFoldBox from "./ResultFoldBox";
+
+function Result({ data }) {
+  const [inputs, setInputs, , setState] = data;
   const { goal, goal_amount, saving_amount } = inputs;
-  const handleReset = (e) => {
-    e.preventDefault();
+
+  const handleReset = (event) => {
+    event.preventDefault();
     setState({ next: false, result: false, done: false });
     setInputs({ goal: "", goal_amount: "", saving_amount: "" });
   };
 
   return (
     <>
-      <div className="title">
+      <div className={`${styles.title} ${styles.result}`}>
         <h2>
           {goal.length >= 12 ? (
             <>
-              <span>{goal.slice(0, 10)}</span>
+              <span className="goal_slice_first">{goal.slice(0, 10)}</span>
               <br />
-              <span className="slice">{goal.slice(10)}</span>
+              <span className="goal_slice_second">{goal.slice(10)}</span>
             </>
           ) : (
-            <span>{goal}</span>
+            <span className="goal_slice_first">{goal}</span>
           )}{" "}
-          위해
+          을 위해
           <br />
-          <span className="result-amount">{saving_amount}원</span>을{saving_amount.length > 8 && <br />} 적금한다면?
+          <span className="amount">{saving_amount}원</span>을
+          {saving_amount.length > 8 && <br />} 적금한다면?
         </h2>
       </div>
-      <div className="result">
-        <ResultFoldBox setState={setState} period={"매월"} date={periodCalc("month", goal_amount, saving_amount)} rule={"월급날 규칙"} />
-        <ResultFoldBox setState={setState} period={"매주"} date={periodCalc("week", goal_amount, saving_amount)} rule={"52주 규칙"} />
-        <ResultFoldBox setState={setState} period={"매일"} date={periodCalc("day", goal_amount, saving_amount)} />
+      <div className={styles.result_wrap}>
+        <ResultFoldBox
+          setState={setState}
+          period={"매월"}
+          date={periodCalc("month", goal_amount, saving_amount)}
+          rule={"월급날 규칙"}
+        />
+        <ResultFoldBox
+          setState={setState}
+          period={"매주"}
+          date={periodCalc("week", goal_amount, saving_amount)}
+          rule={"52주 규칙"}
+        />
+        <ResultFoldBox
+          setState={setState}
+          period={"매일"}
+          date={periodCalc("day", goal_amount, saving_amount)}
+        />
       </div>
-      <button onClick={handleReset}>다시하기</button>
-      <style jsx>{style}</style>
+      <button
+        className={`${styles.button} ${styles.result}`}
+        onClick={handleReset}
+      >
+        다시하기
+      </button>
       <style jsx>{`
-        .title h2 span::before {
-          width: ${goal.length >= 12 ? `170px` : `calc(${goal.length} * 15px)`};
+        span.goal_slice_first::before {
+          width: ${goal.length >= 12 ? `165px` : `calc(${goal.length} * 18px)`};
         }
-        .title h2 span.slice::before {
+        span.goal_slice_second::before {
           width: calc((${goal.length} - 9) * 15px);
         }
-        .title h2 span.result-amount::before {
-          width: calc(${saving_amount.length} * 13px);
+        span.amount::before {
+          width: calc(${saving_amount.length} * 12px);
         }
         @media (min-width: 576px) {
-          .title h2 span::before {
-            width: ${goal.length >= 12 ? `190px` : `calc(${goal.length} * 17px)`};
+          span.goal_slice_first::before {
+            width: ${goal.length >= 12
+              ? `180px`
+              : `calc(${goal.length} * 17px)`};
           }
-          .title h2 span.slice::before {
+          span.goal_slice_second::before {
             width: calc((${goal.length} - 9) * 17px);
           }
-          .title h2 span.result-amount::before {
-            width: calc(${saving_amount.length} * 15px);
+          span.amount::before {
+            width: calc(${saving_amount.length} * 14px);
           }
         }
         @media (min-width: 1200px) {
-          .title h2 span::before {
-            width: ${goal.length >= 12 ? `380px` : `calc(${goal.length} * 30px)`};
+          span.goal_slice_first::before {
+            width: ${goal.length >= 12
+              ? `360px`
+              : `calc(${goal.length} * 33px)`};
           }
-          .title h2 span.slice::before {
-            width: calc((${goal.length} - 9) * 30px);
+          span.goal_slice_second::before {
+            width: calc((${goal.length} - 9) * 33px);
           }
-          .title h2 span.result-amount::before {
-            width: calc(${saving_amount.length} * 28px);
+          span.amount::before {
+            width: calc(${saving_amount.length} * 26px);
           }
         }
       `}</style>
     </>
   );
-};
+}
 
 export default Result;

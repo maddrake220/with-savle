@@ -1,25 +1,29 @@
+import styles from "styles/goal/new-goal-post-item.module.scss";
+
 import MainGoalPostForm from "@/components/goal/MainGoalPostForm";
-import { useCallback, useState } from "react";
+import { useModal } from "@/hooks/index";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+
+import NewGoalComplete from "./NewGoalComplete";
 
 export default function MainGoalPostItem() {
   const breakpoint = useBreakpoint();
-
-  const [toggleNewGoal, setToggleNewGoal] = useState(false);
-
-  const onClickModalBack = useCallback(() => {
-    setToggleNewGoal(false);
-  }, []);
-  const onCloseModal = useCallback(() => {
-    setToggleNewGoal(false);
-  }, []);
+  const [isToggleModal, toggleModal] = useModal();
 
   return (
     <div>
       {breakpoint.sm === false ? (
-        <div className={`new-goal-modal-back`} onClick={onClickModalBack}>
-          <MainGoalPostForm toggleNewGoal={toggleNewGoal} onCloseModal={onCloseModal} />
-        </div>
+        <>
+          <MainGoalPostForm toggleModal={toggleModal} />
+          <div
+            className={`${
+              isToggleModal ? styles.newGoalModalBack : styles.displayNone
+            }`}
+            onClick={toggleModal}
+          >
+            <NewGoalComplete toggleModal={toggleModal} />
+          </div>
+        </>
       ) : (
         ""
       )}

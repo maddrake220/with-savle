@@ -1,21 +1,21 @@
-import client from 'libs/prisma';
+import client from "libs/prisma";
 
-async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { params } = req.body;
+async function handler(request, response) {
+  if (request.method === "POST") {
+    const { params } = request.body;
     const results = await client.voteComment.create({
       data: {
         text: params.text,
-        voteId: parseInt(params.id),
+        voteId: Number.parseInt(params.id),
       },
     });
     if (results) {
-      res.json({
+      response.json({
         success: true,
         results,
       });
     } else {
-      res.json({
+      response.json({
         success: false,
       });
     }

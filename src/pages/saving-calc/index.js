@@ -1,22 +1,29 @@
-import CalcInputBox from "@/components/saving-calc/CalcInputBox";
-import SavingCalcStep from "@/components/saving-calc/SavingCalcStep";
-import ShortCutBar from "@/components/ShortcutBar";
-import { useState } from "react";
 import Character from "public/layout/character.svg";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
+
+import Seo from "@/components/Common/Seo";
+import ShortCutBar from "@/components/Common/ShortcutBar";
+import CalcInputBox from "@/components/Saving-calc/CalcInputBox";
+import SavingCalcStep from "@/components/Saving-calc/SavingCalcStep";
+import { useSavingCalc, useWidth } from "@/hooks/index";
 
 function SavingCalc() {
-  const [inputs, setInputs] = useState({ goal: "", goal_amount: "", saving_amount: "" });
-  const [state, setState] = useState({ next: false, result: false, done: false });
-  const data = { inputs, setInputs, state, setState };
-  const { sm: isMobile, md: isTablet } = useBreakpoint();
-
+  const data = useSavingCalc();
   return (
     <div style={{ background: "#f7f8fa" }}>
+      <Seo
+        title="저축계산기"
+        desc="가상 저축 계산으로 미래를 설계해서 사람들과 목표를 공유해보아요"
+        ogUrl="https://with-savle.herokuapp.com/saving-calc"
+        ogTitle="저축계산기"
+        ogDesc="가상 저축 계산으로 미래를 설계해서 사람들과 목표를 공유해보아요"
+      />
       <div className="container">
-        <SavingCalcStep state={state} />
+        <SavingCalcStep data={data} />
         <CalcInputBox data={data} />
-        <Character width={isMobile ? "141px " : isTablet ? "214px" : "311px"} style={{ display: "block", margin: "0 auto" }} />
+        <Character
+          width={useWidth(141, 214, 311, "px")}
+          style={{ display: "block", margin: "0 auto" }}
+        />
       </div>
       <ShortCutBar />
     </div>

@@ -1,62 +1,19 @@
-import Circle from "./Circle";
 import Arrow from "public/layout/ic_arrow_next.svg";
 import Check from "public/layout/ic_package_check.svg";
-import css from "styled-jsx/css";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
 
-const style = css`
-  .wrap {
-    width: 328px;
-    margin: 0 auto 18px;
-  }
-  .number {
-    display: flex;
-    justify-content: space-between;
-    width: 274px;
-    margin: 0 auto 11px;
-  }
-  .text {
-    display: flex;
-    font-size: 13px;
-    font-weight: 500;
-    color: #3178ff;
-  }
-  .text div {
-    margin-right: 50px;
-  }
-  .text div:last-child {
-    margin-right: 0;
-    color: #b3b3b3;
-  }
-  @media (min-width: 1200px) {
-    .wrap {
-      width: 498px;
-      margin: 0 auto 27px;
-    }
-    .number {
-      width: 419px;
-      margin: 0 auto 16px;
-    }
-    .text {
-      font-size: 19px;
-    }
-    .text div {
-      margin-right: 83px;
-    }
-    .text div:last-child {
-      margin-right: 0;
-      color: #b3b3b3;
-    }
-  }
-`;
-const MainSavingCalcStep = () => {
-  const { sm: isMobile, md: isTablet } = useBreakpoint();
+import { useBreakpoint } from "@/hooks/index";
+import styles from "@/styles/saving-calc/MainSavingCalcStep.module.scss";
+
+import Circle from "../saving-calc/Circle";
+
+function MainSavingCalcStep() {
+  const { md: isTablet } = useBreakpoint();
   return (
-    <div className="wrap">
-      <div className="number">
+    <div className={styles.wrap}>
+      <div className={styles.number}>
         <Check width={isTablet ? "20px" : "31px"} />
         <Arrow width={isTablet ? "86px" : "131px"} />
-        <Circle width={isTablet ? "20px" : "31px"} stroke="#3178FF" fill="#3178FF">
+        <Circle width={isTablet ? "20px" : "31px"} type={true}>
           <path
             d="M14.5211 26.1335L21.1393 19.6366C21.6726 19.1194 22.0928 18.6022 22.3999 18.085C22.7231 17.5517 22.8848 16.9457 22.8848 16.2669C22.8848 15.4588 22.6181 14.8204 22.0847 14.3517C21.5676 13.8669 20.9211 13.6244 20.1454 13.6244C19.3211 13.6244 18.6585 13.9073 18.1575 14.4729C17.6565 15.0224 17.3494 15.7174 17.2363 16.5578L14.3999 16.1214C14.4807 15.4103 14.6827 14.7558 15.006 14.1578C15.3292 13.5598 15.7413 13.0426 16.2423 12.6063C16.7433 12.1699 17.3252 11.8305 17.9878 11.5881C18.6666 11.3295 19.4019 11.2002 20.1938 11.2002C20.9373 11.2002 21.6484 11.3052 22.3272 11.5153C23.0221 11.7254 23.6363 12.0487 24.1696 12.485C24.7029 12.9052 25.1231 13.4305 25.4302 14.0608C25.7534 14.6749 25.9151 15.3941 25.9151 16.2184C25.9151 16.7679 25.8423 17.285 25.6969 17.7699C25.5514 18.2386 25.3494 18.683 25.0908 19.1032C24.8484 19.5234 24.5575 19.9275 24.2181 20.3153C23.8949 20.6871 23.5393 21.0507 23.1514 21.4063L18.206 26.1335H25.9393V28.8002H14.5211V26.1335Z"
             fill="#fff"
@@ -70,14 +27,13 @@ const MainSavingCalcStep = () => {
           />
         </Circle>
       </div>
-      <div className="text">
+      <div className={styles.text}>
         <div>목표 입력하기</div>
         <div>금액 입력하기</div>
         <div>결과 확인하기</div>
       </div>
-      <style jsx>{style}</style>
     </div>
   );
-};
+}
 
 export default MainSavingCalcStep;
