@@ -58,7 +58,7 @@ function GoalById({ data }) {
           </div>
           <div className={style.comments}>
             <Image src="/img/comment.svg" alt="댓글" width={24} height={24} />
-            <span>{comments}</span>
+            {/* <span>{comments}</span> */}
           </div>
           <div className={style.share}>
             <Image src="/img/share.svg" alt="공유" width={16} height={16} />

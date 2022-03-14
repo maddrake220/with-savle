@@ -10,6 +10,7 @@ import Toggle from "./Toggle";
 function Comment({ value, id, setCount }) {
   const [hidden, setHidden] = useState(true);
   const [data] = useGetComment(value, id);
+
   const handleHiddenComment = () => {
     setHidden(!hidden);
   };

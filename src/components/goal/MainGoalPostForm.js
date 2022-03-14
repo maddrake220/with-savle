@@ -2,8 +2,7 @@ import Image from "next/image";
 import React, { useRef } from "react";
 import styles from "styles/goal/main-goal-post-form.module.scss";
 
-import { useForm } from "@/hooks/index";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { useBreakpoint, useForm } from "@/hooks/index";
 import { newGoalAgeList } from "@/utils/goal/data";
 
 import NewGoalCategoryButton from "./NewGoalCategoryButton";
