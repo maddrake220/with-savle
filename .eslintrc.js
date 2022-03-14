@@ -33,5 +33,8 @@ module.exports = {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "unicorn/filename-case": "off",
+    "prettier/prettier": "error",
+    "sonarjs/cognitive-complexity": ["error", 30],
+    "sonarjs/no-duplicate-string": ["error", 5],
   },
 };

@@ -1,29 +1,29 @@
 import comma from "./comma";
 
-const addAmount = (id, amount) => {
-  let value = 0;
+function addAmount(id, amount) {
+  const numberValue = Number(amount.replaceAll(",", ""));
+  const data = { value: 0, amount: numberValue };
   if (amount === "") {
     if (id.includes("plus1/")) {
-      value = 10000;
+      data.value = 10_000;
     } else if (id.includes("plus5")) {
-      value = 50000;
+      data.value = 50_000;
     } else {
-      value = 100000;
+      data.value = 100_000;
     }
-    value = comma(value);
+    data.value = comma(data.value);
   } else {
-    let numberValue = Number(amount.replaceAll(",", ""));
     if (id.includes("plus1/")) {
-      numberValue += 10000;
+      data.amount += 10_000;
     } else if (id.includes("plus5")) {
-      numberValue += 50000;
+      data.amount += 50_000;
     } else {
-      numberValue += 100000;
+      data.amount += 100_000;
     }
-    value = comma(numberValue);
+    data.value = comma(data.amount);
   }
 
-  return value;
-};
+  return data.value;
+}
 
 export default addAmount;

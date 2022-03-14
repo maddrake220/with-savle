@@ -1,0 +1,28 @@
+.categoryButton {
+  cursor: pointer;
+  background-color: $white;
+  color: $secondary-accent;
+  font-weight: bold;
+  font-size: 0.813rem;
+  line-height: 1.25rem;
+  width: 4.5rem;
+  border: 0.094rem solid $secondary-accent;
+  box-sizing: border-box;
+  border-radius: 1.545rem;
+  &:hover {
+    background-color: $secondary-accent;
+    color: $white;
+  }
+  &.clicked {
+    background-color: $secondary-accent;
+    color: $white;
+  }
+}
+
+@media (max-width: 575px) {
+  .categoryButton {
+    height: 1.875rem;
+    font-size: 0.813rem;
+    line-height: 1.25rem;
+  }
+}

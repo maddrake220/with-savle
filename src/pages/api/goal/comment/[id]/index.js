@@ -1,22 +1,22 @@
 import client from "libs/prisma";
 
-async function handler(req, res) {
-  if (req.method === "GET") {
+async function handler(request, response) {
+  if (request.method === "GET") {
     const {
       query: { id },
-    } = req;
+    } = request;
     const results = await client.comment.findMany({
       where: {
-        goalId: parseInt(id),
+        goalId: Number.parseInt(id),
       },
     });
     if (results) {
-      res.json({
+      response.json({
         success: true,
         results,
       });
     } else {
-      res.json({
+      response.json({
         success: false,
       });
     }

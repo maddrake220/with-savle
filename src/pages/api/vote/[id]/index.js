@@ -1,26 +1,30 @@
 import client from "libs/prisma";
 
-async function handler(req, res) {
-  if (req.method === "GET") {
+async function handler(request, respond) {
+  if (request.method === "GET") {
     const {
       query: { id },
-    } = req;
+    } = request;
     const results = await client.vote.findUnique({
       where: {
-        id: parseInt(id),
+        id: Number.parseInt(id),
       },
       include: {
-        voteSelect: true,
+        voteSelect: {
+          orderBy: {
+            id: "asc",
+          },
+        },
         voteComments: true,
       },
     });
     if (results) {
-      res.json({
+      respond.json({
         success: true,
         results,
       });
     } else {
-      res.json({
+      respond.json({
         success: false,
       });
     }

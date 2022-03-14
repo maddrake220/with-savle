@@ -1,6 +1,9 @@
-export { fetchGetVote } from "./fetchGetVote";
-export { fetchGetVoteById } from "./fetchGetVoteById";
-export { fetchGetVoteCommentById } from "./fetchGetVoteCommentById";
+export { fetchGetVote, getVoteUrl } from "./fetchGetVote";
+export { fetchGetVoteById, getVoteByIdUrl } from "./fetchGetVoteById";
+export {
+  fetchGetVoteCommentById,
+  getVoteCommentByIdUrl,
+} from "./fetchGetVoteCommentById";
 export { fetchPostVote } from "./fetchPostVote";
 export { fetchPostVoteComment } from "./fetchPostVoteComment";
 export { fetchPutVote } from "./fetchPutVote";
