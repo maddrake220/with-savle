@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { fetchGetVoteById } from "src/api/vote";
 
-import Comment from "@/components/Comment";
+// import Comment from "@/components/Comment";
 import FavoriteCommentShare from "@/components/vote/FavoriteCommentShare";
 import VoteItems from "@/components/vote/VoteItems";
 import server from "@/config/server";
@@ -82,11 +82,12 @@ function VoteById({ data }) {
 
   return (
     <div
-      style={
-        breakpoint.sm
-          ? { backgroundColor: "#fff" }
-          : { backgroundColor: "#f7f8fa" }
-      }
+      className={style.black}
+      // style={
+      //   breakpoint.sm
+      //     ? { backgroundColor: "#fff" }
+      //     : { backgroundColor: "#f7f8fa" }
+      // }
     >
       <div className={style.container}>
         <form onSubmit={onSubmit}>
@@ -123,7 +124,7 @@ function VoteById({ data }) {
           likeNums={likeNums}
           handleLikeToggle={handleLikeToggle}
         />
-        <Comment Comments={voteComments} value="vote" />
+        {/* <Comment Comments={voteComments} value="vote" /> */}
         <div className={style.back_btn_container}>
           <Link href={`/vote`}>
             <a className={style.link}>
