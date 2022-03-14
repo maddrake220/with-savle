@@ -16,12 +16,8 @@ const eventStyles = {
 
 export const useVoteState = (id) => {
   const [selectId, setSelectId] = useState(-1);
-<<<<<<< HEAD
-  const [selected, setSelected] = useState(false);
-=======
   const [submitted, setSubmitted] = useState(false);
 
->>>>>>> fa233b9 (ADD: custom SWR function)
   const [voteList, setVoteList] = useState([]);
   const [disabled, setDisabled] = useState(false);
   const [changedButtonColor, setChangdeButtonColor] = useState(initialStyles);

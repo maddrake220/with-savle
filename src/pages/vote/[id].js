@@ -13,7 +13,7 @@ import {
   useTimeoutToggle,
   useVoteState,
 } from "@/hooks/index";
-import { LOCALSTORAGE_VOTE_LIKE, sumCount } from "@/utils/index";
+import { LOCALSTORAGE_VOTE_LIKE } from "@/utils/index";
 
 import style from "./Id.module.scss";
 
@@ -50,7 +50,7 @@ function VoteById({ data }) {
   const { voteBtnBg, voteBtntextColor, borderColor, selectItemBackground } =
     buttonStyles;
 
-  const [commentCount, setCommentCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(voteComments.length);
 
   const [like, likeNums, localStorageHandler] = useLike(
     id,
@@ -112,7 +112,6 @@ function VoteById({ data }) {
           likeNums={likeNums}
           handleLikeToggle={handleLikeToggle}
         />
-        <Comment id={id} value="vote" />
         {/* <div className={style.favorite_comment_share}>
           <div className={style.favorite_comment}>
             <Favorite

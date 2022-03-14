@@ -13,5 +13,4 @@ export { useCommentInput } from "./useCommentInput";
 export { useGetComment } from "./useGetComment";
 export { useGoalInput } from "./useGoalInput";
 export { useSavingCalc } from "./useSavingCalc";
-export { useVoteState } from "./useVoteState";
 export { useWidth } from "./useWidth";
