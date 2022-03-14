@@ -16,13 +16,13 @@ const eventStyles = {
 
 export const useVoteState = (id) => {
   const [selectId, setSelectId] = useState(-1);
-  const [selected, setSelected] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
   const [voteList, setVoteList] = useState([]);
   const [disabled, setDisabled] = useState(false);
   const [changedButtonColor, setChangdeButtonColor] = useState(initialStyles);
 
   const handleClick = (id) => {
-    setSelected(true);
     setSelectId(id);
   };
 
@@ -50,7 +50,7 @@ export const useVoteState = (id) => {
       localStorage.setItem("vote-list", JSON.stringify(saved));
 
       setChangdeButtonColor({ ...initialStyles, ...eventStyles });
-
+      setSubmitted(true);
       setDisabled(true);
     },
     [selectId, voteList, id],
@@ -68,14 +68,13 @@ export const useVoteState = (id) => {
       if (getSelectedIndex !== -1) {
         setSelectId(savedVoteList[Number.parseInt(getSelectedIndex)].value);
         setDisabled(true);
-        setSelected(true);
         setChangdeButtonColor({ ...initialStyles, ...eventStyles });
       }
     }
   }, [id]);
   return {
     selectId,
-    selected,
+    submitted,
     disabled,
     buttonStyles: changedButtonColor,
     handleClick,

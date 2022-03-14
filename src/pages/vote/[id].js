@@ -1,14 +1,19 @@
 import axios from "axios";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
-import { fetchGetVoteById } from "src/api/vote";
+import { useCallback, useState } from "react";
+import { fetchGetVoteById, fetchPutVoteLike } from "src/api/vote";
 
-import Comment from "@/components/Comment";
+import Comment from "@/components/comment/Comment";
 import FavoriteCommentShare from "@/components/vote/FavoriteCommentShare";
 import VoteItems from "@/components/vote/VoteItems";
 import server from "@/config/server";
-import { useBreakpoint, useTimeoutToggle, useVoteState } from "@/hooks/index";
-import { sumCount } from "@/utils/index";
+import {
+  useBreakpoint,
+  useLike,
+  useTimeoutToggle,
+  useVoteState,
+} from "@/hooks/index";
+import { LOCALSTORAGE_VOTE_LIKE } from "@/utils/index";
 
 import style from "./Id.module.scss";
 
@@ -35,50 +40,34 @@ export const getStaticPaths = async () => {
 
 function VoteById({ data }) {
   const { title, text, likes, voteSelect, voteComments, id } = data.results;
+
   const breakpoint = useBreakpoint();
   const [timeoutToggle, timeoutModal] = useTimeoutToggle();
 
-  const { selectId, selected, disabled, buttonStyles, handleClick, onSubmit } =
+  const { selectId, submitted, disabled, buttonStyles, handleClick, onSubmit } =
     useVoteState(id);
 
   const { voteBtnBg, voteBtntextColor, borderColor, selectItemBackground } =
     buttonStyles;
 
-  const totalCount = sumCount(voteSelect);
+  const [commentCount, setCommentCount] = useState(voteComments.length);
 
-  // -------------------------------------------------------------------------------------------------
-  const [like, setLike] = useState(false);
-  const [likeNums, setLikeNums] = useState(likes);
-
-  useEffect(() => {
-    const likesId = localStorage.getItem("voteboxlikeList");
-    likesId !== null ? setLike(likesId.includes(id)) : setLike(false);
-  }, [id]);
+  const [like, likeNums, localStorageHandler] = useLike(
+    id,
+    likes,
+    LOCALSTORAGE_VOTE_LIKE,
+  );
 
   const handleLikeToggle = useCallback(
     (event) => {
       event.preventDefault();
-      const putLike = async (id, like) => {
-        await axios.put(`${server}/api/vote/like`, { params: { id, like } });
-      };
-      const likesId = localStorage.getItem("voteboxlikeList");
-
-      let arrlikes = [];
-      let newLikes = [];
-      arrlikes = likesId !== null ? likesId.split(",") : [""];
-      !like
-        ? (newLikes = [...arrlikes, id])
-        : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
-      localStorage.setItem("votebox-like-list", newLikes);
-      putLike(id, !like);
-      !like
-        ? setLikeNums((like) => (like = like + 1))
-        : setLikeNums((like) => (like = like - 1));
-      setLike((previous) => !previous);
+      event.stopPropagation();
+      localStorageHandler();
+      const parameter = { id: id, like: !like };
+      fetchPutVoteLike(parameter);
     },
-    [id, like],
+    [id, like, localStorageHandler],
   );
-  // -------------------------------------------------------------------------------------------------
 
   return (
     <div
@@ -97,7 +86,7 @@ function VoteById({ data }) {
             disabled={disabled}
             voteSelect={voteSelect}
             selectId={selectId}
-            totalCount={totalCount}
+            submitted={submitted}
             borderColor={borderColor}
             selectItemBackground={selectItemBackground}
             voteBtnBg={voteBtnBg}
@@ -107,7 +96,7 @@ function VoteById({ data }) {
             type="submit"
             disabled={disabled}
             style={
-              selected
+              selectId !== -1
                 ? { backgroundColor: voteBtnBg, color: voteBtntextColor }
                 : { backgroundColor: "#d5d8dc", color: "#B2B2B2" }
             }
@@ -116,14 +105,43 @@ function VoteById({ data }) {
           </button>
         </form>
         <FavoriteCommentShare
-          voteComments={voteComments}
+          commentCount={commentCount}
           timeoutToggle={timeoutToggle}
           timeoutModal={timeoutModal}
           like={like}
           likeNums={likeNums}
           handleLikeToggle={handleLikeToggle}
         />
-        <Comment Comments={voteComments} value="vote" />
+        {/* <div className={style.favorite_comment_share}>
+          <div className={style.favorite_comment}>
+            <Favorite
+              fill={like ? "#FF2222" : "#fff"}
+              onClick={handleLikeToggle}
+            />
+            <span className={style.favorite}>{likeNums}</span>
+            <Image
+              src="/img/comment.svg"
+              alt="Comment"
+              width={20}
+              height={20}
+            />
+            <span>{commentCount}</span>
+          </div>
+          <div
+            className={`${style.copy_btn} ${modalActive ? style.active : ""}`}
+            onClick={onClickModalOn}
+          >
+            <Image
+              src="/img/share.svg"
+              alt="Share"
+              width={20}
+              height={20}
+              onClick={copy}
+            />
+          </div>
+        </div>
+          */}
+        <Comment id={id} value="vote" setCount={setCommentCount} />
         <div className={style.back_btn_container}>
           <Link href={`/vote`}>
             <a className={style.link}>

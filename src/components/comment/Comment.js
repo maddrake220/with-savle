@@ -7,13 +7,17 @@ import CommentInput from "./CommentInput";
 import CommentText from "./CommentText";
 import Toggle from "./Toggle";
 
-function Comment({ value, id }) {
+function Comment({ value, id, setCount }) {
   const [hidden, setHidden] = useState(true);
   const [data] = useGetComment(value, id);
 
   const handleHiddenComment = () => {
     setHidden(!hidden);
   };
+
+  if (!hidden) {
+    setCount(data.length);
+  }
 
   return (
     <div className={styles.comment_container}>
