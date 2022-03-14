@@ -135,11 +135,16 @@
         }
         .goalCategoryList {
           position: absolute;
+          z-index: 10;
           top: 50px;
           left: 0;
           display: flex;
+          background: $white;
+          color: #36332e;
+          width: 100%;
           flex-direction: column;
           align-items: flex-start;
+          border-radius: 0 0 8px 8px;
           .searchingCategory {
             color: $primary;
             span {
@@ -152,23 +157,14 @@
           li {
             display: flex;
             padding: 0px;
-            background: $white;
-            width: calc(100vw - 170px);
+            width: 100%;
             height: 2.25rem;
             font-size: 13px;
             line-height: 20px;
-            color: #36332e;
             align-items: center;
             cursor: pointer;
-            &:first-child {
-              box-shadow: inset 1px -0.5px 1px rgba(0, 0, 0, 0.1);
-            }
-            &:last-child {
-              border-radius: 0 0 8px 8px;
-            }
-            &:not(:last-child) {
-              box-shadow: inset 1px -0.5px 1px rgba(0, 0, 0, 0.1);
-            }
+            box-shadow: inset 1px -0.5px 1px rgba(0, 0, 0, 0.1);
+
             span {
               &:before {
                 content: " # ";
@@ -207,11 +203,6 @@
   }
 }
 
-@media (min-width: 499px) {
-  .newGoal {
-    max-height: 17.243rem;
-  }
-}
 @media (min-width: 576px) {
   .newGoal {
     left: calc(50% - 15.94rem);
@@ -240,24 +231,23 @@
         }
       }
       .goalCategoryWrapper {
-        margin-top: 1rem;
+        margin-top: 0.55rem;
         .goalWrapper {
+          width: 76%;
           .inputBox {
-            width: 19.375rem;
             height: 3.375rem;
             .goalCategorySearchInput {
-              max-width: 19.375rem;
               height: 3.375rem;
+              font-size: 18px;
             }
           }
           .goalCategoryList {
             top: 80px;
+            width: 76%;
+            border-radius: 0 0 8px 8px;
             li {
               display: flex;
               padding: 0px;
-              background: $white;
-              width: 10.5rem;
-              height: 2.25rem;
               font-size: 13px;
               line-height: 20px;
               color: #36332e;
@@ -282,8 +272,7 @@
           }
         }
         .submitButton {
-          transform: translateY(-4.212rem);
-          margin-left: 15px;
+          transform: translateY(-3.8rem);
           width: 5.125rem;
           height: 3.375rem;
           border-radius: 4px;
@@ -297,8 +286,8 @@
     top: auto;
     left: auto;
     right: 5.625rem;
-    bottom: 5rem;
-    max-height: 32.563rem;
+    bottom: 8rem;
+    height: 33.563rem;
   }
 }
 

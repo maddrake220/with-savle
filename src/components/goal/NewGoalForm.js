@@ -51,11 +51,11 @@ export default function NewGoalForm({ toggleModal }) {
       <div className={styles.modalTop}>
         <div
           className={styles.newGoalChar}
-          style={{ display: matchQuery.sm && "none" }}
+          style={{ display: matchQuery.sm ? "none" : "block" }}
         >
           <Image
-            width="101px"
-            height="51px"
+            width={101}
+            height={51}
             src="/img/newgoalchar.svg"
             alt="newgoal"
           />
@@ -153,6 +153,7 @@ export default function NewGoalForm({ toggleModal }) {
               {searchCategory === ""
                 ? categoryByAge
                     .sort((a, b) => b.count - a.count)
+                    .slice(0, 3)
                     .map((goalCategory, index) => (
                       <li
                         onMouseDown={(event) =>
@@ -165,6 +166,7 @@ export default function NewGoalForm({ toggleModal }) {
                     ))
                 : searchingCategoryByAge
                     .sort((a, b) => b.count - a.count)
+                    .slice(0, 3)
                     // eslint-disable-next-line sonarjs/no-identical-functions
                     .map((goalCategory, index) => (
                       <li
