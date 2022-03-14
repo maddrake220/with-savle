@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SWRConfig } from "swr";
 
-import GoalList from "@/components/Goal/GoalList";
+import GoalList from "@/components/goal/GoalList";
 import server from "@/config/server";
 import { revalidate } from "@/utils/goal/constants";
 
