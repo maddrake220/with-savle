@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useRef } from "react";
 import styles from "styles/goal/NewGoalForm.module.scss";
 
@@ -67,8 +68,15 @@ export default function NewGoalForm({ toggleModal, matchQuery }) {
         inputReference={inputReference}
         selectedReference={selectedReference}
         validationCheck={validationCheck?.category}
-        matchQuery={matchQuery}
       />
+      <button type="submit" className={styles.submitButton}>
+        <Image
+          src="/img/newGoalSubmit.svg"
+          alt="submit"
+          width={matchQuery?.sm ? 17 : 28}
+          height={matchQuery?.sm ? 17 : 28}
+        />
+      </button>
     </form>
   );
 }

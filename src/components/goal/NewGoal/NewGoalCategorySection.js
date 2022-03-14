@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React from "react";
 import styles from "styles/goal/NewGoalForm.module.scss";
 
@@ -21,7 +20,6 @@ export default function NewGoalCategorySection({
   inputReference,
   selectedReference,
   validationCheck,
-  matchQuery,
 }) {
   return (
     <div className={styles.goalCategoryWrapper}>
@@ -53,14 +51,6 @@ export default function NewGoalCategorySection({
           onMouseDownGoalCategory={onMouseDownGoalCategory}
         />
       </div>
-      <button type="submit" className={styles.submitButton}>
-        <Image
-          src="/img/newGoalSubmit.svg"
-          alt="submit"
-          width={matchQuery?.sm ? 17 : 28}
-          height={matchQuery?.sm ? 17 : 28}
-        />
-      </button>
       {validationCheck && (
         <div className={styles.validationFail}>
           목표 카테고리를 선택해주세요!
