@@ -1,0 +1,109 @@
+.container {
+  height: 481px;
+  padding-top: 49px;
+  box-sizing: border-box;
+  @media (min-width:576px){
+    height: 960px;
+    padding-top: 109px;
+  }
+  @media (min-width:1200px){
+    height: 875px;
+    padding-top: 93px;
+    display: flex;
+  }
+  a {
+    width: 174px;
+    height: 46px;
+    background: #3178ff;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #ffffff;
+    border: none;
+    display: block;
+    margin: 0 auto;
+    text-decoration: none;
+    text-align: center;
+    padding-top: 13px;
+    box-sizing: border-box;
+    @media (min-width:576px){
+      width: 137px;
+      height: 36px;
+      background: #fff;
+      border-radius: 6px;
+      border: 1px solid #3178ff;
+      font-weight: 400;
+      color: #3178ff;
+      margin: 0 0 70px;
+      padding-top: 8px;
+    }
+    @media (min-width:1200px){
+      width: 218px;
+      height: 59px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 22px;
+      margin: 0;
+      padding-top: 14px;
+    }
+  }
+}
+.title {
+  width: 279px;
+  position: relative;
+  margin: 0 auto 32px;
+  @media (min-width:576px){
+    width: 327px;
+    margin: 0;
+    position: static;
+  }
+  @media (min-width:1200px){
+    width: 457px;
+    margin: 210px 0 0;
+  }
+  h1 {
+    position: absolute;
+    top: 24px;
+    left: 17px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.4;
+    margin: 0 0 6px;
+    @media (min-width:576px){
+      position: static;
+      font-size: 28px;
+      margin: 0 0 8px;
+    }
+    @media (min-width:1200px){
+      font-size: 40px;
+      margin: 0 0 16px;
+    }
+  }
+  p {
+    position: absolute;
+    top: 86px;
+    left: 17px;
+    margin: 0;
+    width: 200px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #888888;
+    @media (min-width:576px){
+      position: static;
+      width: 260px;
+      font-size: 16px;
+      margin: 0 0 55px;
+    }
+    @media (min-width:1200px){
+      width: 324px;
+      font-size: 22px;
+      margin: 0 0 51px;
+    }
+  }
+}
+.box_tablet {
+  float: right;
+}
+.box_web {
+  margin-right: 93px;
+}

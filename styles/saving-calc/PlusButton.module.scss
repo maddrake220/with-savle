@@ -1,0 +1,39 @@
+.wrap {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+  color: #a0a1a9;
+  @media (min-width: 576px) {
+    margin-top: 10px;
+  }
+  @media (min-width: 1200px) {
+    margin-top: 16px;
+  }
+  button {
+    width: 47px;
+    height: 20px;
+    display: block;
+    color: #a0a1a9;
+    background: #eceff2;
+    border: none;
+    border-radius: 120px;
+    margin: 0 0 0 10px;
+    font-size: 10px;
+    @media (min-width: 576px) {
+      width: 53px;
+      height: 22px;
+      border-radius: 139px;
+      font-size: 11px;
+    }
+    @media (min-width: 1200px) {
+      width: 102px;
+      height: 43px;
+      border-radius: 268px;
+      font-size: 18px;
+    }
+  }
+}
+
+
+
+

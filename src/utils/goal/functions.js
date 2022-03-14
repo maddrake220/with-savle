@@ -27,5 +27,29 @@ export function checkRangeAge(category) {
 }
 
 export const getAgeGeneration = (age) => {
-  return age >= 10 && age < 20 ? "10대" : age >= 20 && age < 30 ? "20대" : age >= 30 && age < 40 ? "30대" : age >= 40 ? "40대 이상" : "어린이";
+  switch (age) {
+    case age >= 10 && age < 20:
+      return "10대";
+    case age >= 20 && age < 30:
+      return "20대";
+    case age >= 30 && age < 40:
+      return "30대";
+    case age >= 40:
+      return "40대 이상";
+    default:
+      return "어린이";
+  }
+};
+
+export const getSize = (queryMatch, isWidth) => {
+  if (queryMatch.sm) {
+    if (isWidth) return 71;
+    return 70;
+  } else if (queryMatch.md) {
+    if (isWidth) return 141;
+    return 138;
+  } else {
+    if (isWidth) return 185;
+    return 181;
+  }
 };
