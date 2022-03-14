@@ -1,0 +1,37 @@
+.wrap {
+  width: 328px;
+  margin: 0 auto 18px;
+  @media (min-width: 1200px) {
+    width: 498px;
+    margin: 0 auto 27px;
+  }
+}
+.number {
+  display: flex;
+  justify-content: space-between;
+  width: 274px;
+  margin: 0 auto 11px;
+  @media (min-width: 1200px) {
+    width: 419px;
+    margin: 0 auto 16px;
+  }
+}
+.text {
+  display: flex;
+  font-size: 13px;
+  font-weight: 500;
+  color: #3178ff;
+  @media (min-width: 1200px) {
+    font-size: 19px;
+  }
+  div {
+    margin-right: 50px;
+    @media (min-width: 1200px) {
+      margin-right: 83px;
+    }
+    &:last-child {
+      margin-right: 0;
+      color: #b3b3b3;
+    }
+  }
+}

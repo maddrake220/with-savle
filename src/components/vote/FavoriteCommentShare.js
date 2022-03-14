@@ -9,7 +9,7 @@ export default function FavoriteCommentShare({
   like,
   likeNums,
   handleLikeToggle,
-  voteComments,
+  commentCount,
   timeoutToggle,
   timeoutModal,
 }) {
@@ -19,7 +19,7 @@ export default function FavoriteCommentShare({
         <Favorite fill={like ? "#FF2222" : "#fff"} onClick={handleLikeToggle} />
         <span className={style.favorite}>{likeNums}</span>
         <Image src="/img/comment.svg" alt="Comment" width={20} height={20} />
-        <span>{voteComments.length}</span>
+        <span>{commentCount}</span>
       </div>
       <div
         className={`${style.copy_btn} ${timeoutToggle ? style.active : ""}`}

@@ -87,6 +87,7 @@ export default function MainVoteSection() {
           <button>투표하러 가기</button>
         </a>
       </Link>
+
       {breakpoints.sm ? (
         <div className={style.vote_woman}>
           <Image

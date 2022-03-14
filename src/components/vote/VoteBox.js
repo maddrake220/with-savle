@@ -1,46 +1,31 @@
-import axios from "axios";
 import Image from "next/image";
 import Favorite from "public/img/Favorite.svg";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
+import { fetchPutVoteLike } from "src/api/vote";
 
-import server from "@/config/server";
+import { useLike } from "@/hooks/useLike";
+import { LOCALSTORAGE_VOTE_LIKE } from "@/utils/constants";
 
 import style from "./VoteBox.module.scss";
-
-const putLike = async (id, like) => {
-  await axios.put(`${server}/api/vote/like`, { params: { id, like } });
-};
 
 export default function VoteBox({ voteBoxData }) {
   const { id, title, likes, voteSelect, voteComments } = voteBoxData;
 
-  const [like, setLike] = useState(false);
-  const [likeNums, setLikeNums] = useState(likes);
-
-  useEffect(() => {
-    const likesId = localStorage.getItem("voteboxLikeList");
-    likesId !== null ? setLike(likesId.includes(id)) : setLike(false);
-  }, [id]);
+  const [like, likeNums, localStorageHandler] = useLike(
+    id,
+    likes,
+    LOCALSTORAGE_VOTE_LIKE,
+  );
 
   const handleLikeToggle = useCallback(
     (event) => {
       event.preventDefault();
-      const likesId = localStorage.getItem("voteboxLikeList");
-      let arrlikes = [];
-      let newLikes = [];
-
-      arrlikes = likesId !== null ? likesId.split(",") : [""];
-      !like
-        ? (newLikes = [...arrlikes, id])
-        : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
-      localStorage.setItem("voteboxLikeList", newLikes);
-      putLike(id, !like);
-      !like
-        ? setLikeNums((like) => (like = like + 1))
-        : setLikeNums((like) => (like = like - 1));
-      setLike((previous) => !previous);
+      event.stopPropagation();
+      localStorageHandler();
+      const parameter = { id: id, like: !like };
+      fetchPutVoteLike(parameter);
     },
-    [id, like],
+    [id, like, localStorageHandler],
   );
 
   return (

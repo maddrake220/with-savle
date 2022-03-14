@@ -1,10 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
+import { fetchGetGoalCategory, fetchPostGoal } from "src/api/goal";
+import { mutate } from "swr";
 
-import { getGoalCategoryByAge, postNewGoal } from "@/utils/goal/api";
 import { MAX_GOAL_CATEGORY } from "@/utils/goal/constants";
+import { goal_address } from "@/utils/swr";
 
-export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {
-  const [selectedAge, setSelectedAge] = useState(null);
+export const useForm = (
+  toggleModal,
+  textareaReference,
+  selectedReference,
+  inputReference,
+) => {
+  const [selectedAge, setSelectedAge] = useState();
   const [isFocusedCategoryInput, setIsFocusedCategoryInput] = useState(false);
   const [seletedGoalCategories, setSelectedGoalCategories] = useState([]);
   const [categoryByAge, setCategoryByAge] = useState([]);
@@ -17,9 +24,9 @@ export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {
     category: false,
   });
   const onSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      if (selectedAge === null) {
+    (event) => {
+      event.preventDefault();
+      if (selectedAge === undefined) {
         setValidationCheck({ age: true });
         return;
       }
@@ -32,32 +39,33 @@ export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {
         return;
       }
       const categories = seletedGoalCategories.map((v) => v.keyword);
-      const age = selectedAge.value;
+      const age = selectedAge?.value;
       const data = {
         categories,
         age,
         text,
         likes: 0,
       };
-      postNewGoal(data)
+      fetchPostGoal(data)
         .then((resolve) => {
           if (resolve.status === 200) {
             toggleModal();
             setSearchCategory("");
             setText("");
             setSelectedGoalCategories([]);
-            setSelectedAge(null);
+            setSelectedAge();
+            mutate(goal_address);
           }
         })
         .catch((error) => alert(error, "fail to post"));
     },
     [seletedGoalCategories, setText, selectedAge, toggleModal, text],
   );
-  const onChangeText = useCallback((e) => {
-    if (e.target.value !== "") {
+  const onChangeText = useCallback((event) => {
+    if (event.target.value !== "") {
       setValidationCheck({ text: false });
     }
-    setText(e.target.value);
+    setText(event.target.value);
   }, []);
   const onClickselectedAge = useCallback((value) => {
     setValidationCheck({ age: false });
@@ -66,40 +74,40 @@ export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {
     setSearchCategory("");
   }, []);
   const onClickInputBox = useCallback(() => {
-    inputRef.current.focus();
-  }, [inputRef]);
-  const onFocus = useCallback((e) => {
+    inputReference.current.focus();
+  }, [inputReference]);
+  const onFocus = useCallback(() => {
     setIsFocusedCategoryInput(true);
   }, []);
-  const onBlur = useCallback((e) => {
+  const onBlur = useCallback(() => {
     setIsFocusedCategoryInput(false);
   }, []);
   const onMouseDownGoalCategory = useCallback(
-    (e, value) => {
-      e.preventDefault();
+    (event, value) => {
+      event.preventDefault();
       setTimeout(() => {
-        inputRef.current.blur();
+        inputReference.current.blur();
         if (seletedGoalCategories.length === MAX_GOAL_CATEGORY) {
-          inputRef.current.disabled = true;
+          inputReference.current.disabled = true;
         }
       }, 100);
       setSelectedGoalCategories((values) => [...values, value]);
       setValidationCheck({ category: false });
     },
-    [seletedGoalCategories, inputRef],
+    [seletedGoalCategories, inputReference],
   );
   const onMouseDownUndoGoalCategory = useCallback(
-    (e, value) => {
-      e.preventDefault();
-      inputRef.current.disabled = false;
+    (event, value) => {
+      event.preventDefault();
+      inputReference.current.disabled = false;
       setSelectedGoalCategories((values) => {
         return values.filter((v) => v.id !== value.id);
       });
     },
-    [inputRef],
+    [inputReference],
   );
-  const onChangeSearchCategory = useCallback((e) => {
-    setSearchCategory(e.target.value);
+  const onChangeSearchCategory = useCallback((event) => {
+    setSearchCategory(event.target.value);
   }, []);
   useEffect(() => {
     if (searchCategory !== "") {
@@ -109,18 +117,19 @@ export const useForm = (toggleModal, textareaRef, selectedRef, inputRef) => {
     }
   }, [searchCategory, categoryByAge]);
   useEffect(() => {
-    textareaRef.current.focus();
-  }, [toggleModal, textareaRef]);
+    textareaReference.current.focus();
+  }, [toggleModal, textareaReference]);
   useEffect(() => {
-    const width = selectedRef.current.offsetWidth;
-    inputRef.current.style.left = `${width}px`;
-    inputRef.current.style.maxWidth = 160 - width + "px";
-  }, [seletedGoalCategories, inputRef, selectedRef]);
+    const width = selectedReference.current.offsetWidth;
+    inputReference.current.style.left = `${width}px`;
+    inputReference.current.style.maxWidth = 160 - width + "px";
+  }, [seletedGoalCategories, inputReference, selectedReference]);
   useEffect(() => {
-    if (selectedAge !== null) {
-      getGoalCategoryByAge(selectedAge.value)
+    if (selectedAge !== undefined) {
+      const age = { age: selectedAge?.value };
+      fetchGetGoalCategory(age)
         .then((resolve) => setCategoryByAge(resolve.data.results))
-        .catch((error) => console.log(error, "fail to get category"));
+        .catch((error) => new Error(error));
     }
   }, [selectedAge]);
   return [

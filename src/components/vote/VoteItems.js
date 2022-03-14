@@ -1,4 +1,4 @@
-import { percentage } from "@/utils/index";
+import { percentage, sumCount } from "@/utils/index";
 
 import style from "../../pages/vote/Id.module.scss";
 
@@ -8,10 +8,14 @@ export default function VoteForm({
   borderColor,
   selectItemBackground,
   handleClick,
-  totalCount,
+  submitted,
   selectId,
   voteBtnBg,
 }) {
+  const submitCorrection = submitted ? 1 : 0;
+  const totalCount = sumCount(voteSelect) + submitCorrection;
+  const isSelected = (id) => selectId === id;
+
   return (
     <ul
       style={{ padding: "0" }}
@@ -20,7 +24,7 @@ export default function VoteForm({
       {voteSelect.map((selectItem) => (
         <li
           style={
-            selectId === selectItem.id
+            isSelected(selectItem.id)
               ? {
                   border: borderColor,
                   backgroundColor: selectItemBackground,
@@ -35,23 +39,34 @@ export default function VoteForm({
         >
           <div
             style={{
-              width: disabled && `${percentage(selectItem.count, totalCount)}%`,
+              width:
+                disabled &&
+                `${percentage(
+                  selectItem.count +
+                    (isSelected(selectItem.id) && submitCorrection),
+                  totalCount,
+                )}%`,
             }}
             className={`${disabled ? style.currentGauge : ""} ${
-              selectId === selectItem.id
+              isSelected(selectItem.id)
                 ? style.clicked_Background
                 : style.notClicked_Background
             }`}
           ></div>
           <div
             style={
-              selectId === selectItem.id
+              isSelected(selectItem.id)
                 ? { color: voteBtnBg }
                 : { color: "#888" }
             }
             className={`${disabled ? style.votePercent : ""} `}
           >
-            {disabled && `${percentage(selectItem.count, totalCount)}%`}
+            {disabled &&
+              `${percentage(
+                selectItem.count +
+                  (isSelected(selectItem.id) && submitCorrection),
+                totalCount,
+              )}%`}
           </div>
           <input
             type="radio"

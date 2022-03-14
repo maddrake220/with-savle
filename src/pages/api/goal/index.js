@@ -1,8 +1,8 @@
-import client from 'libs/prisma';
+import client from "libs/prisma";
 
-async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { params } = req.body;
+async function handler(request, response) {
+  if (request.method === "POST") {
+    const { params } = request.body;
     const results = await client.goal.create({
       data: params,
     });
@@ -10,7 +10,7 @@ async function handler(req, res) {
       await client.category.upsert({
         where: {
           age_keyword: {
-            age: parseInt(params.age),
+            age: Number.parseInt(params.age),
             keyword,
           },
         },
@@ -20,36 +20,36 @@ async function handler(req, res) {
           },
         },
         create: {
-          age: parseInt(params.age),
+          age: Number.parseInt(params.age),
           keyword,
         },
       });
     });
     if (results) {
-      res.json({
+      response.json({
         success: true,
         results,
       });
     } else {
-      res.json({
+      response.json({
         success: false,
       });
     }
   }
 
-  if (req.method === 'GET') {
+  if (request.method === "GET") {
     const results = await client.goal.findMany({
       include: {
         comments: true,
       },
     });
     if (results) {
-      res.json({
+      response.json({
         success: true,
         results,
       });
     } else {
-      res.json({
+      response.json({
         success: false,
       });
     }
