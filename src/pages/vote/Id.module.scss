@@ -1,3 +1,4 @@
+@import "styles/common/FavoriteCommentShare.module.scss";
 .container {
   box-sizing: border-box;
   padding: 20px 20px 0;
@@ -105,28 +106,7 @@
     font-size: 12px;
     font-weight: 700;
   }
-  .favorite_comment_share {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid $grey-3;
-    position: relative;
-    .favorite_comment {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      span {
-        margin-left: 4px;
-        font-size: 13px;
-        font-weight: 700;
-      }
-      .favorite {
-        margin-right: 8px;
-      }
-    }
-  }
+  
   .back_btn_container {
     display: flex;
     justify-content: center;
