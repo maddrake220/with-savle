@@ -1,9 +1,8 @@
 import Image from "next/image";
 import Favorite from "public/img/Favorite.svg";
+import style from "styles/common/FavoriteCommentShare.module.scss";
 
 import { copy } from "@/utils/index";
-
-import style from "../../pages/vote/Id.module.scss";
 
 export default function FavoriteCommentShare({
   like,

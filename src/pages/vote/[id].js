@@ -1,7 +1,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import { fetchGetVoteById, fetchPutVoteLike } from "src/api/vote";
+import { fetchPutVoteLike } from "src/api/vote";
 
 import Comment from "@/components/comment/Comment";
 import FavoriteCommentShare from "@/components/vote/FavoriteCommentShare";

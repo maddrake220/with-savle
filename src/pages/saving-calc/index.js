@@ -1,6 +1,6 @@
 import Character from "public/layout/character.svg";
 
-import ShortCutBar from "@/components/Common/ShortcutBar";
+import ShortCutBar from "@/components/common/ShortcutBar";
 import CalcInputBox from "@/components/Saving-calc/CalcInputBox";
 import SavingCalcStep from "@/components/Saving-calc/SavingCalcStep";
 import { useSavingCalc, useWidth } from "@/hooks/index";
