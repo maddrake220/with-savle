@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import styles from "styles/goal/goal-list.module.scss";
+import styles from "styles/goal/GoalList.module.scss";
 import useSWR from "swr";
 
 import CategoryButton from "@/components/Goal/CategoryButton";
