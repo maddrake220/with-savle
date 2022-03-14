@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Slider from "react-slick";
 
-import MainVoteBox from "@/components/vote/MockVoteBox";
+import MockVoteBox from "@/components/vote/MockVoteBox";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import style from "@/styles/MainVote.module.scss";
 import { mockDatas } from "@/utils/voteMockData";
@@ -77,7 +77,7 @@ export default function MainVoteSection() {
       <ul className={style.votebox_container}>
         <Slider {...settings}>
           {mockDatas.results.map((mockData) => (
-            <MainVoteBox mockData={mockData} key={mockData.title} />
+            <MockVoteBox mockData={mockData} key={mockData.title} />
           ))}
         </Slider>
       </ul>

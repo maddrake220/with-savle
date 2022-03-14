@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import style from "@/styles/MockVoteBox.module.scss";
 
-export default function MainVoteBox({ mockData }) {
+export default function MockVoteBox({ mockData }) {
   return (
     <li className={style.vote_box}>
       <h1 className={style.subject_box}>
