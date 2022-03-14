@@ -1,8 +1,8 @@
 import { useState } from "react";
-import styles from "styles/saving-calc/ResultFoldBox.module.scss";
 
 import Arrow from "/public/layout/ic_arrow_expand.svg";
 import { useWidth } from "@/hooks/index";
+import styles from "@/styles/saving-calc/ResultFoldBox.module.scss";
 
 function ResultFoldBox({ period, date, rule, setState }) {
   const [hidden, setHidden] = useState(true);
@@ -14,7 +14,7 @@ function ResultFoldBox({ period, date, rule, setState }) {
 
   return (
     <div className={styles.box}>
-      <div className={`${styles.title} ${!hidden && styles.border}`}>
+      <div className={`${styles.title} ${!hidden ? styles.border : ""}`}>
         <h3>
           <div>
             <strong>{period}</strong> 적금하면
@@ -29,7 +29,7 @@ function ResultFoldBox({ period, date, rule, setState }) {
           style={{ transform: !hidden && "rotate(180deg)" }}
         />
       </div>
-      <div className={`${styles.text} ${hidden && styles.hidden}`}>
+      <div className={`${styles.text} ${hidden ? styles.hidden : ""}`}>
         <div>
           <p>세이블에서 슬금슬금 규칙, {rule}으로 저축할 수 있습니다.</p>
         </div>
