@@ -155,9 +155,11 @@ export const useForm = (
     textareaReference.current.focus();
   }, [toggleModal, textareaReference]);
   useEffect(() => {
-    const width = selectedReference.current.offsetWidth;
-    inputReference.current.style.left = `${width + 7}px`;
-    inputReference.current.style.maxWidth = 160 - width + 7 + "px";
+    if (selectedReference.current !== null) {
+      const width = selectedReference.current.offsetWidth;
+      inputReference.current.style.left = `${width + 7}px`;
+      inputReference.current.style.maxWidth = 160 - width + 7 + "px";
+    }
   }, [seletedGoalCategories, inputReference, selectedReference]);
   useEffect(() => {
     const age = { age: selectedAge?.value };

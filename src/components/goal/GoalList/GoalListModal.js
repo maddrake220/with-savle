@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import styles from "styles/goal/GoalList.module.scss";
 
-import NewGoalForm from "@/components/goal/NewGoalForm";
+import NewGoal from "@/components/goal/NewGoal";
 import { useModal } from "@/hooks/index";
 
 export default function GoalListModal({ queryMatch }) {
@@ -24,7 +24,7 @@ export default function GoalListModal({ queryMatch }) {
         className={isToggleModal ? styles.newGoalModalBack : styles.displayNone}
         onClick={toggleModal}
       >
-        <NewGoalForm toggleModal={toggleModal} />
+        <NewGoal toggleModal={toggleModal} />
       </div>
     </div>
   );
