@@ -27,18 +27,11 @@ export function checkRangeAge(category) {
 }
 
 export const getAgeGeneration = (age) => {
-  switch (age) {
-    case age >= 10 && age < 20:
-      return "10대";
-    case age >= 20 && age < 30:
-      return "20대";
-    case age >= 30 && age < 40:
-      return "30대";
-    case age >= 40:
-      return "40대 이상";
-    default:
-      return "어린이";
-  }
+  if (age >= 10 && age < 20) return "10대";
+  if (age >= 20 && age < 30) return "20대";
+  if (age >= 30 && age < 40) return "30대";
+  if (age >= 40) return "40대 이상";
+  return "어린이";
 };
 
 export const getSize = (queryMatch, isWidth) => {
