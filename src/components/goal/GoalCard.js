@@ -1,6 +1,7 @@
 import "react-loading-skeleton/dist/skeleton.css";
 
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 import Skeleton from "react-loading-skeleton";
 import { fetchPutGoalLike } from "src/api/goal";
@@ -21,15 +22,22 @@ export default function GoalCard({
   text,
 }) {
   const skeletonView = Array.from({ length: 3 }).fill(0);
+  const router = useRouter();
   const [like, likeNums, localStorageHandler] = useLike(
     id,
     likes,
     localstorageGoalLike,
   );
 
-  const onClickCard = useCallback(() => {
-    alert("상세페이지로 이동 구현X");
-  }, []);
+  const onClickCard = useCallback(
+    (id) => {
+      router.push({
+        pathname: "/goal/[id]",
+        query: { id: id },
+      });
+    },
+    [router],
+  );
 
   const onClickLike = useCallback(
     (event) => {
@@ -42,7 +50,13 @@ export default function GoalCard({
   );
 
   return (
-    <li className={styles.goalCard} key={id} onClick={onClickCard}>
+    <li
+      className={styles.goalCard}
+      key={id}
+      onClick={() => {
+        onClickCard(id);
+      }}
+    >
       <div className={styles.goalCardWrapper}>
         <div className={styles.cardUserInfo}>
           <span>
