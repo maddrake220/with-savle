@@ -1,4 +1,4 @@
-import styles from "styles/goal/new-goal-post-item.module.scss";
+import styles from "styles/MainGoalPostItem.module.scss";
 
 import MainGoalPostForm from "@/components/goal/MainGoalPostForm";
 import { useModal } from "@/hooks/index";

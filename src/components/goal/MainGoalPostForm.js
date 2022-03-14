@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useRef } from "react";
-import styles from "styles/goal/main-goal-post-form.module.scss";
+import styles from "styles/MainGoalPostForm.module.scss";
 
 import { useForm } from "@/hooks/index";
 import { useBreakpoint } from "@/hooks/useBreakpoint";

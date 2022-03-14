@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 import Skeleton from "react-loading-skeleton";
 import { fetchPutGoalLike } from "src/api/goal";
-import styles from "styles/goal/goal-card.module.scss";
+import styles from "styles/goal/GoalCard.module.scss";
 
 import { useLike } from "@/hooks/index";
 import { localstorageGoalLike } from "@/utils/goal/constants";

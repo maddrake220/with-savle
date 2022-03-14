@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import styles from "styles/goal/new-goal-complete.module.scss";
+import styles from "styles/goal/NewGoalComplete.module.scss";
 
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
