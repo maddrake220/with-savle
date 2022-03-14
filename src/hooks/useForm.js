@@ -126,18 +126,14 @@ export const useForm = (
     setSearchCategory(event.target.value);
   }, []);
   const onKeyDownCategoryInput = useCallback((event) => {
-    console.log(event.key);
     switch (event.key) {
       case "Enter": {
-        console.log("Enter");
         break;
       }
       case "ArrowUp": {
-        console.log("Up");
         break;
       }
       case "ArrowDown": {
-        console.log("Down");
         break;
       }
       default: {

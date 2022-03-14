@@ -138,7 +138,7 @@ export default function NewGoalForm({ toggleModal }) {
               }
             >
               {searchCategory !== "" &&
-                !categoryByAge.some(
+                !categoryByAge?.some(
                   (value) => value.keyword === searchCategory,
                 ) && (
                   <li
