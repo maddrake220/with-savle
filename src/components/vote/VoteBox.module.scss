@@ -76,6 +76,14 @@
   }
 }
 
+@media (min-width: 576px) {
+  .vote_box {
+    .subject_box {
+      font-size: 18px;
+    }
+  }
+}
+
 @media (min-width: 1200px) {
   .vote_box {
     margin-bottom: 32px;
@@ -89,7 +97,7 @@
       line-height: 32px;
       height: 65px;
     }
-    .vote_select-items {
+    .vote_select_items {
       height: 54px;
       padding-left: 14px;
       .radio_btn[type="radio"] {

@@ -1,19 +1,19 @@
 import axios from "axios";
-import Image from "next/image";
 import Link from "next/link";
-import Favorite from "public/img/Favorite.svg";
 import { useCallback, useEffect, useState } from "react";
+import { fetchGetVoteById } from "src/api/vote";
 
 import Comment from "@/components/Comment";
+import FavoriteCommentShare from "@/components/vote/FavoriteCommentShare";
+import VoteItems from "@/components/vote/VoteItems";
 import server from "@/config/server";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
-import { useVoteState } from "@/hooks/useVoteState";
-import { copy, percentage, sumCount } from "@/utils/index";
+import { useBreakpoint, useTimeoutToggle, useVoteState } from "@/hooks/index";
+import { sumCount } from "@/utils/index";
 
 import style from "./Id.module.scss";
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
-export async function getStaticProps(context) {
+export const getStaticProps = async (context) => {
   const { id } = context.params;
   const { data } = await axios.get(`${server}/api/vote/${id}`);
   return {
@@ -21,7 +21,7 @@ export async function getStaticProps(context) {
       data,
     },
   };
-}
+};
 
 export const getStaticPaths = async () => {
   const { data } = await axios.get(`${server}/api/vote`);
@@ -34,21 +34,15 @@ export const getStaticPaths = async () => {
 };
 
 function VoteById({ data }) {
-  const breakpoint = useBreakpoint();
   const { title, text, likes, voteSelect, voteComments, id } = data.results;
-
-  // -------------------------------------------------------------------------------------------------
+  const breakpoint = useBreakpoint();
+  const [timeoutToggle, timeoutModal] = useTimeoutToggle();
 
   const { selectId, selected, disabled, buttonStyles, handleClick, onSubmit } =
     useVoteState(id);
 
   const { voteBtnBg, voteBtntextColor, borderColor, selectItemBackground } =
     buttonStyles;
-  // -------------------------------------------------------------------------------------------------
-
-  const [modalActive, setModalActive] = useState(false);
-
-  // -------------------------------------------------------------------------------------------------
 
   const totalCount = sumCount(voteSelect);
 
@@ -86,16 +80,8 @@ function VoteById({ data }) {
   );
   // -------------------------------------------------------------------------------------------------
 
-  function onClickModalOn() {
-    setModalActive((previous) => !previous);
-    setTimeout(() => {
-      setModalActive((previous) => !previous);
-    }, 1000);
-  }
-
   return (
     <div
-      className={style.body_container}
       style={
         breakpoint.sm
           ? { backgroundColor: "#fff" }
@@ -106,56 +92,16 @@ function VoteById({ data }) {
         <form onSubmit={onSubmit}>
           <h1 className={style.title}>{title}</h1>
           <p className={style.text}>{text}</p>
-          <div className={`${disabled ? style.click_block : ""}`}>
-            {voteSelect.map((selectItem) => (
-              <li
-                style={
-                  selectId === selectItem.id
-                    ? {
-                        border: borderColor,
-                        backgroundColor: selectItemBackground,
-                      }
-                    : { border: "0px", backgroundColor: "#f6f6f6" }
-                }
-                key={selectItem.item}
-                className={`${style.vote_box} ${
-                  disabled ? style.showGauge : "false"
-                }`}
-                onClick={() => handleClick(selectItem.id)}
-              >
-                <div
-                  style={{
-                    width:
-                      disabled &&
-                      `${percentage(selectItem.count, totalCount)}%`,
-                  }}
-                  className={`${disabled ? style.currentGauge : ""} ${
-                    selectId === selectItem.id
-                      ? style.clicked_Background
-                      : style.notClicked_Background
-                  }`}
-                ></div>
-                <div className={`${disabled ? style.votePercent : ""}`}>
-                  {disabled && `${percentage(selectItem.count, totalCount)}%`}
-                </div>
-                <input
-                  type="radio"
-                  id={selectItem.item}
-                  name="vote"
-                  value={selectItem.item}
-                  className={style.radio_btn}
-                />
-                <label
-                  className={`${style.radio_label} ${
-                    disabled ? "" : style.active
-                  }`}
-                  htmlFor={selectItem.item}
-                >
-                  {selectItem.item}
-                </label>
-              </li>
-            ))}
-          </div>
+          <VoteItems
+            handleClick={handleClick}
+            disabled={disabled}
+            voteSelect={voteSelect}
+            selectId={selectId}
+            totalCount={totalCount}
+            borderColor={borderColor}
+            selectItemBackground={selectItemBackground}
+            voteBtnBg={voteBtnBg}
+          />
           <button
             className={style.vote_btn}
             type="submit"
@@ -169,38 +115,18 @@ function VoteById({ data }) {
             투표하기
           </button>
         </form>
-        <div className={style.favorite_comment_share}>
-          <div className={style.favorite_comment}>
-            <Favorite
-              fill={like ? "#FF2222" : "#fff"}
-              onClick={handleLikeToggle}
-            />
-            <span className={style.favorite}>{likeNums}</span>
-            <Image
-              src="/img/comment.svg"
-              alt="Comment"
-              width={20}
-              height={20}
-            />
-            <span>{voteComments.length}</span>
-          </div>
-          <div
-            className={`${style.copy_btn} ${modalActive ? style.active : ""}`}
-            onClick={onClickModalOn}
-          >
-            <Image
-              src="/img/share.svg"
-              alt="Share"
-              width={20}
-              height={20}
-              onClick={copy}
-            />
-          </div>
-        </div>
+        <FavoriteCommentShare
+          voteComments={voteComments}
+          timeoutToggle={timeoutToggle}
+          timeoutModal={timeoutModal}
+          like={like}
+          likeNums={likeNums}
+          handleLikeToggle={handleLikeToggle}
+        />
         <Comment Comments={voteComments} value="vote" />
         <div className={style.back_btn_container}>
           <Link href={`/vote`}>
-            <a>
+            <a className={style.link}>
               <button className={style.back_btn}>목록보기</button>
             </a>
           </Link>
