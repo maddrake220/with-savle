@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const defaultValue = {};
 
@@ -13,44 +13,51 @@ const BreakpointProvider = ({ children, queries }) => {
     let isAttached = false;
 
     const handleQueryListener = () => {
-      const updatedMatches = keys.reduce((acc, media) => {
-        acc[media] = !!(mediaQueryLists[media] && mediaQueryLists[media].matches);
-        return acc;
+      // eslint-disable-next-line unicorn/no-array-reduce, unicorn/prefer-object-from-entries
+      const updatedMatches = keys.reduce((accumulator, media) => {
+        accumulator[`${media}`] = !!(
+          mediaQueryLists[`${media}`] && mediaQueryLists[`${media}`].matches
+        );
+        return accumulator;
       }, {});
       setQueryMatch(updatedMatches);
     };
 
     if (window && window.matchMedia) {
       const matches = {};
-      keys.forEach((media) => {
-        if (typeof queries[media] === "string") {
-          mediaQueryLists[media] = window.matchMedia(queries[media]);
-          matches[media] = mediaQueryLists[media].matches;
+      for (const media of keys) {
+        if (typeof queries[`${media}`] === "string") {
+          mediaQueryLists[`${media}`] = window.matchMedia(queries[`${media}`]);
+          matches[`${media}`] = mediaQueryLists[`${media}`].matches;
         } else {
-          matches[media] = false;
+          matches[`${media}`] = false;
         }
-      });
+      }
       setQueryMatch(matches);
       isAttached = true;
-      keys.forEach((media) => {
-        if (typeof queries[media] === "string") {
-          mediaQueryLists[media].addListener(handleQueryListener);
+      for (const media of keys) {
+        if (typeof queries[`${media}`] === "string") {
+          mediaQueryLists[`${media}`].addListener(handleQueryListener);
         }
-      });
+      }
     }
 
     return () => {
       if (isAttached) {
-        keys.forEach((media) => {
-          if (typeof queries[media] === "string") {
-            mediaQueryLists[media].removeListener(handleQueryListener);
+        for (const media of keys) {
+          if (typeof queries[`${media}`] === "string") {
+            mediaQueryLists[`${media}`].removeListener(handleQueryListener);
           }
-        });
+        }
       }
     };
   }, [queries]);
 
-  return <BreakpointContext.Provider value={queryMatch}>{children}</BreakpointContext.Provider>;
+  return (
+    <BreakpointContext.Provider value={queryMatch}>
+      {children}
+    </BreakpointContext.Provider>
+  );
 };
 
 function useBreakpoint() {
@@ -60,4 +67,4 @@ function useBreakpoint() {
   }
   return context;
 }
-export { useBreakpoint, BreakpointProvider };
+export { BreakpointProvider, useBreakpoint };
