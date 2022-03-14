@@ -4,10 +4,10 @@ import { useCallback, useEffect, useState } from "react";
 import styles from "styles/goal/GoalList.module.scss";
 import useSWR from "swr";
 
-import CategoryButton from "@/components/Goal/CategoryButton";
-import GoalCard from "@/components/Goal/GoalCard";
-import GoalDropdown from "@/components/Goal/GoalDropdown";
-import NewGoalForm from "@/components/Goal/NewGoalForm";
+import CategoryButton from "@/components/goal/CategoryButton";
+import GoalCard from "@/components/goal/GoalCard";
+import GoalDropdown from "@/components/goal/GoalDropdown";
+import NewGoalForm from "@/components/goal/NewGoalForm";
 import { useModal } from "@/hooks/index";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { ageList, ageRange } from "@/utils/goal/data";
