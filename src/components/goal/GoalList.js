@@ -48,7 +48,7 @@ export default function GoalList() {
         <meta contents="" />
       </Head>
       <header>
-        <div className={`${styles.headerInfo} container`}>
+        <div className={`${styles.headerInfo}`}>
           <h1>세이블에서 목표달성, 함께해요!</h1>
           <p>다른 사람들과 목표를 공유해보아요.</p>
         </div>
@@ -93,7 +93,7 @@ export default function GoalList() {
                 backgroundColor: "transparent",
                 border: "none",
                 position: "absolute",
-                right: "0",
+                right: "18px",
                 fontSize: "0.813rem",
                 lineHeight: "1.25rem",
                 color: "#111",

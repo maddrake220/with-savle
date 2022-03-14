@@ -28,7 +28,6 @@ export default function GoalCard({
     likes,
     localstorageGoalLike,
   );
-
   const onClickCard = useCallback(
     (id) => {
       router.push({

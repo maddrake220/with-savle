@@ -12,7 +12,7 @@
   margin: auto 0;
   max-width: 30.188rem;
   width: 86%;
-  height: 16.938rem;
+  max-height: 19.212rem;
   border-radius: 0.5rem;
   background: $white;
   h1 {
@@ -22,9 +22,10 @@
     background: $secondary-accent;
     height: 1.375rem;
     border-radius: 0.5rem 0.5rem 0 0;
-    > svg {
+    .newGoalChar {
       position: absolute;
-      right: 0.813rem;
+      right: 0;
+      top: 7px;
     }
   }
   .newGoalForm {
@@ -33,36 +34,42 @@
     flex-direction: column;
     align-items: center;
     .ageListWrapper {
+      width: 100%;
       position: relative;
       margin-top: 0.875rem;
       display: flex;
+      justify-content: right;
       white-space: pre;
-      gap: 8px 50px;
-      > label {
+      label {
+        position: absolute;
+        left: 4px;
         font-weight: bold;
         font-size: 0.813rem;
         line-height: 1.25rem;
         color: $black;
       }
       .ageList {
+        margin-left: 85px;
         display: flex;
         flex-wrap: wrap;
         gap: 0.25rem 0.5rem;
       }
     }
     .textareaWrapper {
-      margin-top: 7px;
+      margin-top: 10px;
       width: 100%;
+      font-size: 13px;
       position: relative;
+      display: flex;
+      justify-content: center;
       .text {
-        margin-top: 10px;
         resize: none;
         background: $grey-4;
         border-radius: 4px;
         border: none;
-        width: 85%;
+        width: 92%;
         height: 4.813rem;
-        padding: 0.5rem 1rem;
+        padding: 10px 15px;
         &:focus {
           outline: 0;
         }
@@ -70,6 +77,8 @@
     }
     .goalCategoryWrapper {
       position: relative;
+      margin-top: 7px;
+      width: 100%;
       > label span {
         font-weight: bold;
         font-size: 0.813rem;
@@ -78,10 +87,16 @@
       }
       .goalWrapper {
         display: flex;
+        align-items: center;
+        width: 100%;
         .inputBox {
+          font-weight: 400;
+          font-size: 13px;
+          line-height: 20px;
+          color: #36332e;
           cursor: text;
-          width: 10rem;
-          height: 1.5rem;
+          width: 100%;
+          height: 1.813rem;
           background: $grey-4;
           border-radius: 0.25rem;
           overflow: hidden;
@@ -90,8 +105,7 @@
             position: absolute;
             left: 0;
             background: $grey-4;
-            max-width: 10rem;
-            height: 1.5rem;
+            height: 1.813rem;
             outline: none;
             border: none;
             :focus {
@@ -101,7 +115,6 @@
         }
         .selectedGoalCategories {
           position: absolute;
-          top: 22px;
           display: flex;
           gap: 0.25rem;
           > li {
@@ -127,54 +140,82 @@
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+          .searchingCategory {
+            color: $primary;
+            span {
+              &::after {
+                font-size: 0.4rem;
+                content: "  (새 카테고리 등록)";
+              }
+            }
+          }
           li {
             display: flex;
             padding: 0px;
             background: $white;
-            width: 10.5rem;
+            width: calc(100vw - 170px);
             height: 2.25rem;
             font-size: 13px;
             line-height: 20px;
             color: #36332e;
             align-items: center;
             cursor: pointer;
+            &:first-child {
+              box-shadow: inset 1px -0.5px 1px rgba(0, 0, 0, 0.1);
+            }
             &:last-child {
               border-radius: 0 0 8px 8px;
             }
             &:not(:last-child) {
-              box-shadow: inset 0px -0.5px 0px rgba(0, 0, 0, 0.1);
+              box-shadow: inset 1px -0.5px 1px rgba(0, 0, 0, 0.1);
             }
-            &:before {
-              content: " # ";
-              margin-left: 20px;
+            span {
+              &:before {
+                content: " # ";
+                margin-left: 20px;
+              }
             }
           }
         }
-        .submitButton {
-          margin-left: 15px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 3.875rem;
-          height: 1.813rem;
-          background: #e8f3ff;
-          border-radius: 4px;
-          border: none;
-        }
+      }
+      .submitButton {
+        margin-top: 0.5rem;
+        cursor: pointer;
+        display: flex;
+        position: absolute;
+        right: 0;
+        align-items: center;
+        justify-content: center;
+        width: 3.875rem;
+        height: 1.813rem;
+        background: #e8f3ff;
+        border-radius: 4px;
+        border: none;
       }
     }
   }
   .validationFail {
+    padding-top: 10px;
     font-size: 0.7rem;
     color: red;
   }
 }
 
+@media (min-width: 483px) {
+  .ageList {
+    margin-left: 40px;
+  }
+}
+
+@media (min-width: 499px) {
+  .newGoal {
+    max-height: 17.243rem;
+  }
+}
 @media (min-width: 576px) {
   .newGoal {
     left: calc(50% - 15.94rem);
-    height: 32.563rem;
+    max-height: 32.563rem;
     border-radius: 1rem;
     .modalTop {
       height: 3.625rem;
@@ -183,17 +224,23 @@
       margin: 0 2rem;
       .ageListWrapper {
         flex-direction: column;
-        transform: translateX(-3rem);
+        label {
+          position: relative;
+        }
+        .ageList {
+          margin-top: 10px;
+          margin-left: 0;
+        }
       }
       .textareaWrapper {
+        font-size: 18px;
         .text {
           width: 94%;
           height: 15.625rem;
         }
       }
       .goalCategoryWrapper {
-        margin-top: 0.5rem;
-        transform: translateX(-0.5rem);
+        margin-top: 1rem;
         .goalWrapper {
           .inputBox {
             width: 19.375rem;
@@ -222,7 +269,7 @@
             left: 3px;
             top: 34px;
             display: flex;
-            gap: 0.25rem;
+            gap: 0.45rem;
             font-weight: bold;
             li {
               border: 1px solid $secondary-accent;
@@ -233,12 +280,13 @@
               line-height: 26px;
             }
           }
-          .submitButton {
-            margin-left: 15px;
-            width: 5.125rem;
-            height: 3.375rem;
-            border-radius: 4px;
-          }
+        }
+        .submitButton {
+          transform: translateY(-4.212rem);
+          margin-left: 15px;
+          width: 5.125rem;
+          height: 3.375rem;
+          border-radius: 4px;
         }
       }
     }
