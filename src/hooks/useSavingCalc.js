@@ -12,5 +12,5 @@ export const useSavingCalc = () => {
     done: false,
   });
 
-  return [inputs, setInputs, state, setState];
+  return { inputs, setInputs, state, setState };
 };

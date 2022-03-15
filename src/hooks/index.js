@@ -8,8 +8,12 @@ export { useVoteState } from "./useVoteState";
 
 // saving-calc-part
 export { useAmountInput } from "./useAmountInput";
-export { useCommentInput } from "./useCommentInput";
+export { useCommentSubmit } from "./useCommentSubmit";
+export { useCommentTextarea } from "./useCommentTextarea";
 export { useGetComment } from "./useGetComment";
-export { useGoalInput } from "./useGoalInput";
+export { usePlusButtonClick } from "./usePlusButtonClick";
+export { useSavingAmountSubmit } from "./useSavingAmountSubmit";
 export { useSavingCalc } from "./useSavingCalc";
+export { useSavingGoalInput } from "./useSavingGoalInput";
+export { useSavingGoalSubmit } from "./useSavingGoalSubmit";
 export { useWidth } from "./useWidth";
