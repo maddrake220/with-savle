@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 // import Image from "next/image";
 import Slider from "react-slick";
 
-import MainGoalItem from "@/components/Goal/MainGoalItem";
+import MainGoalItem from "@/components/goal/MainGoalItem";
 import { useBreakpoint } from "@/hooks/index";
 import style from "@/styles/goal/MainGoal.module.scss";
 import Data from "@/utils/mockdata/goalAPI.json";
