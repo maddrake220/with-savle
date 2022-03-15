@@ -8,28 +8,13 @@ import Slider from "react-slick";
 import MockVoteBox from "@/components/vote/MockVoteBox";
 import { useBreakpoint } from "@/hooks/index";
 import style from "@/styles/vote/MainVote.module.scss";
-import { mockDatas } from "@/utils/voteMockData";
+import Data from "@/utils/mockdata/voteAPI";
 
-function NextArrow(properties) {
-  const { onClick } = properties;
-  return (
-    <div className={`className ${style.slick_arrow}`} onClick={onClick}>
-      <Image src="/img/next.svg" alt="next" width={10} height={40} />
-    </div>
-  );
-}
-
-function PreviousArrow(properties) {
-  const { onClick } = properties;
-  return (
-    <div className={`className ${style.slick_arrow}`} onClick={onClick}>
-      <Image src="/img/prev.svg" alt="prev" width={10} height={40} />
-    </div>
-  );
-}
+import { NextArrow, PreviousArrow } from "../Common/SlickArrow";
 
 export default function MainVoteSection() {
   const breakpoints = useBreakpoint();
+
   const settings = {
     dots: false,
     infinite: true,
@@ -57,6 +42,7 @@ export default function MainVoteSection() {
     ],
   };
 
+  const mockDatas = Data.results;
   return (
     <section className={style.vote_section}>
       <div className={style.vote_section_title}>
@@ -74,9 +60,9 @@ export default function MainVoteSection() {
           저축에 관한 고민을 함께 <span>나누고 투표해보아요.</span>
         </p>
       </div>
-      <ul className={style.votebox_container}>
+      <ul className={style.slick_container}>
         <Slider {...settings}>
-          {mockDatas.results.map((mockData) => (
+          {mockDatas.map((mockData) => (
             <MockVoteBox mockData={mockData} key={mockData.title} />
           ))}
         </Slider>

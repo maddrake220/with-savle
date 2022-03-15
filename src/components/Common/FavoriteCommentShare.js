@@ -15,9 +15,19 @@ export default function FavoriteCommentShare({
   return (
     <div className={style.favorite_comment_share}>
       <div className={style.favorite_comment}>
-        <Favorite fill={like ? "#FF2222" : "#fff"} onClick={handleLikeToggle} />
+        <Favorite
+          fill={like ? "#FF2222" : "#fff"}
+          onClick={handleLikeToggle}
+          className={style.favorite_img}
+        />
         <span className={style.favorite}>{likeNums}</span>
-        <Image src="/img/comment.svg" alt="Comment" width={20} height={20} />
+        <Image
+          src="/img/comment.svg"
+          alt="Comment"
+          width={20}
+          height={20}
+          className={style.comment_img}
+        />
         <span>{commentCount}</span>
       </div>
 
