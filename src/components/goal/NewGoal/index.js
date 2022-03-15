@@ -4,7 +4,7 @@ import styles from "@/styles/goal/NewGoalForm.module.scss";
 import NewGoalForm from "./NewGoalForm";
 import NewGoalHeader from "./NewGoalHeader";
 
-export default function NewGoal({ toggleModal }) {
+export default function NewGoal({ toggleModal, isToggleModal }) {
   const matchQuery = useBreakpoint();
 
   return (
@@ -13,7 +13,11 @@ export default function NewGoal({ toggleModal }) {
       onClick={(event) => event.stopPropagation()}
     >
       <NewGoalHeader matchQuery={matchQuery} />
-      <NewGoalForm toggleModal={toggleModal} matchQuery={matchQuery} />
+      <NewGoalForm
+        toggleModal={toggleModal}
+        matchQuery={matchQuery}
+        isToggleModal={isToggleModal}
+      />
     </section>
   );
 }

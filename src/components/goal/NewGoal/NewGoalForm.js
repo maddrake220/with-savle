@@ -8,7 +8,11 @@ import { newGoalAgeList } from "@/utils/index";
 import NewGoalAgeSection from "./NewGoalAgeSection";
 import NewGoalCategorySection from "./NewGoalCategorySection";
 import NewGoalTextSection from "./NewGoalTextSection";
-export default function NewGoalForm({ toggleModal, matchQuery }) {
+export default function NewGoalForm({
+  toggleModal,
+  matchQuery,
+  isToggleModal,
+}) {
   const textareaReference = useRef(null);
   const inputReference = useRef(null);
   const selectedReference = useRef(null);
@@ -37,6 +41,7 @@ export default function NewGoalForm({ toggleModal, matchQuery }) {
     textareaReference,
     selectedReference,
     inputReference,
+    isToggleModal,
   );
   return (
     <form className={styles.newGoalForm} onSubmit={onSubmit}>

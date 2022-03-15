@@ -16,6 +16,7 @@ export const useForm = (
   textareaReference,
   selectedReference,
   inputReference,
+  isToggleModal,
 ) => {
   const [selectedAge, setSelectedAge] = useState();
   const [isFocusedCategoryInput, setIsFocusedCategoryInput] = useState(false);
@@ -91,12 +92,7 @@ export const useForm = (
   const onMouseDownGoalCategory = useCallback(
     (event, value) => {
       event.preventDefault();
-      setTimeout(() => {
-        inputReference.current.blur();
-        if (seletedGoalCategories.length === MAX_GOAL_CATEGORY) {
-          inputReference.current.disabled = true;
-        }
-      }, 100);
+
       if (typeof value === "string") {
         // 새로운 카테고리 입력시
         if (keywordDuplicationCheck(seletedGoalCategories, value)) {
@@ -114,6 +110,13 @@ export const useForm = (
         }
         setSelectedGoalCategories((values) => [...values, value]);
       }
+      setTimeout(() => {
+        inputReference.current.blur();
+        if (seletedGoalCategories.length === MAX_GOAL_CATEGORY) {
+          inputReference.current.disabled = true;
+        }
+      }, 100);
+
       setValidationCheck({ category: false });
       setSearchCategory("");
     },
@@ -163,8 +166,10 @@ export const useForm = (
     }
   }, [searchCategory, categoryByAge]);
   useEffect(() => {
-    textareaReference.current.focus();
-  }, [toggleModal, textareaReference]);
+    if (isToggleModal) {
+      textareaReference.current.focus();
+    }
+  }, [isToggleModal, textareaReference]);
   useEffect(() => {
     if (selectedReference.current !== null) {
       const width = selectedReference.current.offsetWidth;

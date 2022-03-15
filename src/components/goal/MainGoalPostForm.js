@@ -23,7 +23,11 @@ export default function MainGoalPostForm({ toggleModal }) {
       onClick={(event) => event.stopPropagation()}
     >
       <NewGoalHeader matchQuery={matchQuery} />
-      <NewGoalForm toggleModal={toggleModal} matchQuery={matchQuery} />
+      <NewGoalForm
+        toggleModal={toggleModal}
+        matchQuery={matchQuery}
+        isToggleModal={true}
+      />
     </section>
   );
 }
