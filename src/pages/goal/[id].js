@@ -6,7 +6,7 @@ import { fetchGetGoal, fetchGetGoalById, fetchPutGoalLike } from "src/api/goal";
 
 import Comment from "@/components/comment/Comment";
 import FavoriteCommentShare from "@/components/common/FavoriteCommentShare";
-import Seo from "@/components/Common/Seo";
+import Seo from "@/components/common/Seo";
 import { useLike, useTimeoutToggle } from "@/hooks/index";
 import style from "@/styles/goal/GoalId.module.scss";
 import { LOCALSTORAGE_GOAL_LIKE } from "@/utils/index";
