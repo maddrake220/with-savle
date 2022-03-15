@@ -18,6 +18,7 @@ export default function NewGoalTextSection({
           placeholder="내용을 입력해주세요!"
           onChange={onChangeText}
           value={text}
+          maxLength={300}
         />
       </div>
       <div style={{ width: "100%" }}>

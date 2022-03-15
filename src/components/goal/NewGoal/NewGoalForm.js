@@ -72,7 +72,11 @@ export default function NewGoalForm({ toggleModal, matchQuery }) {
       <button
         type="submit"
         className={styles.submitButton}
-        style={{ bottom: validationCheck?.text && "1.035rem" }}
+        style={{
+          bottom:
+            (validationCheck?.text && "1.435rem") ||
+            (validationCheck?.age && "1.435rem"),
+        }}
       >
         <Image
           src="/img/newGoalSubmit.svg"

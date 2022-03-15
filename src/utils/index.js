@@ -17,3 +17,6 @@ export { isCheckBlank } from "./isCheckBlank";
 export { isCheckCount } from "./isCheckCount";
 export { isCheckValue } from "./isCheckValue";
 export { periodCalc } from "./periodCalc";
+
+// goal
+export { createMarkup } from "./createMarkup";
