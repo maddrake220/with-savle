@@ -5,7 +5,7 @@ import TabletBackgroundBox from "public/layout/shortcut-bar-tablet.svg";
 import BackgroundBox from "public/layout/shortcut-bar-web.svg";
 
 import { useBreakpoint, useWidth } from "@/hooks/index";
-import styles from "@/styles/ShortcutBar.module.scss";
+import styles from "@/styles/common/ShortcutBar.module.scss";
 
 function ShortcutBar() {
   const { sm: isMobile, md: isTablet } = useBreakpoint();

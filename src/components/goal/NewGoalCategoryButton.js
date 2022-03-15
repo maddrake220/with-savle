@@ -1,4 +1,4 @@
-import styles from "styles/goal/NewGoalCategoryButton.module.scss";
+import styles from "@/styles/goal/NewGoalCategoryButton.module.scss";
 
 export default function CategoryButton({ id, text, value, onClick, clicked }) {
   return (

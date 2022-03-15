@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "styles/goal/NewGoalForm.module.scss";
+import styles from "@/styles/goal/NewGoalForm.module.scss";
 
 import NewGoalCategoryList from "./NewGoalCategoryList";
 import NewGoalSelectedCategoryList from "./NewGoalSelectedCategoryList";

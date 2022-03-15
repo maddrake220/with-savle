@@ -1,9 +1,9 @@
 import Image from "next/image";
 import React from "react";
-import styles from "styles/goal/GoalList.module.scss";
 
 import NewGoal from "@/components/goal/NewGoal";
 import { useModal } from "@/hooks/index";
+import styles from "@/styles/goal/GoalList.module.scss";
 
 export default function GoalListModal({ queryMatch }) {
   const [isToggleModal, toggleModal] = useModal();

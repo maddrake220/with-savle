@@ -1,4 +1,4 @@
-import "styles/globals.scss";
+import "@/styles/globals.scss";
 
 import Layout from "@/components/common/Layout";
 import { BreakpointProvider } from "@/hooks/useBreakpoint";
