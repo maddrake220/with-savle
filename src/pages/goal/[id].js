@@ -1,14 +1,18 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/prevent-abbreviations */
-import axios from "axios";
-import Image from "next/image";
-import style from "styles/GoalId.module.scss";
+import Link from "next/link";
+import { useCallback, useState } from "react";
+import { fetchGetGoal, fetchGetGoalById, fetchPutGoalLike } from "src/api/goal";
 
-import server from "@/config/server";
+import Comment from "@/components/comment/Comment";
+import FavoriteCommentShare from "@/components/common/FavoriteCommentShare";
+import { useLike, useTimeoutToggle } from "@/hooks/index";
+import style from "@/styles/goal/GoalId.module.scss";
+import { LOCALSTORAGE_GOAL_LIKE } from "@/utils/index";
 
 export async function getStaticProps(context) {
   const { id } = context.params;
-  const { data } = await axios.get(`${server}/api/goal/${id}`);
+  const { data } = await fetchGetGoalById(id);
   return {
     props: {
       data,
@@ -17,7 +21,7 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const { data } = await axios.get(`${server}/api/goal`);
+  const { data } = await fetchGetGoal();
   const ids = data.results.map((item) => item.id);
   const paths = ids.map((id) => ({ params: { id: id.toString() } }));
   return {
@@ -28,41 +32,60 @@ export async function getStaticPaths() {
 
 function GoalById({ data }) {
   const { id, age, categories, text, likes, comments } = data.results;
+
+  const [timeoutToggle, timeoutModal] = useTimeoutToggle();
+  const [commentCount, setCommentCount] = useState(comments.length);
+
+  const [like, likeNums, localStorageHandler] = useLike(
+    id,
+    likes,
+    LOCALSTORAGE_GOAL_LIKE,
+  );
+
+  const handleLikeToggle = useCallback(
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      localStorageHandler();
+      const parameter = { id: id, like: !like };
+      fetchPutGoalLike(parameter);
+    },
+    [id, like, localStorageHandler],
+  );
+
   return (
     <section className={style.goal_detail}>
-      <div className={`${style.container} container `}>
+      <div className={style.goal_detail_container}>
         <div className={style.info}>
           익명의 {id}님 | {age}대
         </div>
         <div className={style.text}>{text}</div>
         <div className={style.categories}>
           <ul>
-            {categories.map((item) => {
+            {categories.map((item, index) => {
               return (
-                <li key={id}>
+                <li key={index}>
                   <span>#{item}</span>
                 </li>
               );
             })}
           </ul>
         </div>
-        <div className={style.Icons}>
-          <div className={style.likes}>
-            <Image
-              src="/img/goallike.svg"
-              alt="좋아요"
-              width={20}
-              height={20}
-            />
-            <span>{likes}</span>
-          </div>
-          <div className={style.comments}>
-            <Image src="/img/comment.svg" alt="댓글" width={24} height={24} />
-            {/* <span>{comments}</span> */}
-          </div>
-          <div className={style.share}>
-            <Image src="/img/share.svg" alt="공유" width={16} height={16} />
-          </div>
+        <FavoriteCommentShare
+          commentCount={commentCount}
+          timeoutToggle={timeoutToggle}
+          timeoutModal={timeoutModal}
+          like={like}
+          likeNums={likeNums}
+          handleLikeToggle={handleLikeToggle}
+        />
+        <Comment id={id} value="goal" setCount={setCommentCount} />
+        <div className={style.back_btn_container}>
+          <Link href={`/goal`}>
+            <a className={style.link}>
+              <button className={style.back_btn}>목록보기</button>
+            </a>
+          </Link>
         </div>
       </div>
     </section>

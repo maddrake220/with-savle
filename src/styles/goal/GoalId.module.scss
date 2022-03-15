@@ -1,0 +1,128 @@
+.goal_detail {
+  background: #f7f8fa;
+  .goal_detail_container {
+    min-width: 280px;
+    min-height: 100vh;
+
+    padding: 22px 20px 0;
+    background: #ffffff;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  .info {
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 700;
+
+    color: #b2b2b2;
+  }
+  .text {
+    font-size: 13px;
+    line-height: 20px;
+
+    margin-top: 4px;
+
+    color: #000000;
+  }
+  .categories {
+    margin-top: 30px;
+    ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
+        border: 1.35417px solid #73bcff;
+        box-sizing: border-box;
+        border-radius: 22.3115px;
+
+        color: #73bcff;
+        span {
+          height: 28px;
+
+          font-size: 13px;
+          line-height: 20px;
+          padding: 0 10px;
+        }
+      }
+      li + li {
+        margin-left: 6px;
+      }
+    }
+  }
+  .Icons {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    margin-top: 25px;
+    padding-bottom: 13px;
+
+    border-bottom: 1px solid #e3e7ed;
+    span {
+      margin-left: 4px;
+      font-weight: 700;
+    }
+    .likes,
+    .comments {
+      display: flex;
+      align-items: center;
+    }
+    .comments {
+      margin-left: 10px;
+    }
+    .share {
+      position: absolute;
+      right: 0;
+    }
+  }
+  .back_btn_container {
+    display: flex;
+    justify-content: center;
+    margin: 52px auto 0;
+    .link {
+      text-decoration: none;
+      outline: none;
+      &:hover,
+      &:active {
+        text-decoration: none;
+      }
+      .back_btn {
+        margin-bottom: 65px;
+        border: none;
+        width: 105px;
+        height: 37px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        background-color: $grey-5;
+        color: $black;
+        cursor: pointer;
+      }
+    }
+  }
+  @media (min-width: 576px) {
+    .goal_detail_container {
+      max-width: 350px;
+
+      padding: 40px 60px 0;
+      margin: 0 auto;
+    }
+    .info,
+    .text {
+      font-size: 15px;
+      line-height: 22px;
+    }
+  }
+  @media (min-width: 1200px) {
+    .goal_detail_container {
+      min-width: 1000px;
+
+      padding: 68px 100px 0;
+    }
+    .info,
+    .text {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+}

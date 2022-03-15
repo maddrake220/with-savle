@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { fetchGetGoalCategory, fetchPostGoal } from "src/api/goal";
 import { mutate } from "swr";
 
-import { MAX_GOAL_CATEGORY } from "@/utils/goal/constants";
+import { MAX_GOAL_CATEGORY } from "@/utils/constants";
+import { createFuzzyMatcher } from "@/utils/createFuzzyMatcher";
 import { goal_address } from "@/utils/swr";
 
 export const useForm = (
@@ -91,10 +92,21 @@ export const useForm = (
           inputReference.current.disabled = true;
         }
       }, 100);
-      setSelectedGoalCategories((values) => [...values, value]);
+      if (typeof value === "string") {
+        // 새로운 카테고리 입력시
+        setSelectedGoalCategories((values) => [
+          ...values,
+          {
+            keyword: value,
+          },
+        ]);
+      } else {
+        setSelectedGoalCategories((values) => [...values, value]);
+      }
       setValidationCheck({ category: false });
+      setSearchCategory("");
     },
-    [seletedGoalCategories, inputReference],
+    [seletedGoalCategories, inputReference, setSearchCategory],
   );
   const onMouseDownUndoGoalCategory = useCallback(
     (event, value) => {
@@ -103,16 +115,39 @@ export const useForm = (
       setSelectedGoalCategories((values) => {
         return values.filter((v) => v.id !== value.id);
       });
+      setSearchCategory("");
     },
-    [inputReference],
+    [inputReference, setSearchCategory],
   );
   const onChangeSearchCategory = useCallback((event) => {
+    if (event.target.value.length > 10) {
+      return;
+    }
     setSearchCategory(event.target.value);
+  }, []);
+  const onKeyDownCategoryInput = useCallback((event) => {
+    switch (event.key) {
+      case "Enter": {
+        break;
+      }
+      case "ArrowUp": {
+        break;
+      }
+      case "ArrowDown": {
+        break;
+      }
+      default: {
+        return;
+      }
+    }
   }, []);
   useEffect(() => {
     if (searchCategory !== "") {
+      const regex = createFuzzyMatcher(searchCategory);
       setSearchingCategoryByAge(
-        categoryByAge.filter((v) => v.keyword.includes(searchCategory)),
+        categoryByAge.filter((value) => {
+          return regex.test(value.keyword);
+        }),
       );
     }
   }, [searchCategory, categoryByAge]);
@@ -120,17 +155,17 @@ export const useForm = (
     textareaReference.current.focus();
   }, [toggleModal, textareaReference]);
   useEffect(() => {
-    const width = selectedReference.current.offsetWidth;
-    inputReference.current.style.left = `${width}px`;
-    inputReference.current.style.maxWidth = 160 - width + "px";
+    if (selectedReference.current !== null) {
+      const width = selectedReference.current.offsetWidth;
+      inputReference.current.style.left = `${width + 7}px`;
+      inputReference.current.style.maxWidth = 160 - width + 7 + "px";
+    }
   }, [seletedGoalCategories, inputReference, selectedReference]);
   useEffect(() => {
-    if (selectedAge !== undefined) {
-      const age = { age: selectedAge?.value };
-      fetchGetGoalCategory(age)
-        .then((resolve) => setCategoryByAge(resolve.data.results))
-        .catch((error) => new Error(error));
-    }
+    const age = { age: selectedAge?.value };
+    fetchGetGoalCategory(age)
+      .then((resolve) => setCategoryByAge(resolve.data.results))
+      .catch((error) => new Error(error));
   }, [selectedAge]);
   return [
     selectedAge,
@@ -150,5 +185,6 @@ export const useForm = (
     onMouseDownUndoGoalCategory,
     onChangeSearchCategory,
     onChangeText,
+    onKeyDownCategoryInput,
   ];
 };

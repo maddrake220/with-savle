@@ -1,4 +1,4 @@
-import style from "styles/MainGoal.module.scss";
+import style from "@/styles/goal/MainGoal.module.scss";
 
 import MainGoalButton from "@/components/Goal/MainGoalButton";
 import MainGoalPostItem from "@/components/Goal/MainGoalPostItem";

@@ -1,5 +1,4 @@
 export { useBreakpoint } from "./useBreakpoint";
-export { useCustomSWR } from "./useCustomSwr";
 export { useForm } from "./useForm";
 export { useLike } from "./useLike";
 export { useModal } from "./useModal";
