@@ -1,4 +1,4 @@
-import styles from "styles/goal/GoalList.module.scss";
+import styles from "@/styles/goal/GoalList.module.scss";
 import useSWR from "swr";
 
 import { useBreakpoint } from "@/hooks/useBreakpoint";

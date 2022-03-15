@@ -3,13 +3,13 @@ import "react-loading-skeleton/dist/skeleton.css";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { fetchGetVote } from "src/api/vote";
 import useSWR, { SWRConfig } from "swr";
 
-import Seo from "@/components/Common/Seo";
+import Seo from "@/components/common/Seo";
 import SkeletonBox from "@/components/vote/SkeletonBox";
-import VoteBox from "@/components/Vote/VoteBox";
-import server from "@/config/server";
-import style from "@/styles/VoteIndex.module.scss";
+import VoteBox from "@/components/vote/VoteBox";
+import style from "@/styles/vote/VoteIndex.module.scss";
 
 const fetcher = (server) => axios.get(server).then((r) => r.data);
 
@@ -25,7 +25,7 @@ export default function Vote({ fallback }) {
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export async function getStaticProps() {
-  const response = await axios.get(`${server}/api/vote`);
+  const response = await fetchGetVote();
   return {
     props: {
       fallback: {

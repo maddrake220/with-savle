@@ -1,4 +1,4 @@
-import style from "@/styles/VoteId.module.scss";
+import style from "@/styles/vote/VoteId.module.scss";
 
 export default function VoteButton({
   disabled,

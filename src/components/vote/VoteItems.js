@@ -1,4 +1,4 @@
-import style from "@/styles/VoteId.module.scss";
+import style from "@/styles/vote/VoteId.module.scss";
 import { percentage, sumCount } from "@/utils/index";
 
 export default function VoteItems({

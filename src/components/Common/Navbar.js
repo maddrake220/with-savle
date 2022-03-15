@@ -4,10 +4,9 @@ import Back from "public/layout/back.svg";
 import Bar from "public/layout/bar.svg";
 import Logo from "public/layout/logo.svg";
 import MobileLogo from "public/layout/logo-mobile.svg";
-import styles from "styles/layout/Layout.module.scss";
 
-import { useBreakpoint } from "@/hooks/useBreakpoint";
-import { useToggleHook } from "@/hooks/useToggleHook";
+import { useBreakpoint, useToggleHook } from "@/hooks/index";
+import styles from "@/styles/layout/Layout.module.scss";
 import { routes } from "@/utils/index";
 
 function Navbar() {
