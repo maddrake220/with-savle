@@ -4,12 +4,12 @@ import "slick-carousel/slick/slick-theme.css";
 // import Image from "next/image";
 import Slider from "react-slick";
 
-import MainGoalItem from "@/components/Goal/MainGoalItem";
+import MainGoalItem from "@/components/goal/MainGoalItem";
 import { useBreakpoint } from "@/hooks/index";
 import style from "@/styles/goal/MainGoal.module.scss";
 import Data from "@/utils/mockdata/goalAPI.json";
 
-import { NextArrow, PreviousArrow } from "../Common/SlickArrow";
+import { NextArrow, PreviousArrow } from "../common/SlickArrow";
 
 export default function MainGoalSlider() {
   const breakpoint = useBreakpoint();
@@ -28,7 +28,7 @@ export default function MainGoalSlider() {
   const goalItems = Data.results;
 
   return (
-    <div className="container">
+    <div className={`${style.main_goal_slider}`}>
       <ul
         className={`${style.goal_slider} ${
           breakpoint.sm ? style.slick_container : ""
@@ -51,7 +51,7 @@ export default function MainGoalSlider() {
             })}
           </Slider>
         ) : (
-          <div>
+          <div className={`${style.no_goal_slider}`}>
             {goalItems.map((item) => (
               <MainGoalItem
                 id={item.id}

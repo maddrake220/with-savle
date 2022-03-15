@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import style from "@/styles/goal/MainGoal.module.scss";
 
 export default function MainGoalTitle() {

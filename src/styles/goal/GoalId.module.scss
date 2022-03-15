@@ -1,10 +1,10 @@
 .goal_detail {
   background: #f7f8fa;
+  margin: 0 auto;
   .goal_detail_container {
-    min-width: 280px;
     min-height: 100vh;
 
-    padding: 22px 20px 0;
+    padding: 20px 20px 0;
     background: #ffffff;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
   }
@@ -102,22 +102,8 @@
   }
   @media (min-width: 576px) {
     .goal_detail_container {
-      max-width: 350px;
-
       padding: 40px 60px 0;
-      margin: 0 auto;
-    }
-    .info,
-    .text {
-      font-size: 15px;
-      line-height: 22px;
-    }
-  }
-  @media (min-width: 1200px) {
-    .goal_detail_container {
-      min-width: 1000px;
-
-      padding: 68px 100px 0;
+      margin: 0 100px;
     }
     .info,
     .text {

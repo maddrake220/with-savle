@@ -30,4 +30,5 @@ export { createFuzzyMatcher } from "./createFuzzyMatcher";
 export { createMarkup } from "./createMarkup";
 export { getAgeGeneration } from "./getAgeGeneration";
 export { getSize } from "./getSize";
+export { keywordDuplicationCheck } from "./keywordDuplicationCheck";
 export { newGoalAgeList } from "./newGoalAgeList";
