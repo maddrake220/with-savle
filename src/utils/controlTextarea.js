@@ -5,7 +5,6 @@ export const controlTextarea = (textReference, value) => {
       textReference.current.scrollHeight + "px";
   }
   if (value === "reset") {
-    textReference.current.blur();
     textReference.current.style.height = "20px";
   }
 };
