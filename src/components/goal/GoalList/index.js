@@ -1,7 +1,7 @@
-import styles from "@/styles/goal/GoalList.module.scss";
 import useSWR from "swr";
 
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import styles from "@/styles/goal/GoalList.module.scss";
 import { fetcher, goal_address } from "@/utils/swr";
 
 import GoalListHeader from "./GoalListHeader";

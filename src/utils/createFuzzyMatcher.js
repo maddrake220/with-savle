@@ -28,6 +28,7 @@ function ch2pattern(ch) {
       ㅅ: "사".codePointAt(0),
     };
     const begin =
+      // eslint-disable-next-line security/detect-object-injection
       con2syl[ch] ||
       (ch.codePointAt(0) - 12_613) /* 'ㅅ'의 코드 */ * 588 + con2syl["ㅅ"];
     const end = begin + 587;

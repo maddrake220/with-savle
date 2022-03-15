@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "@/styles/goal/NewGoalForm.module.scss";
 
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import styles from "@/styles/goal/NewGoalForm.module.scss";
 
 import NewGoalForm from "./NewGoal/NewGoalForm";
 import NewGoalHeader from "./NewGoal/NewGoalHeader";
