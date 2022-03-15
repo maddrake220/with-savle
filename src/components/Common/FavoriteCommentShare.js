@@ -20,6 +20,7 @@ export default function FavoriteCommentShare({
         <Image src="/img/comment.svg" alt="Comment" width={20} height={20} />
         <span>{commentCount}</span>
       </div>
+
       <div
         className={`${style.copy_btn} ${timeoutToggle ? style.active : ""}`}
         onClick={timeoutModal}
@@ -31,6 +32,7 @@ export default function FavoriteCommentShare({
           height={20}
           onClick={copy}
         />
+        {/* <input className={style.hidden} type="text" onCopy={copy} /> */}
       </div>
     </div>
   );
