@@ -39,9 +39,9 @@ function GoalById({ data }) {
         <div className={style.text}>{text}</div>
         <div className={style.categories}>
           <ul>
-            {categories.map((item) => {
+            {categories.map((item, index) => {
               return (
-                <li key={id}>
+                <li key={index}>
                   <span>#{item}</span>
                 </li>
               );
