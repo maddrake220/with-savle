@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "cacheDirectories": [".next/cache"],
   "dependencies": {
     "@prisma/client": "^3.10.0",
     "axios": "^0.26.0",
