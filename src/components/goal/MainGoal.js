@@ -7,7 +7,7 @@ import style from "@/styles/goal/MainGoal.module.scss";
 export default function MainGoal() {
   return (
     <div className={style.main_goal}>
-      <div className={`${style.container} container`}>
+      <div className={`${style.container}`}>
         <MainGoalTitle />
         <div className={style.respon}>
           <MainGoalPostItem />
