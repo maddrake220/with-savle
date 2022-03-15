@@ -2,14 +2,19 @@ import { useCallback, useEffect, useState } from "react";
 import { fetchGetGoalCategory, fetchPostGoal } from "src/api/goal";
 import { mutate } from "swr";
 
-import { MAX_GOAL_CATEGORY } from "@/utils/goal/constants";
-import { goal_address } from "@/utils/swr";
+import {
+  createFuzzyMatcher,
+  GOAL_ADDRESS,
+  keywordDuplicationCheck,
+  MAX_GOAL_CATEGORY,
+} from "@/utils/index";
 
 export const useForm = (
   toggleModal,
   textareaReference,
   selectedReference,
   inputReference,
+  isToggleModal,
 ) => {
   const [selectedAge, setSelectedAge] = useState();
   const [isFocusedCategoryInput, setIsFocusedCategoryInput] = useState(false);
@@ -54,7 +59,7 @@ export const useForm = (
             setText("");
             setSelectedGoalCategories([]);
             setSelectedAge();
-            mutate(goal_address);
+            mutate(GOAL_ADDRESS);
           }
         })
         .catch((error) => alert(error, "fail to post"));
@@ -85,16 +90,35 @@ export const useForm = (
   const onMouseDownGoalCategory = useCallback(
     (event, value) => {
       event.preventDefault();
+
+      if (typeof value === "string") {
+        // 새로운 카테고리 입력시
+        if (keywordDuplicationCheck(seletedGoalCategories, value)) {
+          return;
+        }
+        setSelectedGoalCategories((values) => [
+          ...values,
+          {
+            keyword: value,
+          },
+        ]);
+      } else {
+        if (keywordDuplicationCheck(seletedGoalCategories, value.keyword)) {
+          return;
+        }
+        setSelectedGoalCategories((values) => [...values, value]);
+      }
       setTimeout(() => {
         inputReference.current.blur();
         if (seletedGoalCategories.length === MAX_GOAL_CATEGORY) {
           inputReference.current.disabled = true;
         }
       }, 100);
-      setSelectedGoalCategories((values) => [...values, value]);
+
       setValidationCheck({ category: false });
+      setSearchCategory("");
     },
-    [seletedGoalCategories, inputReference],
+    [seletedGoalCategories, inputReference, setSearchCategory],
   );
   const onMouseDownUndoGoalCategory = useCallback(
     (event, value) => {
@@ -103,26 +127,53 @@ export const useForm = (
       setSelectedGoalCategories((values) => {
         return values.filter((v) => v.id !== value.id);
       });
+      setSearchCategory("");
     },
-    [inputReference],
+    [inputReference, setSearchCategory],
   );
   const onChangeSearchCategory = useCallback((event) => {
+    if (event.target.value.length > 10) {
+      return;
+    }
     setSearchCategory(event.target.value);
+  }, []);
+  const onKeyDownCategoryInput = useCallback((event) => {
+    switch (event.key) {
+      case "Enter": {
+        break;
+      }
+      case "ArrowUp": {
+        break;
+      }
+      case "ArrowDown": {
+        break;
+      }
+      default: {
+        return;
+      }
+    }
   }, []);
   useEffect(() => {
     if (searchCategory !== "") {
+      const regex = createFuzzyMatcher(searchCategory);
       setSearchingCategoryByAge(
-        categoryByAge.filter((v) => v.keyword.includes(searchCategory)),
+        categoryByAge.filter((value) => {
+          return regex.test(value.keyword);
+        }),
       );
     }
   }, [searchCategory, categoryByAge]);
   useEffect(() => {
-    textareaReference.current.focus();
-  }, [toggleModal, textareaReference]);
+    if (isToggleModal) {
+      textareaReference.current.focus();
+    }
+  }, [isToggleModal, textareaReference]);
   useEffect(() => {
-    const width = selectedReference.current.offsetWidth;
-    inputReference.current.style.left = `${width}px`;
-    inputReference.current.style.maxWidth = 160 - width + "px";
+    if (selectedReference.current !== null) {
+      const width = selectedReference.current.offsetWidth;
+      inputReference.current.style.left = `${width + 7}px`;
+      inputReference.current.style.maxWidth = 167 - width + "px";
+    }
   }, [seletedGoalCategories, inputReference, selectedReference]);
   useEffect(() => {
     if (selectedAge !== undefined) {
@@ -132,6 +183,11 @@ export const useForm = (
         .catch((error) => new Error(error));
     }
   }, [selectedAge]);
+  useEffect(() => {
+    if (isFocusedCategoryInput && selectedAge === undefined) {
+      setValidationCheck({ age: true });
+    }
+  }, [isFocusedCategoryInput, selectedAge, validationCheck]);
   return [
     selectedAge,
     isFocusedCategoryInput,
@@ -150,5 +206,6 @@ export const useForm = (
     onMouseDownUndoGoalCategory,
     onChangeSearchCategory,
     onChangeText,
+    onKeyDownCategoryInput,
   ];
 };

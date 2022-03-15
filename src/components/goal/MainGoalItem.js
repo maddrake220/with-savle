@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import style from "styles/MainGoal.module.scss";
+
+import style from "@/styles/goal/MainGoal.module.scss";
 
 MainGoalItem.defaultProps = {
   id: 0,

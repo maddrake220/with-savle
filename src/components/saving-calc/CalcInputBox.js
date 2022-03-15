@@ -1,4 +1,4 @@
-import styles from "styles/saving-calc/CalcInputBox.module.scss";
+import styles from "@/styles/saving-calc/CalcInputBox.module.scss";
 
 import AmountInput from "./AmountInput";
 import GoalInput from "./GoalInput";

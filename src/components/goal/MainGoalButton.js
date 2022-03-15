@@ -1,5 +1,6 @@
 import Link from "next/link";
-import style from "styles/MainGoal.module.scss";
+
+import style from "@/styles/goal/MainGoal.module.scss";
 
 export default function MainGoalButton() {
   return (

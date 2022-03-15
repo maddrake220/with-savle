@@ -14,7 +14,7 @@ const nextConfig = {
   reactStrictMode: true,
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
-    prependData: `@import "styles/variables.scss";`,
+    prependData: `@import "src/styles/variables.scss";`,
   },
 };
 const withImages = require("next-images");

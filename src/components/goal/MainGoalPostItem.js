@@ -1,8 +1,6 @@
-import styles from "styles/goal/new-goal-post-item.module.scss";
-
 import MainGoalPostForm from "@/components/goal/MainGoalPostForm";
-import { useModal } from "@/hooks/index";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { useBreakpoint, useModal } from "@/hooks/index";
+import styles from "@/styles/goal/MainGoalPostItem.module.scss";
 
 import NewGoalComplete from "./NewGoalComplete";
 

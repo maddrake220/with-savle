@@ -1,9 +1,8 @@
-import axios from "axios";
+import { fetchGetGoal } from "src/api/goal";
 import { SWRConfig } from "swr";
 
-import GoalList from "@/components/Goal/GoalList";
-import server from "@/config/server";
-import { revalidate } from "@/utils/goal/constants";
+import GoalList from "@/components/goal/GoalList";
+import { GOAL_ADDRESS, ONE_WEEK } from "@/utils/index";
 
 export default function Goal({ fallback }) {
   return (
@@ -15,13 +14,13 @@ export default function Goal({ fallback }) {
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export const getStaticProps = async () => {
-  const response = await axios.get(`${server}/api/goal`);
+  const response = await fetchGetGoal();
   return {
     props: {
       fallback: {
-        "/api/goal": response.data.results,
+        [GOAL_ADDRESS]: response.data.results,
       },
     },
-    revalidate,
+    revalidate: ONE_WEEK,
   };
 };

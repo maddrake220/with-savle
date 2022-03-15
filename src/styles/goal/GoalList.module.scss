@@ -1,0 +1,164 @@
+.goalListContainer {
+  ol,
+  ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+  }
+  header {
+    background-color: rgba(49, 120, 255, 0.8);
+    height: 8rem;
+    color: white;
+    .headerInfo {
+      margin: 0 1.25rem;
+      padding-top: 0.34rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      h1 {
+        width: 12.288rem;
+        margin-right: 6.563rem;
+        font-size: 1.375rem;
+        font-weight: bold;
+        line-height: 1.75rem;
+      }
+      p {
+        font-weight: normal;
+        font-size: 0.813rem;
+        line-height: 1.25rem;
+        transform: translateY(-0.843rem);
+      }
+      .goalHeaderImage {
+        position: absolute;
+        right: 0;
+        bottom: 1.155rem;
+      }
+    }
+  }
+  main {
+    background: rgba(143, 201, 255, 0.15);
+    padding-bottom: 5rem;
+    .ageListSmall {
+      margin-left: 1rem;
+    }
+    .ageList {
+      height: 3.875rem;
+      display: flex;
+      align-items: center;
+      overflow-x: scroll;
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      li {
+        &:not(:first-child) {
+          margin-left: 0.75rem;
+        }
+      }
+    }
+    .goalListWrapper {
+      position: relative;
+    }
+    .goalList {
+      padding-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 2rem;
+      gap: 0.625rem 1.25rem;
+    }
+  }
+  .newGoal {
+    cursor: pointer;
+    position: fixed;
+    bottom: 1.688rem;
+    right: 1rem;
+  }
+  .newGoalModalBack {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #00000080;
+    z-index: 10000;
+  }
+}
+@media (max-width: 295px) {
+  .goalHeaderImage {
+    display: none;
+  }
+}
+@media (min-width: 576px) {
+  .goalListContainer {
+    header {
+      height: 12.688rem;
+      .headerInfo {
+        padding-top: 1rem;
+        h1 {
+          width: 16.25rem;
+          line-height: 2.25rem;
+          font-size: 1.75rem;
+          letter-spacing: 0.031rem;
+        }
+        p {
+          font-size: 1rem;
+          line-height: 1.5rem;
+        }
+      }
+    }
+    main {
+      .goalList {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
+    .newGoal {
+      right: 5.813rem;
+      bottom: 2.375rem;
+    }
+  }
+}
+@media (min-width: 1200px) {
+  .goalListContainer {
+    header {
+      height: 15.375rem;
+      .headerInfo {
+        h1 {
+          width: 24.125rem;
+          font-size: 2.5rem;
+          line-height: 3.438rem;
+        }
+        p {
+          transform: translateY(-2.224rem);
+          font-size: 1.75rem;
+          line-height: 2.25rem;
+        }
+        .goalHeaderImage {
+          right: 1rem;
+          bottom: 3.234rem;
+        }
+      }
+    }
+    main {
+      .ageList {
+        padding-top: 1rem;
+      }
+      .goalList {
+        gap: 1.25rem 2rem;
+      }
+      .goalDropdown {
+        transform: translateY(-38px);
+      }
+    }
+  }
+  .newGoal {
+    right: 3.875rem;
+    bottom: 2.5rem;
+  }
+}
+.displayNone {
+  display: none;
+}
