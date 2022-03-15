@@ -3,8 +3,8 @@ import Favorite from "public/img/Favorite.svg";
 import { useCallback } from "react";
 import { fetchPutVoteLike } from "src/api/vote";
 
-import { useLike } from "@/hooks/useLike";
-import style from "@/styles/VoteBox.module.scss";
+import { useLike } from "@/hooks/index";
+import style from "@/styles/vote/VoteBox.module.scss";
 import { LOCALSTORAGE_VOTE_LIKE } from "@/utils/constants";
 
 export default function VoteBox({ voteBoxData }) {

@@ -1,10 +1,10 @@
 import { useCallback, useState } from "react";
 import { fetchGetVote, fetchGetVoteById, fetchPutVoteLike } from "src/api/vote";
 
-import Comment from "@/components/Comment/Comment.js";
-import FavoriteCommentShare from "@/components/Common/FavoriteCommentShare";
-import Seo from "@/components/Common/Seo";
-import ShowListButton from "@/components/Common/ShowListButton";
+import Comment from "@/components/comment/Comment.js";
+import FavoriteCommentShare from "@/components/common/FavoriteCommentShare";
+import Seo from "@/components/common/Seo";
+import ShowListButton from "@/components/common/ShowListButton";
 import VoteButton from "@/components/vote/VoteButton";
 import VoteItems from "@/components/vote/VoteItems";
 import {
@@ -13,7 +13,7 @@ import {
   useTimeoutToggle,
   useVoteState,
 } from "@/hooks/index";
-import style from "@/styles/VoteId.module.scss";
+import style from "@/styles/vote/VoteId.module.scss";
 import { LOCALSTORAGE_VOTE_LIKE } from "@/utils/index";
 
 // eslint-disable-next-line unicorn/prevent-abbreviations

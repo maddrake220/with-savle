@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/prevent-abbreviations */
 import Link from "next/link";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { fetchGetGoal, fetchGetGoalById, fetchPutGoalLike } from "src/api/goal";
-import style from "styles/goal/GoalId.module.scss";
+import style from "@/styles/goal/GoalId.module.scss";
 
 import Comment from "@/components/comment/Comment";
-import FavoriteCommentShare from "@/components/vote/FavoriteCommentShare";
+import FavoriteCommentShare from "@/components/common/FavoriteCommentShare";
 import { useLike, useTimeoutToggle } from "@/hooks/index";
 import { LOCALSTORAGE_GOAL_LIKE } from "@/utils/index";
 

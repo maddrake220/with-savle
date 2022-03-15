@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
-import styles from "styles/goal/GoalList.module.scss";
 
 import CategoryButton from "@/components/goal/CategoryButton";
+import styles from "@/styles/goal/GoalList.module.scss";
 import { ageList } from "@/utils/ageList";
 import { checkRangeAge } from "@/utils/checkRangeAge";
 export default function GoalListMainCategory({ queryMatch, setFiltered }) {

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import style from "@/styles/VoteId.module.scss";
+import style from "@/styles/vote/VoteId.module.scss";
 
 export default function ShowListButton() {
   return (

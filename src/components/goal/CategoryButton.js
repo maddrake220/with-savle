@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "styles/goal/CategoryButton.module.scss";
+import styles from "@/styles/goal/CategoryButton.module.scss";
 const getBackgroundColor = (backgroundColor) => {
   switch (backgroundColor) {
     case "blue": {

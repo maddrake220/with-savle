@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useRef } from "react";
-import styles from "styles/goal/NewGoalForm.module.scss";
+import styles from "@/styles/goal/NewGoalForm.module.scss";
 
 import { useForm } from "@/hooks/useForm";
 import { newGoalAgeList } from "@/utils/newGoalAgeList";

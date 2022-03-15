@@ -6,8 +6,8 @@ import Link from "next/link";
 import Slider from "react-slick";
 
 import MockVoteBox from "@/components/vote/MockVoteBox";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
-import style from "@/styles/MainVote.module.scss";
+import { useBreakpoint } from "@/hooks/index";
+import style from "@/styles/vote/MainVote.module.scss";
 import { mockDatas } from "@/utils/voteMockData";
 
 function NextArrow(properties) {

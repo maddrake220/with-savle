@@ -72,6 +72,7 @@ export const useVoteState = (id) => {
       }
     }
   }, [id]);
+
   return {
     selectId,
     submitted,
