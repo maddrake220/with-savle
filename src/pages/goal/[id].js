@@ -6,6 +6,7 @@ import { fetchGetGoal, fetchGetGoalById, fetchPutGoalLike } from "src/api/goal";
 
 import Comment from "@/components/comment/Comment";
 import FavoriteCommentShare from "@/components/common/FavoriteCommentShare";
+import Seo from "@/components/Common/Seo";
 import { useLike, useTimeoutToggle } from "@/hooks/index";
 import style from "@/styles/goal/GoalId.module.scss";
 import { LOCALSTORAGE_GOAL_LIKE } from "@/utils/index";
@@ -55,6 +56,13 @@ function GoalById({ data }) {
 
   return (
     <section className={style.goal_detail}>
+      <Seo
+        title="목표공유 | 쉽고 FUN한 저축, 세이블"
+        desc="세이블에서 목표 달성, 함께해요!"
+        ogUrl={`https://with-savle.herokuapp.com/${id}`}
+        ogTitle="목표 공유"
+        ogDesc="세이블에서 목표 달성, 함께해요! 다른 사람들과 목표를 공유해보아요."
+      />
       <div className={style.goal_detail_container}>
         <div className={style.info}>
           익명의 {id}님 | {age}대
