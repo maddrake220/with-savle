@@ -1,9 +1,11 @@
-import Link from "next/link";
 import { useCallback, useState } from "react";
 import { fetchGetVote, fetchGetVoteById, fetchPutVoteLike } from "src/api/vote";
 
 import Comment from "@/components/Comment/Comment.js";
-import FavoriteCommentShare from "@/components/vote/FavoriteCommentShare";
+import FavoriteCommentShare from "@/components/Common/FavoriteCommentShare";
+import Seo from "@/components/Common/Seo";
+import ShowListButton from "@/components/Common/ShowListButton";
+import VoteButton from "@/components/vote/VoteButton";
 import VoteItems from "@/components/vote/VoteItems";
 import {
   useBreakpoint,
@@ -67,59 +69,60 @@ function VoteById({ data }) {
   );
 
   return (
-    <div
-      className={style.wrapper}
-      style={
-        breakpoint.sm
-          ? { backgroundColor: "#fff" }
-          : { backgroundColor: "#f7f8fa" }
-      }
-    >
-      <div className={style.container}>
-        <form onSubmit={onSubmit}>
-          <h1 className={style.title}>{title}</h1>
-          <p className={style.text}>{text}</p>
-          <VoteItems
-            handleClick={handleClick}
-            disabled={disabled}
-            voteSelect={voteSelect}
-            selectId={selectId}
-            submitted={submitted}
-            borderColor={borderColor}
-            selectItemBackground={selectItemBackground}
-            voteBtnBg={voteBtnBg}
+    <>
+      <Seo
+        title={"고민해결소 | 쉽고 FUN한 저축, 세이블"}
+        keyword={
+          ("고민투표",
+          voteSelect[0].item,
+          voteSelect[1].item,
+          voteSelect[2]?.item,
+          voteSelect[3]?.item)
+        }
+        desc={title}
+        ogUrl={`https://savle.net/vote/${id}`}
+        ogTitle={title}
+        ogDesc={
+          "저축러의 고민해결소. 저축에 관한 고민을 나누고 투표하며 함께 고민을 해결해요."
+        }
+      />
+      <div className={breakpoint.sm ? "" : style.wrapper}>
+        <div className={style.container}>
+          <form onSubmit={onSubmit}>
+            <h1 className={style.title}>
+              {title.length > 35 ? `${title.slice(0, 35)}...` : title}
+            </h1>
+            <p className={style.text}>{text}</p>
+            <VoteItems
+              handleClick={handleClick}
+              disabled={disabled}
+              voteSelect={voteSelect}
+              selectId={selectId}
+              submitted={submitted}
+              borderColor={borderColor}
+              selectItemBackground={selectItemBackground}
+              voteBtnBg={voteBtnBg}
+            />
+            <VoteButton
+              disabled={disabled}
+              selectId={selectId}
+              voteBtnBg={voteBtnBg}
+              voteBtntextColor={voteBtntextColor}
+            />
+          </form>
+          <FavoriteCommentShare
+            commentCount={commentCount}
+            timeoutToggle={timeoutToggle}
+            timeoutModal={timeoutModal}
+            like={like}
+            likeNums={likeNums}
+            handleLikeToggle={handleLikeToggle}
           />
-          <button
-            className={style.vote_btn}
-            type="submit"
-            disabled={disabled}
-            style={
-              selectId !== -1
-                ? { backgroundColor: voteBtnBg, color: voteBtntextColor }
-                : { backgroundColor: "#d5d8dc", color: "#B2B2B2" }
-            }
-          >
-            투표하기
-          </button>
-        </form>
-        <FavoriteCommentShare
-          commentCount={commentCount}
-          timeoutToggle={timeoutToggle}
-          timeoutModal={timeoutModal}
-          like={like}
-          likeNums={likeNums}
-          handleLikeToggle={handleLikeToggle}
-        />
-        <Comment id={id} value="vote" setCount={setCommentCount} />
-        <div className={style.back_btn_container}>
-          <Link href={`/vote`}>
-            <a className={style.link}>
-              <button className={style.back_btn}>목록보기</button>
-            </a>
-          </Link>
+          <Comment id={id} value="vote" setCount={setCommentCount} />
+          <ShowListButton />
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

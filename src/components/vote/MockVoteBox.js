@@ -10,20 +10,26 @@ export default function MockVoteBox({ mockData }) {
           ? `${mockData.title.slice(0, 35)}...`
           : mockData.title}
       </h1>
-      {mockData.voteSelect.map((selectItem) => (
-        <div key={selectItem.item} className={style.vote_select_items}>
-          <input
-            type="radio"
-            id={selectItem.item}
-            name="vote"
-            value={selectItem.item}
-            disabled
-            className={style.radio_btn}
-          />
-          <label htmlFor={selectItem.item}>{selectItem.item}</label>
-        </div>
-      ))}
-      <div className={style.favorite_comment}>
+      <ul>
+        {mockData.voteSelect.map((selectItem) => (
+          <li key={selectItem.item} className={style.vote_select_items}>
+            <input
+              type="radio"
+              id={selectItem.item}
+              name="vote"
+              value={selectItem.item}
+              disabled
+              className={style.radio_btn}
+            />
+            <label htmlFor={selectItem.item}>
+              {selectItem.item.length > 20
+                ? `${selectItem.item.slice(0, 20)}`
+                : selectItem.item}
+            </label>
+          </li>
+        ))}
+      </ul>
+      <section className={style.favorite_comment}>
         <div className={style.favorite}>
           <Image
             src="/img/favorite.svg"
@@ -37,7 +43,7 @@ export default function MockVoteBox({ mockData }) {
           <Image src="/img/comment.svg" alt="Comment" width={20} height={20} />
           <span>{mockData.voteComments.length}</span>
         </div>
-      </div>
+      </section>
     </li>
   );
 }

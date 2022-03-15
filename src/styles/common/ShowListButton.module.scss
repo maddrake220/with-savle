@@ -1,0 +1,37 @@
+.back_btn_container {
+  display: flex;
+  justify-content: center;
+  margin: 52px auto 18px;
+  .link {
+    text-decoration: none;
+    outline: none;
+    &:hover,
+    &:active {
+      text-decoration: none;
+    }
+    .back_btn {
+      border: none;
+      width: 105px;
+      height: 37px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      background-color: $grey-5;
+      color: $black;
+      cursor: pointer;
+    }
+  }
+}
+@media (min-width: 576px) {
+  .back_btn_container {
+    margin: 80px auto 0px;
+    .link {
+      .back_btn {
+        width: 201px;
+        height: 64px;
+        border-radius: 16px;
+        font-size: 18px;
+      }
+    }
+  }
+}

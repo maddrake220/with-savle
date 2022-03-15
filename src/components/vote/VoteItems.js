@@ -1,7 +1,7 @@
 import style from "@/styles/VoteId.module.scss";
 import { percentage, sumCount } from "@/utils/index";
 
-export default function VoteForm({
+export default function VoteItems({
   disabled,
   voteSelect,
   borderColor,
@@ -72,10 +72,14 @@ export default function VoteForm({
             className={style.radio_btn}
           />
           <label
-            className={`${style.radio_label} ${disabled ? "" : style.active}`}
+            className={`${style.radio_label} ${
+              disabled ? style.shrink : style.active
+            }`}
             htmlFor={selectItem.item}
           >
-            {selectItem.item}
+            {selectItem.item.length > 20
+              ? `${selectItem.item.slice(0, 20)}`
+              : selectItem.item}
           </label>
         </li>
       ))}
