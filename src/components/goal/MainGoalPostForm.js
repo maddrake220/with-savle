@@ -13,9 +13,10 @@ export default function MainGoalPostForm({ toggleModal }) {
       className={styles.newGoal}
       style={{
         position: "relative",
-        maxHeight: "32.563rem",
+        height: "33.563rem",
         width: "483px",
         marginLeft: "18px",
+        marginBottom: "10rem",
         top: "3rem",
         left: "0rem",
       }}
