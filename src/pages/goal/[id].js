@@ -1,12 +1,16 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/prevent-abbreviations */
 import axios from "axios";
-import Image from "next/image";
 import Link from "next/link";
+import { useCallback } from "react";
+import { fetchPutGoalLike } from "src/api/goal";
 import style from "styles/goal/GoalId.module.scss";
 
 import Comment from "@/components/comment/Comment";
+import FavoriteCommentShare from "@/components/vote/FavoriteCommentShare";
 import server from "@/config/server";
+import { useLike, useTimeoutToggle } from "@/hooks/index";
+import { LOCALSTORAGE_GOAL_LIKE } from "@/utils/index";
 
 export async function getStaticProps(context) {
   const { id } = context.params;
@@ -30,6 +34,26 @@ export async function getStaticPaths() {
 
 function GoalById({ data }) {
   const { id, age, categories, text, likes, comments } = data.results;
+
+  const [timeoutToggle, timeoutModal] = useTimeoutToggle();
+
+  const [like, likeNums, localStorageHandler] = useLike(
+    id,
+    likes,
+    LOCALSTORAGE_GOAL_LIKE,
+  );
+
+  const handleLikeToggle = useCallback(
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      localStorageHandler();
+      const parameter = { id: id, like: !like };
+      fetchPutGoalLike(parameter);
+    },
+    [id, like, localStorageHandler],
+  );
+
   return (
     <section className={style.goal_detail}>
       <div className={`${style.container} container `}>
@@ -48,24 +72,14 @@ function GoalById({ data }) {
             })}
           </ul>
         </div>
-        <div className={style.Icons}>
-          <div className={style.likes}>
-            <Image
-              src="/img/goallike.svg"
-              alt="좋아요"
-              width={20}
-              height={20}
-            />
-            <span>{likes}</span>
-          </div>
-          <div className={style.comments}>
-            <Image src="/img/comment.svg" alt="댓글" width={24} height={24} />
-            <span>{comments.length}</span>
-          </div>
-          <div className={style.share}>
-            <Image src="/img/share.svg" alt="공유" width={24} height={24} />
-          </div>
-        </div>
+        <FavoriteCommentShare
+          commentCount={comments.length}
+          timeoutToggle={timeoutToggle}
+          timeoutModal={timeoutModal}
+          like={like}
+          likeNums={likeNums}
+          handleLikeToggle={handleLikeToggle}
+        />
         <Comment id={id} value="goal" setCount={comments.length} />
         <div className={style.back_btn_container}>
           <Link href={`/goal`}>
