@@ -3,7 +3,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { useCallback } from "react";
-import { fetchPutGoalLike } from "src/api/vote";
+import { fetchPutGoalLike } from "src/api/goal";
 import style from "styles/goal/GoalId.module.scss";
 
 import Comment from "@/components/comment/Comment";
