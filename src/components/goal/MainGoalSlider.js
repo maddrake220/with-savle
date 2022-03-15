@@ -3,10 +3,10 @@ import "slick-carousel/slick/slick-theme.css";
 
 import Image from "next/image";
 import Slider from "react-slick";
-import style from "@/styles/goal/MainGoal.module.scss";
 
 import MainGoalItem from "@/components/Goal/MainGoalItem";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { useBreakpoint } from "@/hooks/index";
+import style from "@/styles/goal/MainGoal.module.scss";
 import Data from "@/utils/goal/goalAPI.json";
 
 export default function MainGoalSlider() {
