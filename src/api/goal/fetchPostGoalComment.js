@@ -1,6 +1,4 @@
-import axios from "axios";
-
-import server from "@/config/server";
+import { fetchGoalInstance } from ".";
 
 export const fetchPostGoalComment = async (parameters) =>
-  await axios.post(`${server}/api/goal/comment`, { params: parameters });
+  await fetchGoalInstance.post(`comment`, { params: parameters });

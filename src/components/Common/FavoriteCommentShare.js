@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Favorite from "public/img/Favorite.svg";
+import style from "styles/common/FavoriteCommentShare.module.scss";
 
 import style from "@/styles/VoteId.module.scss";
 import { copy } from "@/utils/index";

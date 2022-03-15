@@ -1,8 +1,3 @@
-import axios from "axios";
+import { fetchGoalInstance } from ".";
 
-import server from "@/config/server";
-
-export const getGoalByIdUrl = (id) => `${server}/api/goal/${id}`;
-
-export const fetchGetGoalById = async (id) =>
-  await axios.get(getGoalByIdUrl(id));
+export const fetchGetGoalById = async (id) => await fetchGoalInstance.get(id);

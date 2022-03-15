@@ -1,5 +1,6 @@
 import React from "react";
-import styles from "styles/saving-calc/PlusButton.module.scss";
+
+import styles from "@/styles/saving-calc/PlusButton.module.scss";
 
 function PlusButton({ mode, handleClick }) {
   return (
