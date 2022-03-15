@@ -3,7 +3,7 @@ import styles from "styles/goal/GoalList.module.scss";
 
 import GoalCard from "@/components/goal/GoalCard";
 import GoalDropdown from "@/components/goal/GoalDropdown";
-import { ageRange } from "@/utils/goal/data";
+import { ageRange } from "@/utils/ageRange";
 
 import GoalListMainCategory from "./GoalListMainCategory";
 

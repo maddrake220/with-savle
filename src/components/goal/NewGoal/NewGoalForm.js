@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import styles from "styles/goal/NewGoalForm.module.scss";
 
 import { useForm } from "@/hooks/useForm";
-import { newGoalAgeList } from "@/utils/goal/data";
+import { newGoalAgeList } from "@/utils/newGoalAgeList";
 
 import NewGoalAgeSection from "./NewGoalAgeSection";
 import NewGoalCategorySection from "./NewGoalCategorySection";
