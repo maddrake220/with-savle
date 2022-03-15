@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "@/styles/goal/NewGoalForm.module.scss";
 
 import NewGoalCategoryButton from "@/components/goal/NewGoalCategoryButton";
+import styles from "@/styles/goal/NewGoalForm.module.scss";
 export default function NewGoalAgeSection({
   newGoalAgeList,
   onClickselectedAge,

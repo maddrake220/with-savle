@@ -3,7 +3,7 @@ import React from "react";
 
 import Seo from "@/components/common/Seo";
 import styles from "@/styles/goal/GoalList.module.scss";
-import { getSize } from "@/utils/getSize";
+import { getSize } from "@/utils/index";
 export default function GoalListHeader({ queryMatch }) {
   return (
     <header>

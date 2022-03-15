@@ -1,14 +1,18 @@
 import Image from "next/image";
 import React, { useRef } from "react";
-import styles from "@/styles/goal/NewGoalForm.module.scss";
 
-import { useForm } from "@/hooks/useForm";
-import { newGoalAgeList } from "@/utils/newGoalAgeList";
+import { useForm } from "@/hooks/index";
+import styles from "@/styles/goal/NewGoalForm.module.scss";
+import { newGoalAgeList } from "@/utils/index";
 
 import NewGoalAgeSection from "./NewGoalAgeSection";
 import NewGoalCategorySection from "./NewGoalCategorySection";
 import NewGoalTextSection from "./NewGoalTextSection";
-export default function NewGoalForm({ toggleModal, matchQuery }) {
+export default function NewGoalForm({
+  toggleModal,
+  matchQuery,
+  isToggleModal,
+}) {
   const textareaReference = useRef(null);
   const inputReference = useRef(null);
   const selectedReference = useRef(null);
@@ -37,6 +41,7 @@ export default function NewGoalForm({ toggleModal, matchQuery }) {
     textareaReference,
     selectedReference,
     inputReference,
+    isToggleModal,
   );
   return (
     <form className={styles.newGoalForm} onSubmit={onSubmit}>
@@ -69,7 +74,15 @@ export default function NewGoalForm({ toggleModal, matchQuery }) {
         selectedReference={selectedReference}
         validationCheck={validationCheck?.category}
       />
-      <button type="submit" className={styles.submitButton}>
+      <button
+        type="submit"
+        className={styles.submitButton}
+        style={{
+          bottom:
+            (validationCheck?.text && "1.435rem") ||
+            (validationCheck?.age && "1.435rem"),
+        }}
+      >
         <Image
           src="/img/newGoalSubmit.svg"
           alt="submit"

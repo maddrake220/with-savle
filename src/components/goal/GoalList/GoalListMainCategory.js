@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import CategoryButton from "@/components/goal/CategoryButton";
 import styles from "@/styles/goal/GoalList.module.scss";
-import { ageList } from "@/utils/ageList";
-import { checkRangeAge } from "@/utils/checkRangeAge";
+import { checkRangeAge } from "@/utils/index";
+import { ageList } from "@/utils/index";
 export default function GoalListMainCategory({ queryMatch, setFiltered }) {
   const [clickedAge, setClickedAge] = useState(0);
   const onClick = useCallback((id) => {

@@ -87,8 +87,8 @@
       }
       .goalWrapper {
         display: flex;
-        align-items: center;
         width: 100%;
+        align-items: center;
         .inputBox {
           font-weight: 400;
           font-size: 13px;
@@ -128,8 +128,10 @@
             cursor: pointer;
             font-size: 13px;
             line-height: 20px;
-            &::before {
-              content: " # ";
+            span {
+              &::before {
+                content: "# ";
+              }
             }
           }
         }
@@ -206,7 +208,7 @@
 @media (min-width: 576px) {
   .newGoal {
     left: calc(50% - 15.94rem);
-    max-height: 32.563rem;
+    max-height: 33.563rem;
     border-radius: 1rem;
     .modalTop {
       height: 3.625rem;
@@ -274,7 +276,7 @@
       }
       .submitButton {
         right: 32px;
-        bottom: 29px;
+        bottom: 45px;
         width: 5.125rem;
         height: 3.375rem;
         border-radius: 4px;
