@@ -5,8 +5,8 @@ const API_BASE_URL =
 
 export { fetchGetGoal } from "./fetchGetGoal";
 export { fetchGetGoalById } from "./fetchGetGoalById";
-export { fetchGetGoalCategory, getGoal } from "./fetchGetGoalCategory";
-export { fetchGetCommentById } from "./fetchGetGoalCommentById";
+export { fetchGetGoalCategory } from "./fetchGetGoalCategory";
+export { fetchGetGoalCommentById } from "./fetchGetGoalCommentById";
 export { fetchPostGoal } from "./fetchPostGoal";
 export { fetchPostGoalComment } from "./fetchPostGoalComment";
 export { fetchPutGoalLike } from "./fetchPutGoalLike";
