@@ -5,11 +5,9 @@ import { mutate } from "swr";
 import {
   createFuzzyMatcher,
   GOAL_ADDRESS,
+  keywordDuplicationCheck,
   MAX_GOAL_CATEGORY,
 } from "@/utils/index";
-
-const keywordDuplicationCheck = (categories, keyword) =>
-  categories.some((category) => category.keyword === keyword);
 
 export const useForm = (
   toggleModal,
