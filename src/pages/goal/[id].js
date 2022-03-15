@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/prevent-abbreviations */
 import Link from "next/link";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { fetchGetGoal, fetchGetGoalById, fetchPutGoalLike } from "src/api/goal";
 
 import Comment from "@/components/comment/Comment";
