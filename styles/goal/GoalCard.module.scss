@@ -38,8 +38,7 @@
         line-height: 1.25rem;
         padding: 0.063rem 0.75rem;
         margin-bottom: 0.2rem;
-        font-weight: bold;
-        :not(:first-child) {
+        &:not(:first-child) {
           margin-left: 6px;
         }
         > span::before {

@@ -5,11 +5,11 @@ import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 import Skeleton from "react-loading-skeleton";
 import { fetchPutGoalLike } from "src/api/goal";
-import styles from "styles/goal/goal-card.module.scss";
+import styles from "styles/goal/GoalCard.module.scss";
 
 import { useLike } from "@/hooks/index";
-import { localstorageGoalLike } from "@/utils/goal/constants";
-import { getAgeGeneration } from "@/utils/goal/functions";
+import { LOCALSTORAGE_GOAL_LIKE } from "@/utils/constants";
+import { getAgeGeneration } from "@/utils/getAgeGeneration";
 
 import GoalLike from "./GoalLike";
 
@@ -26,9 +26,8 @@ export default function GoalCard({
   const [like, likeNums, localStorageHandler] = useLike(
     id,
     likes,
-    localstorageGoalLike,
+    LOCALSTORAGE_GOAL_LIKE,
   );
-
   const onClickCard = useCallback(
     (id) => {
       router.push({
