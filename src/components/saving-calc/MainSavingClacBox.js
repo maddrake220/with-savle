@@ -1,8 +1,7 @@
 import PiggyBank from "public/layout/piggy-bank.svg";
 
 import { useBreakpoint } from "@/hooks/index";
-
-import styles from "../../../styles/saving-calc/MainSavingCalcBox.module.scss";
+import styles from "@/styles/saving-calc/MainSavingCalcBox.module.scss";
 
 function MainSavingClacBox() {
   const { md: isTablet } = useBreakpoint();

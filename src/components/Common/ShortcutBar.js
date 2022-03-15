@@ -3,9 +3,9 @@ import GooglePlay from "public/layout/ic_google-play.svg";
 import MobileBackgroundBox from "public/layout/shortcut-bar-mobile.svg";
 import TabletBackgroundBox from "public/layout/shortcut-bar-tablet.svg";
 import BackgroundBox from "public/layout/shortcut-bar-web.svg";
-import styles from "styles/ShortcutBar.module.scss";
 
 import { useBreakpoint, useWidth } from "@/hooks/index";
+import styles from "@/styles/ShortcutBar.module.scss";
 
 function ShortcutBar() {
   const { sm: isMobile, md: isTablet } = useBreakpoint();

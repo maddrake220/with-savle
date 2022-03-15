@@ -1,21 +1,16 @@
 import { useRef } from "react";
-import styles from "styles/comment/CommentInput.module.scss";
 
 import { useCommentInput, useGetComment } from "@/hooks/index";
+import styles from "@/styles/comment/CommentInput.module.scss";
+import { commentCount } from "@/utils/index";
 
 function CommentInput({ value, id }) {
   const textReference = useRef();
 
   const [data, mutate] = useGetComment(value, id);
 
-  const [
-    comment,
-    disabled,
-    blankCheck,
-    handelChange,
-    handleKeyPress,
-    handleSubmit,
-  ] = useCommentInput(textReference, data, mutate, value, id);
+  const [comment, disabled, handelChange, handleKeyPress, handleSubmit] =
+    useCommentInput(textReference, data, mutate, value, id);
 
   return (
     <form className={styles.input_box} onSubmit={handleSubmit}>
@@ -30,7 +25,7 @@ function CommentInput({ value, id }) {
       />
       <input
         type="submit"
-        className={blankCheck !== 0 ? styles.submit : undefined}
+        className={commentCount(comment) !== 0 ? styles.submit : ""}
         value="등록"
         disabled={disabled}
       />

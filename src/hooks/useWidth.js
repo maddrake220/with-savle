@@ -1,6 +1,6 @@
 import { useBreakpoint } from "./useBreakpoint";
 
-export function useWidth(mobileWidth, tabletWidth, webWidth, unit) {
+export const useWidth = (mobileWidth, tabletWidth, webWidth, unit) => {
   const { sm: isMobile, md: isTablet } = useBreakpoint();
   if (isMobile) {
     return `${mobileWidth}${unit}`;
@@ -9,4 +9,4 @@ export function useWidth(mobileWidth, tabletWidth, webWidth, unit) {
   } else {
     return `${webWidth}${unit}`;
   }
-}
+};

@@ -2,28 +2,30 @@ import { useCallback, useState } from "react";
 import { fetchPostGoalComment } from "src/api/goal";
 import { fetchPostVoteComment } from "src/api/vote";
 
-export function useCommentInput(textReference, data, mutate, value, id) {
+import { controlTextarea } from "@/utils/controlTextarea";
+import {
+  commentCount,
+  isCheckBlank,
+  isCheckCount,
+  isCheckValue,
+} from "@/utils/index";
+
+export const useCommentInput = (textReference, data, mutate, value, id) => {
   const [comment, setComment] = useState("");
   const [disabled, setDisabled] = useState(false);
-
-  const blankCheck = comment.replace(/(^\s*)|(\s*$)/gi, "").length;
-  const type = value === "goal" ? true : false;
+  const count = commentCount(comment);
 
   const handelChange = useCallback((event) => {
-    if (event.target.value.length > 1000) {
-      alert("1000자까지 작성할 수 있습니다.");
-    } else {
-      textReference.current.style.height = "20px";
-      textReference.current.style.height =
-        textReference.current.scrollHeight + "px";
-      setComment(event.target.value);
-    }
+    const value = event.target.value;
+    isCheckCount(value);
+    controlTextarea(textReference, "change");
+    setComment(value);
   }, []);
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter" && event.shiftKey) {
-      return;
-    } else if (event.key === "Enter") {
+    if (event.key === "Enter" && event.shiftKey) return;
+
+    if (event.key === "Enter") {
       event.preventDefault();
       handleSubmit(event);
     }
@@ -32,36 +34,28 @@ export function useCommentInput(textReference, data, mutate, value, id) {
   const handleSubmit = useCallback(
     async (event) => {
       event.preventDefault();
+
       setDisabled(true);
-      if (blankCheck === 0) {
-        alert("텍스트를 입력해주세요");
-      } else {
-        mutate([...data, { text: comment }], false);
-        const response = type
-          ? await fetchPostGoalComment({
-              text: comment,
-              id: id,
-            })
-          : await fetchPostVoteComment({
-              text: comment,
-              id: id,
-            });
-        mutate([...data, response.data.results], false);
-        setComment("");
-        textReference.current.blur();
-        textReference.current.style.height = "20px";
-      }
+      isCheckBlank(count);
+
+      mutate([...data, { text: comment }], false);
+      const response = isCheckValue(value)
+        ? await fetchPostGoalComment({
+            text: comment,
+            id: id,
+          })
+        : await fetchPostVoteComment({
+            text: comment,
+            id: id,
+          });
+      mutate([...data, response.data.results], false);
+
+      setComment("");
+      controlTextarea(textReference, "reset");
       setDisabled(false);
     },
     [comment],
   );
 
-  return [
-    comment,
-    disabled,
-    blankCheck,
-    handelChange,
-    handleKeyPress,
-    handleSubmit,
-  ];
-}
+  return [comment, disabled, handelChange, handleKeyPress, handleSubmit];
+};

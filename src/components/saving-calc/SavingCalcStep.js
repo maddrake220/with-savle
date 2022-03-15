@@ -1,9 +1,9 @@
 import Arrow from "public/layout/ic_arrow_next.svg";
 import One from "public/layout/ic_number.svg";
 import Check from "public/layout/ic_package_check.svg";
-import styles from "styles/saving-calc/SavingCalcStep.module.scss";
 
 import { useWidth } from "@/hooks/index";
+import styles from "@/styles/saving-calc/SavingCalcStep.module.scss";
 
 import Circle from "../saving-calc/Circle";
 
@@ -41,8 +41,8 @@ function SavingCalcStep({ data }) {
       </div>
       <div className={styles.text}>
         <div>목표 입력하기</div>
-        <div className={next ? styles.next : undefined}>금액 입력하기</div>
-        <div className={result ? styles.result : undefined}>결과 확인하기</div>
+        <div className={next ? styles.next : ""}>금액 입력하기</div>
+        <div className={result ? styles.result : ""}>결과 확인하기</div>
       </div>
     </div>
   );
