@@ -30,7 +30,7 @@ export default function VoteItems({
               : { border: "0px", backgroundColor: "#f6f6f6" }
           }
           key={selectItem.item}
-          className={`${style.vote_box} ${disabled ? style.showGauge : ""}`}
+          className={`${style.vote_box} `}
           onClick={() => handleClick(selectItem.id)}
         >
           <div
