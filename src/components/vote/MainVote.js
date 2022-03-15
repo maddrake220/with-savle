@@ -10,7 +10,7 @@ import { useBreakpoint } from "@/hooks/index";
 import style from "@/styles/vote/MainVote.module.scss";
 import Data from "@/utils/mockdata/voteAPI";
 
-import { NextArrow, PreviousArrow } from "../Common/SlickArrow";
+import { NextArrow, PreviousArrow } from "../common/SlickArrow";
 
 export default function MainVoteSection() {
   const breakpoints = useBreakpoint();
