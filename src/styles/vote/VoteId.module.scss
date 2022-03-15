@@ -42,16 +42,6 @@
       &:last-child {
         margin-bottom: 0;
       }
-      .vote_box.showGauge {
-        background-color: red;
-        border-radius: 4px;
-        height: 36px;
-        margin-top: 10px;
-        display: flex;
-        align-items: center;
-        padding: 0 8px;
-        box-sizing: border-box;
-      }
       .currentGauge {
         position: absolute;
         left: 0;
@@ -115,7 +105,7 @@
     padding: 0px 20px;
     background-color: #f7f8fa;
     .container {
-      padding: 68px 100px;
+      padding: 68px 60px;
       width: 90%;
       box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
       margin: 0 auto;
@@ -148,13 +138,16 @@
             }
           }
           .radio_label {
-            font-size: 18px;
+            font-size: 16px;
             padding: 0 35px;
             &.active:before {
               height: 18px;
               width: 18px;
               border: 2px solid $grey-2;
               left: 5px;
+            }
+            &.shrink {
+              padding-left: 0px;
             }
           }
         }
@@ -177,6 +170,24 @@
           &.shrink {
             padding-left: 0px;
           } 
+        }
+      }
+    }
+  }
+}
+@media (min-width: 700px) {
+  .wrapper{
+    .container {
+      padding: 68px 100px;
+      .votebox_list {
+        .vote_box {
+          .radio_label {
+            font-size: 18px;
+            &.shrink {
+              margin-left: 34px; 
+              // border: 1px solid red;
+            }
+          }
         }
       }
     }

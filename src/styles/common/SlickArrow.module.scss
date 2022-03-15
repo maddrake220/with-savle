@@ -1,0 +1,24 @@
+.slick_container {
+  border: 1px solid red;
+  margin: 16px auto 22px;
+  list-style: none;
+  padding: 0;
+  width: 90%;
+  position: relative;
+}
+.slick_arrow {
+  position: absolute;
+  top: 44%;
+  z-index: 1;
+  background-color: red;
+}
+.slick_arrow:before {
+  content: ""; 
+  left: 0;
+}
+.slick_arrow:last-child {
+  // border: 1px solid red;
+  // background-color: red;
+  right: 0;
+}
+

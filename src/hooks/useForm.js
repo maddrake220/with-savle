@@ -3,7 +3,7 @@ import { fetchGetGoalCategory, fetchPostGoal } from "src/api/goal";
 import { mutate } from "swr";
 
 import { MAX_GOAL_CATEGORY } from "@/utils/constants";
-import { createFuzzyMatcher } from "@/utils/createFuzzyMatcher";
+// import { createFuzzyMatcher } from "@/utils/createFuzzyMatcher";
 import { goal_address } from "@/utils/swr";
 
 export const useForm = (
