@@ -350,6 +350,11 @@ template {
  * Add the correct display in IE 10.
  */
 
+ul {
+  list-style: none;
+  padding: 0;
+}
+
 [hidden] {
   display: none;
 }

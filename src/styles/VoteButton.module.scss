@@ -1,0 +1,19 @@
+.vote_btn {
+  margin-top: 34px;
+  border: none;
+  width: 100%;
+  height: 36px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@media (min-width: 576px) {
+  .vote_btn {
+        margin-top: 44px;
+        height: 64px;
+        border-radius: 16px;
+        font-size: 18px;
+      }
+    }
+

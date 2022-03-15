@@ -1,26 +1,25 @@
-import axios from "axios";
-import Link from "next/link";
 import { useCallback, useState } from "react";
-import { fetchPutVoteLike } from "src/api/vote";
+import { fetchGetVote, fetchGetVoteById, fetchPutVoteLike } from "src/api/vote";
 
-import Comment from "@/components/comment/Comment";
-import FavoriteCommentShare from "@/components/vote/FavoriteCommentShare";
+import Comment from "@/components/Comment/Comment.js";
+import FavoriteCommentShare from "@/components/Common/FavoriteCommentShare";
+import Seo from "@/components/Common/Seo";
+import ShowListButton from "@/components/Common/ShowListButton";
+import VoteButton from "@/components/vote/VoteButton";
 import VoteItems from "@/components/vote/VoteItems";
-import server from "@/config/server";
 import {
   useBreakpoint,
   useLike,
   useTimeoutToggle,
   useVoteState,
 } from "@/hooks/index";
+import style from "@/styles/VoteId.module.scss";
 import { LOCALSTORAGE_VOTE_LIKE } from "@/utils/index";
-
-import style from "./Id.module.scss";
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export const getStaticProps = async (context) => {
   const { id } = context.params;
-  const { data } = await axios.get(`${server}/api/vote/${id}`);
+  const { data } = await fetchGetVoteById(id);
   return {
     props: {
       data,
@@ -29,7 +28,7 @@ export const getStaticProps = async (context) => {
 };
 
 export const getStaticPaths = async () => {
-  const { data } = await axios.get(`${server}/api/vote`);
+  const { data } = await fetchGetVote();
   const ids = data.results.map((data) => data.id);
   const paths = ids.map((id) => ({ params: { id: id.toString() } }));
   return {
@@ -70,87 +69,60 @@ function VoteById({ data }) {
   );
 
   return (
-    <div
-      style={
-        breakpoint.sm
-          ? { backgroundColor: "#fff" }
-          : { backgroundColor: "#f7f8fa" }
-      }
-    >
-      <div className={style.container}>
-        <form onSubmit={onSubmit}>
-          <h1 className={style.title}>{title}</h1>
-          <p className={style.text}>{text}</p>
-          <VoteItems
-            handleClick={handleClick}
-            disabled={disabled}
-            voteSelect={voteSelect}
-            selectId={selectId}
-            submitted={submitted}
-            borderColor={borderColor}
-            selectItemBackground={selectItemBackground}
-            voteBtnBg={voteBtnBg}
+    <>
+      <Seo
+        title={"고민해결소 | 쉽고 FUN한 저축, 세이블"}
+        keyword={
+          ("고민투표",
+          voteSelect[0].item,
+          voteSelect[1].item,
+          voteSelect[2]?.item,
+          voteSelect[3]?.item)
+        }
+        desc={title}
+        ogUrl={`https://savle.net/vote/${id}`}
+        ogTitle={title}
+        ogDesc={
+          "저축러의 고민해결소. 저축에 관한 고민을 나누고 투표하며 함께 고민을 해결해요."
+        }
+      />
+      <div className={breakpoint.sm ? "" : style.wrapper}>
+        <div className={style.container}>
+          <form onSubmit={onSubmit}>
+            <h1 className={style.title}>
+              {title.length > 35 ? `${title.slice(0, 35)}...` : title}
+            </h1>
+            <p className={style.text}>{text}</p>
+            <VoteItems
+              handleClick={handleClick}
+              disabled={disabled}
+              voteSelect={voteSelect}
+              selectId={selectId}
+              submitted={submitted}
+              borderColor={borderColor}
+              selectItemBackground={selectItemBackground}
+              voteBtnBg={voteBtnBg}
+            />
+            <VoteButton
+              disabled={disabled}
+              selectId={selectId}
+              voteBtnBg={voteBtnBg}
+              voteBtntextColor={voteBtntextColor}
+            />
+          </form>
+          <FavoriteCommentShare
+            commentCount={commentCount}
+            timeoutToggle={timeoutToggle}
+            timeoutModal={timeoutModal}
+            like={like}
+            likeNums={likeNums}
+            handleLikeToggle={handleLikeToggle}
           />
-          <button
-            className={style.vote_btn}
-            type="submit"
-            disabled={disabled}
-            style={
-              selectId !== -1
-                ? { backgroundColor: voteBtnBg, color: voteBtntextColor }
-                : { backgroundColor: "#d5d8dc", color: "#B2B2B2" }
-            }
-          >
-            투표하기
-          </button>
-        </form>
-        <FavoriteCommentShare
-          commentCount={commentCount}
-          timeoutToggle={timeoutToggle}
-          timeoutModal={timeoutModal}
-          like={like}
-          likeNums={likeNums}
-          handleLikeToggle={handleLikeToggle}
-        />
-        {/* <div className={style.favorite_comment_share}>
-          <div className={style.favorite_comment}>
-            <Favorite
-              fill={like ? "#FF2222" : "#fff"}
-              onClick={handleLikeToggle}
-            />
-            <span className={style.favorite}>{likeNums}</span>
-            <Image
-              src="/img/comment.svg"
-              alt="Comment"
-              width={20}
-              height={20}
-            />
-            <span>{commentCount}</span>
-          </div>
-          <div
-            className={`${style.copy_btn} ${modalActive ? style.active : ""}`}
-            onClick={onClickModalOn}
-          >
-            <Image
-              src="/img/share.svg"
-              alt="Share"
-              width={20}
-              height={20}
-              onClick={copy}
-            />
-          </div>
-        </div>
-          */}
-        <Comment id={id} value="vote" setCount={setCommentCount} />
-        <div className={style.back_btn_container}>
-          <Link href={`/vote`}>
-            <a className={style.link}>
-              <button className={style.back_btn}>목록보기</button>
-            </a>
-          </Link>
+          <Comment id={id} value="vote" setCount={setCommentCount} />
+          <ShowListButton />
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

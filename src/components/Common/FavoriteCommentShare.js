@@ -2,6 +2,7 @@ import Image from "next/image";
 import Favorite from "public/img/Favorite.svg";
 import style from "styles/common/FavoriteCommentShare.module.scss";
 
+import style from "@/styles/VoteId.module.scss";
 import { copy } from "@/utils/index";
 
 export default function FavoriteCommentShare({
@@ -20,6 +21,7 @@ export default function FavoriteCommentShare({
         <Image src="/img/comment.svg" alt="Comment" width={20} height={20} />
         <span>{commentCount}</span>
       </div>
+
       <div
         className={`${style.copy_btn} ${timeoutToggle ? style.active : ""}`}
         onClick={timeoutModal}
@@ -31,6 +33,7 @@ export default function FavoriteCommentShare({
           height={20}
           onClick={copy}
         />
+        {/* <input className={style.hidden} type="text" onCopy={copy} /> */}
       </div>
     </div>
   );
