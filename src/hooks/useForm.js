@@ -2,15 +2,19 @@ import { useCallback, useEffect, useState } from "react";
 import { fetchGetGoalCategory, fetchPostGoal } from "src/api/goal";
 import { mutate } from "swr";
 
-import { MAX_GOAL_CATEGORY } from "@/utils/constants";
-// import { createFuzzyMatcher } from "@/utils/createFuzzyMatcher";
-import { goal_address } from "@/utils/swr";
+import {
+  createFuzzyMatcher,
+  GOAL_ADDRESS,
+  keywordDuplicationCheck,
+  MAX_GOAL_CATEGORY,
+} from "@/utils/index";
 
 export const useForm = (
   toggleModal,
   textareaReference,
   selectedReference,
   inputReference,
+  isToggleModal,
 ) => {
   const [selectedAge, setSelectedAge] = useState();
   const [isFocusedCategoryInput, setIsFocusedCategoryInput] = useState(false);
@@ -55,7 +59,7 @@ export const useForm = (
             setText("");
             setSelectedGoalCategories([]);
             setSelectedAge();
-            mutate(goal_address);
+            mutate(GOAL_ADDRESS);
           }
         })
         .catch((error) => alert(error, "fail to post"));
@@ -86,14 +90,12 @@ export const useForm = (
   const onMouseDownGoalCategory = useCallback(
     (event, value) => {
       event.preventDefault();
-      setTimeout(() => {
-        inputReference.current.blur();
-        if (seletedGoalCategories.length === MAX_GOAL_CATEGORY) {
-          inputReference.current.disabled = true;
-        }
-      }, 100);
+
       if (typeof value === "string") {
         // 새로운 카테고리 입력시
+        if (keywordDuplicationCheck(seletedGoalCategories, value)) {
+          return;
+        }
         setSelectedGoalCategories((values) => [
           ...values,
           {
@@ -101,8 +103,18 @@ export const useForm = (
           },
         ]);
       } else {
+        if (keywordDuplicationCheck(seletedGoalCategories, value.keyword)) {
+          return;
+        }
         setSelectedGoalCategories((values) => [...values, value]);
       }
+      setTimeout(() => {
+        inputReference.current.blur();
+        if (seletedGoalCategories.length === MAX_GOAL_CATEGORY) {
+          inputReference.current.disabled = true;
+        }
+      }, 100);
+
       setValidationCheck({ category: false });
       setSearchCategory("");
     },
@@ -152,21 +164,30 @@ export const useForm = (
     }
   }, [searchCategory, categoryByAge]);
   useEffect(() => {
-    textareaReference.current.focus();
-  }, [toggleModal, textareaReference]);
+    if (isToggleModal) {
+      textareaReference.current.focus();
+    }
+  }, [isToggleModal, textareaReference]);
   useEffect(() => {
     if (selectedReference.current !== null) {
       const width = selectedReference.current.offsetWidth;
       inputReference.current.style.left = `${width + 7}px`;
-      inputReference.current.style.maxWidth = 160 - width + 7 + "px";
+      inputReference.current.style.maxWidth = 167 - width + "px";
     }
   }, [seletedGoalCategories, inputReference, selectedReference]);
   useEffect(() => {
-    const age = { age: selectedAge?.value };
-    fetchGetGoalCategory(age)
-      .then((resolve) => setCategoryByAge(resolve.data.results))
-      .catch((error) => new Error(error));
+    if (selectedAge !== undefined) {
+      const age = { age: selectedAge?.value };
+      fetchGetGoalCategory(age)
+        .then((resolve) => setCategoryByAge(resolve.data.results))
+        .catch((error) => new Error(error));
+    }
   }, [selectedAge]);
+  useEffect(() => {
+    if (isFocusedCategoryInput && selectedAge === undefined) {
+      setValidationCheck({ age: true });
+    }
+  }, [isFocusedCategoryInput, selectedAge, validationCheck]);
   return [
     selectedAge,
     isFocusedCategoryInput,

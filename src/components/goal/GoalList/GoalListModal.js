@@ -24,7 +24,7 @@ export default function GoalListModal({ queryMatch }) {
         className={isToggleModal ? styles.newGoalModalBack : styles.displayNone}
         onClick={toggleModal}
       >
-        <NewGoal toggleModal={toggleModal} />
+        <NewGoal toggleModal={toggleModal} isToggleModal={isToggleModal} />
       </div>
     </div>
   );

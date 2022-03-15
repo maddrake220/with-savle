@@ -1,4 +1,6 @@
 export {
+  GOAL_ADDRESS,
+  GOAL_CATEGORY_ADDRESS,
   LOCALSTORAGE_GOAL_LIKE,
   LOCALSTORAGE_VOTE_LIKE,
   MAX_GOAL_CATEGORY,
@@ -17,3 +19,13 @@ export { isCheckBlank } from "./isCheckBlank";
 export { isCheckCount } from "./isCheckCount";
 export { isCheckValue } from "./isCheckValue";
 export { periodCalc } from "./periodCalc";
+
+// goal
+export { ageList } from "./ageList";
+export { ageRange } from "./ageRange";
+export { checkRangeAge } from "./checkRangeAge";
+export { createFuzzyMatcher } from "./createFuzzyMatcher";
+export { createMarkup } from "./createMarkup";
+export { getAgeGeneration } from "./getAgeGeneration";
+export { getSize } from "./getSize";
+export { newGoalAgeList } from "./newGoalAgeList";

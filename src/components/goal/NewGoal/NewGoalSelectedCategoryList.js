@@ -1,4 +1,5 @@
 import React from "react";
+
 import styles from "@/styles/goal/NewGoalForm.module.scss";
 export default function NewGoalSelectedCategoryList({
   selectedReference,
@@ -14,7 +15,7 @@ export default function NewGoalSelectedCategoryList({
           }
           key={index}
         >
-          {seletedGoalCategory.keyword}
+          <span>{seletedGoalCategory.keyword}</span>
         </li>
       ))}
     </ul>
