@@ -25,6 +25,8 @@
     color: #7a7a81;
     margin: 0;
     font-family: "Noto Sans KR";
+    overflow: auto;
+    white-space: pre-wrap;
     @media (min-width: 1200px) {
       font-size: 16px;
     }

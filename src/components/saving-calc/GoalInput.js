@@ -1,7 +1,7 @@
 import Book from "public/layout/book.svg";
-import styles from "styles/saving-calc/SavingClacCommon.module.scss";
 
 import { useGoalInput, useWidth } from "@/hooks/index";
+import styles from "@/styles/saving-calc/SavingClacCommon.module.scss";
 
 function GoalInput({ data }) {
   const [goal, nextButtonFocus, handleChange, handelKeypress, handleSubmit] =
@@ -32,7 +32,7 @@ function GoalInput({ data }) {
             autoFocus
           ></input>{" "}
           입니다
-          <span className={goal.length <= 20 && styles.hidden}>
+          <span className={goal.length <= 20 ? styles.hidden : ""}>
             *최대 글자수는 20자입니다.
           </span>
         </p>
@@ -40,8 +40,8 @@ function GoalInput({ data }) {
       <button
         id="next"
         onClick={handleSubmit}
-        className={`${styles.button} ${nextButtonFocus && styles.next}`}
-        disabled={!nextButtonFocus && "disabled"}
+        className={`${styles.button} ${nextButtonFocus ? styles.next : ""}`}
+        disabled={!nextButtonFocus ? "disabled" : ""}
       >
         다음
       </button>

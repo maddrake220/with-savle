@@ -1,4 +1,4 @@
-import styles from "styles/comment/CommentText.module.scss";
+import styles from "@/styles/comment/CommentText.module.scss";
 
 function CommentText({ data }) {
   const { id, text } = data;

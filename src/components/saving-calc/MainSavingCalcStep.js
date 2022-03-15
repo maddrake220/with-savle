@@ -1,8 +1,8 @@
 import Arrow from "public/layout/ic_arrow_next.svg";
 import Check from "public/layout/ic_package_check.svg";
-import styles from "styles/saving-calc/MainSavingCalcStep.module.scss";
 
 import { useBreakpoint } from "@/hooks/index";
+import styles from "@/styles/saving-calc/MainSavingCalcStep.module.scss";
 
 import Circle from "../saving-calc/Circle";
 
