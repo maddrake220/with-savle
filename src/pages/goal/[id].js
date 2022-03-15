@@ -2,7 +2,7 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 import axios from "axios";
 import Image from "next/image";
-import style from "styles/GoalId.module.scss";
+import style from "styles/goal/GoalId.module.scss";
 
 import server from "@/config/server";
 
