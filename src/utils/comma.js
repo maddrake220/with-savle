@@ -1,7 +1,6 @@
-function comma(value) {
-  return String(value)
-    .replace(/\D/g, "")
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+export const comma = (value) => {
+  const string = /\D/g;
+  const threeDigitNumber = /\B(?=(\d{3})+(?!\d))/g;
 
-export default comma;
+  return String(value).replace(string, "").replace(threeDigitNumber, ",");
+};

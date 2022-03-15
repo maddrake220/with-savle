@@ -1,6 +1,5 @@
-import styles from "styles/saving-calc/SavingClacCommon.module.scss";
-
-import periodCalc from "@/utils/periodCalc";
+import styles from "@/styles/saving-calc/SavingClacCommon.module.scss";
+import { periodCalc } from "@/utils/index";
 
 import ResultFoldBox from "./ResultFoldBox";
 
@@ -27,13 +26,13 @@ function Result({ data }) {
           ) : (
             <span className="goal_slice_first">{goal}</span>
           )}{" "}
-          위해
+          을 위해
           <br />
           <span className="amount">{saving_amount}원</span>을
           {saving_amount.length > 8 && <br />} 적금한다면?
         </h2>
       </div>
-      <div className={styles.result}>
+      <div className={styles.result_wrap}>
         <ResultFoldBox
           setState={setState}
           period={"매월"}

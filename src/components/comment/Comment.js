@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import styles from "styles/comment/Comment.module.scss";
 
 import { useGetComment } from "@/hooks/index";
+import styles from "@/styles/comment/Comment.module.scss";
 
 import CommentInput from "./CommentInput";
 import CommentText from "./CommentText";
@@ -29,7 +29,9 @@ function Comment({ value, id, setCount }) {
       </div>
       <CommentInput value={value} id={id} />
       {!hidden &&
-        data.map((comment) => <CommentText data={comment} key={comment.id} />)}
+        data.map((comment, index) => (
+          <CommentText data={comment} key={index} />
+        ))}
     </div>
   );
 }

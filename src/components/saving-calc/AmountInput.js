@@ -1,8 +1,8 @@
 import PiggyBank from "public/layout/piggy-bank.svg";
 import { useRef } from "react";
-import styles from "styles/saving-calc/SavingClacCommon.module.scss";
 
 import { useAmountInput, useWidth } from "@/hooks/index";
+import styles from "@/styles/saving-calc/SavingClacCommon.module.scss";
 
 import PlusButton from "./PlusButton";
 
@@ -30,7 +30,7 @@ function AmountInput({ data }) {
       <div className={styles.amount}>
         <div className={styles.goal_amount}>
           <p>목표 금액은</p>
-          <span className={goal_amount.length <= 15 && styles.hidden}>
+          <span className={goal_amount.length <= 15 ? styles.hidden : ""}>
             *입력범위를 초과했습니다.
           </span>
           <p className={styles.goal_amount_input}>
@@ -53,7 +53,7 @@ function AmountInput({ data }) {
         <div className={styles.saving_amount}>
           <p>저축 금액은</p>
           <span
-            className={(saving_amount == "" || campareValue) && styles.hidden}
+            className={saving_amount == "" || campareValue ? styles.hidden : ""}
           >
             *저축금액은 목표금액을 같거나 클 수 없습니다
           </span>
@@ -78,8 +78,8 @@ function AmountInput({ data }) {
       <button
         id="result"
         onClick={handleSubmit}
-        className={`${styles.button} ${resultButtonFocus && styles.next}`}
-        disabled={!resultButtonFocus && "disabled"}
+        className={`${styles.button} ${resultButtonFocus ? styles.next : ""}`}
+        disabled={!resultButtonFocus ? "disabled" : ""}
       >
         결과보기
       </button>

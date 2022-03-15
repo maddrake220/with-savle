@@ -1,9 +1,8 @@
 import { useCallback, useState } from "react";
 
-import addAmount from "@/utils/addAmount";
-import comma from "@/utils/comma";
+import { addAmount, comma } from "@/utils/index";
 
-export function useAmountInput(data, saving_amount_reference) {
+export const useAmountInput = (data, saving_amount_reference) => {
   const [amount, setAmount] = useState({ goal_amount: "", saving_amount: "" });
   const { goal_amount, saving_amount } = amount;
   const [inputs, setInputs, state, setState] = data;
@@ -51,11 +50,9 @@ export function useAmountInput(data, saving_amount_reference) {
 
   const handelKeypress = (event) => {
     if (event.key === "Enter") {
-      if (saving_amount.length === 0) {
-        saving_amount_reference.current.focus();
-      } else {
-        handleSubmit(event);
-      }
+      if (saving_amount.length === 0)
+        return saving_amount_reference.current.focus();
+      handleSubmit(event);
     }
   };
 
@@ -82,4 +79,4 @@ export function useAmountInput(data, saving_amount_reference) {
     handelKeypress,
     handleSubmit,
   ];
-}
+};
