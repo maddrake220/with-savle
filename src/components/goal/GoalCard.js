@@ -8,9 +8,11 @@ import { fetchPutGoalLike } from "src/api/goal";
 
 import { useLike } from "@/hooks/index";
 import styles from "@/styles/goal/GoalCard.module.scss";
-import { LOCALSTORAGE_GOAL_LIKE } from "@/utils/constants";
-import { getAgeGeneration } from "@/utils/getAgeGeneration";
-import { createMarkup } from "@/utils/index";
+import {
+  createMarkup,
+  getAgeGeneration,
+  LOCALSTORAGE_GOAL_LIKE,
+} from "@/utils/index";
 
 import GoalLike from "./GoalLike";
 

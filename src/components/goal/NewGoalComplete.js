@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { useBreakpoint } from "@/hooks/index";
 import styles from "@/styles/goal/NewGoalComplete.module.scss";
 
 export default function NewGoalComplete({ toggleModal, from = "main" }) {

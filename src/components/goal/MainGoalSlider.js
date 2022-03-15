@@ -5,7 +5,7 @@ import Image from "next/image";
 import Slider from "react-slick";
 
 import MainGoalItem from "@/components/Goal/MainGoalItem";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { useBreakpoint } from "@/hooks/index";
 import style from "@/styles/goal/MainGoal.module.scss";
 import Data from "@/utils/goal/goalAPI.json";
 

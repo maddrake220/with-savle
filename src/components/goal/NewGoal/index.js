@@ -1,4 +1,4 @@
-import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { useBreakpoint } from "@/hooks/index";
 import styles from "@/styles/goal/NewGoalForm.module.scss";
 
 import NewGoalForm from "./NewGoalForm";

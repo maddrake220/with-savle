@@ -1,18 +1,16 @@
+import { fetcher } from "src/api";
 import useSWR from "swr";
 
-import { useBreakpoint } from "@/hooks/useBreakpoint";
+import { useBreakpoint } from "@/hooks/index";
 import styles from "@/styles/goal/GoalList.module.scss";
-import { fetcher, goal_address } from "@/utils/swr";
+import { GOAL_ADDRESS } from "@/utils/index";
 
 import GoalListHeader from "./GoalListHeader";
 import GoalListMain from "./GoalListMain";
 import GoalListModal from "./GoalListModal";
 
 export default function GoalList() {
-  const {
-    data: { results: data },
-    error,
-  } = useSWR(goal_address, fetcher, {
+  const { data, error } = useSWR(GOAL_ADDRESS, fetcher(true), {
     revalidateOnFocus: false,
   });
   const queryMatch = useBreakpoint();
