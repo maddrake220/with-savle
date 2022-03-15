@@ -2,7 +2,7 @@ import { fetchGetGoal } from "src/api/goal";
 import { SWRConfig } from "swr";
 
 import GoalList from "@/components/goal/GoalList";
-import { GOAL_ADDRESS, ONE_WEEK } from "@/utils/index";
+import { GOAL_ADDRESS } from "@/utils/index";
 
 export default function Goal({ fallback }) {
   return (
@@ -13,7 +13,7 @@ export default function Goal({ fallback }) {
 }
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const response = await fetchGetGoal();
   return {
     props: {
@@ -21,6 +21,5 @@ export const getStaticProps = async () => {
         [GOAL_ADDRESS]: response.data.results,
       },
     },
-    revalidate: ONE_WEEK,
   };
 };
