@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "styles/comment/Comment.module.scss";
 
 import { useGetComment } from "@/hooks/index";
@@ -15,9 +15,11 @@ function Comment({ value, id, setCount }) {
     setHidden(!hidden);
   };
 
-  if (!hidden) {
-    setCount(data.length);
-  }
+  useEffect(() => {
+    if (!hidden) {
+      setCount(data.length);
+    }
+  });
 
   return (
     <div className={styles.comment_container}>

@@ -1,6 +1,4 @@
-import axios from "axios";
-
-import server from "@/config/server";
+import { fetchVoteInstance } from ".";
 
 export const fetchPostVote = async (parameters) =>
-  await axios.post(`${server}/api/vote}`, { params: parameters });
+  await fetchVoteInstance.post("", { params: parameters });

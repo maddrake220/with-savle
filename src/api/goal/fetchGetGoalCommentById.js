@@ -1,8 +1,4 @@
-import axios from "axios";
-
-import server from "@/config/server";
-
-export const getGoalCommentByIdUrl = (id) => `${server}/api/goal/comment/${id}`;
+import { fetchGoalInstance } from ".";
 
 export const fetchGetGoalCommentById = async (id) =>
-  await axios.get(getGoalCommentByIdUrl(id));
+  fetchGoalInstance.get(`comment/${id}`);
