@@ -30,7 +30,6 @@
     }
     .copy_btn {
       cursor: pointer;
-      border: 1px solid red;
     }
   .copy_btn.active:before {
     content: "URL이 복사되었습니다.";
