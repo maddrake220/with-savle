@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { fetchGetGoal, fetchGetGoalById, fetchPutGoalLike } from "src/api/goal";
-import style from "@/styles/goal/GoalId.module.scss";
 
 import Comment from "@/components/comment/Comment";
 import FavoriteCommentShare from "@/components/common/FavoriteCommentShare";
 import { useLike, useTimeoutToggle } from "@/hooks/index";
+import style from "@/styles/goal/GoalId.module.scss";
 import { LOCALSTORAGE_GOAL_LIKE } from "@/utils/index";
 
 export async function getStaticProps(context) {
@@ -34,6 +34,7 @@ function GoalById({ data }) {
   const { id, age, categories, text, likes, comments } = data.results;
 
   const [timeoutToggle, timeoutModal] = useTimeoutToggle();
+  const [commentCount, setCommentCount] = useState(comments.length);
 
   const [like, likeNums, localStorageHandler] = useLike(
     id,
@@ -54,7 +55,7 @@ function GoalById({ data }) {
 
   return (
     <section className={style.goal_detail}>
-      <div className={`${style.container} container `}>
+      <div className={style.goal_detail_container}>
         <div className={style.info}>
           익명의 {id}님 | {age}대
         </div>
@@ -71,14 +72,14 @@ function GoalById({ data }) {
           </ul>
         </div>
         <FavoriteCommentShare
-          commentCount={comments.length}
+          commentCount={commentCount}
           timeoutToggle={timeoutToggle}
           timeoutModal={timeoutModal}
           like={like}
           likeNums={likeNums}
           handleLikeToggle={handleLikeToggle}
         />
-        <Comment id={id} value="goal" setCount={comments.length} />
+        <Comment id={id} value="goal" setCount={setCommentCount} />
         <div className={style.back_btn_container}>
           <Link href={`/goal`}>
             <a className={style.link}>
