@@ -1,8 +1,7 @@
+import style from "@/styles/VoteId.module.scss";
 import { percentage, sumCount } from "@/utils/index";
 
-import style from "../../pages/vote/Id.module.scss";
-
-export default function VoteForm({
+export default function VoteItems({
   disabled,
   voteSelect,
   borderColor,
@@ -18,8 +17,7 @@ export default function VoteForm({
 
   return (
     <ul
-      style={{ padding: "0" }}
-      className={`${disabled ? style.click_block : ""}`}
+      className={`${style.votebox_list} ${disabled ? style.click_block : ""} `}
     >
       {voteSelect.map((selectItem) => (
         <li
@@ -32,9 +30,7 @@ export default function VoteForm({
               : { border: "0px", backgroundColor: "#f6f6f6" }
           }
           key={selectItem.item}
-          className={`${style.vote_box} ${
-            disabled ? style.showGauge : "false"
-          }`}
+          className={`${style.vote_box} ${disabled ? style.showGauge : ""}`}
           onClick={() => handleClick(selectItem.id)}
         >
           <div
@@ -76,10 +72,14 @@ export default function VoteForm({
             className={style.radio_btn}
           />
           <label
-            className={`${style.radio_label} ${disabled ? "" : style.active}`}
+            className={`${style.radio_label} ${
+              disabled ? style.shrink : style.active
+            }`}
             htmlFor={selectItem.item}
           >
-            {selectItem.item}
+            {selectItem.item.length > 20
+              ? `${selectItem.item.slice(0, 20)}`
+              : selectItem.item}
           </label>
         </li>
       ))}
