@@ -26,7 +26,7 @@ function ResultFoldBox({ period, date, rule, setState }) {
         <Arrow
           width={useWidth(19, 26, 52, "px")}
           onClick={hadleClick}
-          style={{ transform: !hidden && "rotate(180deg)" }}
+          style={{ transform: !hidden && "rotate(180deg)", cursor: "pointer" }}
         />
       </div>
       <div className={`${styles.text} ${hidden ? styles.hidden : ""}`}>
