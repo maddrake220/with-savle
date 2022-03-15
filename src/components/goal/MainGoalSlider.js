@@ -28,7 +28,7 @@ export default function MainGoalSlider() {
   const goalItems = Data.results;
 
   return (
-    <div className="container">
+    <div className={`${style.main_goal_slider}`}>
       <ul
         className={`${style.goal_slider} ${
           breakpoint.sm ? style.slick_container : ""
@@ -51,7 +51,7 @@ export default function MainGoalSlider() {
             })}
           </Slider>
         ) : (
-          <div>
+          <div className={`${style.no_goal_slider}`}>
             {goalItems.map((item) => (
               <MainGoalItem
                 id={item.id}
