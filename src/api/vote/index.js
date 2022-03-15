@@ -15,5 +15,4 @@ export const getVoteByIdUrl = (id) => API_BASE_URL + id;
 export const getVoteCommentByIdUrl = (id) => `${API_BASE_URL}comment/${id}`;
 export const fetchVoteInstance = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 4000,
 });
