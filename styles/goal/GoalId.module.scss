@@ -2,6 +2,7 @@
   background: #f7f8fa;
   .container {
     width: 280px;
+    min-height: 100vh;
 
     padding: 22px 20px 0;
     background: #ffffff;
@@ -86,6 +87,7 @@
         text-decoration: none;
       }
       .back_btn {
+        margin-bottom: 65px;
         border: none;
         width: 105px;
         height: 37px;
