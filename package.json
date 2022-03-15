@@ -21,6 +21,7 @@
     "react-slick": "^0.28.1",
     "sass": "^1.49.9",
     "slick-carousel": "^1.8.1",
+    "lodash.escaperegexp": "^4.1.2",
     "swr": "^1.2.2"
   },
   "devDependencies": {
@@ -34,7 +35,6 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-sonarjs": "^0.12.0",
     "eslint-plugin-unicorn": "^41.0.0",
-    "lodash.escaperegexp": "^4.1.2",
     "prettier": "^2.5.1",
     "prisma": "^3.10.0"
   }
