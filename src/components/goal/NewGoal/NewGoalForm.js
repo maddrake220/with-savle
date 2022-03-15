@@ -69,7 +69,11 @@ export default function NewGoalForm({ toggleModal, matchQuery }) {
         selectedReference={selectedReference}
         validationCheck={validationCheck?.category}
       />
-      <button type="submit" className={styles.submitButton}>
+      <button
+        type="submit"
+        className={styles.submitButton}
+        style={{ bottom: validationCheck?.text && "1.035rem" }}
+      >
         <Image
           src="/img/newGoalSubmit.svg"
           alt="submit"

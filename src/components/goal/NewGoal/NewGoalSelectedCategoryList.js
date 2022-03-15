@@ -15,7 +15,7 @@ export default function NewGoalSelectedCategoryList({
           }
           key={index}
         >
-          {seletedGoalCategory.keyword}
+          <span>{seletedGoalCategory.keyword}</span>
         </li>
       ))}
     </ul>

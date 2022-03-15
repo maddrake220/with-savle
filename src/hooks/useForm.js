@@ -6,6 +6,9 @@ import { MAX_GOAL_CATEGORY } from "@/utils/constants";
 import { createFuzzyMatcher } from "@/utils/createFuzzyMatcher";
 import { goal_address } from "@/utils/swr";
 
+const keywordDuplicationCheck = (categories, keyword) =>
+  categories.some((category) => category.keyword === keyword);
+
 export const useForm = (
   toggleModal,
   textareaReference,
@@ -94,6 +97,9 @@ export const useForm = (
       }, 100);
       if (typeof value === "string") {
         // 새로운 카테고리 입력시
+        if (keywordDuplicationCheck(seletedGoalCategories, value)) {
+          return;
+        }
         setSelectedGoalCategories((values) => [
           ...values,
           {
@@ -101,6 +107,9 @@ export const useForm = (
           },
         ]);
       } else {
+        if (keywordDuplicationCheck(seletedGoalCategories, value.keyword)) {
+          return;
+        }
         setSelectedGoalCategories((values) => [...values, value]);
       }
       setValidationCheck({ category: false });
@@ -158,15 +167,22 @@ export const useForm = (
     if (selectedReference.current !== null) {
       const width = selectedReference.current.offsetWidth;
       inputReference.current.style.left = `${width + 7}px`;
-      inputReference.current.style.maxWidth = 160 - width + 7 + "px";
+      inputReference.current.style.maxWidth = 167 - width + "px";
     }
   }, [seletedGoalCategories, inputReference, selectedReference]);
   useEffect(() => {
-    const age = { age: selectedAge?.value };
-    fetchGetGoalCategory(age)
-      .then((resolve) => setCategoryByAge(resolve.data.results))
-      .catch((error) => new Error(error));
+    if (selectedAge !== undefined) {
+      const age = { age: selectedAge?.value };
+      fetchGetGoalCategory(age)
+        .then((resolve) => setCategoryByAge(resolve.data.results))
+        .catch((error) => new Error(error));
+    }
   }, [selectedAge]);
+  useEffect(() => {
+    if (isFocusedCategoryInput && selectedAge === undefined) {
+      setValidationCheck({ age: true });
+    }
+  }, [isFocusedCategoryInput, selectedAge, validationCheck]);
   return [
     selectedAge,
     isFocusedCategoryInput,
