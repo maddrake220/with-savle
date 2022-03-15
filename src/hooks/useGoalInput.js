@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-export function useGoalInput(data) {
+export const useGoalInput = (data) => {
   const [goal, setGoal] = useState("");
   const [inputs, setInputs, state, setState] = data;
 
@@ -31,4 +31,4 @@ export function useGoalInput(data) {
   };
 
   return [goal, nextButtonFocus, handleChange, handelKeypress, handleSubmit];
-}
+};

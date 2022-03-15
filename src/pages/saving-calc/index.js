@@ -1,5 +1,6 @@
 import Character from "public/layout/character.svg";
 
+import Seo from "@/components/Common/Seo";
 import ShortCutBar from "@/components/Common/ShortcutBar";
 import CalcInputBox from "@/components/Saving-calc/CalcInputBox";
 import SavingCalcStep from "@/components/Saving-calc/SavingCalcStep";
@@ -9,6 +10,13 @@ function SavingCalc() {
   const data = useSavingCalc();
   return (
     <div style={{ background: "#f7f8fa" }}>
+      <Seo
+        title="저축계산기"
+        desc="가상 저축 계산으로 미래를 설계해서 사람들과 목표를 공유해보아요"
+        ogUrl="https://with-savle.herokuapp.com/saving-calc"
+        ogTitle="저축계산기"
+        ogDesc="가상 저축 계산으로 미래를 설계해서 사람들과 목표를 공유해보아요"
+      />
       <div className="container">
         <SavingCalcStep data={data} />
         <CalcInputBox data={data} />

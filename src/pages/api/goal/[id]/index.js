@@ -1,6 +1,6 @@
 import client from "libs/prisma";
 
-async function handler(request, res) {
+async function handler(request, response) {
   if (request.method === "GET") {
     const {
       query: { id },
@@ -14,12 +14,12 @@ async function handler(request, res) {
       },
     });
     if (results) {
-      res.json({
+      response.json({
         success: true,
         results,
       });
     } else {
-      res.json({
+      response.json({
         success: false,
       });
     }

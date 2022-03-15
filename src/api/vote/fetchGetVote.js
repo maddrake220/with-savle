@@ -1,5 +1,3 @@
-import axios from "axios";
+import { fetchVoteInstance } from ".";
 
-import server from "@/config/server";
-
-export const fetchGetVote = async () => await axios.get(`${server}/api/vote`);
+export const fetchGetVote = async () => await fetchVoteInstance.get();

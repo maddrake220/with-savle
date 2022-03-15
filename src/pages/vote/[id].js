@@ -1,19 +1,24 @@
 import axios from "axios";
-import Image from "next/image";
 import Link from "next/link";
-import Favorite from "public/img/Favorite.svg";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import { fetchPutVoteLike } from "src/api/vote";
 
-import Comment from "@/components/Comment";
+import Comment from "@/components/comment/Comment";
+import FavoriteCommentShare from "@/components/vote/FavoriteCommentShare";
+import VoteItems from "@/components/vote/VoteItems";
 import server from "@/config/server";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
-import { useVoteState } from "@/hooks/useVoteState";
-import { copy, percentage, sumCount } from "@/utils/index";
+import {
+  useBreakpoint,
+  useLike,
+  useTimeoutToggle,
+  useVoteState,
+} from "@/hooks/index";
+import { LOCALSTORAGE_VOTE_LIKE } from "@/utils/index";
 
 import style from "./Id.module.scss";
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
-export async function getStaticProps(context) {
+export const getStaticProps = async (context) => {
   const { id } = context.params;
   const { data } = await axios.get(`${server}/api/vote/${id}`);
   return {
@@ -21,7 +26,7 @@ export async function getStaticProps(context) {
       data,
     },
   };
-}
+};
 
 export const getStaticPaths = async () => {
   const { data } = await axios.get(`${server}/api/vote`);
@@ -34,68 +39,38 @@ export const getStaticPaths = async () => {
 };
 
 function VoteById({ data }) {
-  const breakpoint = useBreakpoint();
   const { title, text, likes, voteSelect, voteComments, id } = data.results;
 
-  // -------------------------------------------------------------------------------------------------
+  const breakpoint = useBreakpoint();
+  const [timeoutToggle, timeoutModal] = useTimeoutToggle();
 
-  const { selectId, selected, disabled, buttonStyles, handleClick, onSubmit } =
+  const { selectId, submitted, disabled, buttonStyles, handleClick, onSubmit } =
     useVoteState(id);
 
   const { voteBtnBg, voteBtntextColor, borderColor, selectItemBackground } =
     buttonStyles;
-  // -------------------------------------------------------------------------------------------------
 
-  const [modalActive, setModalActive] = useState(false);
+  const [commentCount, setCommentCount] = useState(voteComments.length);
 
-  // -------------------------------------------------------------------------------------------------
-
-  const totalCount = sumCount(voteSelect);
-
-  // -------------------------------------------------------------------------------------------------
-  const [like, setLike] = useState(false);
-  const [likeNums, setLikeNums] = useState(likes);
-
-  useEffect(() => {
-    const likesId = localStorage.getItem("voteboxlikeList");
-    likesId !== null ? setLike(likesId.includes(id)) : setLike(false);
-  }, [id]);
+  const [like, likeNums, localStorageHandler] = useLike(
+    id,
+    likes,
+    LOCALSTORAGE_VOTE_LIKE,
+  );
 
   const handleLikeToggle = useCallback(
     (event) => {
       event.preventDefault();
-      const putLike = async (id, like) => {
-        await axios.put(`${server}/api/vote/like`, { params: { id, like } });
-      };
-      const likesId = localStorage.getItem("voteboxlikeList");
-
-      let arrlikes = [];
-      let newLikes = [];
-      arrlikes = likesId !== null ? likesId.split(",") : [""];
-      !like
-        ? (newLikes = [...arrlikes, id])
-        : (newLikes = arrlikes.filter((v) => v.toString() !== id.toString()));
-      localStorage.setItem("votebox-like-list", newLikes);
-      putLike(id, !like);
-      !like
-        ? setLikeNums((like) => (like = like + 1))
-        : setLikeNums((like) => (like = like - 1));
-      setLike((previous) => !previous);
+      event.stopPropagation();
+      localStorageHandler();
+      const parameter = { id: id, like: !like };
+      fetchPutVoteLike(parameter);
     },
-    [id, like],
+    [id, like, localStorageHandler],
   );
-  // -------------------------------------------------------------------------------------------------
-
-  function onClickModalOn() {
-    setModalActive((previous) => !previous);
-    setTimeout(() => {
-      setModalActive((previous) => !previous);
-    }, 1000);
-  }
 
   return (
     <div
-      className={style.body_container}
       style={
         breakpoint.sm
           ? { backgroundColor: "#fff" }
@@ -106,62 +81,22 @@ function VoteById({ data }) {
         <form onSubmit={onSubmit}>
           <h1 className={style.title}>{title}</h1>
           <p className={style.text}>{text}</p>
-          <div className={`${disabled ? style.click_block : ""}`}>
-            {voteSelect.map((selectItem) => (
-              <li
-                style={
-                  selectId === selectItem.id
-                    ? {
-                        border: borderColor,
-                        backgroundColor: selectItemBackground,
-                      }
-                    : { border: "0px", backgroundColor: "#f6f6f6" }
-                }
-                key={selectItem.item}
-                className={`${style.vote_box} ${
-                  disabled ? style.showGauge : "false"
-                }`}
-                onClick={() => handleClick(selectItem.id)}
-              >
-                <div
-                  style={{
-                    width:
-                      disabled &&
-                      `${percentage(selectItem.count, totalCount)}%`,
-                  }}
-                  className={`${disabled ? style.currentGauge : ""} ${
-                    selectId === selectItem.id
-                      ? style.clicked_Background
-                      : style.notClicked_Background
-                  }`}
-                ></div>
-                <div className={`${disabled ? style.votePercent : ""}`}>
-                  {disabled && `${percentage(selectItem.count, totalCount)}%`}
-                </div>
-                <input
-                  type="radio"
-                  id={selectItem.item}
-                  name="vote"
-                  value={selectItem.item}
-                  className={style.radio_btn}
-                />
-                <label
-                  className={`${style.radio_label} ${
-                    disabled ? "" : style.active
-                  }`}
-                  htmlFor={selectItem.item}
-                >
-                  {selectItem.item}
-                </label>
-              </li>
-            ))}
-          </div>
+          <VoteItems
+            handleClick={handleClick}
+            disabled={disabled}
+            voteSelect={voteSelect}
+            selectId={selectId}
+            submitted={submitted}
+            borderColor={borderColor}
+            selectItemBackground={selectItemBackground}
+            voteBtnBg={voteBtnBg}
+          />
           <button
             className={style.vote_btn}
             type="submit"
             disabled={disabled}
             style={
-              selected
+              selectId !== -1
                 ? { backgroundColor: voteBtnBg, color: voteBtntextColor }
                 : { backgroundColor: "#d5d8dc", color: "#B2B2B2" }
             }
@@ -169,7 +104,15 @@ function VoteById({ data }) {
             투표하기
           </button>
         </form>
-        <div className={style.favorite_comment_share}>
+        <FavoriteCommentShare
+          commentCount={commentCount}
+          timeoutToggle={timeoutToggle}
+          timeoutModal={timeoutModal}
+          like={like}
+          likeNums={likeNums}
+          handleLikeToggle={handleLikeToggle}
+        />
+        {/* <div className={style.favorite_comment_share}>
           <div className={style.favorite_comment}>
             <Favorite
               fill={like ? "#FF2222" : "#fff"}
@@ -182,7 +125,7 @@ function VoteById({ data }) {
               width={20}
               height={20}
             />
-            <span>{voteComments.length}</span>
+            <span>{commentCount}</span>
           </div>
           <div
             className={`${style.copy_btn} ${modalActive ? style.active : ""}`}
@@ -197,10 +140,11 @@ function VoteById({ data }) {
             />
           </div>
         </div>
-        <Comment Comments={voteComments} value="vote" />
+          */}
+        <Comment id={id} value="vote" setCount={setCommentCount} />
         <div className={style.back_btn_container}>
           <Link href={`/vote`}>
-            <a>
+            <a className={style.link}>
               <button className={style.back_btn}>목록보기</button>
             </a>
           </Link>
