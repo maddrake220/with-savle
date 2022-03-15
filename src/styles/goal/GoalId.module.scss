@@ -1,7 +1,7 @@
 .goal_detail {
   background: #f7f8fa;
-  .container {
-    width: 280px;
+  .goal_detail_container {
+    min-width: 280px;
     min-height: 100vh;
 
     padding: 22px 20px 0;
@@ -101,10 +101,11 @@
     }
   }
   @media (min-width: 576px) {
-    .container {
-      min-width: 455px;
+    .goal_detail_container {
+      max-width: 350px;
 
       padding: 40px 60px 0;
+      margin: 0 auto;
     }
     .info,
     .text {
@@ -113,7 +114,7 @@
     }
   }
   @media (min-width: 1200px) {
-    .container {
+    .goal_detail_container {
       min-width: 1000px;
 
       padding: 68px 100px 0;
