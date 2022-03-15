@@ -18,5 +18,4 @@ export const getGoalCommentByIdUrl = (id) => `${API_BASE_URL}comment/${id}`;
 
 export const fetchGoalInstance = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 4000,
 });
