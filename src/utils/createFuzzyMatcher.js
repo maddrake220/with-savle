@@ -1,4 +1,5 @@
-import _ from "loadsh";
+import escapeRegExp from "lodash.escaperegexp";
+
 function ch2pattern(ch) {
   const offset = 44_032; /* '가'의 코드 */
   // 한국어 음절
@@ -34,7 +35,7 @@ function ch2pattern(ch) {
   }
   // 그 외엔 그대로 내보냄
   // escapeRegExp는 lodash에서 가져옴
-  return _.escapeRegExp(ch);
+  return escapeRegExp(ch);
 }
 export const createFuzzyMatcher = (input) => {
   const pattern = [...input].map((element) => ch2pattern(element)).join(".*?");
