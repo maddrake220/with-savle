@@ -59,6 +59,7 @@
     border-bottom: 1px solid #e3e7ed;
     span {
       margin-left: 4px;
+      font-weight: 700;
     }
     .likes,
     .comments {
@@ -73,28 +74,52 @@
       right: 0;
     }
   }
-}
-@media (min-width: 576px) {
-  .container {
-    min-width: 455px;
+  .back_btn_container {
+    display: flex;
+    justify-content: center;
+    margin: 52px auto 0;
+    .link {
+      text-decoration: none;
+      outline: none;
+      &:hover,
+      &:active {
+        text-decoration: none;
+      }
+      .back_btn {
+        border: none;
+        width: 105px;
+        height: 37px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        background-color: $grey-5;
+        color: $black;
+        cursor: pointer;
+      }
+    }
+  }
+  @media (min-width: 576px) {
+    .container {
+      min-width: 455px;
 
-    padding: 40px 60px 0;
+      padding: 40px 60px 0;
+    }
+    .info,
+    .text {
+      font-size: 15px;
+      line-height: 22px;
+    }
   }
-  .info,
-  .text {
-    font-size: 15px;
-    line-height: 22px;
-  }
-}
-@media (min-width: 1200px) {
-  .container {
-    min-width: 1000px;
+  @media (min-width: 1200px) {
+    .container {
+      min-width: 1000px;
 
-    padding: 68px 100px 0;
-  }
-  .info,
-  .text {
-    font-size: 16px;
-    line-height: 24px;
+      padding: 68px 100px 0;
+    }
+    .info,
+    .text {
+      font-size: 16px;
+      line-height: 24px;
+    }
   }
 }

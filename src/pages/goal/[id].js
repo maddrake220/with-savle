@@ -2,8 +2,10 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import style from "styles/goal/GoalId.module.scss";
 
+import Comment from "@/components/comment/Comment";
 import server from "@/config/server";
 
 export async function getStaticProps(context) {
@@ -58,11 +60,19 @@ function GoalById({ data }) {
           </div>
           <div className={style.comments}>
             <Image src="/img/comment.svg" alt="댓글" width={24} height={24} />
-            {/* <span>{comments}</span> */}
+            <span>{comments.length}</span>
           </div>
           <div className={style.share}>
-            <Image src="/img/share.svg" alt="공유" width={16} height={16} />
+            <Image src="/img/share.svg" alt="공유" width={24} height={24} />
           </div>
+        </div>
+        <Comment id={id} value="goal" setCount={comments.length} />
+        <div className={style.back_btn_container}>
+          <Link href={`/goal`}>
+            <a className={style.link}>
+              <button className={style.back_btn}>목록보기</button>
+            </a>
+          </Link>
         </div>
       </div>
     </section>
