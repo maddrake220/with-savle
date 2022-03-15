@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import styles from "styles/goal/GoalList.module.scss";
 
-import Seo from "@/components/Common/Seo";
+import Seo from "@/components/common/Seo";
 import { getSize } from "@/utils/getSize";
 export default function GoalListHeader({ queryMatch }) {
   return (

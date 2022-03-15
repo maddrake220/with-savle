@@ -1,20 +1,18 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/prevent-abbreviations */
-import axios from "axios";
 import Link from "next/link";
 import { useCallback } from "react";
-import { fetchPutGoalLike } from "src/api/goal";
+import { fetchGetGoal, fetchGetGoalById, fetchPutGoalLike } from "src/api/goal";
 import style from "styles/goal/GoalId.module.scss";
 
 import Comment from "@/components/comment/Comment";
 import FavoriteCommentShare from "@/components/vote/FavoriteCommentShare";
-import server from "@/config/server";
 import { useLike, useTimeoutToggle } from "@/hooks/index";
 import { LOCALSTORAGE_GOAL_LIKE } from "@/utils/index";
 
 export async function getStaticProps(context) {
   const { id } = context.params;
-  const { data } = await axios.get(`${server}/api/goal/${id}`);
+  const { data } = await fetchGetGoalById(id);
   return {
     props: {
       data,
@@ -23,7 +21,7 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const { data } = await axios.get(`${server}/api/goal`);
+  const { data } = await fetchGetGoal();
   const ids = data.results.map((item) => item.id);
   const paths = ids.map((id) => ({ params: { id: id.toString() } }));
   return {
