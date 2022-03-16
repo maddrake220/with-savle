@@ -20,9 +20,9 @@ export default function MainGoalItem({
   comments,
 }) {
   return (
-    <Link href={`/goal`}>
-      <a>
-        <li className={style.main_goal_item}>
+    <li className={style.main_goal_item}>
+      <Link href={`/goal`}>
+        <a>
           <div className={style.item}>
             <div className={style.info}>
               익명의 {id}님 | {Number.parseInt(age / 10) * 10}대
@@ -65,8 +65,8 @@ export default function MainGoalItem({
               </div>
             </div>
           </div>
-        </li>
-      </a>
-    </Link>
+        </a>
+      </Link>
+    </li>
   );
 }
