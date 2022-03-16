@@ -2,8 +2,8 @@ import Character from "public/layout/character.svg";
 
 import Seo from "@/components/common/Seo";
 import ShortCutBar from "@/components/common/ShortcutBar";
-import CalcInputBox from "@/components/saving-calc/CalcInputBox";
 import SavingCalcStep from "@/components/saving-calc/SavingCalcStep";
+import SavingClac from "@/components/saving-calc/SavingClac";
 import { useSavingCalc, useWidth } from "@/hooks/index";
 
 function SavingCalc() {
@@ -19,7 +19,7 @@ function SavingCalc() {
       />
       <div className="container">
         <SavingCalcStep data={data} />
-        <CalcInputBox data={data} />
+        <SavingClac data={data} />
         <Character
           width={useWidth(141, 214, 311, "px")}
           style={{ display: "block", margin: "0 auto" }}

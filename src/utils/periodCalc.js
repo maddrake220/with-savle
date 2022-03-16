@@ -1,6 +1,8 @@
+import { removeComma } from "./removeComma";
+
 export const periodCalc = (value, goal, saving) => {
-  const numberGoalValue = Number(goal.replaceAll(",", ""));
-  const numberSavingValue = Number(saving.replaceAll(",", ""));
+  const numberGoalValue = removeComma(goal);
+  const numberSavingValue = removeComma(saving);
   const count = Math.ceil(numberGoalValue / numberSavingValue);
 
   const data = { year: 0, month: 0, count: count };

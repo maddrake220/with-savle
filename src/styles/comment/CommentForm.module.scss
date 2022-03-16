@@ -1,0 +1,14 @@
+.input_box {
+  width: 100%;
+  border: 1px solid #e3e7ed;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 7px 12px 34px;
+  box-sizing: border-box;
+  position: relative;
+  background: #fff;
+  @media (min-width: 576px) {
+    border-radius: 8px;
+    padding: 11px 19px 48px;
+  }
+}
