@@ -1,4 +1,4 @@
-// import escapeRegExp from "lodash.escaperegexp";
+import escapeRegExp from "lodash.escaperegexp";
 
 function ch2pattern(ch) {
   const offset = 44_032; /* '가'의 코드 */
