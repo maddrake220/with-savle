@@ -74,22 +74,25 @@ export default function NewGoalForm({
         selectedReference={selectedReference}
         validationCheck={validationCheck?.category}
       />
-      <button
-        type="submit"
-        className={styles.submitButton}
-        style={{
-          bottom:
-            (validationCheck?.text && "1.435rem") ||
-            (validationCheck?.age && "1.435rem"),
-        }}
-      >
-        <Image
-          src="/img/newGoalSubmit.svg"
-          alt="submit"
-          width={matchQuery?.sm ? 17 : 28}
-          height={matchQuery?.sm ? 17 : 28}
-        />
-      </button>
+      <div className={styles.submitButtonWrapper}>
+        <button
+          type="submit"
+          className={styles.submitButton}
+          style={{
+            bottom:
+              (validationCheck?.text && "1.435rem") ||
+              (validationCheck?.age && "1.435rem") ||
+              (validationCheck?.category && "2.755rem"),
+          }}
+        >
+          <Image
+            src="/img/newGoalSubmit.svg"
+            alt="submit"
+            width={matchQuery?.sm ? 17 : 28}
+            height={matchQuery?.sm ? 17 : 28}
+          />
+        </button>
+      </div>
     </form>
   );
 }
