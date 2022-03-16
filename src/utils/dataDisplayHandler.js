@@ -1,3 +1,4 @@
+import { COMMENTEST } from "./dropdownOptions";
 import { LIKEST, NEWEST, OLDEST } from "./index";
 
 const sortByDropdown = (array, selectedDropdown) =>
@@ -12,6 +13,9 @@ const sortByDropdown = (array, selectedDropdown) =>
     }
     if (selectedDropdown === LIKEST) {
       return b.likes - a.likes;
+    }
+    if (selectedDropdown === COMMENTEST) {
+      return b.comments.length - a.comments.length;
     }
   });
 
