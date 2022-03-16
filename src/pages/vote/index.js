@@ -1,13 +1,14 @@
 import "react-loading-skeleton/dist/skeleton.css";
 
 import axios from "axios";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import { fetchGetVote } from "src/api/vote";
 import useSWR, { SWRConfig } from "swr";
 
 import Seo from "@/components/common/Seo";
 import SkeletonBox from "@/components/vote/SkeletonBox";
+import Banner from "@/components/vote/VoteBanner";
 import VoteBox from "@/components/vote/VoteBox";
 import style from "@/styles/vote/VoteIndex.module.scss";
 
@@ -53,25 +54,7 @@ function Votelist() {
         ogTitle={"저축러의 고민해결소"}
         ogDesc={"저축에 관한 고민을 나누고 투표하며 함께 고민을 해결해요."}
       />
-      <section className={style.banner_box_container}>
-        <h1 className={style.banner_box_title}>저축러의 고민해결소</h1>
-        <p className={style.banner_box_sub}>
-          저축에 관한 고민을 나누고
-          <br />
-          투표하며 함께 고민을 해결해요.
-        </p>
-        <div className={style.img_character_money} width={82} height={67}>
-          <Image
-            className={style.character_money}
-            layout="responsive"
-            src="/img/char.svg"
-            alt="character"
-            width={82}
-            height={67}
-            priority={true}
-          />
-        </div>
-      </section>
+      <Banner />
       <section className={style.vote_box_list}>
         <ul className={style.vote_box_list_container}>
           {data &&
