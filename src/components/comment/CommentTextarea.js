@@ -3,7 +3,6 @@ import styles from "@/styles/comment/CommentTextarea.module.scss";
 function CommentTextarea({ textReference, comment, isLoading, handelChange }) {
   return (
     <textarea
-      autoFocus
       className={styles.textarea}
       naeme="comment"
       ref={textReference}

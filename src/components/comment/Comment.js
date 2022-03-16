@@ -6,7 +6,7 @@ import { isCheckValue } from "@/utils/index";
 
 import CommentForm from "./CommenForm";
 import CommentText from "./CommentText";
-import Toggle from "./Toggle";
+import CommentTitle from "./CommentTitle";
 
 function Comment({ value, id, setCount }) {
   const [hidden, setHidden] = useState(true);
@@ -22,12 +22,11 @@ function Comment({ value, id, setCount }) {
 
   return (
     <div className={styles.comment_container}>
-      <div className={styles.title}>
-        <p>댓글</p>
-        {!isCheckValue(value) && (
-          <Toggle onClick={handleHiddenComment} hidden={hidden} />
-        )}
-      </div>
+      <CommentTitle
+        value={value}
+        handleHiddenComment={handleHiddenComment}
+        hidden={hidden}
+      />
       <CommentForm value={value} id={id} />
       {isCheckValue(value)
         ? data &&

@@ -31,7 +31,6 @@ function CommentForm({ value, id }) {
   return (
     <form className={styles.input_box} onSubmit={handelSubmit}>
       <CommentTextarea
-        id={id}
         comment={comment}
         isLoading={isLoading}
         textReference={textReference}
