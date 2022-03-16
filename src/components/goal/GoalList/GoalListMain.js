@@ -16,10 +16,18 @@ export default function GoalListMain({ queryMatch, data }) {
   const [selectedAge, setSelectedAge] = useState(ageRange);
   const [posts, setPosts] = useState({
     data: data.slice(0, 10),
-    viewPerPage: 10,
+    viewByScroll: 10,
   });
+  const setDatabyScroll = () => {
+    setPosts((posts) => {
+      return {
+        data: [...data.slice(0, posts.viewByScroll)],
+        viewByScroll: posts.viewByScroll + 10,
+      };
+    });
+  };
   const [target, setTarget] = useState(0);
-  const [isLoaded] = useIntersectionObserver(data, setPosts, target);
+  const [isLoaded] = useIntersectionObserver(setDatabyScroll, target);
 
   const handleMenuChange = useCallback((event) => {
     setSelectedDropdown(event.target.value);

@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
 
-export const useIntersectionObserver = (data, setPosts, target) => {
+export const useIntersectionObserver = (customFunction, target) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const getMoreItem = async () => {
     setIsLoaded(true);
     return await new Promise((resolve) => setTimeout(resolve, 150)).then(() => {
-      setPosts((posts) => {
-        return {
-          data: [...data.slice(0, posts.viewPerPage)],
-          viewPerPage: posts.viewPerPage + 10,
-        };
-      });
+      customFunction();
       setIsLoaded(false);
     });
   };
