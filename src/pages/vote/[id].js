@@ -44,8 +44,16 @@ function VoteById({ data }) {
   const breakpoint = useBreakpoint();
   const [timeoutToggle, timeoutModal] = useTimeoutToggle();
 
-  const { selectId, submitted, disabled, buttonStyles, handleClick, onSubmit } =
-    useVoteState(id);
+  const {
+    selectId,
+    submitted,
+    disabled,
+    buttonStyles,
+    handleClick,
+    onSubmit,
+    hidden,
+    setHidden,
+  } = useVoteState(id);
 
   const { voteBtnBg, voteBtntextColor, borderColor, selectItemBackground } =
     buttonStyles;
@@ -121,7 +129,13 @@ function VoteById({ data }) {
             likeNums={likeNums}
             handleLikeToggle={handleLikeToggle}
           />
-          <Comment id={id} value="vote" setCount={setCommentCount} />
+          <Comment
+            id={id}
+            value="vote"
+            setCount={setCommentCount}
+            hidden={hidden}
+            setHidden={setHidden}
+          />
           <ShowListButton />
         </div>
       </div>
