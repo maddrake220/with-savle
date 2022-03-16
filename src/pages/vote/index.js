@@ -1,14 +1,13 @@
 import "react-loading-skeleton/dist/skeleton.css";
 
 import axios from "axios";
-// import Image from "next/image";
 import Link from "next/link";
 import { fetchGetVote } from "src/api/vote";
 import useSWR, { SWRConfig } from "swr";
 
 import Seo from "@/components/common/Seo";
 import SkeletonBox from "@/components/vote/SkeletonBox";
-import Banner from "@/components/vote/VoteBanner";
+import VoteBanner from "@/components/vote/VoteBanner";
 import VoteBox from "@/components/vote/VoteBox";
 import style from "@/styles/vote/VoteIndex.module.scss";
 
@@ -54,7 +53,7 @@ function Votelist() {
         ogTitle={"저축러의 고민해결소"}
         ogDesc={"저축에 관한 고민을 나누고 투표하며 함께 고민을 해결해요."}
       />
-      <Banner />
+      <VoteBanner />
       <section className={style.vote_box_list}>
         <ul className={style.vote_box_list_container}>
           {data &&

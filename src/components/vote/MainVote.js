@@ -12,7 +12,7 @@ import Data from "@/utils/mockdata/voteAPI";
 
 import { NextArrow, PreviousArrow } from "../common/SlickArrow";
 
-export default function MainVoteSection() {
+export default function MainVote() {
   const breakpoints = useBreakpoint();
 
   const settings = {
