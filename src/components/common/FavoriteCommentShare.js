@@ -21,13 +21,7 @@ export default function FavoriteCommentShare({
           className={style.favorite_img}
         />
         <span className={style.favorite}>{likeNums}</span>
-        <Image
-          src="/img/comment.svg"
-          alt="Comment"
-          width={20}
-          height={20}
-          className={style.comment_img}
-        />
+        <Image src="/img/comment.svg" alt="Comment" width={20} height={20} />
         <span>{commentCount}</span>
       </div>
 
@@ -42,7 +36,6 @@ export default function FavoriteCommentShare({
           height={20}
           onClick={copy}
         />
-        {/* <input className={style.hidden} type="text" onCopy={copy} /> */}
       </div>
     </div>
   );

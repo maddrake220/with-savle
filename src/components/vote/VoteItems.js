@@ -72,6 +72,11 @@ export default function VoteItems({
             className={style.radio_btn}
           />
           <label
+            style={
+              isSelected(selectItem.id) && disabled
+                ? { color: voteBtnBg, fontWeight: "bold" }
+                : { color: "888" }
+            }
             className={`${style.radio_label} ${
               disabled ? style.shrink : style.active
             }`}

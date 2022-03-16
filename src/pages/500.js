@@ -5,20 +5,20 @@ import ErrorImage from "@/components/common/ErrorImage";
 import ErrorSubTitle from "@/components/common/ErrorSubTitle";
 import ErrorTitle from "@/components/common/ErrorTitle";
 
-function NotFound() {
+function ServerError() {
   return (
     <ErrorContainer>
-      <ErrorTitle>404 Error</ErrorTitle>
-      <ErrorSubTitle type="not_found">Not Found</ErrorSubTitle>
+      <ErrorTitle>500 Error</ErrorTitle>
+      <ErrorSubTitle type="server_error">Internal Server Error</ErrorSubTitle>
       <ErrorContent>
-        요청하신 페이지를 찾을 수 없습니다.
+        죄송합니다.
         <br />
-        입력하신 주소가 정확한지 다시 한번 확인해 주세요.
+        요청하신 페이지를 찾을 수 없습니다.
       </ErrorContent>
       <ErrorBack />
-      <ErrorImage type="notFoundImg" />
+      <ErrorImage type="serverErrorImg" />
     </ErrorContainer>
   );
 }
 
-export default NotFound;
+export default ServerError;
