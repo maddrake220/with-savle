@@ -123,12 +123,12 @@
 .goal_input {
   position: relative;
   input {
-    width: 188px;
+    width: 180px;
     @media (min-width:576px){
-      width: 267px;
+      width: 260px;
     }
     @media (min-width:1200px){
-      width: 516px;
+      width: 505px;
     }
   }
   span {
@@ -183,13 +183,13 @@
     margin-bottom: 58px;
   }
   input {
-    width: 175px;
+    width: 165px;
     @media (min-width:576px){
-      width: 248px;
+      width: 240px;
       margin: 15px 10px 0 0;
     }
     @media (min-width:1200px){
-      width: 488px;
+      width: 480px;
       margin: 35px 15px 5px 0;
     }
   }
