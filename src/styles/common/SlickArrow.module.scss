@@ -15,7 +15,25 @@
   left: 0;
 }
 .slick_arrow:last-child {
-  // border: 1px solid red;
-  // background-color: red;
   right: 0;
 }
+
+@media (min-width: 577px) {
+  .slick_container {
+    width: 575px;
+  }
+}
+
+@media (min-width: 650px) {
+  .slick_container {
+    width: 580px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .slick_container {
+    width: 1000px;
+    
+  }
+}
+
