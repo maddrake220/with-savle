@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
+import Loader from "@/components/common/Loader";
 import GoalCard from "@/components/goal/GoalCard";
 import GoalDropdown from "@/components/goal/GoalDropdown";
+import { useIntersectionObserver } from "@/hooks/index";
 import styles from "@/styles/goal/GoalList.module.scss";
-import {
-  ageRange,
-  dataDisplayHandler,
-  dropdownOptions,
-  NEWEST,
-} from "@/utils/index";
+import { NEWEST } from "@/utils/constants";
+import { ageRange, dataDisplayHandler, dropdownOptions } from "@/utils/index";
 
 import GoalListMainCategory from "./GoalListMainCategory";
 
@@ -16,10 +14,16 @@ export default function GoalListMain({ queryMatch, data }) {
   const skeletonView = Array.from({ length: 9 }).fill(0);
   const [selectedDropdown, setSelectedDropdown] = useState(NEWEST);
   const [selectedAge, setSelectedAge] = useState(ageRange);
+  const [posts, setPosts] = useState({
+    data: data.slice(0, 10),
+    viewPerPage: 10,
+  });
+  const [target, setTarget] = useState(0);
+  const [isLoaded] = useIntersectionObserver(data, setPosts, target);
 
-  const handleMenuChange = (event) => {
+  const handleMenuChange = useCallback((event) => {
     setSelectedDropdown(event.target.value);
-  };
+  }, []);
 
   return (
     <main>
@@ -37,9 +41,9 @@ export default function GoalListMain({ queryMatch, data }) {
           />
         </div>
         <ul className={styles.goalList}>
-          {!data
+          {!posts.data
             ? skeletonView.map((v, index) => <GoalCard key={index} />)
-            : dataDisplayHandler(data, selectedAge, selectedDropdown).map(
+            : dataDisplayHandler(posts.data, selectedAge, selectedDropdown).map(
                 (value, index) => (
                   <GoalCard
                     key={index}
@@ -53,6 +57,9 @@ export default function GoalListMain({ queryMatch, data }) {
                 ),
               )}
         </ul>
+        <div ref={setTarget} style={{ position: "relative" }}>
+          {isLoaded && <Loader />}
+        </div>
       </div>
     </main>
   );

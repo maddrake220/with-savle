@@ -1,0 +1,54 @@
+$spinner: salmon;
+$spinnerBackground: white;
+$spinnerSize: 30px;
+
+.Spinner {
+  position: absolute;
+  bottom: -50px;
+  left: calc(50% - #{$spinnerSize / 2});
+  width: $spinnerSize;
+  height: $spinnerSize;
+  animation: spinner 0.75s linear infinite;
+
+  span {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+
+  .SpinnerInner1 {
+    background: linear-gradient(
+      to right,
+      rgba($spinner, 0) 0%,
+      rgba($spinner, 0) 50%,
+      $spinner 51%
+    );
+  }
+
+  .SpinnerInner2 {
+    background: linear-gradient(
+      to top,
+      rgba($spinnerBackground, 0) 0%,
+      $spinnerBackground 100%
+    );
+  }
+
+  .SpinnerInner3 {
+    $offset: $spinnerSize * 0.1;
+    top: $offset;
+    left: $offset;
+    width: $spinnerSize - ($offset * 2);
+    height: $spinnerSize - ($offset * 2);
+    background: $spinnerBackground;
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

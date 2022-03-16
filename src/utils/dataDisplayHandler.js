@@ -1,5 +1,4 @@
-import { COMMENTEST } from "./dropdownOptions";
-import { LIKEST, NEWEST, OLDEST } from "./index";
+import { COMMENTEST, LIKEST, NEWEST, OLDEST } from "./constants";
 
 const sortByDropdown = (array, selectedDropdown) =>
   array.sort((a, b) => {
