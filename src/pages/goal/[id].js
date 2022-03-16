@@ -27,7 +27,7 @@ export async function getStaticPaths() {
   const paths = ids.map((id) => ({ params: { id: id.toString() } }));
   return {
     paths,
-    fallback: false,
+    fallback: "blocking",
   };
 }
 
@@ -53,7 +53,6 @@ function GoalById({ data }) {
     },
     [id, like, localStorageHandler],
   );
-
   return (
     <section className={style.goal_detail}>
       <Seo

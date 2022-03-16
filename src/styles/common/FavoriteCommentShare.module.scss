@@ -28,9 +28,12 @@
       cursor: pointer;
     }
     }
-    .copy_btn {
-      cursor: pointer;
-    }
+  .copy_btn {
+    cursor: pointer;
+  }
+  .copy_btn.active {
+   pointer-events: none; 
+  }
   .copy_btn.active:before {
     content: "URL이 복사되었습니다.";
     font-size: 12px;

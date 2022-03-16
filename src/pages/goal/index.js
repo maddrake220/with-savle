@@ -20,7 +20,7 @@ export const getStaticProps = async () => {
       fallback: {
         [GOAL_ADDRESS]: response.data.results,
       },
+      revlidation: ONE_WEEK,
     },
-    revalidate: ONE_WEEK,
   };
 };
