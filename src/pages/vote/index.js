@@ -1,7 +1,11 @@
 import "react-loading-skeleton/dist/skeleton.css";
 
+<<<<<<< HEAD
 import axios from "axios";
+=======
+>>>>>>> 73fa5c7 (add: 404, 500 error page)
 import Link from "next/link";
+import { fetcher } from "src/api";
 import { fetchGetVote } from "src/api/vote";
 import useSWR, { SWRConfig } from "swr";
 
@@ -10,8 +14,6 @@ import SkeletonBox from "@/components/vote/SkeletonBox";
 import VoteBanner from "@/components/vote/VoteBanner";
 import VoteBox from "@/components/vote/VoteBox";
 import style from "@/styles/vote/VoteIndex.module.scss";
-
-const fetcher = (server) => axios.get(server).then((r) => r.data);
 
 export const vote_address = "/api/vote";
 
@@ -37,7 +39,7 @@ export async function getStaticProps() {
 function Votelist() {
   const {
     data: { results: data },
-  } = useSWR(vote_address, fetcher, {
+  } = useSWR(vote_address, fetcher(), {
     revalidateOnFocus: false,
   });
 
