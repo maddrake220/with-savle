@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { useGetComment } from "@/hooks/index";
 import styles from "@/styles/comment/Comment.module.scss";
@@ -8,8 +8,8 @@ import CommentForm from "./CommenForm";
 import CommentText from "./CommentText";
 import CommentTitle from "./CommentTitle";
 
-function Comment({ value, id, setCount }) {
-  const [hidden, setHidden] = useState(true);
+function Comment({ value, id, setCount, hidden, setHidden }) {
+  // const [hidden, setHidden] = useState(true);
   const [data] = useGetComment(value, id);
 
   const handleHiddenComment = () => {
@@ -30,11 +30,11 @@ function Comment({ value, id, setCount }) {
       <CommentForm value={value} id={id} />
       {isCheckValue(value)
         ? data &&
-          data.map((comment, index) => (
+          data?.map((comment, index) => (
             <CommentText data={comment} key={index} />
           ))
         : !hidden &&
-          data.map((comment, index) => (
+          data?.map((comment, index) => (
             <CommentText data={comment} key={index} />
           ))}
     </div>

@@ -22,6 +22,8 @@ export const useVoteState = (id) => {
   const [disabled, setDisabled] = useState(false);
   const [changedButtonColor, setChangdeButtonColor] = useState(initialStyles);
 
+  const [hidden, setHidden] = useState(true);
+
   const handleClick = (id) => {
     setSelectId(id);
   };
@@ -50,6 +52,7 @@ export const useVoteState = (id) => {
       localStorage.setItem("vote-list", JSON.stringify(saved));
 
       setChangdeButtonColor({ ...initialStyles, ...eventStyles });
+      setHidden(false);
       setSubmitted(true);
       setDisabled(true);
     },
@@ -80,5 +83,7 @@ export const useVoteState = (id) => {
     buttonStyles: changedButtonColor,
     handleClick,
     onSubmit,
+    hidden,
+    setHidden,
   };
 };
