@@ -21,9 +21,6 @@
     .favorite_img {
       cursor: pointer;
     }
-    .comment_img {
-      cursor: pointer;
-    }
     .share_img {
       cursor: pointer;
     }
@@ -32,7 +29,7 @@
     cursor: pointer;
   }
   .copy_btn.active {
-   pointer-events: none; 
+    pointer-events: none; 
   }
   .copy_btn.active:before {
     content: "URL이 복사되었습니다.";

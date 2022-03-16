@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import style from "@/styles/vote/VoteIndex.module.scss";
 
-export default function Banner() {
+export default function VoteBanner() {
   return (
     <section className={style.banner_box_container}>
       <h1 className={style.banner_box_title}>저축러의 고민해결소</h1>

@@ -12,7 +12,7 @@ import Data from "@/utils/mockdata/voteAPI";
 
 import { NextArrow, PreviousArrow } from "../common/SlickArrow";
 
-export default function MainVoteSection() {
+export default function MainVote() {
   const breakpoints = useBreakpoint();
 
   const settings = {
@@ -67,11 +67,13 @@ export default function MainVoteSection() {
           ))}
         </Slider>
       </ul>
-      <Link href={`/vote`}>
-        <a className={style.vote_button}>
-          <button>투표하러 가기</button>
-        </a>
-      </Link>
+      <div className={style.vote_button_container}>
+        <Link href={`/vote`}>
+          <a className={style.vote_button}>
+            <button>투표하러 가기</button>
+          </a>
+        </Link>
+      </div>
 
       {breakpoints.sm ? (
         <div className={style.vote_woman}>

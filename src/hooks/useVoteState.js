@@ -32,12 +32,12 @@ export const useVoteState = (id) => {
       if (selectId === -1) {
         return false;
       }
+
       const putVoteCount = async () => {
         await fetchPutVote({
           id: selectId,
         });
       };
-
       putVoteCount();
 
       const saved = [
