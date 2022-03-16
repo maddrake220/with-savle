@@ -1,5 +1,6 @@
-import { COMMENTEST } from "./dropdownOptions";
-import { LIKEST, NEWEST, OLDEST } from "./index";
+import { COMMENTEST, LIKEST, NEWEST, OLDEST } from "./constants";
+
+const setDatabyScroll = (array, viewPerScroll) => array.slice(0, viewPerScroll);
 
 const sortByDropdown = (array, selectedDropdown) =>
   array.sort((a, b) => {
@@ -24,5 +25,13 @@ const filterByAge = (array, selectedAge) =>
     return value.age >= selectedAge.start && value.age <= selectedAge.end;
   });
 
-export const dataDisplayHandler = (array, selectedAge, selectedDropdown) =>
-  sortByDropdown(filterByAge(array, selectedAge), selectedDropdown);
+export const dataDisplayHandler = (
+  array,
+  selectedAge,
+  selectedDropdown,
+  viewPerScroll,
+) =>
+  setDatabyScroll(
+    sortByDropdown(filterByAge(array, selectedAge), selectedDropdown),
+    viewPerScroll,
+  );
