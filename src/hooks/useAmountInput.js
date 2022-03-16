@@ -1,15 +1,12 @@
 import { useCallback, useState } from "react";
 
-import { addAmount, comma } from "@/utils/index";
+import { comma, removeComma } from "@/utils/index";
 
-export const useAmountInput = (data, saving_amount_reference) => {
+export const useAmountInput = () => {
   const [amount, setAmount] = useState({ goal_amount: "", saving_amount: "" });
   const { goal_amount, saving_amount } = amount;
-  const [inputs, setInputs, state, setState] = data;
 
-  const campareValue =
-    Number(saving_amount.replaceAll(",", "")) <
-    Number(goal_amount.replaceAll(",", ""));
+  const campareValue = removeComma(saving_amount) < removeComma(goal_amount);
 
   const resultButtonFocus =
     goal_amount.length > 0 &&
@@ -19,64 +16,16 @@ export const useAmountInput = (data, saving_amount_reference) => {
 
   const handleChange = useCallback(
     (event) => {
-      let { value, name } = event.target;
-      if (value == "0") return (value = " ");
-      value = comma(value);
+      const { value, id } = event.target;
+      if (value == "0") return;
+      const commaValue = comma(value);
       setAmount({
         ...amount,
-        [name]: value,
+        [id]: commaValue,
       });
     },
     [amount],
   );
 
-  const handleClick = (event) => {
-    event.preventDefault();
-    const { id } = event.target;
-    if (id.includes("goal")) {
-      const value = addAmount(id, goal_amount);
-      setAmount({
-        ...amount,
-        goal_amount: value,
-      });
-    } else {
-      const value = addAmount(id, saving_amount);
-      setAmount({
-        ...amount,
-        saving_amount: value,
-      });
-    }
-  };
-
-  const handelKeypress = (event) => {
-    if (event.key === "Enter") {
-      if (saving_amount.length === 0)
-        return saving_amount_reference.current.focus();
-      handleSubmit(event);
-    }
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const { id } = event.target;
-    setState({
-      ...state,
-      [id]: true,
-    });
-    setInputs({
-      ...inputs,
-      goal_amount: goal_amount,
-      saving_amount: saving_amount,
-    });
-  };
-
-  return [
-    amount,
-    campareValue,
-    resultButtonFocus,
-    handleChange,
-    handleClick,
-    handelKeypress,
-    handleSubmit,
-  ];
+  return { amount, setAmount, campareValue, resultButtonFocus, handleChange };
 };

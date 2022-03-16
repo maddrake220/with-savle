@@ -6,7 +6,6 @@ function Seo({
   desc = "",
   ogUrl = "",
   ogTitle = "",
-  ogImage = "",
   ogDesc = "",
 }) {
   return (
@@ -17,8 +16,15 @@ function Seo({
       <meta property="og:type" content="webstie" />
       <meta property="og:url" content={ogUrl} />
       <meta property="og:title" content={ogTitle} />
-      <meta property="og:image" content={ogImage} />
+      <meta
+        property="og:image"
+        content="http://savle.net/images/main_pc/share_image.png"
+      />
       <meta property="og:description" content={ogDesc} />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      />
     </Head>
   );
 }

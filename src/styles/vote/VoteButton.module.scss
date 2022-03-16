@@ -6,14 +6,15 @@
   border-radius: 8px;
   font-size: 12px;
   font-weight: 700;
+  cursor: pointer;
 }
 
 @media (min-width: 576px) {
   .vote_btn {
-        margin-top: 44px;
-        height: 64px;
-        border-radius: 16px;
-        font-size: 18px;
-      }
-    }
+    margin-top: 44px;
+    height: 64px;
+    border-radius: 16px;
+    font-size: 18px;
+  }
+}
 

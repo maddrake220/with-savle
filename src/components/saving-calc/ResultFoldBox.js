@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import Arrow from "/public/layout/ic_arrow_expand.svg";
+import Arrow from "/public/layout/ic-arrow-expand.svg";
 import { useWidth } from "@/hooks/index";
 import styles from "@/styles/saving-calc/ResultFoldBox.module.scss";
 
@@ -26,7 +26,7 @@ function ResultFoldBox({ period, date, rule, setState }) {
         <Arrow
           width={useWidth(19, 26, 52, "px")}
           onClick={hadleClick}
-          style={{ transform: !hidden && "rotate(180deg)" }}
+          style={{ transform: !hidden && "rotate(180deg)", cursor: "pointer" }}
         />
       </div>
       <div className={`${styles.text} ${hidden ? styles.hidden : ""}`}>

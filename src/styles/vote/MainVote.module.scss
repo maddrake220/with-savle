@@ -26,22 +26,34 @@
       margin: 0;
     }
   }
-  
-  .vote_button {
-    display: block;
-    text-align: center;
-    button {
-      border: none;
-      width: 174px;
-      height: 46px;
-      border-radius: 8px;
-      background-color: $primary;
-      color: $white;
-      font-size: 14px;
-      font-weight: 700;
-      margin: 0px 0 64px;
+  .vote_button_container {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    padding-bottom: 64px;
+    .vote_button {
+      text-decoration: none;
+      outline: none;
+      padding: 0;
+      margin: 0;
+      &:hover,
+      &:active {
+        text-decoration: none;
+        
+      }
+      button {
+        cursor: pointer;
+        border: none;
+        width: 174px;
+        height: 46px;
+        border-radius: 8px;
+        background-color: $primary;
+        color: $white;
+        font-size: 14px;
+        font-weight: 700;
+      }
     }
-  }
+}
   .vote_woman {
     position: absolute;
     bottom: 0;
@@ -84,16 +96,16 @@
         line-height: 24px;
       }
     }
-    .votebox_container {
-      margin: 93px auto 0px;
-      width: 70%;
-    }
-    .vote_button button {
-      width: 250px;
-      height: 58px;
-      font-size: 23px;
-      font-weight: 500;
-      margin: 91px 0 40px;
+    .vote_button_container {
+      margin: 66px auto 0px;
+      .vote_button {
+          button {
+          width: 250px;
+          height: 58px;
+          font-size: 23px;
+          font-weight: 500;
+        }
+      }
     }
     .vote_woman_group {
       position: absolute;
@@ -135,8 +147,16 @@
         line-height: 24px;
       }
     }
-    .votebox_container {
-      width: 75%;
+    .vote_button_container {
+      margin: 66px auto 0px;
+      .vote_button {
+          button {
+          width: 250px;
+          height: 58px;
+          font-size: 23px;
+          font-weight: 500;
+        }
+      }
     }
     .vote_woman_group {
       left: 50px;

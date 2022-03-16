@@ -1,8 +1,10 @@
 import React from "react";
 
+import { usePlusButtonClick } from "@/hooks/index";
 import styles from "@/styles/saving-calc/PlusButton.module.scss";
 
-function PlusButton({ mode, handleClick }) {
+function PlusButton({ mode, setAmount, amount }) {
+  const handleClick = usePlusButtonClick(setAmount, amount);
   return (
     <>
       <div className={styles.wrap}>

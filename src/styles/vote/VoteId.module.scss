@@ -66,6 +66,7 @@
         }
       }
       .radio_label {
+        cursor: pointer;
         white-space: pre;
         overflow: hidden;
         position: relative;
@@ -185,7 +186,6 @@
             font-size: 18px;
             &.shrink {
               margin-left: 34px; 
-              // border: 1px solid red;
             }
           }
         }

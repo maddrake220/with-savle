@@ -1,0 +1,26 @@
+.input {
+  width: 48px;
+  height: 27px;
+  border: none;
+  border-radius: 3px;
+  font-size: 13px;
+  color: #3178ff;
+  background: #e8f3ff;
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  padding: 0;
+  cursor: pointer;
+  @media (min-width: 576px) {
+    width: 63px;
+    height: 35px;
+    border-radius: 4px;
+    font-size: 13px;
+    bottom: 12px;
+    right: 20px;
+  }
+}
+.input.submit {
+  background: #3178ff;
+  color: #fff;
+}

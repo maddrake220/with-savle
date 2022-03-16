@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Favorite from "public/img/Favorite.svg";
+import Favorite from "public/img/favorite.svg";
 import { useCallback } from "react";
 import { fetchPutVoteLike } from "src/api/vote";
 
