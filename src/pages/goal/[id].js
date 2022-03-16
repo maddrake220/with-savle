@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/prevent-abbreviations */
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { fetchGetGoal, fetchGetGoalById, fetchPutGoalLike } from "src/api/goal";
 
@@ -33,7 +32,6 @@ export async function getStaticPaths() {
 }
 
 function GoalById({ data }) {
-  // const router = useRouter();
   const { id, age, categories, text, likes, comments } = data.results;
 
   const [timeoutToggle, timeoutModal] = useTimeoutToggle();
@@ -55,9 +53,6 @@ function GoalById({ data }) {
     },
     [id, like, localStorageHandler],
   );
-  // if (router.isFallback) {
-  //   return <div>Loading...</div>;
-  // }
   return (
     <section className={style.goal_detail}>
       <Seo
