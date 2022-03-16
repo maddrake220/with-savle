@@ -18,7 +18,7 @@ function Seo({
       <meta property="og:title" content={ogTitle} />
       <meta
         property="og:image"
-        content="https://savle.net/images/main_pc/share_image.png"
+        content="http://savle.net/images/main_pc/share_image.png"
       />
       <meta property="og:description" content={ogDesc} />
       <meta
