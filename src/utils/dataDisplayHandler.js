@@ -30,8 +30,14 @@ export const dataDisplayHandler = (
   selectedAge,
   selectedDropdown,
   viewPerScroll,
-) =>
-  setDatabyScroll(
+) => {
+  const sorted = setDatabyScroll(
     sortByDropdown(filterByAge(array, selectedAge), selectedDropdown),
     viewPerScroll,
   );
+  const getLength = sortByDropdown(
+    filterByAge(array, selectedAge),
+    selectedDropdown,
+  ).length;
+  return { sorted, getLength };
+};

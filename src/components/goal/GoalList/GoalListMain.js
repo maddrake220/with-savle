@@ -14,19 +14,35 @@ export default function GoalListMain({ queryMatch, data }) {
   const skeletonView = Array.from({ length: 9 }).fill(0);
   const [selectedDropdown, setSelectedDropdown] = useState(NEWEST);
   const [selectedAge, setSelectedAge] = useState(ageRange);
+  const [currentDataLength, setCurrentDataLength] = useState(10);
   const [target, setTarget] = useState(0);
   const [viewPerScroll, setViewPerScroll] = useState(10);
   const changeView = () => {
-    setViewPerScroll((count) => count + 10);
+    if (data.length > viewPerScroll) {
+      setViewPerScroll((count) => count + 10);
+    }
   };
-  const [isLoaded] = useIntersectionObserver(changeView, target);
+  const [isLoaded] = useIntersectionObserver(
+    changeView,
+    target,
+    currentDataLength <= viewPerScroll,
+  );
 
   const handleMenuChange = useCallback((event) => {
     setSelectedDropdown(event.target.value);
   }, []);
+
   useEffect(() => {
     setViewPerScroll(10);
   }, [selectedDropdown, selectedAge]);
+
+  useEffect(() => {
+    if (data !== undefined) {
+      setCurrentDataLength(
+        dataDisplayHandler(data, selectedAge, selectedDropdown).getLength,
+      );
+    }
+  }, [data, selectedAge, selectedDropdown]);
   return (
     <main>
       <GoalListMainCategory
@@ -50,7 +66,7 @@ export default function GoalListMain({ queryMatch, data }) {
                 selectedAge,
                 selectedDropdown,
                 viewPerScroll,
-              ).map((value, index) => (
+              ).sorted.map((value, index) => (
                 <GoalCard
                   key={index}
                   id={value.id}
