@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetchGetGoalCategory, fetchPostGoal } from "src/api/goal";
+import { fetchGetGoalCategory, fetchPostGoal, getGoalUrl } from "src/api/goal";
 import { mutate } from "swr";
 
 import {
   createFuzzyMatcher,
-  GOAL_ADDRESS,
   keywordDuplicationCheck,
   MAX_GOAL_CATEGORY,
 } from "@/utils/index";
@@ -59,7 +58,7 @@ export const useForm = (
             setText("");
             setSelectedGoalCategories([]);
             setSelectedAge();
-            mutate(GOAL_ADDRESS);
+            mutate(getGoalUrl);
           }
         })
         .catch((error) => alert(error, "fail to post"));

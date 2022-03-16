@@ -11,6 +11,7 @@ import {
   useBreakpoint,
   useLike,
   useTimeoutToggle,
+  useUpdateLikes,
   useVoteState,
 } from "@/hooks/index";
 import style from "@/styles/vote/VoteId.module.scss";
@@ -51,9 +52,11 @@ function VoteById({ data }) {
 
   const [commentCount, setCommentCount] = useState(voteComments.length);
 
+  const { updateLikes } = useUpdateLikes(id, likes);
+
   const [like, likeNums, localStorageHandler] = useLike(
     id,
-    likes,
+    updateLikes,
     LOCALSTORAGE_VOTE_LIKE,
   );
 
