@@ -42,7 +42,6 @@ export default function FavoriteCommentShare({
           height={20}
           onClick={copy}
         />
-        {/* <input className={style.hidden} type="text" onCopy={copy} /> */}
       </div>
     </div>
   );
