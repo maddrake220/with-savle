@@ -1,9 +1,5 @@
 import "react-loading-skeleton/dist/skeleton.css";
 
-<<<<<<< HEAD
-import axios from "axios";
-=======
->>>>>>> 73fa5c7 (add: 404, 500 error page)
 import Link from "next/link";
 import { fetcher } from "src/api";
 import { fetchGetVote } from "src/api/vote";
