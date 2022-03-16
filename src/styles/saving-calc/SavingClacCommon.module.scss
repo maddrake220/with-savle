@@ -40,6 +40,7 @@
   margin: 20px 4px 0 0;
   font-size: 14px;
   text-align: right;
+
   @media (min-width: 576px) {
     border-bottom: 2px solid #e3e7ed;
     margin: 20px 8px 0 0;
@@ -55,6 +56,7 @@
   &::placeholder {
     color: #b2b2b2;
   }
+  
 }
 .hidden{
   display: none;

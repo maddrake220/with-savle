@@ -15,7 +15,7 @@ function SavingCalc() {
         keyword="가상저축"
         desc="가상 저축 계산으로 미래를 설계해서 사람들과 목표를 공유해보아요"
         ogUrl="https://with-savle.herokuapp.com/saving-calc"
-        ogTitle="저축계산기"
+        ogTitle="저축계산기 | 쉽고 FUN한 저축, 세이블"
         ogDesc="가상 저축 계산으로 미래를 설계해서 사람들과 목표를 공유해보아요"
       />
       <div className="container">
