@@ -1,0 +1,32 @@
+
+.footer {
+    padding-top: 60px;
+    padding-bottom: 73px;
+    padding-left: 8.59375vw;
+    padding-right: 8.59375vw;
+    line-height: 24px;
+    background: $grey-4;
+    .address {
+      margin: 40px 0px;
+      font-style: inherit;
+    }
+    .address > span {
+      display: block;
+    }
+    .address__detail {
+      display: inline-block;
+    }
+    .link {
+      color: $black;
+      text-decoration: none;
+    }
+    .company_name {
+      margin: 0px;
+      @media (max-width: 575px) {
+          font-size: 11px;
+      }
+    }
+    @media (max-width: 575px) {
+        font-size: 11px;
+    }
+}
