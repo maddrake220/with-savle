@@ -1,23 +1,33 @@
-import ErrorBack from "@/components/common/ErrorBack";
-import ErrorContainer from "@/components/common/ErrorContainer";
-import ErrorContent from "@/components/common/ErrorContent";
-import ErrorImage from "@/components/common/ErrorImage";
-import ErrorSubTitle from "@/components/common/ErrorSubTitle";
-import ErrorTitle from "@/components/common/ErrorTitle";
+import {
+  Back,
+  Container,
+  Content,
+  ImageBox,
+  SubTitle,
+  Title,
+} from "@/components/common/error";
+import Seo from "@/components/common/Seo";
 
 function ServerError() {
   return (
-    <ErrorContainer>
-      <ErrorTitle>500 Error</ErrorTitle>
-      <ErrorSubTitle type="server_error">Internal Server Error</ErrorSubTitle>
-      <ErrorContent>
+    <Container>
+      <Seo
+        title="세이블 | 쉽고 FUN한 저축"
+        desc="목적을 여는 FUN한 방법, 가만히 있어도 저축되는 펀세이빙을 통해 목적을 이루어보세요!"
+        ogTitle="SAVLE(세이블)"
+        ogUrl="https://with-savle.herokuapp.com/"
+        ogDesc="목적을 여는 FUN한 방법, 가만히 있어도 저축되는 펀세이빙을 통해 목적을 이루어보세요!"
+      />
+      <Title>500 Error</Title>
+      <SubTitle type="server_error">Internal Server Error</SubTitle>
+      <Content>
         죄송합니다.
         <br />
         요청하신 페이지를 찾을 수 없습니다.
-      </ErrorContent>
-      <ErrorBack />
-      <ErrorImage type="serverErrorImg" />
-    </ErrorContainer>
+      </Content>
+      <Back />
+      <ImageBox type="serverErrorImg" />
+    </Container>
   );
 }
 

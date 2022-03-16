@@ -26,6 +26,11 @@ async function handler(request, response) {
 
   if (request.method === "GET") {
     const results = await client.vote.findMany({
+      orderBy: [
+        {
+          likes: "desc",
+        },
+      ],
       include: {
         voteSelect: {
           orderBy: {
