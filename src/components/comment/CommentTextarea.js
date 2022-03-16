@@ -1,15 +1,8 @@
 import styles from "@/styles/comment/CommentTextarea.module.scss";
 
-function CommentTextarea({
-  id,
-  textReference,
-  comment,
-  isLoading,
-  handelChange,
-}) {
+function CommentTextarea({ textReference, comment, isLoading, handelChange }) {
   return (
     <textarea
-      autoFocus={id === "goal" ? true : false}
       className={styles.textarea}
       naeme="comment"
       ref={textReference}
