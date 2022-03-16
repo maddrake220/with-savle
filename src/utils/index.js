@@ -28,6 +28,14 @@ export { ageRange } from "./ageRange";
 export { checkRangeAge } from "./checkRangeAge";
 export { createFuzzyMatcher } from "./createFuzzyMatcher";
 export { createMarkup } from "./createMarkup";
+export { dataDisplayHandler } from "./dataDisplayHandler";
+export {
+  COMMENTEST,
+  dropdownOptions,
+  LIKEST,
+  NEWEST,
+  OLDEST,
+} from "./dropdownOptions";
 export { getAgeGeneration } from "./getAgeGeneration";
 export { getSize } from "./getSize";
 export { keywordDuplicationCheck } from "./keywordDuplicationCheck";
