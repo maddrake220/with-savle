@@ -15,10 +15,12 @@ export { sumCount } from "./sumCount";
 export { addAmount } from "./addAmount";
 export { comma } from "./comma";
 export { commentCount } from "./commentCount";
+export { controlTextarea } from "./controlTextarea";
 export { isCheckBlank } from "./isCheckBlank";
 export { isCheckCount } from "./isCheckCount";
 export { isCheckValue } from "./isCheckValue";
 export { periodCalc } from "./periodCalc";
+export { removeComma } from "./removeComma";
 
 // goal
 export { ageList } from "./ageList";

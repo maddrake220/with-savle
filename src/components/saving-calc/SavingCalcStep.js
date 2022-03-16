@@ -1,6 +1,6 @@
-import Arrow from "public/layout/ic_arrow_next.svg";
-import One from "public/layout/ic_number.svg";
-import Check from "public/layout/ic_package_check.svg";
+import Arrow from "public/layout/ic-arrow-next.svg";
+import One from "public/layout/ic-number.svg";
+import Check from "public/layout/ic-package-check.svg";
 
 import { useWidth } from "@/hooks/index";
 import styles from "@/styles/saving-calc/SavingCalcStep.module.scss";
@@ -8,7 +8,7 @@ import styles from "@/styles/saving-calc/SavingCalcStep.module.scss";
 import Circle from "../saving-calc/Circle";
 
 function SavingCalcStep({ data }) {
-  const state = data[2];
+  const { state } = data;
   const { next, result, done } = state;
   const Width = useWidth(16, 20, 40, "px");
 

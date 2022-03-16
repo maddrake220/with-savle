@@ -15,8 +15,8 @@ export default function MainGoalPostForm({ toggleModal }) {
         position: "relative",
         height: "33.563rem",
         width: "483px",
-        marginLeft: "18px",
-        marginBottom: matchQuery.md ? "6.75rem" : "9.125rem",
+        margin: "18px",
+        marginBottom: matchQuery.md ? "100px" : "9.125rem",
         top: "3rem",
         left: "0rem",
       }}

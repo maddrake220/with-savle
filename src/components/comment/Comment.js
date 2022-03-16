@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 
 import { useGetComment } from "@/hooks/index";
 import styles from "@/styles/comment/Comment.module.scss";
+import { isCheckValue } from "@/utils/index";
 
-import CommentInput from "./CommentInput";
+import CommentForm from "./CommenForm";
 import CommentText from "./CommentText";
 import Toggle from "./Toggle";
 
@@ -16,22 +17,27 @@ function Comment({ value, id, setCount }) {
   };
 
   useEffect(() => {
-    if (!hidden) {
-      setCount(data.length);
-    }
+    data && setCount(data.length);
   });
 
   return (
     <div className={styles.comment_container}>
       <div className={styles.title}>
         <p>댓글</p>
-        <Toggle onClick={handleHiddenComment} hidden={hidden} />
+        {!isCheckValue(value) && (
+          <Toggle onClick={handleHiddenComment} hidden={hidden} />
+        )}
       </div>
-      <CommentInput value={value} id={id} />
-      {!hidden &&
-        data.map((comment, index) => (
-          <CommentText data={comment} key={index} />
-        ))}
+      <CommentForm value={value} id={id} />
+      {isCheckValue(value)
+        ? data &&
+          data.map((comment, index) => (
+            <CommentText data={comment} key={index} />
+          ))
+        : !hidden &&
+          data.map((comment, index) => (
+            <CommentText data={comment} key={index} />
+          ))}
     </div>
   );
 }

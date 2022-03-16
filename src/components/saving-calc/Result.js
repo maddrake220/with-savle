@@ -1,10 +1,12 @@
 import styles from "@/styles/saving-calc/SavingClacCommon.module.scss";
 import { periodCalc } from "@/utils/index";
 
+import Button from "./Button";
 import ResultFoldBox from "./ResultFoldBox";
+import ResultTitle from "./ResultTitle";
 
 function Result({ data }) {
-  const [inputs, setInputs, , setState] = data;
+  const { inputs, setInputs, setState } = data;
   const { goal, goal_amount, saving_amount } = inputs;
 
   const handleReset = (event) => {
@@ -15,23 +17,7 @@ function Result({ data }) {
 
   return (
     <>
-      <div className={`${styles.title} ${styles.result}`}>
-        <h2>
-          {goal.length >= 12 ? (
-            <>
-              <span className="goal_slice_first">{goal.slice(0, 10)}</span>
-              <br />
-              <span className="goal_slice_second">{goal.slice(10)}</span>
-            </>
-          ) : (
-            <span className="goal_slice_first">{goal}</span>
-          )}{" "}
-          을 위해
-          <br />
-          <span className="amount">{saving_amount}원</span>을
-          {saving_amount.length > 8 && <br />} 적금한다면?
-        </h2>
-      </div>
+      <ResultTitle goal={goal} saving_amount={saving_amount} />
       <div className={styles.result_wrap}>
         <ResultFoldBox
           setState={setState}
@@ -51,49 +37,7 @@ function Result({ data }) {
           date={periodCalc("day", goal_amount, saving_amount)}
         />
       </div>
-      <button
-        className={`${styles.button} ${styles.result}`}
-        onClick={handleReset}
-      >
-        다시하기
-      </button>
-      <style jsx>{`
-        span.goal_slice_first::before {
-          width: ${goal.length >= 12 ? `165px` : `calc(${goal.length} * 18px)`};
-        }
-        span.goal_slice_second::before {
-          width: calc((${goal.length} - 9) * 15px);
-        }
-        span.amount::before {
-          width: calc(${saving_amount.length} * 12px);
-        }
-        @media (min-width: 576px) {
-          span.goal_slice_first::before {
-            width: ${goal.length >= 12
-              ? `180px`
-              : `calc(${goal.length} * 17px)`};
-          }
-          span.goal_slice_second::before {
-            width: calc((${goal.length} - 9) * 17px);
-          }
-          span.amount::before {
-            width: calc(${saving_amount.length} * 14px);
-          }
-        }
-        @media (min-width: 1200px) {
-          span.goal_slice_first::before {
-            width: ${goal.length >= 12
-              ? `360px`
-              : `calc(${goal.length} * 33px)`};
-          }
-          span.goal_slice_second::before {
-            width: calc((${goal.length} - 9) * 33px);
-          }
-          span.amount::before {
-            width: calc(${saving_amount.length} * 26px);
-          }
-        }
-      `}</style>
+      <Button handleReset={handleReset} name="done" focus={true} />
     </>
   );
 }
