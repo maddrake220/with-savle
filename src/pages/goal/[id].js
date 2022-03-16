@@ -7,7 +7,7 @@ import { fetchGetGoal, fetchGetGoalById, fetchPutGoalLike } from "src/api/goal";
 import Comment from "@/components/comment/Comment";
 import FavoriteCommentShare from "@/components/common/FavoriteCommentShare";
 import Seo from "@/components/common/Seo";
-import { useLike, useTimeoutToggle } from "@/hooks/index";
+import { useLike, useTimeoutToggle, useUpdateLikes } from "@/hooks/index";
 import style from "@/styles/goal/GoalId.module.scss";
 import { LOCALSTORAGE_GOAL_LIKE } from "@/utils/index";
 
@@ -37,9 +37,11 @@ function GoalById({ data }) {
   const [timeoutToggle, timeoutModal] = useTimeoutToggle();
   const [commentCount, setCommentCount] = useState(comments.length);
 
+  const { updateLikes } = useUpdateLikes(id, likes);
+
   const [like, likeNums, localStorageHandler] = useLike(
     id,
-    likes,
+    updateLikes,
     LOCALSTORAGE_GOAL_LIKE,
   );
 
