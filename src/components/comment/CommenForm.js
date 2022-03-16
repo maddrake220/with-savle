@@ -32,12 +32,9 @@ function CommentForm({ value, id }) {
     <form className={styles.input_box} onSubmit={handelSubmit}>
       <CommentTextarea
         id={id}
-        data={data}
-        mutate={mutate}
         comment={comment}
         isLoading={isLoading}
         textReference={textReference}
-        handelSubmit={handelSubmit}
         handelChange={handelChange}
       />
       <CommentSubmitButton count={count} isLoading={isLoading} />
