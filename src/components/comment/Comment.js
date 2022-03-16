@@ -9,7 +9,6 @@ import CommentText from "./CommentText";
 import CommentTitle from "./CommentTitle";
 
 function Comment({ value, id, setCount, hidden, setHidden }) {
-  // const [hidden, setHidden] = useState(true);
   const [data] = useGetComment(value, id);
 
   const handleHiddenComment = () => {
@@ -30,11 +29,11 @@ function Comment({ value, id, setCount, hidden, setHidden }) {
       <CommentForm value={value} id={id} />
       {isCheckValue(value)
         ? data &&
-          data?.map((comment, index) => (
+          data.map((comment, index) => (
             <CommentText data={comment} key={index} />
           ))
         : !hidden &&
-          data?.map((comment, index) => (
+          data.map((comment, index) => (
             <CommentText data={comment} key={index} />
           ))}
     </div>
