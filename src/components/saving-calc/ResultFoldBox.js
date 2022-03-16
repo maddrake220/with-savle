@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import Arrow from "/public/layout/ic_arrow_expand.svg";
+import Arrow from "/public/layout/ic-arrow-expand.svg";
 import { useWidth } from "@/hooks/index";
 import styles from "@/styles/saving-calc/ResultFoldBox.module.scss";
 
