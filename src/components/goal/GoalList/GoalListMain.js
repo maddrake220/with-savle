@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import Loader from "@/components/common/Loader";
 import GoalCard from "@/components/goal/GoalCard";
@@ -14,25 +14,19 @@ export default function GoalListMain({ queryMatch, data }) {
   const skeletonView = Array.from({ length: 9 }).fill(0);
   const [selectedDropdown, setSelectedDropdown] = useState(NEWEST);
   const [selectedAge, setSelectedAge] = useState(ageRange);
-  const [posts, setPosts] = useState({
-    data: data.slice(0, 10),
-    viewByScroll: 10,
-  });
-  const setDatabyScroll = () => {
-    setPosts((posts) => {
-      return {
-        data: [...data.slice(0, posts.viewByScroll)],
-        viewByScroll: posts.viewByScroll + 10,
-      };
-    });
-  };
   const [target, setTarget] = useState(0);
-  const [isLoaded] = useIntersectionObserver(setDatabyScroll, target);
+  const [viewPerScroll, setViewPerScroll] = useState(10);
+  const changeView = () => {
+    setViewPerScroll((count) => count + 10);
+  };
+  const [isLoaded] = useIntersectionObserver(changeView, target);
 
   const handleMenuChange = useCallback((event) => {
     setSelectedDropdown(event.target.value);
   }, []);
-
+  useEffect(() => {
+    setViewPerScroll(10);
+  }, [selectedDropdown, selectedAge]);
   return (
     <main>
       <GoalListMainCategory
@@ -49,21 +43,24 @@ export default function GoalListMain({ queryMatch, data }) {
           />
         </div>
         <ul className={styles.goalList}>
-          {!posts.data
+          {!data
             ? skeletonView.map((v, index) => <GoalCard key={index} />)
-            : dataDisplayHandler(posts.data, selectedAge, selectedDropdown).map(
-                (value, index) => (
-                  <GoalCard
-                    key={index}
-                    id={value.id}
-                    age={value.age}
-                    categories={value.categories}
-                    comments={value.comments}
-                    likes={value.likes}
-                    text={value.text}
-                  />
-                ),
-              )}
+            : dataDisplayHandler(
+                data,
+                selectedAge,
+                selectedDropdown,
+                viewPerScroll,
+              ).map((value, index) => (
+                <GoalCard
+                  key={index}
+                  id={value.id}
+                  age={value.age}
+                  categories={value.categories}
+                  comments={value.comments}
+                  likes={value.likes}
+                  text={value.text}
+                />
+              ))}
         </ul>
         <div ref={setTarget} style={{ position: "relative" }}>
           {isLoaded && <Loader />}
