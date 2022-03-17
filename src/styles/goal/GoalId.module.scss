@@ -1,6 +1,11 @@
 .goal_detail {
   background: #f7f8fa;
   margin: 0 auto;
+  pre {
+    font-family: 'Noto Sans KR';
+    overflow: auto;
+    white-space: pre-wrap;
+  }
   .goal_detail_container {
     min-height: 100vh;
 
