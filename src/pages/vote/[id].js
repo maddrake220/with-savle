@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { fetchGetVote, fetchGetVoteById, fetchPutVoteLike } from "src/api/vote";
 
 import Comment from "@/components/comment/Comment.js";
@@ -11,12 +11,12 @@ import {
   useBreakpoint,
   useLike,
   useTimeoutToggle,
+  useUpdateCommentCount,
   useUpdateLikes,
   useVoteState,
 } from "@/hooks/index";
 import style from "@/styles/vote/VoteId.module.scss";
 import { LOCALSTORAGE_VOTE_LIKE } from "@/utils/index";
-
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export const getStaticProps = async (context) => {
   const { id } = context.params;
@@ -39,7 +39,7 @@ export const getStaticPaths = async () => {
 };
 
 function VoteById({ data }) {
-  const { title, text, likes, voteSelect, voteComments, id } = data.results;
+  const { title, text, likes, voteSelect, id } = data.results;
 
   const breakpoint = useBreakpoint();
   const [timeoutToggle, timeoutModal] = useTimeoutToggle();
@@ -58,7 +58,7 @@ function VoteById({ data }) {
   const { voteBtnBg, voteBtntextColor, borderColor, selectItemBackground } =
     buttonStyles;
 
-  const [commentCount, setCommentCount] = useState(voteComments.length);
+  const [commentCount, setCommentCount] = useUpdateCommentCount();
 
   const { updateLikes } = useUpdateLikes(id, likes);
 

@@ -5,6 +5,7 @@ export {
   ONE_WEEK,
 } from "./constants";
 export { copy } from "./copy";
+export { countAnimation } from "./countAnimation";
 export { percentage } from "./percentage";
 export { routes } from "./routes";
 export { sumCount } from "./sumCount";

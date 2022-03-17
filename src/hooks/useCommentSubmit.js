@@ -35,7 +35,7 @@ export const useCommentSubmit = (
           text: comment,
           id: id,
         });
-    mutate([...data, response.data.results], false);
+    mutate([...data, response.data.results]);
 
     setIsLoading(false);
   };
