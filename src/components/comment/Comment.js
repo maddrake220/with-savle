@@ -28,12 +28,11 @@ function Comment({ value, id, setCount, hidden, setHidden }) {
       />
       <CommentForm value={value} id={id} />
       {isCheckValue(value)
-        ? data &&
-          data.map((comment, index) => (
+        ? data?.map((comment, index) => (
             <CommentText data={comment} key={index} />
           ))
         : !hidden &&
-          data.map((comment, index) => (
+          data?.map((comment, index) => (
             <CommentText data={comment} key={index} />
           ))}
     </div>
