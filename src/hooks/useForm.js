@@ -139,7 +139,7 @@ export const useForm = (
     [inputReference, setSearchCategory],
   );
   const onChangeSearchCategory = useCallback((event) => {
-    if (event.target.value.length > 9) {
+    if (event.target.value.length > 6) {
       return;
     }
     setSearchCategory(event.target.value);
@@ -179,7 +179,7 @@ export const useForm = (
     if (selectedReference.current !== null) {
       const width = selectedReference.current.offsetWidth;
       inputReference.current.style.left = `${width + 7}px`;
-      inputReference.current.style.maxWidth = 219 - width + "px";
+      inputReference.current.style.maxWidth = 319 - width + "px";
     }
   }, [seletedGoalCategories, inputReference, selectedReference]);
   useEffect(() => {
