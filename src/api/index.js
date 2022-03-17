@@ -3,7 +3,7 @@ import axios from "axios";
 export const server =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:3000/"
-    : "https://with-savle.herokuapp.com/";
+    : "https://with-savle.vercel.app/";
 
 export const fetcher =
   (requireResults = false) =>

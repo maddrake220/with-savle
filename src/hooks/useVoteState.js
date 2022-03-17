@@ -71,6 +71,7 @@ export const useVoteState = (id) => {
       if (getSelectedIndex !== -1) {
         setSelectId(savedVoteList[Number.parseInt(getSelectedIndex)].value);
         setDisabled(true);
+        // setHidden(false);
         setChangdeButtonColor({ ...initialStyles, ...eventStyles });
       }
     }
