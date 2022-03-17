@@ -186,7 +186,7 @@ export const useForm = (
     if (isFocusedCategoryInput && selectedAge === undefined) {
       setValidationCheck({ age: true });
     }
-  }, [isFocusedCategoryInput, selectedAge, validationCheck]);
+  }, [isFocusedCategoryInput, selectedAge]);
   return [
     selectedAge,
     isFocusedCategoryInput,
