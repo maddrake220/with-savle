@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import server from "../server";
+import { server } from "..";
 
 const API_BASE_URL = server + "api/vote/";
 

@@ -12,12 +12,14 @@ export default function NewGoal({ toggleModal, isToggleModal }) {
       className={styles.newGoal}
       onClick={(event) => event.stopPropagation()}
     >
-      <NewGoalHeader matchQuery={matchQuery} />
-      <NewGoalForm
-        toggleModal={toggleModal}
-        matchQuery={matchQuery}
-        isToggleModal={isToggleModal}
-      />
+      <div className={styles.newGoalInner}>
+        <NewGoalHeader matchQuery={matchQuery} />
+        <NewGoalForm
+          toggleModal={toggleModal}
+          matchQuery={matchQuery}
+          isToggleModal={isToggleModal}
+        />
+      </div>
     </section>
   );
 }

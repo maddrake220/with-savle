@@ -13,21 +13,22 @@ export default function MainGoalPostForm({ toggleModal }) {
       className={styles.newGoal}
       style={{
         position: "relative",
-        height: "33.563rem",
         width: "483px",
         margin: "18px",
         marginBottom: matchQuery.md ? "100px" : "9.125rem",
-        top: "3rem",
-        left: "0rem",
+        top: matchQuery.md ? "1.5rem" : "3rem",
+        left: matchQuery.md ? "3rem" : "0",
       }}
       onClick={(event) => event.stopPropagation()}
     >
-      <NewGoalHeader matchQuery={matchQuery} />
-      <NewGoalForm
-        toggleModal={toggleModal}
-        matchQuery={matchQuery}
-        isToggleModal={true}
-      />
+      <div className={styles.newGoalInner}>
+        <NewGoalHeader matchQuery={matchQuery} />
+        <NewGoalForm
+          toggleModal={toggleModal}
+          matchQuery={matchQuery}
+          isToggleModal={true}
+        />
+      </div>
     </section>
   );
 }

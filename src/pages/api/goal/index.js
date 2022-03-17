@@ -39,6 +39,11 @@ async function handler(request, response) {
 
   if (request.method === "GET") {
     const results = await client.goal.findMany({
+      orderBy: [
+        {
+          likes: "desc",
+        },
+      ],
       include: {
         comments: true,
       },

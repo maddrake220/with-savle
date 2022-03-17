@@ -8,200 +8,214 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 7%;
   margin: auto 0;
+  height: fit-content;
+  left: 7%;
   max-width: 30.188rem;
   width: 86%;
-  max-height: 19.212rem;
-  border-radius: 0.5rem;
-  background: $white;
-  h1 {
-    font-size: 0;
-  }
-  .modalTop {
-    background: $secondary-accent;
-    height: 1.375rem;
-    border-radius: 0.5rem 0.5rem 0 0;
-    .newGoalChar {
-      position: absolute;
-      right: 0;
-      top: 7px;
+  .newGoalInner {
+    border-radius: 0.5rem;
+    background: $white;
+    padding-bottom: 1.25rem;
+    h1 {
+      font-size: 0;
     }
-  }
-  .newGoalForm {
-    margin: 0 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .ageListWrapper {
-      width: 100%;
-      position: relative;
-      margin-top: 0.875rem;
-      display: flex;
-      justify-content: right;
-      white-space: pre;
-      label {
+    .modalTop {
+      background: $secondary-accent;
+      height: 1.375rem;
+      border-radius: 0.5rem 0.5rem 0 0;
+      .newGoalChar {
         position: absolute;
-        left: 4px;
-        font-weight: bold;
-        font-size: 0.813rem;
-        line-height: 1.25rem;
-        color: $black;
-      }
-      .ageList {
-        margin-left: 85px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.25rem 0.5rem;
+        right: 0;
+        top: 7px;
       }
     }
-    .textareaWrapper {
-      margin-top: 10px;
-      width: 100%;
-      font-size: 13px;
-      position: relative;
+    .newGoalForm {
+      margin: 0 1.5rem;
       display: flex;
-      justify-content: center;
-      .text {
-        resize: none;
-        background: $grey-4;
-        border-radius: 4px;
-        border: none;
-        width: 92%;
-        height: 4.813rem;
-        padding: 10px 15px;
-        &:focus {
-          outline: 0;
+      flex-direction: column;
+      align-items: center;
+      .ageListWrapper {
+        width: 100%;
+        position: relative;
+        margin-top: 0.875rem;
+        display: flex;
+        white-space: pre;
+        justify-content: space-between;
+        label {
+          font-weight: bold;
+          font-size: 0.813rem;
+          line-height: 1.25rem;
+          color: $black;
+        }
+        .ageList {
+          width: 200px;
+          display: flex;
+          justify-content: flex-end;
+          flex-wrap: wrap;
+          gap: 0.25rem 0.5rem;
         }
       }
-    }
-    .goalCategoryWrapper {
-      position: relative;
-      margin-top: 7px;
-      width: 100%;
-      > label span {
-        font-weight: bold;
-        font-size: 0.813rem;
-        line-height: 1.25rem;
-        color: $black;
+      .textareaWrapper {
+        margin-top: 10px;
+        width: 100%;
+        font-size: 13px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        .text {
+          resize: none;
+          background: $grey-4;
+          border-radius: 4px;
+          border: none;
+          width: 92%;
+          height: 4.813rem;
+          padding: 10px 15px;
+          &:focus {
+            outline: 0;
+          }
+        }
       }
-      .goalWrapper {
+      .goalCategoryWrapper {
+        position: relative;
+        margin-top: 7px;
+        width: 100%;
+        > label span {
+          font-weight: bold;
+          font-size: 0.813rem;
+          line-height: 1.25rem;
+          color: $black;
+        }
+        .goalWrapper {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          .inputBox {
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 20px;
+            color: #36332e;
+            cursor: text;
+            width: 100%;
+            height: 1.813rem;
+            background: $grey-4;
+            border-radius: 0.25rem;
+            overflow: hidden;
+            position: relative;
+            .goalCategorySearchInput {
+              position: absolute;
+              left: 0;
+              background: $grey-4;
+              height: 1.813rem;
+              outline: none;
+              border: none;
+              :focus {
+                outline: none;
+              }
+            }
+          }
+          .selectedGoalCategories {
+            position: absolute;
+            display: flex;
+            gap: 0.25rem;
+            > li {
+              border: 0.5px solid $secondary-accent;
+              color: $secondary-accent;
+              height: 1rem;
+              padding: 0.12rem 0.12rem;
+              border-radius: 0.5rem;
+              display: flex;
+              align-items: center;
+              cursor: pointer;
+              font-size: 13px;
+              line-height: 20px;
+              span {
+                &::before {
+                  content: "# ";
+                }
+              }
+            }
+          }
+          .goalCategoryList {
+            position: absolute;
+            z-index: 10;
+            top: 50px;
+            left: 0;
+            display: flex;
+            background: $white;
+            color: #36332e;
+            width: 100%;
+            flex-direction: column;
+            align-items: flex-start;
+            border-radius: 0 0 8px 8px;
+            .searchingCategory {
+              color: $primary;
+              span {
+                &::after {
+                  font-size: 0.4rem;
+                  content: "  (새 카테고리 등록)";
+                }
+              }
+            }
+            li {
+              display: flex;
+              padding: 0px;
+              width: 100%;
+              height: 2.25rem;
+              font-size: 13px;
+              line-height: 20px;
+              align-items: center;
+              cursor: pointer;
+              box-shadow: inset 1px -0.5px 1px rgba(0, 0, 0, 0.1);
+
+              span {
+                &:before {
+                  content: " # ";
+                  margin-left: 20px;
+                }
+              }
+            }
+          }
+        }
+      }
+      .submitButtonWrapper {
+        margin-top: 10px;
         display: flex;
         width: 100%;
-        align-items: center;
-        .inputBox {
-          font-weight: 400;
-          font-size: 13px;
-          line-height: 20px;
-          color: #36332e;
-          cursor: text;
-          width: 100%;
+        justify-content: flex-end;
+        .submitButton {
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 3.875rem;
           height: 1.813rem;
-          background: $grey-4;
-          border-radius: 0.25rem;
-          overflow: hidden;
-          position: relative;
-          .goalCategorySearchInput {
-            position: absolute;
-            left: 0;
-            background: $grey-4;
-            height: 1.813rem;
-            outline: none;
-            border: none;
-            :focus {
-              outline: none;
-            }
-          }
-        }
-        .selectedGoalCategories {
-          position: absolute;
-          display: flex;
-          gap: 0.25rem;
-          > li {
-            border: 0.5px solid $secondary-accent;
-            color: $secondary-accent;
-            height: 1rem;
-            padding: 0.12rem 0.12rem;
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            font-size: 13px;
-            line-height: 20px;
-            span {
-              &::before {
-                content: "# ";
-              }
-            }
-          }
-        }
-        .goalCategoryList {
-          position: absolute;
-          z-index: 10;
-          top: 50px;
-          left: 0;
-          display: flex;
-          background: $white;
-          color: #36332e;
-          width: 100%;
-          flex-direction: column;
-          align-items: flex-start;
-          border-radius: 0 0 8px 8px;
-          .searchingCategory {
-            color: $primary;
-            span {
-              &::after {
-                font-size: 0.4rem;
-                content: "  (새 카테고리 등록)";
-              }
-            }
-          }
-          li {
-            display: flex;
-            padding: 0px;
-            width: 100%;
-            height: 2.25rem;
-            font-size: 13px;
-            line-height: 20px;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: inset 1px -0.5px 1px rgba(0, 0, 0, 0.1);
-
-            span {
-              &:before {
-                content: " # ";
-                margin-left: 20px;
-              }
-            }
-          }
+          background: #e8f3ff;
+          border-radius: 4px;
+          border: none;
         }
       }
     }
-    .submitButton {
-      cursor: pointer;
-      display: flex;
-      position: absolute;
-      right: 15px;
-      bottom: 7px;
-      align-items: center;
-      justify-content: center;
-      width: 3.875rem;
-      height: 1.813rem;
-      background: #e8f3ff;
-      border-radius: 4px;
-      border: none;
+    .validationFail {
+      padding-top: 10px;
+      font-size: 0.7rem;
+      color: red;
     }
-  }
-  .validationFail {
-    padding-top: 10px;
-    font-size: 0.7rem;
-    color: red;
   }
 }
 
-@media (min-width: 483px) {
-  .ageList {
-    margin-left: 40px;
+@media (min-width: 505px) {
+  .newGoal {
+    .newGoalInner {
+      .newGoalForm {
+        margin: 0 2rem;
+        .ageListWrapper {
+          .ageList {
+            width: 400px;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -210,76 +224,83 @@
     left: calc(50% - 15.94rem);
     max-height: 33.563rem;
     border-radius: 1rem;
-    .modalTop {
-      height: 3.625rem;
-    }
-    .newGoalForm {
-      margin: 0 2rem;
-      .ageListWrapper {
-        flex-direction: column;
-        label {
-          position: relative;
-        }
-        .ageList {
-          margin-top: 10px;
-          margin-left: 0;
-        }
+    .newGoalInner {
+      .modalTop {
+        height: 3.625rem;
       }
-      .textareaWrapper {
-        font-size: 18px;
-        .text {
-          width: 94%;
-          height: 15.625rem;
-        }
-      }
-      .goalCategoryWrapper {
-        margin-top: 0.55rem;
-        .goalWrapper {
-          width: 76%;
-          .inputBox {
-            height: 3.375rem;
-            .goalCategorySearchInput {
-              height: 3.375rem;
-              font-size: 18px;
-            }
+      .newGoalForm {
+        margin: 0 2rem;
+        .ageListWrapper {
+          flex-direction: column;
+          label {
+            position: relative;
           }
-          .goalCategoryList {
-            top: 80px;
-            width: 76%;
-            border-radius: 0 0 8px 8px;
-            li {
-              display: flex;
-              padding: 0px;
-              font-size: 13px;
-              line-height: 20px;
-              color: #36332e;
-              align-items: center;
-              cursor: pointer;
-            }
-          }
-          .selectedGoalCategories {
-            left: 3px;
-            top: 34px;
+          .ageList {
             display: flex;
-            gap: 0.45rem;
-            font-weight: bold;
-            li {
-              border: 1px solid $secondary-accent;
-              color: $secondary-accent;
-              height: 1rem;
-              padding: 0.2rem 0.6rem;
-              font-size: 1rem;
-              line-height: 26px;
+            justify-content: flex-start;
+            margin-top: 10px;
+            margin-left: 0;
+          }
+        }
+        .textareaWrapper {
+          font-size: 18px;
+          .text {
+            width: 94%;
+            height: 15.625rem;
+          }
+        }
+        .goalCategoryWrapper {
+          margin-top: 0.55rem;
+          .goalWrapper {
+            width: 76%;
+            .inputBox {
+              height: 3.375rem;
+              .goalCategorySearchInput {
+                height: 3.375rem;
+                font-size: 18px;
+              }
+            }
+            .goalCategoryList {
+              top: 80px;
+              width: 76%;
+              border-radius: 0 0 8px 8px;
+              li {
+                display: flex;
+                padding: 0px;
+                font-size: 13px;
+                line-height: 20px;
+                color: #36332e;
+                align-items: center;
+                cursor: pointer;
+              }
+            }
+            .selectedGoalCategories {
+              left: 3px;
+              top: 34px;
+              display: flex;
+              gap: 0.45rem;
+              font-weight: bold;
+              li {
+                border: 1px solid $secondary-accent;
+                color: $secondary-accent;
+                height: 1rem;
+                padding: 0.2rem 0.6rem;
+                font-size: 1rem;
+                line-height: 26px;
+              }
             }
           }
         }
-      }
-      .submitButton {
-        right: 32px;
-        bottom: 45px;
-        width: 5.125rem;
-        height: 3.375rem;
-        border-radius: 4px;
+        .submitButtonWrapper {
+          .submitButton {
+            position: absolute;
+            right: 32px;
+            bottom: 29px;
+            width: 5.125rem;
+            height: 3.375rem;
+            border-radius: 4px;
+          }
+        }
       }
     }
   }
@@ -290,7 +311,6 @@
     left: auto;
     right: 5.625rem;
     bottom: 8rem;
-    height: 33.563rem;
   }
 }
 

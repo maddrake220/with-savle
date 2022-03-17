@@ -1,52 +1,60 @@
 .banner_box_container {
-  position: relative;
   background-color: #5791ff;
   height: 128px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   padding: 0 20px;
-  box-sizing: border-box;
   color: $white;
-  .banner_box_title {
-    font-size: 22px;
-    line-height: 28px;
-    font-weight: 700;
-    margin: 0 0 8px 0;
-    padding: 0;
-  }
-  .banner_box_sub {
-    font-size: 13px;
-    line-height: 20px;
-    font-weight: 400;
-    margin: 0;
-  }
-  .img_character_money {
-    position: absolute;
-    bottom: 15px;
-    right: 13px;
-    width: 82px;
-    height: 67px;
+  .banner_box{
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 280px;
+    height: 128px;
+    box-sizing: border-box;
+    .banner_box_title {
+      font-size: 22px;
+      line-height: 28px;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+      padding: 0;
+    }
+    .banner_box_sub {
+      font-size: 13px;
+      line-height: 20px;
+      font-weight: 400;
+      margin: 0;
+    }
+    .img_character_money {
+      position: absolute;
+      bottom: 15px;
+      right: 0px;
+      width: 82px;
+      height: 67px;
+    }
   }
 }
 @media (min-width: 576px) {
   .banner_box_container {
     height: 196px;
-    padding: 0 80px;
-    .banner_box_title {
-      font-size: 28px;
-      line-height: 36px;
-      margin-bottom: 18px;
-    }
-    .banner_box_sub {
-      font-size: 16px;
-      line-height: 24px;
-    }
-    .img_character_money {
-      bottom: 20px;
-      right: 70px;
-      width: 176px;
-      height: 143px;
+    .banner_box{
+        width: 576px;
+        height: 196px;
+      .banner_box_title {
+        font-size: 28px;
+        line-height: 36px;
+        margin-bottom: 18px;
+      }
+      .banner_box_sub {
+        font-size: 16px;
+        line-height: 24px;
+      }
+      .img_character_money {
+        bottom: 20px;
+        right: 0px;
+        width: 176px;
+        height: 143px;
+      }
     }
   }
 }
@@ -54,22 +62,25 @@
 @media (min-width: 1200px) {
   .banner_box_container {
     height: 246px;
-    padding: 0 160px;
-    .banner_box_title {
-      font-size: 40px;
-      line-height: 55px;
-      margin: 0 0 20px 0;
-    }
-    .banner_box_sub {
-      font-size: 28px;
-      line-height: 38px;
-      font-weight: 400;
-    }
-    .img_character_money {
-      width: 241px;
-      height: 197px;
-      bottom: 15px;
-      right: 160px;
+    .banner_box{
+      width: 1200px;
+      height: 246px;
+      .banner_box_title {
+        font-size: 40px;
+        line-height: 55px;
+        margin: 0 0 20px 0;
+      }
+      .banner_box_sub {
+        font-size: 28px;
+        line-height: 38px;
+        font-weight: 400;
+      }
+      .img_character_money {
+        width: 241px;
+        height: 197px;
+        bottom: 15px;
+        right: 0px;
+      }
     }
   }
 }

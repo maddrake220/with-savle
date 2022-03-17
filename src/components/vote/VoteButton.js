@@ -16,9 +16,8 @@ export default function VoteButton({
           ? {
               backgroundColor: voteBtnBg,
               color: voteBtntextColor,
-              cursor: "ponter",
             }
-          : { backgroundColor: "#d5d8dc", color: "#B2B2B2", cursor: "ponter" }
+          : { backgroundColor: "#d5d8dc", color: "#B2B2B2" }
       }
     >
       투표하기

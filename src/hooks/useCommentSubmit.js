@@ -38,7 +38,6 @@ export const useCommentSubmit = (
     mutate([...data, response.data.results], false);
 
     setIsLoading(false);
-    textReference.current.focus();
   };
   return { handelSubmit, isLoading };
 };

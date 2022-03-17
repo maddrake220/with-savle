@@ -27,14 +27,14 @@ function ShortcutBar() {
         </h2>
         <div className={styles.shortcut}>
           <a
-            href="https://play.google.com/store/apps/details?id=io.buencamino.app.just"
+            href="https://buencamino.page.link/fc_android"
             target="_blank"
             rel="noreferrer"
           >
             <GooglePlay width={useWidth(31.3, 15.5, 8.5, "vw")} />
           </a>
           <a
-            href="https://apps.apple.com/kr/app/savle-%EC%84%B8%EC%9D%B4%EB%B8%94/id1562933122"
+            href="https://buencamino.page.link/fc_ios"
             target="_blank"
             rel="noreferrer"
           >

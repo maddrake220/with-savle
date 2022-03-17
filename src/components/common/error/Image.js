@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import style from "@/styles/common/Error.module.scss";
 
-function ErrorImage({ type = "" }) {
+export function ImageBox({ type = "" }) {
   return (
     <div className={style.image}>
       <Image
@@ -17,5 +17,3 @@ function ErrorImage({ type = "" }) {
     </div>
   );
 }
-
-export default ErrorImage;

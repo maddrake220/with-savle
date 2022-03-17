@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export const server =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:3000/"
+    : "https://with-savle.herokuapp.com/";
+
 export const fetcher =
   (requireResults = false) =>
   async (url) => {

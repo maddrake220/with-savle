@@ -15,6 +15,9 @@ const getBackgroundColor = (backgroundColor) => {
     case "sky": {
       return styles.sky;
     }
+    case "pink": {
+      return styles.pink;
+    }
     default: {
       return styles.blue;
     }
