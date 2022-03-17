@@ -34,10 +34,13 @@
     font-size: 13px;
   }
   .logo {
-    cursor: pointer;
     margin: 0;
     font-size: 0;
     flex-basis: 85%;
+  }
+  .notMobile{
+
+    cursor: pointer;
   }
   @media (max-width: 575px) {
     background-color: #f0f6fb;
