@@ -1,25 +1,26 @@
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { fetchGetGoalById } from "src/api/goal";
-import { fetchGetVoteById } from "src/api/vote";
+// import { fetchGetVoteById } from "src/api/vote";
 
 export const useUpdateLikes = (id, initCount) => {
   const [likes, setLikes] = useState(initCount);
-  const { pathname } = useRouter();
+  // const { pathname } = useRouter();
   const response = useCallback(async () => {
-    const isGoal = pathname.includes("goal");
+    // const isGoal = pathname.includes("goal");
     const stringId = id.toString();
     const {
       data: {
         results: { likes: updateLikes },
       },
-    } = await (isGoal
-      ? fetchGetGoalById(stringId)
-      : fetchGetVoteById(stringId));
-    return updateLikes;
-  }, [id, pathname]);
+    } = await fetchGetGoalById(stringId);
+
+    if (updateLikes) {
+      setLikes(updateLikes);
+    }
+  }, [id]);
   useEffect(() => {
-    response().then((resolve) => setLikes(resolve));
+    response();
   }, [response]);
 
   return { updateLikes: likes };
