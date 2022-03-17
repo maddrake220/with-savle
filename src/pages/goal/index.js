@@ -1,7 +1,8 @@
-import { fetchGetGoal, getGoalUrl } from "src/api/goal";
+import { fetchGetGoal } from "src/api/goal";
 import { SWRConfig } from "swr";
 
 import GoalList from "@/components/goal/GoalList";
+import { GOAL_ADDRESS } from "@/utils/constants";
 import { ONE_WEEK } from "@/utils/index";
 
 export default function Goal({ fallback }) {
@@ -18,7 +19,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       fallback: {
-        [getGoalUrl]: response.data.results,
+        [GOAL_ADDRESS]: response.data.results,
       },
       revlidation: ONE_WEEK,
     },
