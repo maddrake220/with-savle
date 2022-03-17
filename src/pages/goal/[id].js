@@ -58,17 +58,17 @@ function GoalById({ data }) {
   return (
     <section className={style.goal_detail}>
       <Seo
-        title="목표공유 | 쉽고 FUN한 저축, 세이블"
-        desc="세이블에서 목표 달성, 함께해요!"
+        title={"목표공유 | 쉽고 FUN한 저축, 세이블"}
+        desc={text}
         ogUrl={`https://with-savle.herokuapp.com/${id}`}
-        ogTitle="목표 공유"
+        ogTitle={text}
         ogDesc="세이블에서 목표 달성, 함께해요! 다른 사람들과 목표를 공유해보아요."
       />
       <div className={style.goal_detail_container}>
         <div className={style.info}>
           익명의 {id}님 | {age}대
         </div>
-        <div className={style.text}>{text}</div>
+        <pre className={style.text}>{text}</pre>
         <div className={style.categories}>
           <ul>
             {categories.map((item, index) => {

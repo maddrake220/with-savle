@@ -6,7 +6,10 @@
     padding: 0px;
   }
   position: absolute;
-  top: calc(100vh - 70%);
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  height: fit-content;
   left: 7%;
   max-width: 30.188rem;
   width: 86%;
