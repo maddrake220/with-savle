@@ -10,7 +10,7 @@ export { Wrapper } from "./Wrapper";
 export const ToggleStyles = (isToggled, pathname) => ({
   nav: isToggled
     ? [style.nav, style.backgroundColor_primary, style.height_open].join(" ")
-    : [style.nav, style.height_close, style[pathname.toString()]].join(" "),
+    : [style.nav, style.height_close, style[pathname.split("/")[0]]].join(" "),
   backIcon: [
     isToggled ? style.fill_white : "",
     !isToggled && pathname === "" && style.hide,
