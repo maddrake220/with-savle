@@ -58,12 +58,20 @@ export const useForm = (
             setText("");
             setSelectedGoalCategories([]);
             setSelectedAge();
+            inputReference.current.disabled = false;
             mutate(getGoalUrl);
           }
         })
         .catch((error) => alert(error, "fail to post"));
     },
-    [seletedGoalCategories, setText, selectedAge, toggleModal, text],
+    [
+      seletedGoalCategories,
+      setText,
+      selectedAge,
+      toggleModal,
+      text,
+      inputReference,
+    ],
   );
   const onChangeText = useCallback((event) => {
     if (event.target.value !== "") {
@@ -124,14 +132,14 @@ export const useForm = (
       event.preventDefault();
       inputReference.current.disabled = false;
       setSelectedGoalCategories((values) => {
-        return values.filter((v) => v.id !== value.id);
+        return values.filter((v) => v.keyword !== value.keyword);
       });
       setSearchCategory("");
     },
     [inputReference, setSearchCategory],
   );
   const onChangeSearchCategory = useCallback((event) => {
-    if (event.target.value.length > 10) {
+    if (event.target.value.length > 9) {
       return;
     }
     setSearchCategory(event.target.value);
@@ -171,7 +179,7 @@ export const useForm = (
     if (selectedReference.current !== null) {
       const width = selectedReference.current.offsetWidth;
       inputReference.current.style.left = `${width + 7}px`;
-      inputReference.current.style.maxWidth = 167 - width + "px";
+      inputReference.current.style.maxWidth = 219 - width + "px";
     }
   }, [seletedGoalCategories, inputReference, selectedReference]);
   useEffect(() => {
