@@ -1,4 +1,4 @@
-import styles from "@/styles/saving-calc/SavingClacCommon.module.scss";
+import styles from "@/styles/saving-calc/SavingAmount.module.scss";
 
 import PlusButton from "./PlusButton";
 
@@ -18,7 +18,6 @@ function SavingAmountGoalInput({
       <p className={styles.goal_amount_input}>
         <input
           id="goal_amount"
-          className={styles.input}
           name="goal_amount"
           type="text"
           value={goal_amount}

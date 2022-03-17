@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from "@/styles/saving-calc/SavingClacCommon.module.scss";
+import styles from "@/styles/saving-calc/SavingGoal.module.scss";
 
 function SavingGoalInput({
   nextButtonFocus,
@@ -24,7 +24,6 @@ function SavingGoalInput({
           onChange={handleChange}
           onKeyDown={handelKeypress}
           value={goal}
-          className={styles.input}
         ></input>{" "}
         입니다
         <span className={goal.length <= 20 ? styles.hidden : ""}>
