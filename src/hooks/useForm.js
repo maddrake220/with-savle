@@ -6,6 +6,7 @@ import {
   createFuzzyMatcher,
   keywordDuplicationCheck,
   MAX_GOAL_CATEGORY,
+  MAX_HASH_TAG_LENGTH,
 } from "@/utils/index";
 
 export const useForm = (
@@ -139,7 +140,8 @@ export const useForm = (
     [inputReference, setSearchCategory],
   );
   const onChangeSearchCategory = useCallback((event) => {
-    if (event.target.value.length > 6) {
+    // 최대 글자수
+    if (event.target.value.length > MAX_HASH_TAG_LENGTH) {
       return;
     }
     setSearchCategory(event.target.value);
