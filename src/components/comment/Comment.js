@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { useGetComment } from "@/hooks/index";
 import styles from "@/styles/comment/Comment.module.scss";
-import { countAnimation, isCheckValue } from "@/utils/index";
+import { isCheckValue } from "@/utils/index";
 
 import CommentForm from "./CommenForm";
 import CommentText from "./CommentText";
@@ -16,10 +16,8 @@ function Comment({ value, id, setCount, hidden, setHidden }) {
   };
 
   useEffect(() => {
-    if (data) {
-      countAnimation(setCount, data.length, 500);
-    }
-  }, [setCount, data]);
+    data && setCount(data.length);
+  });
 
   return (
     <div className={styles.comment_container}>
