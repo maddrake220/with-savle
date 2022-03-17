@@ -30,7 +30,7 @@ export async function getStaticProps() {
       fallback: {
         "/api/vote": response.data.results,
       },
-      revlidation: ONE_WEEK,
+      revalidate: ONE_WEEK,
     },
   };
 }
