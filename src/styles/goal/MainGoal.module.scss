@@ -84,6 +84,7 @@
     height: 46px;
 
     margin-top: 8px;
+    margin-left: 35px;
 
     border: 1px solid #3178ff;
     border-radius: 8px;
@@ -99,6 +100,24 @@
     background: #3178ff;
 
     color: #ffffff;
+  }
+  @media (min-width: 575px) { 
+    flex-direction: row;
+    
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 700;
+    .btn {
+      width: 218px;
+      height: 58px;
+    }
+    a + a {
+      margin-left: 34px;
+    }
+  }
+  @media (min-width: 1200px){
+    margin-top: 50px;
+    margin-left: 650px;
   }
 }
 
@@ -197,7 +216,7 @@
   position: relative;
   background: #f0f6fb;
   .no_goal_slider {
-    width: 575px;
+    width: 542px;
 
     display: flex;
     flex-wrap: wrap;

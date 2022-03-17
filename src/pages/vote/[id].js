@@ -39,7 +39,7 @@ export const getStaticPaths = async () => {
 };
 
 function VoteById({ data }) {
-  const { title, text, likes, voteSelect, voteComments, id } = data.results;
+  const { title, text, likes, voteSelect, id } = data.results;
 
   const breakpoint = useBreakpoint();
   const [timeoutToggle, timeoutModal] = useTimeoutToggle();
@@ -58,7 +58,7 @@ function VoteById({ data }) {
   const { voteBtnBg, voteBtntextColor, borderColor, selectItemBackground } =
     buttonStyles;
 
-  const [commentCount, setCommentCount] = useState(voteComments.length);
+  const [commentCount, setCommentCount] = useState(0);
 
   const { updateLikes } = useUpdateLikes(id, likes);
 

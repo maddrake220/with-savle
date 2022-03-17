@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { useGetComment } from "@/hooks/index";
 import styles from "@/styles/comment/Comment.module.scss";
-import { isCheckValue } from "@/utils/index";
+import { countAnimation, isCheckValue } from "@/utils/index";
 
 import CommentForm from "./CommenForm";
 import CommentText from "./CommentText";
@@ -16,8 +16,10 @@ function Comment({ value, id, setCount, hidden, setHidden }) {
   };
 
   useEffect(() => {
-    data && setCount(data.length);
-  });
+    if (data) {
+      countAnimation(setCount, data.length, 500);
+    }
+  }, [setCount, data]);
 
   return (
     <div className={styles.comment_container}>
@@ -28,12 +30,11 @@ function Comment({ value, id, setCount, hidden, setHidden }) {
       />
       <CommentForm value={value} id={id} />
       {isCheckValue(value)
-        ? data &&
-          data.map((comment, index) => (
+        ? data?.map((comment, index) => (
             <CommentText data={comment} key={index} />
           ))
         : !hidden &&
-          data.map((comment, index) => (
+          data?.map((comment, index) => (
             <CommentText data={comment} key={index} />
           ))}
     </div>

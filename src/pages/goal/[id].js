@@ -32,12 +32,12 @@ export async function getStaticPaths() {
 }
 
 function GoalById({ data }) {
-  const { id, age, categories, text, likes, comments } = data.results;
+  const { id, age, categories, text } = data.results;
 
   const [timeoutToggle, timeoutModal] = useTimeoutToggle();
-  const [commentCount, setCommentCount] = useState(comments.length);
+  const [commentCount, setCommentCount] = useState(0);
 
-  const { updateLikes } = useUpdateLikes(id, likes);
+  const { updateLikes } = useUpdateLikes(id);
 
   const [like, likeNums, localStorageHandler] = useLike(
     id,

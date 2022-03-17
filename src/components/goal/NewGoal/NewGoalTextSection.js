@@ -15,7 +15,7 @@ export default function NewGoalTextSection({
           ref={textareaReference}
           className={styles.text}
           type="text"
-          placeholder="내용을 입력해주세요!"
+          placeholder="목표를 입력해주세요."
           onChange={onChangeText}
           value={text}
           maxLength={300}
@@ -23,7 +23,7 @@ export default function NewGoalTextSection({
       </div>
       <div style={{ width: "100%" }}>
         {validationCheck && (
-          <div className={styles.validationFail}>내용을 입력해주세요!</div>
+          <div className={styles.validationFail}>목표를 입력해주세요!</div>
         )}
       </div>
     </>
