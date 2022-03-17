@@ -25,7 +25,6 @@ function SavingGoalInput({
           onKeyDown={handelKeypress}
           value={goal}
           className={styles.input}
-          autoFocus
         ></input>{" "}
         입니다
         <span className={goal.length <= 20 ? styles.hidden : ""}>

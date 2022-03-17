@@ -26,7 +26,6 @@ function SavingAmountGoalInput({
           placeholder="예) 70,000,000"
           onChange={handleChange}
           onKeyDown={handelKeypress}
-          autoFocus
         ></input>
         원 입니다
       </p>
