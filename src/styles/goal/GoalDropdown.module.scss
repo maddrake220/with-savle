@@ -1,0 +1,20 @@
+.GoalDropdown {
+  .GoalDropdownSelect {
+    position: absolute;
+    right: 0;
+    width: 87px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    /* identical to box height, or 133% */
+    border: none;
+    outline: none;
+    color: #111111;
+    // "http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png"
+    background: url("/img/dropdownArrow.svg") right $blueBgColor-1;
+    background-repeat: no-repeat;
+    -webkit-appearance: none;
+    background-position-y: 7px;
+    background-position-x: 48px;
+  }
+}

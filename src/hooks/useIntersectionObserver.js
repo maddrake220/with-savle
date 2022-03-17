@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useIntersectionObserver = (customFunction, target) => {
+export const useIntersectionObserver = (customFunction, target, isEnd) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const getMoreItem = async () => {
     setIsLoaded(true);
@@ -22,9 +22,13 @@ export const useIntersectionObserver = (customFunction, target) => {
       observer = new IntersectionObserver(onIntersect, {
         threshold: 0.4,
       });
-      observer.observe(target);
+      if (isEnd) {
+        observer.unobserve(target);
+      } else {
+        observer.observe(target);
+      }
     }
     return () => observer && observer.disconnect();
-  }, [onIntersect, target]);
+  }, [onIntersect, target, isEnd]);
   return [isLoaded];
 };
