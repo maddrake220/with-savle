@@ -16,10 +16,13 @@ export const useUpdateLikes = (id, initCount) => {
     } = await (isGoal
       ? fetchGetGoalById(stringId)
       : fetchGetVoteById(stringId));
-    return updateLikes;
+
+    if (updateLikes) {
+      setLikes(updateLikes);
+    }
   }, [id, pathname]);
   useEffect(() => {
-    response().then((resolve) => setLikes(resolve));
+    response();
   }, [response]);
 
   return { updateLikes: likes };
