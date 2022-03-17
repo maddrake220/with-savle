@@ -1,13 +1,18 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/prevent-abbreviations */
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { fetchGetGoal, fetchGetGoalById, fetchPutGoalLike } from "src/api/goal";
 
 import Comment from "@/components/comment/Comment";
 import FavoriteCommentShare from "@/components/common/FavoriteCommentShare";
 import Seo from "@/components/common/Seo";
-import { useLike, useTimeoutToggle, useUpdateLikes } from "@/hooks/index";
+import {
+  useLike,
+  useTimeoutToggle,
+  useUpdateCommentCount,
+  useUpdateLikes,
+} from "@/hooks/index";
 import style from "@/styles/goal/GoalId.module.scss";
 import { LOCALSTORAGE_GOAL_LIKE } from "@/utils/index";
 
@@ -35,7 +40,7 @@ function GoalById({ data }) {
   const { id, age, categories, text } = data.results;
 
   const [timeoutToggle, timeoutModal] = useTimeoutToggle();
-  const [commentCount, setCommentCount] = useState(0);
+  const [commentCount, setCommentCount] = useUpdateCommentCount();
 
   const { updateLikes } = useUpdateLikes(id);
 
