@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 export const useLike = (id, likes, localstorageName) => {
   const [like, setLike] = useState(false);
-  const [likeNums, setLikeNums] = useState(0);
+  const [likeNums, setLikeNums] = useState(likes);
 
   useEffect(() => {
     setLikeNums(likes);
