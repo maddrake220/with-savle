@@ -44,7 +44,6 @@ function GoalById({ data }) {
     updateLikes,
     LOCALSTORAGE_GOAL_LIKE,
   );
-
   const handleLikeToggle = useCallback(
     (event) => {
       event.preventDefault();
