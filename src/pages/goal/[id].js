@@ -68,7 +68,7 @@ function GoalById({ data }) {
         <div className={style.info}>
           익명의 {id}님 | {age}대
         </div>
-        <div className={style.text}>{text}</div>
+        <pre className={style.text}>{text}</pre>
         <div className={style.categories}>
           <ul>
             {categories.map((item, index) => {
