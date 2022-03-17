@@ -3,6 +3,8 @@ import { useCallback, useEffect, useState } from "react";
 import { fetchGetGoalById } from "src/api/goal";
 import { fetchGetVoteById } from "src/api/vote";
 
+import { countAnimation } from "../utils";
+
 export const useUpdateLikes = (id) => {
   const [likes, setLikes] = useState(0);
   const { pathname } = useRouter();
@@ -19,7 +21,7 @@ export const useUpdateLikes = (id) => {
       : fetchGetVoteById(stringId));
 
     if (updateLikes) {
-      setLikes(updateLikes);
+      countAnimation(setLikes, updateLikes, isGoal ? 200 : 500);
     }
   }, [id, pathname]);
 
