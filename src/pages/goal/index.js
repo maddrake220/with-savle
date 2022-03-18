@@ -2,8 +2,7 @@ import { fetchGetGoal } from "src/api/goal";
 import { SWRConfig } from "swr";
 
 import GoalList from "@/components/goal/GoalList";
-import { GOAL_ADDRESS } from "@/utils/constants";
-import { ONE_WEEK } from "@/utils/index";
+import { GOAL_ADDRESS, ONE_DAY_TO_SECONDS } from "@/utils/constants";
 
 export default function Goal({ fallback }) {
   return (
@@ -21,7 +20,7 @@ export const getStaticProps = async () => {
       fallback: {
         [GOAL_ADDRESS]: response.data.results,
       },
-      revalidate: ONE_WEEK,
     },
+    revalidate: ONE_DAY_TO_SECONDS,
   };
 };
