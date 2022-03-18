@@ -1,4 +1,4 @@
-import styles from "@/styles/comment/CommentTitle.module.scss";
+import styles from "@/styles/comment/Comment.module.scss";
 import { isCheckValue } from "@/utils/isCheckValue";
 
 import Toggle from "./Toggle";

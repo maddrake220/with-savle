@@ -5,7 +5,7 @@ import {
   useCommentTextarea,
   useGetComment,
 } from "@/hooks/index";
-import styles from "@/styles/comment/CommentForm.module.scss";
+import styles from "@/styles/comment/Comment.module.scss";
 
 import CommentSubmitButton from "./CommentSubmitButton";
 import CommentTextarea from "./CommentTextarea";

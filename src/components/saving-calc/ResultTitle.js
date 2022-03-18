@@ -1,8 +1,8 @@
-import styles from "@/styles/saving-calc/SavingClacCommon.module.scss";
+import styles from "@/styles/saving-calc/Result.module.scss";
 
 function ResultTitle({ goal, saving_amount }) {
   return (
-    <div className={`${styles.title} ${styles.result}`}>
+    <div className={`${styles.title}`}>
       <h2>
         {goal.length >= 12 ? (
           <>
