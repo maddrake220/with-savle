@@ -415,3 +415,8 @@ ul {
 html {
   font-size: 16px;
 }
+
+address > span {
+  color: $black;
+  text-decoration: none;
+}
