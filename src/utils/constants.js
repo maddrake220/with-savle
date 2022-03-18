@@ -4,7 +4,7 @@ export const MAX_HASH_TAG_LENGTH = 6;
 
 export const LOCALSTORAGE_VOTE_LIKE = "vote-like";
 
-export const ONE_WEEK = 604_800;
+export const ONE_WEEK = 600;
 export const GOAL_ADDRESS = "/api/goal";
 export const GOAL_CATEGORY_ADDRESS = "/api/goal/category";
 export const NEWEST = "최신순";
