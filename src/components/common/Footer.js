@@ -12,7 +12,7 @@ function Footer() {
             오투타워, 서울 핀테크랩 8층
           </span>
         </span>
-        <span>고객센터번호. 070-7537-1705</span>
+        <span className={styles.link}>고객센터번호. 070-7537-1705</span>
         <span>
           이메일.{" "}
           <a className={styles.link} href="mailto:support@buencamino.io">
