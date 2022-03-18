@@ -1,4 +1,4 @@
-import styles from "@/styles/saving-calc/SavingClacCommon.module.scss";
+import styles from "@/styles/saving-calc/Result.module.scss";
 import { periodCalc } from "@/utils/index";
 
 import Button from "./Button";
