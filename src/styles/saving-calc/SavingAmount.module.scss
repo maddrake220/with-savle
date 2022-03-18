@@ -1,0 +1,148 @@
+/* SavingAmount */
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  @media (min-width:576px){
+    margin-bottom: 15px;
+  }
+  @media (min-width:1200px){
+    margin-bottom: 47px;
+  }
+  h2 {
+    width: 178px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.5;
+    margin: 0;
+    position: relative;
+    @media (min-width: 576px) {
+      width: 192px;
+      font-size: 21px;
+    }
+    @media (min-width: 1200px) {
+      width: 365px;
+      font-size: 40px;
+    }
+    &::before {
+      content: "";
+      width: 160px;
+      height: 8px;
+      background: rgba(143, 201, 255, 0.7);
+      opacity: 0.4;
+      position: absolute;
+      top: 17px;
+      left: -2px;
+      @media (min-width: 576px) {
+        width: 192px;
+        height: 8px;
+        top: 20px;
+        left: -2px;
+      }
+      @media (min-width: 1200px) {
+        width: 365px;
+        height: 16px;
+        top: 35px;
+        left: -2px;
+      }
+    }
+  }
+}
+
+.amount {
+  margin-bottom: 60px;
+  @media (min-width:576px){
+    margin-bottom: 30px;
+  }
+  @media (min-width:1200px){
+    margin-bottom: 59px;
+  }
+  input {
+    width: 175px;
+    border: none;
+    border-bottom: 1px solid #e3e7ed;
+    margin: 20px 4px 0 0;
+    font-size: 14px;
+    text-align: right;
+    @media (min-width: 576px) {
+      width: 248px;
+      margin: 15px 10px 0 0;
+      border-bottom: 2px solid #e3e7ed;
+      margin: 20px 8px 0 0;
+      font-size: 16px;
+    }
+    @media (min-width: 1200px) {
+      width: 488px;
+      margin: 35px 15px 5px 0;
+      font-size: 30px;
+    }
+    &:focus {
+      outline: none;
+    }
+    &::placeholder {
+      color: #b2b2b2;
+    }
+  }
+  p {
+    margin: 0;
+    font-size: 14px;
+    @media (min-width:576px){
+      font-size: 18px;
+    }
+    @media (min-width:1200px){
+      font-size: 34px;
+    }
+  }
+  span {
+    font-size: 10px;
+    color: red;
+    @media (min-width:576px){
+      font-size: 12px;
+    }
+    @media (min-width:1200px){
+      font-size: 20px;
+    }
+  }
+}
+
+/* SavingAmountGoalInput */
+.goal_amount {
+  margin-bottom: 29px;
+  position:relative;
+  @media (min-width:576px){
+    margin-bottom: 18px;
+  }
+  @media(min-width:1200px){
+    margin-bottom: 21px;
+  }
+  span{
+    position:absolute;
+    left:0;
+    top:20px;
+    @media (min-width:576px){
+      top:25px;
+    }
+     @media (min-width:1200px){
+      top:45px;
+    }
+  }
+}
+
+/* SavingAmounInput */
+.saving_amount{
+  position:relative;
+   span{
+    position:absolute;
+    left:0;
+    top:20px;
+    @media (min-width:576px){
+      top:22px;
+    }
+     @media (min-width:1200px){
+      top:45px;
+    }
+  }
+}
+.hidden{
+  display: none;
+}

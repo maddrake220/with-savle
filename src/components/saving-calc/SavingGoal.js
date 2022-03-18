@@ -5,7 +5,7 @@ import {
   useSavingGoalSubmit,
   useWidth,
 } from "@/hooks/index";
-import styles from "@/styles/saving-calc/SavingClacCommon.module.scss";
+import styles from "@/styles/saving-calc/SavingGoal.module.scss";
 
 import Button from "./Button";
 import SavingGoalInput from "./SavingGoalInput";
@@ -15,7 +15,7 @@ function SavingGoal({ data }) {
   const handleSubmit = useSavingGoalSubmit(data, goal);
   return (
     <>
-      <div className={`${styles.title} ${styles.goal}`}>
+      <div className={`${styles.title}`}>
         <h2>저축 목표를 알려주세요.</h2>
         <Book
           width={useWidth(63, 71, 137, "px")}

@@ -1,8 +1,8 @@
-import styles from "@/styles/saving-calc/SavingClacCommon.module.scss";
+import styles from "@/styles/saving-calc/SavingAmount.module.scss";
 
 import PlusButton from "./PlusButton";
 
-function SavingAmountinput({
+function SavingAmountInput({
   amount,
   campareValue,
   setAmount,
@@ -23,7 +23,6 @@ function SavingAmountinput({
       <p className={styles.saving_amount_input}>
         <input
           id="saving_amount"
-          className={styles.input}
           name="result"
           type="text"
           value={saving_amount}
@@ -40,4 +39,4 @@ function SavingAmountinput({
   );
 }
 
-export default SavingAmountinput;
+export default SavingAmountInput;

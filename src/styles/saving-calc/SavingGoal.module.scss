@@ -1,0 +1,132 @@
+/* SavingGoal */
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 27px;
+  @media (min-width: 576px) {
+    margin-bottom: 21px;
+  }
+  @media (min-width: 1200px) {
+      margin-bottom: 35px;
+  }
+  h2 {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.5;
+    margin: 0;
+    position: relative;
+    width: 92px;
+    @media (min-width: 576px) {
+      font-size: 21px;
+      width: 113px;
+    }
+    @media (min-width: 1200px) {
+      font-size: 40px;
+      width: 206px;
+    }
+    &::before {
+      content: "";
+      height: 8px;
+      background: rgba(143, 201, 255, 0.7);
+      opacity: 0.4;
+      position: absolute;
+      top: 17px;
+      left: -2px;
+      width: 92px;
+      @media (min-width: 576px) {
+        height: 8px;
+        top: 20px;
+        left: -2px;
+        width: 105px;
+      }
+      @media (min-width: 1200px) {
+        height: 16px;
+        top: 35px;
+        left: -2px;
+        width: 160px;
+      }
+    }
+  }
+}
+
+/* SavingGoalInput */
+.goal {
+  margin-bottom: 200px;
+  @media (min-width:576px){
+    margin-bottom: 152px;
+  }
+  @media (min-width:1200px){
+    margin-bottom: 297px;
+  }
+  p {
+    margin: 0;
+    font-size: 14px;
+    @media (min-width:576px){
+      font-size: 18px;
+    }
+    @media (min-width:1200px){
+      font-size: 34px;
+    }
+  }
+  span {
+    font-size: 10px;
+    color: red;
+    @media (min-width:576px){
+      font-size: 12px;
+    }
+    @media (min-width:1200px){
+      font-size: 15px;
+    }
+  }
+}
+.goal_input{
+  position: relative;
+  input {
+    border: none;
+    border-bottom: 1px solid #e3e7ed;
+    margin: 20px 4px 0 0;
+    font-size: 14px;
+    text-align: right;
+    width: 188px;
+    @media (min-width: 576px) {
+      border-bottom: 2px solid #e3e7ed;
+      margin: 20px 8px 0 0;
+      font-size: 16px;
+      width: 267px;
+    }
+    @media (min-width: 1200px) {
+      margin: 39px 15px 0 0;
+      font-size: 30px;
+      width: 516px;
+    }
+    &:focus {
+      outline: none;
+    }
+    &::placeholder {
+      color: #b2b2b2;
+    }
+  }
+  span {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    @media (min-width:576px){
+      top: 42px;
+    }
+    @media (min-width:1200px){
+      top: 25px;
+    }
+  }
+}
+
+.hidden{
+  display: none;
+}
+
+
+
+
+
+
+
