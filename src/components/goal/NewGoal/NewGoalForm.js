@@ -16,6 +16,7 @@ export default function NewGoalForm({
   const textareaReference = useRef(null);
   const inputReference = useRef(null);
   const selectedReference = useRef(null);
+  const submitReference = useRef(null);
 
   const [
     selectedAge,
@@ -41,6 +42,7 @@ export default function NewGoalForm({
     textareaReference,
     selectedReference,
     inputReference,
+    submitReference,
     isToggleModal,
   );
   return (
@@ -76,6 +78,7 @@ export default function NewGoalForm({
       />
       <div className={styles.submitButtonWrapper}>
         <button
+          ref={submitReference}
           type="submit"
           className={styles.submitButton}
           style={{
