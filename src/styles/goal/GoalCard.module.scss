@@ -29,6 +29,7 @@
       margin-top: 0.337rem;
       display: flex;
       flex-wrap: wrap;
+      gap: 0.2rem 0.32rem;
       .cardCategory {
         color: $secondary-accent;
         border: 0.085rem solid $secondary-accent;
@@ -37,10 +38,6 @@
         font-size: 0.813rem;
         line-height: 1.25rem;
         padding: 0.063rem 0.75rem;
-        margin-bottom: 0.2rem;
-        &:not(:first-child) {
-          margin-left: 6px;
-        }
         > span::before {
           content: "# ";
         }

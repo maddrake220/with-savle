@@ -10,7 +10,7 @@ import SkeletonBox from "@/components/vote/SkeletonBox";
 import VoteBanner from "@/components/vote/VoteBanner";
 import VoteBox from "@/components/vote/VoteBox";
 import style from "@/styles/vote/VoteIndex.module.scss";
-import { ONE_WEEK } from "@/utils/constants";
+import { ONE_DAY_TO_SECONDS } from "@/utils/constants";
 
 export const vote_address = "/api/vote";
 
@@ -30,8 +30,8 @@ export async function getStaticProps() {
       fallback: {
         "/api/vote": response.data.results,
       },
-      revlidation: ONE_WEEK,
     },
+    revalidate: ONE_DAY_TO_SECONDS,
   };
 }
 function Votelist() {

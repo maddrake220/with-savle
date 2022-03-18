@@ -2,7 +2,8 @@ export {
   LOCALSTORAGE_GOAL_LIKE,
   LOCALSTORAGE_VOTE_LIKE,
   MAX_GOAL_CATEGORY,
-  ONE_WEEK,
+  MAX_HASH_TAG_LENGTH,
+  ONE_DAY_TO_SECONDS,
 } from "./constants";
 export { copy } from "./copy";
 export { countAnimation } from "./countAnimation";

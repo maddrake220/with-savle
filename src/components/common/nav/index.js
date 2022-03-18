@@ -1,6 +1,5 @@
 import style from "@/styles/layout/Layout.module.scss";
 
-export { Logo } from "./Logo";
 export { LogoBox } from "./LogoBox";
 export { MBTI } from "./MBTI";
 export { MenuItem } from "./MenuItem";
