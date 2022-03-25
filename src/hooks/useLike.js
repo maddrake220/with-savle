@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
+import LocalStorage from "@/utils/LocalStorage";
+
 export const useLike = (id, likes, localstorageName) => {
   const [like, setLike] = useState(false);
   const [likeNums, setLikeNums] = useState(likes);
@@ -9,34 +11,37 @@ export const useLike = (id, likes, localstorageName) => {
   }, [likes]);
 
   useEffect(() => {
-    const likes = localStorage.getItem(localstorageName);
+    const localstorage = new LocalStorage(localstorageName);
+    const likes = localstorage.get(localstorageName);
     likes !== null ? setLike(likes.includes(id)) : setLike(false);
   }, [id, setLike, localstorageName]);
 
-  const localStorageHandler = useCallback(() => {
-    const likes = localStorage.getItem(localstorageName);
-    const arrlikes = [];
-    const newLikes = [];
-    if (likes !== null) {
-      arrlikes.push(...likes.split(","));
-    }
-    if (like) {
-      const filterd = arrlikes.filter(
-        (value) => value.toString() !== id.toString(),
-      );
-      newLikes.push(filterd);
-      setLikeNums((like) => (like = like - 1));
-    } else {
-      arrlikes.push(id);
-      setLikeNums((like) => (like = like + 1));
-    }
-    if (newLikes.length > 0) {
-      localStorage.setItem(localstorageName, newLikes);
-    } else {
-      localStorage.setItem(localstorageName, arrlikes);
-    }
-    setLike((like) => !like);
-  }, [id, like, setLike, setLikeNums, localstorageName]);
+  const onClickLikeButton = useCallback(() => {
+    const changeLikeState = () => {
+      if (like) {
+        setLikeNums((like) => (like = like - 1));
+      } else {
+        setLikeNums((like) => (like = like + 1));
+      }
+      setLike((like) => !like);
+    };
 
-  return [like, likeNums, localStorageHandler];
+    const localStorageHandler = () => {
+      const localstorage = new LocalStorage(localstorageName);
+      if (localstorage.isNull()) {
+        return localstorage.set(id);
+      }
+      const localstorageItems = localstorage.get().split(",");
+      if (like) {
+        localstorage.remove(localstorageItems, id);
+      } else {
+        localstorage.add(localstorageItems, id);
+      }
+    };
+
+    changeLikeState();
+    localStorageHandler();
+  }, [id, like, localstorageName]);
+
+  return [like, likeNums, onClickLikeButton];
 };
