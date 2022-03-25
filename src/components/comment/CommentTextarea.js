@@ -1,4 +1,4 @@
-import styles from "@/styles/comment/CommentTextarea.module.scss";
+import styles from "@/styles/comment/Comment.module.scss";
 
 function CommentTextarea({ textReference, comment, isLoading, handelChange }) {
   return (

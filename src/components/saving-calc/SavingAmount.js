@@ -2,11 +2,11 @@ import PiggyBank from "public/layout/piggy-bank.svg";
 import { useRef } from "react";
 
 import { useAmountInput, useSavingAmountSubmit, useWidth } from "@/hooks/index";
-import styles from "@/styles/saving-calc/SavingClacCommon.module.scss";
+import styles from "@/styles/saving-calc/SavingAmount.module.scss";
 
 import Button from "./Button";
 import SavingAmountGoalInput from "./SavingAmountGoalInput";
-import SavingAmountinput from "./SavingAmountinput";
+import SavingAmountInput from "./SavingAmountInput";
 
 function SavingAmount({ data }) {
   const saving_amount_reference = useRef();
@@ -26,7 +26,7 @@ function SavingAmount({ data }) {
 
   return (
     <>
-      <div className={`${styles.title} ${styles.amount}`}>
+      <div className={`${styles.title}`}>
         <h2>목표 금액과 저축 금액을 알려주세요.</h2>
         <PiggyBank width={useWidth(67, 80, 146, "px")} />
       </div>
@@ -37,7 +37,7 @@ function SavingAmount({ data }) {
           handleChange={handleChange}
           handelKeypress={handelKeypress}
         />
-        <SavingAmountinput
+        <SavingAmountInput
           amount={amount}
           setAmount={setAmount}
           handleChange={handleChange}
