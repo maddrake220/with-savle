@@ -14,6 +14,7 @@ export const useForm = (
   textareaReference,
   selectedReference,
   inputReference,
+  submitReference,
   isToggleModal,
 ) => {
   const [selectedAge, setSelectedAge] = useState();
@@ -31,6 +32,7 @@ export const useForm = (
   const onSubmit = useCallback(
     (event) => {
       event.preventDefault();
+      submitReference.current.disabled = true;
       if (selectedAge === undefined) {
         setValidationCheck({ age: true });
         return;
@@ -61,9 +63,10 @@ export const useForm = (
             setSelectedAge();
             inputReference.current.disabled = false;
             mutate(getGoalUrl);
+            submitReference.current.disabled = false;
           }
         })
-        .catch((error) => alert(error, "fail to post"));
+        .catch((error) => new Error(error));
     },
     [
       seletedGoalCategories,
@@ -72,6 +75,7 @@ export const useForm = (
       toggleModal,
       text,
       inputReference,
+      submitReference,
     ],
   );
   const onChangeText = useCallback((event) => {

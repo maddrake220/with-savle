@@ -1,5 +1,8 @@
 .GoalDropdown {
   .GoalDropdownSelect {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     position: absolute;
     right: 0;
     width: 87px;
@@ -13,6 +16,9 @@
     background-repeat: no-repeat;
     -webkit-appearance: none;
     background-position-y: 7px;
-    background-position-x: 50px;
+    background-position-x: 49px;
+    &::-ms-expand {
+      display: none; /* 화살표 없애기 for IE10, 11*/
+    }
   }
 }
