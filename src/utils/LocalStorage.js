@@ -13,7 +13,7 @@ export default class LocalStorage {
   }
 
   set(value) {
-    return localStorage.setItem(this.key, value);
+    localStorage.setItem(this.key, value);
   }
 
   add(array, value) {
